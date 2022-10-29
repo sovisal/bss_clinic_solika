@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Invoice;
 use App\Models\InvoiceDetail;
 use App\Models\Patient;
-use App\Models\Medicine;
+use App\Models\Service;
 use App\Models\Doctor;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
@@ -43,7 +43,7 @@ class InvoiceController extends Controller
     {
         $data['patient'] = Patient::orderBy('name_en', 'asc')->get();
         $data['doctor'] = Doctor::orderBy('id', 'asc')->get();
-        $data['medicine'] = Medicine::orderBy('name', 'asc')->get();
+        $data['service'] = Service::orderBy('name', 'asc')->get();
         $data['gender'] = getParentDataSelection('gender');
         $data['code'] = generate_code('INV', 'invoices', false);
         $data['is_edit'] = false;
@@ -66,7 +66,7 @@ class InvoiceController extends Controller
             'patient_id' => $request->patient_id,
             'pt_code' => $request->pt_code,
             'pt_gender' => $request->pt_gender,
-            'pt_age' => $request->pt_age,
+            'pt_age' => $request->pt_age ?: '0',
             'address_id' => update4LevelAddress($request),
             'exchange_rate' => $request->exchange_rate ?: 4100,
             'total' => array_sum($request->total ?: []),
@@ -125,7 +125,7 @@ class InvoiceController extends Controller
         $data['row'] = $invoice;
         $data['patient'] = Patient::orderBy('name_en', 'asc')->get();
         $data['doctor'] = Doctor::orderBy('id', 'asc')->get();
-        $data['medicine'] = Medicine::orderBy('name', 'asc')->get();
+        $data['service'] = Service::orderBy('name', 'asc')->get();
         $data['gender'] = getParentDataSelection('gender');
         $data['invoice_detail'] = $invoice->detail()->get();
         $data['inv_number'] = "PT-" . str_pad($invoice->id, 4, '0', STR_PAD_LEFT);
