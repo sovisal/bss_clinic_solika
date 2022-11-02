@@ -56,7 +56,7 @@
 				<div>
 					<x-form.button type="submit" class="btn-submit" value="1" icon="bx bx-save" label="Save" />
 				</div>
-			</x-slot>		
+			</x-slot>
 			<table class="table-form striped">
 				<tr>
 					<th colspan="4" class="text-left tw-bg-gray-100">Prescription</th>
