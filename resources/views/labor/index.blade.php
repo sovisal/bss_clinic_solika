@@ -17,7 +17,7 @@
 					<th>Requested By</th>
 					<th>Requested Date</th>
 					<th>Analysis Date</th>
-					<th>Price</th>
+					<!-- <th>Price</th> -->
 					<th>Status</th>
 					<!-- <th>Payment</th> -->
 					<th>Action</th>
@@ -34,7 +34,7 @@
 					<td>{{ render_synonyms_name($row->requester_en, $row->requester_kh) }}</td>
 					<td class="text-center">{{ render_readable_date($row->requested_at) }}</td>
 					<td class="text-center">{{ render_readable_date($row->analysis_at) }}</td>
-					<td class="text-right">{{ render_currency($row->amount) }}</td>
+					<!-- <td class="text-right">{{ render_currency($row->amount) }}</td> -->
 					<td class="text-center">{!! render_record_status($row->status) !!}</td>
 					<!-- <td class="text-center">{!! render_payment_status($row->payment_status) !!}</td> -->
 					<td class="text-right">
