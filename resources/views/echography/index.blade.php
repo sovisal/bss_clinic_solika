@@ -88,7 +88,7 @@
 					<th>Price</th>
 					<th>Form</th>
 					<th>Status</th>
-					<th>Payment</th>
+					<!-- <th>Payment</th> -->
 					<th>Action</th>
 				</tr>
 			</x-slot>
@@ -102,7 +102,7 @@
 					<td class="text-right">{{ render_currency($row->amount) }}</td>
 					<td>{{ render_synonyms_name($row->type_en, $row->type_kh) }}</td>
 					<td class="text-center">{!! render_record_status($row->status) !!}</td>
-					<td class="text-center">{!! render_payment_status($row->payment_status) !!}</td>
+					<!-- <td class="text-center">{!! render_payment_status($row->payment_status) !!}</td> -->
 					<td class="text-right">
 						<x-form.button color="info" class="btn-sm" onclick="getDetail({{ $row->id }}, '{{ route('para_clinic.echography.getDetail', 'Echography Detail') }}')" icon="bx bx-detail" />
 						<x-form.button color="warning" class="btn-sm" onclick="getImage('{{ $row->image_1 }}', '{{ $row->image_2 }}')" icon="bx bx-image" />
