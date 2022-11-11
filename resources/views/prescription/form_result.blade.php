@@ -35,7 +35,7 @@
 				</x-bss-form.select>
 			</td>
 			<td>
-				<x-bss-form.input type="number" name='qty[]' value="{{ $row->qty ?: 0 }}" class="text-center"/>
+				<x-bss-form.input type="text" name='qty[]' value="{{ $row->qty ?: 0 }}" class="text-center"/>
 			</td>
 			<td>
 				<x-bss-form.input type="number" name='upd[]' value="{{ $row->upd ?: 0 }}" class="text-center"/>
