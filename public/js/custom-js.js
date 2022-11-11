@@ -649,7 +649,7 @@ var _patientRequestUrl = '/patient/getSelectDetail';
 var temp_address_code = '';
 
 function bss_number(number) {
-    return (!number || typeof number == 'undefined' || number == 'undefined' || number == '0') ? 0 : parseInt(number);
+    return (!number || typeof number == 'undefined' || number == 'undefined' || number == '0') ? 0 : parseFloat(number);
 }
 
 function bss_string(txt) {
