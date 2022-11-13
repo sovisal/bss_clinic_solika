@@ -18,7 +18,7 @@ class CreateLaborTypesTable extends Migration
             $table->id();
             $table->string('name_en')->nullable();
             $table->string('name_kh')->nullable();
-            $table->integer('index')->default(99999);
+            $table->float('index')->default(99999);
             $table->integer('status')->default(1);
             $table->text('other')->nullable();
             $table->timestamps();
@@ -120,7 +120,24 @@ class CreateLaborTypesTable extends Migration
                 'name_en' => 'URINARIES ANALYSES',
                 'name_kh' => 'URINARIES ANALYSES',
                 'index' => 19
-            ]
+            ],
+
+            // --------------Add new---------------
+            [
+                'name_en' => 'IONOGRAME',
+                'name_kh' => 'IONOGRAME',
+                'index' => 8.5
+            ],
+            [
+                'name_en' => 'BIOCHEMISTRY',
+                'name_kh' => 'BIOCHEMISTRY',
+                'index' => 2.1
+            ],
+            [
+                'name_en' => 'Hemogram',
+                'name_kh' => 'Hemogram',
+                'index' => 8.1
+            ],
         ]);
     }
 

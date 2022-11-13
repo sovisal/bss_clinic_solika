@@ -25,13 +25,13 @@
 				<tr>
 					<td width="20%" class="text-right">Min Range <small class='required'>*</small></td>
 					<td>
-						<x-bss-form.input name="min_range" :value="old('min_range', $row->min_range)" required type="number"/>
+						<x-bss-form.input name="min_range" :value="old('min_range', $row->min_range)" required/>
 					</td>
 				</tr>
 				<tr>
 					<td width="20%" class="text-right">Max Range <small class='required'>*</small></td>
 					<td>
-						<x-bss-form.input name="max_range" :value="old('max_range', $row->max_range)" required type="number"/>
+						<x-bss-form.input name="max_range" :value="old('max_range', $row->max_range)" required/>
 					</td>
 				</tr>
 				<tr>
