@@ -37,7 +37,7 @@
 						<option value="1/320" {{ '1/320' == $row->value ? 'selected' : '' }}>1/320</option>
 					</x-bss-form.select>
 				@else
-					<x-bss-form.input type="number" name='test_value[]' value="{{ $row->value ?: 0 }}" class="text-center"/>
+					<x-bss-form.input name='test_value[]' value="{{ $row->value ?: 0 }}" maxlength="50" class="text-center"/>
 				@endif
 			</td>
 			<td class="text-right">{{ $item->min_range }}</td>

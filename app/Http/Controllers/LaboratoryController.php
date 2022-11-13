@@ -252,7 +252,6 @@ class LaboratoryController extends Controller
 			->find($id);
 		$data['labor'] = $labor;
 
-
 		// Prepare labor detail with 2 levels of groups
 		#1, get all labor detail concerned, and separate it by type id
 		$labor_detail = [];
@@ -299,8 +298,6 @@ class LaboratoryController extends Controller
 		}
 
 		#3, See the debug to get understand
-		// dd($print_result);
-
 		$data['labor_detail'] = $print_result;
 		return view('labor.print', $data);
 	}
