@@ -83,9 +83,6 @@ table thead {
 table tfoot {
 	display: table-row-group !important;
 }
-.KHMOULLIGHT {
-	font-family: 'Khmer OS Moul Light', 'Open Sans' !important;
-}
 .text-center {
 	text-align: center;
 }
@@ -165,7 +162,7 @@ table tfoot {
 	padding: 0.5cm;
 	position: relative;
 }
-.print-preview-a4 *:not(h1, h2, h3, h4, h5, h6) {
+.print-preview-a4 *:not(h1, h2, h3, h4, h5, h6, .KHMOULLIGHT) {
 	font-size: 13px;
 	font-family: 'Khmer OS Siemreap', 'Open Sans' !important;
 }
@@ -271,6 +268,10 @@ table tfoot {
 	font-size: 15px;
 }
 
+.KHMOULLIGHT {
+	font-family: 'Khmer OS Moul Light', 'Open Sans' !important;
+}
+
 @media print {
 	@page {
 		size: 21cm 29.7cm;
@@ -295,5 +296,8 @@ table tfoot {
 		-webkit-print-color-adjust: exact !important;
 		-moz-print-color-adjust: exact !important;
 		-o-print-color-adjust: exact !important;
+	}
+	.KHMOULLIGHT {
+		font-family: 'Khmer OS Moul Light', 'Open Sans' !important;
 	}
 }
