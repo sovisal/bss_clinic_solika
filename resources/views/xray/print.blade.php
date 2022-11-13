@@ -16,7 +16,7 @@
 		</section>
 		<div class="signature">
 			<div class="text-center">ថ្ងៃទី {{ date('d/m/Y', strtotime($xray->requested_at)) }}</div>
-			<div class="text-center">Dr. {{ $xray->doctor_kh }}</div>
+			<div class="text-center">Dr. <span class="KHMOULLIGHT">{{ $xray->doctor_kh }}</span></div>
 			<img src="{{ asset('images/site/signature.png') }}" alt="">
 		</div>
 		

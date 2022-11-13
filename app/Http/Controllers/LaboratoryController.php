@@ -261,7 +261,6 @@ class LaboratoryController extends Controller
 			$labor_detail[$type_id][] = $item;
 		}
 
-
 		// #2, Get all template and apply Labor detail for it
 		$print_result = [];
 		$labor_types = LaborType::where('status', 1)->orderBy('index', 'asc')->regroupe() ?: [];

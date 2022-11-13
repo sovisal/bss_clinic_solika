@@ -16,7 +16,7 @@
 		</section>
 		<div class="signature">
 			<div class="text-center">ថ្ងៃទី {{ date('d/m/Y', strtotime($ecg->requested_at)) }}</div>
-			<div class="text-center">Dr. {{ $ecg->doctor_kh }}</div>
+			<div class="text-center">Dr. <span class="KHMOULLIGHT">{{ $ecg->doctor_kh }}</span></div>
 			<img src="{{ asset('images/site/signature.png') }}" alt="">
 		</div>
 		

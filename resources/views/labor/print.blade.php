@@ -64,7 +64,7 @@
 		</section>
 		<div class="signature">
 			<div class="text-center">ថ្ងៃទី {{ date('d/m/Y', strtotime($labor->requested_at)) }}</div>
-			<div class="text-center">Dr. {{ $labor->doctor_kh }}</div>
+			<div class="text-center">Dr. <span class="KHMOULLIGHT">{{ $labor->doctor_kh }}</span></div>
 			<img src="{{ asset('images/site/signature.png') }}" alt="">
 		</div>
 		
