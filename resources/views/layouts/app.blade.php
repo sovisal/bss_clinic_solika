@@ -7,7 +7,7 @@
 		<title>{{ module() }} - {{ subModule() }} | {{ config('app.name', 'Dariya Clinic') }}</title>
 		<!-- Styles: Start -->
 		<link rel="stylesheet" href="{{ asset('css/app.css') }}">
-		<link rel="stylesheet" href="{{ asset('css/custom-style.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/custom-style.css?v=' . rand(1111, 9999)) }}">
 		{!! $css ?? '' !!}
 		<!-- Styles: End -->
 		<script>
@@ -49,7 +49,7 @@
 		<script src="{{ asset('js/datatable/buttons.html5.min.js') }}"></script>
 		<script src="{{ asset('js/datatable/buttons.print.min.js') }}"></script>
 		<script src="{{ asset('js/datatable/jszip.min.js') }}"></script>
-		<script src="{{ asset('js/custom-js.js') }}" defer></script>
+		<script src="{{ asset('js/custom-js.js?v=' . rand(1111, 9999)) }}" defer></script>
 		{!! $js ?? '' !!}
 	</body>
 </html>
