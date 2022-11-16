@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,21 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
+// Backup DB
+Route::get('/db_backup', function () {
+	$is_hosted = !in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1', 'localhost']);
+	$dump = $is_hosted ? '/usr/bin/mysqldump' : 'C:\wamp64\bin\mysql\mysql5.7.26\bin\mysqldump'; // wamp server
+	$cmd = $dump . ' -h ' . env('DB_HOST') . ' -u ' . env('DB_USERNAME') . (env('DB_PASSWORD') ? ' -p"' . env('DB_PASSWORD') . '"' : '') . ' --databases ' . env('DB_DATABASE');
+	
+	$output = [];
+	exec($cmd, $output);
+	$output = implode("\n",$output);
+
+	$file_name =  'db_' . env('DB_DATABASE') . '_' . date('Ymd-His') . '.sql';
+	$path = date("Y") . '/' . date("F") . '/' . $file_name;
+	Storage::disk('db_backup')->put($path, $output);
+	Storage::disk('ftp_db_backup')->put($path, $output);
+});
 
 require __DIR__.'/patient-route.php';
 require __DIR__.'/prescription-route.php';

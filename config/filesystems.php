@@ -66,6 +66,20 @@ return [
 			'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
 		],
 
+		'ftp_db_backup' => [
+            'driver' => 'ftp',
+            'host' => 'ftp.bssdatacenter.com',
+            'username' => 'bssclientftp@bssdatacenter.com',
+            'password' => 'bssclientftp789',
+        
+            // Optional FTP Settings...
+            // 'port' => 21,
+            // 'root' => '',
+            // 'passive' => true,
+            // 'ssl' => true,
+            // 'timeout' => 30,
+        ],
+
 	],
 
 	/*
