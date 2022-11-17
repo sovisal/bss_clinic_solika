@@ -45,7 +45,7 @@ Route::get('/db_backup', function () {
 	$msg .= "DB : " . env('DB_DATABASE') . " \n ";
 	$msg .= "Date : " . date('Y-M-d H:i:s') . " \n ";
 	$msg .= "File : " . $file_name . " \n ";
-	$msg .= "Size : " . Storage::size($path) . " \n ";
+	$msg .= "Size : " . Storage::size('db_backup/' . $path) . " \n ";
 	$msg .= "Status : success" . " \n ";
 	$msg .= "============End================";
 	file_get_contents('https://api.telegram.org/bot2031396303:AAHzdx7Onkfgj-dFkMjrilXIv34oueOJOsg/sendMessage?chat_id=@bssclientinfo&text=' . urlencode($msg));
