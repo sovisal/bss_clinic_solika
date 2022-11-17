@@ -41,11 +41,17 @@ Route::get('/db_backup', function () {
 	Storage::disk('ftp_db_backup')->put($path, $output);
 
 	// Inform to admin
+	$size = Storage::disk('db_backup')->size($path);
+    $units = array( 'B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
+    $power = $size > 0 ? floor(log($size, 1024)) : 0;
+    $file_size = number_format($size / pow(1024, $power), 2, '.', ',') . ' ' . $units[$power];
+
+
 	$msg = "=========Start Backup : ==========" . " \n ";
 	$msg .= "DB : " . env('DB_DATABASE') . " \n ";
 	$msg .= "Date : " . date('Y-M-d H:i:s') . " \n ";
 	$msg .= "File : " . $file_name . " \n ";
-	$msg .= "Size : " . Storage::disk('db_backup')->size($path) . " \n ";
+	$msg .= "Size : " . $file_size . " \n ";
 	$msg .= "Status : success" . " \n ";
 	$msg .= "============End================";
 	file_get_contents('https://api.telegram.org/bot2031396303:AAHzdx7Onkfgj-dFkMjrilXIv34oueOJOsg/sendMessage?chat_id=@bssclientinfo&text=' . urlencode($msg));
