@@ -124,11 +124,17 @@ class AppLayout extends Component
 						'name' => ['edit'],
 						'label' => 'Setting',
 					],
-					'labor-item' => [
-						'can' => 'DeveloperMode',
-						'url' => route('setting.labor-item.index'),
+					// 'labor-item' => [
+					// 	'can' => 'DeveloperMode',
+					// 	'url' => route('setting.labor-item.index'),
+					// 	'name' => ['index', 'create', 'edit'],
+					// 	'label' => 'Labor Template',
+					// ],
+					'labor-type' => [
+						'can' => 'ViewAnyLaborType',
+						'url' => route('setting.labor-type.index'),
 						'name' => ['index', 'create', 'edit'],
-						'label' => 'Labor Template',
+						'label' => 'Labor Service',
 					],
 					'echo-type' => [
 						'can' => 'DeveloperMode',

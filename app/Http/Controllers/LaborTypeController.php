@@ -3,84 +3,98 @@
 namespace App\Http\Controllers;
 
 use App\Models\LaborType;
-use App\Http\Requests\StoreLaborTypeRequest;
-use App\Http\Requests\UpdateLaborTypeRequest;
+use App\Http\Requests\LaborTypeRequest;
 
 class LaborTypeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+	/**
+	 * Display a listing of the resource.
+	 */
+	public function index()
+	{
+		$laborTypes = LaborType::where('labor_types.status', 1)
+								->when(request()->type, function($q){
+									$q->where('labor_types.id', request()->type)
+									->select(['labor_types.*','labor_parents.name_en as type_name'])
+									->leftJoin('labor_types as labor_parents', 'labor_parents.id', '=' ,'labor_types.type');
+								})
+								->with([
+									'items' => function($query){
+										$query->orderBy('index', 'asc');
+									},
+									'types' => function($query){
+										$query->with(['items', 'types'])
+										->orderBy('index', 'asc');
+									}
+								])
+								->orderBy('labor_types.index', 'asc')
+								->get();
+		$data['rows'] = ((count($laborTypes) == 1)? $laborTypes->first()->types : $laborTypes->whereNull('type'));
+		$data['item_rows'] = ((request()->type && $laborTypes->first())? $laborTypes->first()->items : []);
+		return view('labor_type.index', $data);
+	}
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+	/**
+	 * Show the form for creating a new resource.
+	 */
+	public function create()
+	{
+		$data['type'] = request()->type;
+		return view('labor_type.create', $data);
+	}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreLaborTypeRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreLaborTypeRequest $request)
-    {
-        //
-    }
+	/**
+	 * Store a newly created resource in storage.
+	 */
+	public function store(LaborTypeRequest $request)
+	{
+		$type = $request->type;
+		$laborType = LaborType::create([
+			'name_kh' => $request->name,
+			'name_en' => $request->name,
+			'type' => $type,
+			'created_by' => auth()->user()->id,
+			'updated_by' => auth()->user()->id,
+		]);
+		$url = route('setting.labor-type.index', ['type' => $type]);
+		if ($request->save_opt == 'save_create') {
+			$url = route('setting.labor-type.create', ['type' => $type]);
+		} else if ($request->save_opt == 'save_edit') {
+			$url = route('setting.labor-type.edit', ['laborType' => $laborType->id, 'type' => $type]);
+		}
+		return redirect($url)->with('success', __('alert.message.success.crud.create'));
+	}
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\LaborType  $laborType
-     * @return \Illuminate\Http\Response
-     */
-    public function show(LaborType $laborType)
-    {
-        //
-    }
+	/**
+	 * Show the form for editing the specified resource.
+	 */
+	public function edit(LaborType $laborType)
+	{
+		$data['row'] = $laborType;
+		return view('labor_type.index', $data);
+	}
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\LaborType  $laborType
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(LaborType $laborType)
-    {
-        //
-    }
+	/**
+	 * Update the specified resource in storage.
+	 */
+	public function update(LaborTypeRequest $request, LaborType $laborType)
+	{
+		$laborType->update([
+			'name_kh' => $request->name,
+			'name_en' => $request->name,
+			'created_by' => auth()->user()->id,
+			'updated_by' => auth()->user()->id,
+		]);
+		return redirect(route('setting.labor-type.index', ['type' => request()->type]))->with('success', __('alert.message.success.crud.update'));
+	}
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateLaborTypeRequest  $request
-     * @param  \App\Models\LaborType  $laborType
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateLaborTypeRequest $request, LaborType $laborType)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\LaborType  $laborType
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(LaborType $laborType)
-    {
-        //
-    }
+	/**
+	 * Remove the specified resource from storage.
+	 */
+	public function destroy(LaborType $laborType)
+	{
+		if ($laborType->update(['status' => 0])) {
+			return redirect(route('setting.labor-type.index', ['type' => request()->type]))->with('success', 'Data delete success');
+		}
+	}
 }
