@@ -1,24 +1,37 @@
 <x-app-layout>
 	<x-slot name="header">
-		@if (request()->type)
-			<x-form.button color="danger" href="{!! route('setting.labor-type.index', ['type' => request()->old]) !!}" label="Back" icon="bx bx-left-arrow-alt" />
-		@endif
+		<div class="d-flex justify-content-between align-items-bottom">
+			<div>
+				@if (request()->type)
+					<x-form.button color="danger" href="{!! route('setting.labor-type.index', ['type' => request()->old]) !!}" label="Back" icon="bx bx-left-arrow-alt" />
+				@endif
+			</div>
+
+			<ul class="d-flex align-items-center tw-gap-2.5 mb-0">
+				@foreach ($LaborLevel as $level)
+				@if ($level)
+				<li class="d-flex align-items-center">
+					<i class="bx bxs-right-arrow tw-mr-0.5 tw-text-xs"></i>
+					{{ $level->name_en }}
+				</li>
+				@endif
+				@endforeach
+			</ul>
+		</div>
 	</x-slot>
 	<x-slot name="js">
 		<script>
-			$("#datatables-item").DataTable({
+			$("#datatables-labor-type").DataTable({
 				"columnDefs": [{
 					"targets": 'no-sort',
 					"orderable": false,
 				}],
-				dom:  "<'row'<'col-sm-8'<'d-flex'<l><'ml-1'B>>><'col-sm-4'f>>" +
-						"<'row'<'col-sm-12'tr>>" +
-						"<'row'<'col-sm-5'i><'col-sm-7'p>>",
-				buttons: [
-					{ extend: 'csv', text: '<i class="la la-file-csv"></i> CSV', className: 'btn-sm'},
-					{ extend: 'excel', text: '<i class="la la-file-excel"></i> Excel', className: 'btn-sm'},
-					{ extend: 'print', text: '<i class="bx bx-printer"></i> Print', className: 'btn-sm'}
-				],
+			});
+			$("#datatables-labor-item").DataTable({
+				"columnDefs": [{
+					"targets": 'no-sort',
+					"orderable": false,
+				}],
 			});
 		</script>
 	</x-slot>
@@ -29,7 +42,7 @@
 				<h5>Labor Type</h5>
 				<x-form.button href="{!! route('setting.labor-type.create', ['type' => request()->type]) !!}" label="Create" icon="bx bx-plus" />
 			</x-slot>
-			<x-table class="table-hover table-bordered" id="datatables">
+			<x-table class="table-hover table-bordered" id="datatables-labor-type">
 				<x-slot name="thead">
 					<tr>
 						<th width="8%">No</th>
@@ -41,7 +54,10 @@
 						<th width="15%">Action</th>
 					</tr>
 				</x-slot>
-				@foreach($rows as $i => $row)
+				@php
+					$i=0;
+				@endphp
+				@foreach($rows as $row)
 				<tr>
 					<td class="text-center">{{ ++$i }}</td>
 					<td>{{ $row->name_en }}</td>
@@ -71,7 +87,7 @@
 				<h5>Labor Item</h5>
 				<x-form.button href="{!! route('setting.labor-item.create', request()->only(['type', 'old'])) !!}" label="Create" icon="bx bx-plus" />
 			</x-slot>
-			<x-table class="table-hover table-bordered" id="datatables-item">
+			<x-table class="table-hover table-bordered" id="datatables-labor-item">
 				<x-slot name="thead">
 					<tr>
 						<th>No</th>
@@ -83,7 +99,7 @@
 						<th>Index</th>
 						<th>Status</th>
 						<th>Syntax</th>
-						<th>Action</th>
+						<th width="15%">Action</th>
 					</tr>
 				</x-slot>
 				@foreach($item_rows as $j => $item_row)

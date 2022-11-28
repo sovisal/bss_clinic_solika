@@ -177,11 +177,12 @@ table tfoot {
 }
 .print-preview-a4 header .table-info {
 	margin: 5px 0;
-	border-top: 2px solid #1560bd;
-	border-bottom: 2px solid #1560bd;
+	border-top:  2px dashed #1560bd;
+	border-bottom: 2px dashed #1560bd;
 }
 .print-preview-a4 header .table-info h2 {
 	padding: 5px 0;
+	text-decoration: underline;
 }
 .print-preview-a4 .signature {
 	margin-top: 10px;
@@ -191,7 +192,7 @@ table tfoot {
 	font-weight: bold;
 }
 .print-preview-a4 footer {
-	border-top: 1px solid #000;
+	border-top: 3px double #000;
 	position: absolute;
 	width: calc(100% - 1cm);
 	bottom: 0;

@@ -29,9 +29,9 @@
 					</td>
 				</tr>
 				<tr>
-					<td width="20%" class="text-right">Unit <small class='required'>*</small></td>
+					<td width="20%" class="text-right">Unit</td>
 					<td>
-						<x-bss-form.input name="unit" :value="old('unit', $row->unit)" required />
+						<x-bss-form.input name="unit" :value="old('unit', $row->unit)" />
 					</td>
 				</tr>
 				<tr>
@@ -52,9 +52,9 @@
 					<td width="20%" class="text-right">Syntax</td>
 					<td>
 						<x-bss-form.select name="other" data-no_search="true">
-							<option value="OUT_RANGE_COLOR_RED" {{ old('other', $row->other) == 'OUT_RANGE_COLOR_RED' ? 'selected' : ''}}>NORMAL</option>
-							<option value="VALUE_POSITIVE_NEGATIVE" {{ old('other', $row->other) == 'VALUE_POSITIVE_NEGATIVE' ? 'selected' : ''}}>POSITIVE / NEGATIVE</option>
-							<option value="VALUE_160_320" {{ old('other', $row->other) == 'VALUE_160_320' ? 'selected' : ''}}>160 / 320</option>
+							@foreach (['OUT_RANGE_COLOR_RED' => 'NORMAL','VALUE_POSITIVE_NEGATIVE' => 'POSITIVE / NEGATIVE','VALUE_160_320' => '160 / 320'] as $k => $v)
+								<option value="{{ $k }}" {{ old('other', $row->other) == $k ? 'selected' : ''}}>{{ $v }}</option>
+							@endforeach
 						</x-bss-form.select>
 					</td>
 				</tr>

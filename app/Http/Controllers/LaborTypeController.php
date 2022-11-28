@@ -13,22 +13,25 @@ class LaborTypeController extends Controller
 	public function index()
 	{
 		$laborTypes = LaborType::where('labor_types.status', 1)
-								->when(request()->type, function($q){
-									$q->where('labor_types.id', request()->type)
-									->select(['labor_types.*','labor_parents.name_en as type_name'])
-									->leftJoin('labor_types as labor_parents', 'labor_parents.id', '=' ,'labor_types.type');
-								})
-								->with([
-									'items' => function($query){
-										$query->orderBy('index', 'asc');
-									},
-									'types' => function($query){
-										$query->with(['items', 'types'])
-										->orderBy('index', 'asc');
-									}
-								])
-								->orderBy('labor_types.index', 'asc')
-								->get();
+			->when(request()->type, function($q){
+				$q->where('labor_types.id', request()->type)
+				->select(['labor_types.*','labor_parents.name_en as type_name'])
+				->leftJoin('labor_types as labor_parents', 'labor_parents.id', '=' ,'labor_types.type');
+			})
+			->with([
+				'items' => function($query){
+					$query->orderBy('index', 'asc');
+				},
+				'types' => function($query){
+					$query->with(['items', 'types'])
+					->orderBy('index', 'asc');
+				}
+			])
+			->orderBy('labor_types.index', 'asc')
+			->get();
+			
+		$data['LaborLevel'][] = request()->old ? LaborType::find(request()->old) : null;
+		$data['LaborLevel'][] = $laborTypes->where('id', request()->type)->first();
 		$data['rows'] = ((count($laborTypes) == 1)? $laborTypes->first()->types : $laborTypes->whereNull('type'));
 		$data['item_rows'] = ((request()->type && $laborTypes->first())? $laborTypes->first()->items : []);
 		return view('labor_type.index', $data);
@@ -54,7 +57,7 @@ class LaborTypeController extends Controller
 			'name_en' => $request->name,
 			'type' => $type,
 			'created_by' => auth()->user()->id,
-			'updated_by' => auth()->user()->id,
+			'updated_by' => auth()->user()->id
 		]);
 		$url = route('setting.labor-type.index', ['type' => $type]);
 		if ($request->save_opt == 'save_create') {
@@ -70,8 +73,9 @@ class LaborTypeController extends Controller
 	 */
 	public function edit(LaborType $laborType)
 	{
+		$data['type'] = request()->type;
 		$data['row'] = $laborType;
-		return view('labor_type.index', $data);
+		return view('labor_type.edit', $data);
 	}
 
 	/**

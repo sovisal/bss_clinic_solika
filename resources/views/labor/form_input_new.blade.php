@@ -20,33 +20,32 @@
 	</thead>
 </table>
 <table class="table-form table-padding-sm striped">
-	{{-- {{ dd( $labor_type); }} --}}
 	@foreach ($labor_type as $main_data)
-	@foreach (array_merge([$main_data], $main_data->child) as $data)
-	<tr class="labor_row labor_row_{{ $data->id }} labor_rows_of_{{ $main_data->id }}">
-		<td>
-			<div style="position: relative; padding: 5px;">
-				<u><b>{{ $data->name_en }}</b></u>
-				<div style="width: 300px; position: absolute; right: 10px; top: 10px; text-align: right;">
-					<label style="cursor: pointer;">
-						<input type="checkbox" class="btnCheckRow">
-						<u><b>All</b></u>
-					</label>
-					&nbsp;&nbsp; &nbsp; &nbsp;
-					<label style="cursor: pointer;" class="btnHideRow">
-						<u class="text-danger"><b>Remove</b></u>
-					</label>
-				</div>
-				<div class="row">
-					@foreach ($data->item as $item)
-					<div class="col-3">
-						<label><input type="checkbox" name="labor_item_id[]" value="{{ $item->id }}"> {{ render_synonyms_name($item->name_en, $item->name_kh) }}</label>
+		@foreach (array_merge([$main_data], $main_data->child) as $data)
+			<tr class="labor_row labor_row_{{ $data->id }} labor_rows_of_{{ $main_data->id }}">
+				<td>
+					<div style="position: relative; padding: 5px;">
+						<u><b>{{ $data->name_en }}</b></u>
+						<div style="width: 300px; position: absolute; right: 10px; top: 10px; text-align: right;">
+							<label style="cursor: pointer;">
+								<input type="checkbox" class="btnCheckRow">
+								<u><b>All</b></u>
+							</label>
+							&nbsp;&nbsp; &nbsp; &nbsp;
+							<label style="cursor: pointer;" class="btnHideRow">
+								<u class="text-danger"><b>Remove</b></u>
+							</label>
+						</div>
+						<div class="row">
+							@foreach ($data->items as $item)
+							<div class="col-3">
+								<label><input type="checkbox" name="labor_item_id[]" value="{{ $item->id }}"> {{ render_synonyms_name($item->name_en, $item->name_kh) }}</label>
+							</div>
+							@endforeach
+						</div>
 					</div>
-					@endforeach
-				</div>
-			</div>
-		</td>
-	</tr>
-	@endforeach
+				</td>
+			</tr>
+		@endforeach
 	@endforeach
 </table>

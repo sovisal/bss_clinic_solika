@@ -16,12 +16,6 @@
 						<x-bss-form.input name="name" required autofocus />
 					</td>
 				</tr>
-				{{-- <tr>
-					<td width="20%" class="text-right">Name KH <small class='required'>*</small></td>
-					<td>
-						<x-bss-form.input name="name_kh" required />
-					</td>
-				</tr> --}}
 				<tr>
 					<td width="20%" class="text-right">Min Range <small class='required'>*</small></td>
 					<td>
@@ -35,9 +29,9 @@
 					</td>
 				</tr>
 				<tr>
-					<td width="20%" class="text-right">Unit <small class='required'>*</small></td>
+					<td width="20%" class="text-right">Unit</td>
 					<td>
-						<x-bss-form.input name="unit" required />
+						<x-bss-form.input name="unit" />
 					</td>
 				</tr>
 				<tr>

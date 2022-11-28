@@ -27,7 +27,7 @@
 				<input type="hidden" name="test_id[]" value="{{ $row->id }}"/>
 				@if(str_contains($item->other, 'VALUE_POSITIVE_NEGATIVE'))
 					<x-bss-form.select name="test_value[]" data-no_search="true">
-						@foreach (['POSITIVE' => 'POSITIVE', 'NEGATIVE' => 'NEGATIVE'] as $id => $data)
+						@foreach (['NEGATIVE' => 'NEGATIVE', 'POSITIVE' => 'POSITIVE'] as $id => $data)
 							<option value="{{ $id }}" {{ $id == $row->value ? 'selected' : '' }}>{{ $data }}</option>
 						@endforeach
 					</x-bss-form.select>

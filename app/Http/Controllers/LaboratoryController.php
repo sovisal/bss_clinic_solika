@@ -45,6 +45,7 @@ class LaboratoryController extends Controller
 		$data['payment_type'] = getParentDataSelection('payment_type');
 		$data['gender'] = getParentDataSelection('gender');
 		$data['labor_type'] = LaborType::where('status', 1)->orderBy('index', 'asc')->regroupe();
+		// dd($data['labor_type']);
 		$data['is_edit'] = false;
 		return view('labor.create', $data);
 	}
