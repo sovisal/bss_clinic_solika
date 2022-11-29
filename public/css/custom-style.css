@@ -624,9 +624,11 @@ button:disabled,
 }
 .widget-todo .widget-todo-list-wrapper .widget-todo-item {
 	padding: 0.5rem 1.5rem 0.1rem 0.5rem;
+	border: 1px solid #f2f4f4;
+	border-radius: 0.22rem;
 }
 .widget-todo .widget-todo-list-wrapper .widget-todo-item .widget-todo-title-area i {
-	visibility: hidden;
+	/* visibility: hidden; */
 	color: #828d99;
 }
 .widget-todo .widget-todo-list-wrapper .widget-todo-item:hover {

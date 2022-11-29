@@ -5,6 +5,8 @@
 				@if (request()->type)
 					<x-form.button color="danger" href="{!! route('setting.labor-type.index', ['type' => request()->old]) !!}" label="Back" icon="bx bx-left-arrow-alt" />
 				@endif
+				<x-form.button color="dark" href="{!! route('setting.labor-type.sort_order', request()->only(['type', 'old'])) !!}" label="Sort Type" icon="bx bx-sort-alt-2" />
+				<x-form.button color="dark" href="{!! route('setting.labor-item.sort_order', request()->only(['type', 'old'])) !!}" label="Sort Item" icon="bx bx-sort-alt-2" />
 			</div>
 
 			<ul class="d-flex align-items-center tw-gap-2.5 mb-0">
@@ -39,8 +41,10 @@
 	@if (!request()->old) 
 		<x-card :foot="false" :actionShow="false">
 			<x-slot name="header">
+				<div>
+					<x-form.button href="{!! route('setting.labor-type.create', ['type' => request()->type]) !!}" label="Create" icon="bx bx-plus" />
+				</div>
 				<h5>Labor Type</h5>
-				<x-form.button href="{!! route('setting.labor-type.create', ['type' => request()->type]) !!}" label="Create" icon="bx bx-plus" />
 			</x-slot>
 			<x-table class="table-hover table-bordered" id="datatables-labor-type">
 				<x-slot name="thead">
@@ -84,8 +88,10 @@
 	@if (request()->type) 
 		<x-card :foot="false" :actionShow="false">
 			<x-slot name="header">
+				<div>
+					<x-form.button href="{!! route('setting.labor-item.create', request()->only(['type', 'old'])) !!}" label="Create" icon="bx bx-plus" />
+				</div>
 				<h5>Labor Item</h5>
-				<x-form.button href="{!! route('setting.labor-item.create', request()->only(['type', 'old'])) !!}" label="Create" icon="bx bx-plus" />
 			</x-slot>
 			<x-table class="table-hover table-bordered" id="datatables-labor-item">
 				<x-slot name="thead">

@@ -12,6 +12,8 @@ Route::middleware(['auth'])->name('setting.')->group(function () {
 		Route::get('/{laborType}/edit', [LaborTypeController::class, 'edit'])->name('edit');
 		Route::put('/{laborType}/update', [LaborTypeController::class, 'update'])->name('update');
 		Route::delete('/{laborType}/delete', [LaborTypeController::class, 'destroy'])->name('delete');
+		Route::get('/sort_order', [LaborTypeController::class, 'sort_order'])->name('sort_order');
+		Route::post('/update_order', [LaborTypeController::class, 'update_order'])->name('update_order');
 	});
 
 	Route::prefix('labor-item')->name('labor-item.')->group(function () {
@@ -21,5 +23,7 @@ Route::middleware(['auth'])->name('setting.')->group(function () {
 		Route::get('/{laborItem}/edit', [LaborItemController::class, 'edit'])->name('edit');
 		Route::put('/{laborItem}/update', [LaborItemController::class, 'update'])->name('update');
 		Route::delete('/{laborItem}/delete', [LaborItemController::class, 'destroy'])->name('delete');
+		Route::get('/sort_order', [LaborItemController::class, 'sort_order'])->name('sort_order');
+		Route::post('/update_order', [LaborItemController::class, 'update_order'])->name('update_order');
 	});
 });

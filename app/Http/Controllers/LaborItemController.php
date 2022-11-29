@@ -90,4 +90,21 @@ class LaborItemController extends Controller
 			return redirect()->route('setting.labor-type.index', $request->only(['type', 'old']))->with('success', 'Data delete success');
 		}
 	}
+
+	public function sort_order()
+	{
+		$data['rows'] = LaborItem::with(['hasType'])->where('status', 1)->orderBy('index', 'asc')->get();
+		return view('labor_item.order', $data);
+	}
+
+	public function update_order(Request $request)
+	{
+		if (is_array($request->ids) && count($request->ids) > 0) {
+			$laborItems = LaborItem::where('status', 1)->whereIn('id', $request->ids)->orderBy('index', 'asc')->get();
+			foreach ($request->ids as $index => $id) {
+				$laborItems->where('id', $id)->first()->update(['index' => ++$index]);
+			}
+		}
+		return back()->with('success', 'Data sort successful');
+	}
 }

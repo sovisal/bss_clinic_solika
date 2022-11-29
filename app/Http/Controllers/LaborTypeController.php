@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\LaborType;
 use App\Http\Requests\LaborTypeRequest;
+use Illuminate\Http\Request;
 
 class LaborTypeController extends Controller
 {
@@ -100,5 +101,22 @@ class LaborTypeController extends Controller
 		if ($laborType->update(['status' => 0])) {
 			return redirect(route('setting.labor-type.index', ['type' => request()->type]))->with('success', 'Data delete success');
 		}
+	}
+
+	public function sort_order()
+	{
+		$data['rows'] = LaborType::where('status', 1)->orderBy('index', 'asc')->get();
+		return view('labor_type.order', $data);
+	}
+
+	public function update_order(Request $request)
+	{
+		if (is_array($request->ids) && count($request->ids) > 0) {
+			$laborTypes = LaborType::where('status', 1)->whereIn('id', $request->ids)->orderBy('index', 'asc')->get();
+			foreach ($request->ids as $index => $id) {
+				$laborTypes->where('id', $id)->first()->update(['index' => ++$index]);
+			}
+		}
+		return back()->with('success', 'Data sort successful');
 	}
 }
