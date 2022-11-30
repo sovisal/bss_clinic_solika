@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\FourLevelAddress;
 use Illuminate\Http\Request;
+use DB;
 
 class FourLevelAddressController extends Controller
 {
@@ -96,5 +97,64 @@ class FourLevelAddressController extends Controller
 			return $html_elements;
 		}
 		return $address;
+	}
+	
+	public function create (Request $request) {
+		$code_length = $request->addr ? strlen($request->addr) : 0;
+		$this->data = [
+			'addr' => $request->addr		
+		];
+		return view('4_level_address.create', $this->data);
+	}
+
+	public function store (Request $request) {
+		$code_length = $request->addr ? strlen($request->addr) : 0;
+		$_type_kh = $code_length == 0 ? 'ខេត្ត' : ($code_length == 2 ? 'ស្រុក' : ($code_length == 4 ? 'ឃុំ' : 'ភូមិ'));
+		$_type_en = $code_length == 0 ? 'Province' : ($code_length == 2 ? 'District' : ($code_length == 4 ? 'Commune' : 'Village'));
+		
+		$_name_kh = $request->name_kh;
+		$_name_en = $request->name_en;
+		
+		$_path_kh = $request->path_kh;
+		$_path_en = $request->path_en;
+
+		// Generate new code
+		$address = FourLevelAddress::where('_type_en', $_type_en);
+		if ($request->addr) $address = $address->where('_code', 'like',  $request->addr . '%');
+		$address = $address->orderBy('_code', 'desc')->take(1)->get()->first();
+
+		if ($address && $address->count() > 0) {
+			$nb_digit = strlen($address->_code);
+			$_code = str_pad((int) $address->_code + 1, $nb_digit, '0', STR_PAD_LEFT);
+		} else {
+			$_code = $request->addr . '01';
+		}
+
+		if (FourLevelAddress::create(compact('_type_kh', '_type_en', '_name_kh', '_name_en', '_path_kh', '_path_en', '_code'))) {
+			return redirect()->back()
+			->with('success', 'Address ' . $_name_kh . " :: " . $_name_en . ' has been created');
+		}
+	}
+
+	public function edit (Request $request, $code) {
+		$province = FourLevelAddress::where('_code', $code)->first();
+		$this->data = [
+			'addr' => $request->addr,
+			'province' => $province,		
+		];
+		return view('4_level_address.edit', $this->data);
+	}
+
+	public function update(Request $request, $code)
+	{
+		$_name_kh = $request->name_kh;
+		$_name_en = $request->name_en;
+		
+		$_path_kh = $request->path_kh;
+		$_path_en = $request->path_en;
+
+		DB::statement('UPDATE addresses SET _name_kh="'. $_name_kh .'", _name_en="'. $_name_en .'", _path_kh="'. $_path_kh .'", _path_en="'.$_path_en.'" WHERE _code="' . $code . '"');
+		return redirect()->back()
+			->with('success', 'Address ' . $_name_kh . " :: " . $_name_en . ' has been updated');
 	}
 }

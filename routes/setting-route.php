@@ -15,6 +15,10 @@ Route::middleware(['auth'])->name('setting.')->group(function () {
 
 	Route::middleware(['auth', 'can:DeveloperMode'])->prefix('address')->group(function () {
 		Route::get('/', [FourLevelAddressController::class, 'index'])->name('address.index');
+		Route::get('/create', [FourLevelAddressController::class, 'create'])->name('address.create');
+		Route::post('/store', [FourLevelAddressController::class, 'store'])->name('address.store');
+		Route::get('/{province}/edit', [FourLevelAddressController::class, 'edit'])->name('address.edit');
+		Route::put('/{province}/update', [FourLevelAddressController::class, 'update'])->name('address.update');
 		Route::post('/getFullAddress', [FourLevelAddressController::class, 'BSSFullAddress'])->name('getFullAddress');
 		Route::post('/getProvinceChileSelection', [FourLevelAddressController::class, 'District'])->name('getProvinceChileSelection');
 		Route::post('/getDistrictChileSelection', [FourLevelAddressController::class, 'Commune'])->name('getDistrictChileSelection');
