@@ -1,0 +1,44 @@
+@font-face {
+	font-family: 'sysFont';
+	src: url('../../fonts/en/Segoe-UI.ttf');
+}
+
+html {
+    color : #f5f5f5;
+    font-size: 14px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.42857143;
+    text-align: left;
+    white-space: normal;
+}
+body .navbar-top {
+    background-color: #0747a6;
+}
+body .navbar-top .navbar-nav .nav-item a.nav-link {
+    padding-top: 13px;
+    padding-left: 15px; padding-right: 15px;
+    color : #f5f5f5!important;
+    font-family: 'sysFont';
+    font-weight: 400;
+}
+
+.sidebar-menu, .sidebar-menu li {
+    background-color: unset;
+    border: unset!important;
+}
+
+.sidebar-menu > li.active a::before {
+	content: unset;
+}
+
+.sidebar-menu > li > a {
+    font-size: 14px;
+    padding: 9px 15px;
+    font-family: 'sysFont';
+    font-weight: 600;
+    white-space: nowrap;
+}
+

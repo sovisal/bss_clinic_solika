@@ -8,6 +8,7 @@
 		<!-- Styles: Start -->
 		<link rel="stylesheet" href="{{ asset('css/app.css') }}">
 		<link rel="stylesheet" href="{{ asset('css/custom-style.css?v=' . rand(1111, 9999)) }}">
+		<link rel="stylesheet" href="{{ asset('css/custom-style-v2.css?v=' . rand(1111, 9999)) }}">
 		{!! $css ?? '' !!}
 		<!-- Styles: End -->
 		<script>
