@@ -31,6 +31,7 @@
 		<ul class="navbar-nav ml-auto">
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                    <i class="bx bx-user-circle" style="transform: translateY(1px);"></i>
 					{{ auth()->user()->name }}
 					<i class="bx bxs-down-arrow tw-text-xs tw-ml-1"></i>
 				</a>
