@@ -126,7 +126,7 @@ function filter_unit_attr($attributes)
 	return $filtered_attributes;
 }
 
-function zipFile($zip_file = 'file-zip.zip', $path, $destination_path, $sub_folder = true)
+function zipFile($zip_file, $path, $destination_path, $sub_folder = true)
 {
 	if ($zip_file != 'file-zip.zip') {
 		$zip_file .= '.zip';
