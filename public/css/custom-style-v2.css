@@ -61,4 +61,5 @@ body .navbar-top .navbar-nav .nav-item a.nav-link {
 
 html body .table tbody td, .table-padding-sm tbody th, .table-padding-sm tbody td {
     padding: 5px 3px !important;
+    text-align: left!important;
 }

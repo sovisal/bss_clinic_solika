@@ -5,7 +5,8 @@
 	<x-card :foot="false"  :head="false">
 		@foreach(data_parent_selection_conf() as $key => $val)
 			@if (empty($val['is_invisible']) || $val['is_invisible'] == false) 
-				<x-form.button href="?parent={{ $key }}" label="{{ $val['label'] }}" class="{{ $type == $key ? 'active' : '' }}" color="{{ $type == $key ? 'secondary' : 'primary' }}" />
+				<a href="?parent={{ $key }}" style="{{ $type == $key ? 'text-decoration: underline; font-weight: bold;' : '' }}" color="{{ $type == $key ? 'secondary' : 'primary' }}">{{ $val['label'] }}</a>
+				&nbsp;
 			@endif
 		@endforeach
 		<hr>
