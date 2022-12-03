@@ -3,7 +3,7 @@
 		<x-form.button href="{{ route('setting.xray-type.create') }}" label="Create" icon="bx bx-plus"/>
 	</x-slot>
 	<x-card :foot="false"  :head="false">
-		<x-table class="table-hover table-bordered" id="datatables" data-table="patients">
+		<x-table class="table-hover table-striped" id="datatables" data-table="patients">
 			<x-slot name="thead">
 				<tr>
 					<th>No</th>

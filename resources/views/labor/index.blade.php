@@ -8,7 +8,7 @@
 				<x-report-filter />
 			</form>
 		</x-slot>
-		<x-table class="table-hover table-bordered" id="datatables" data-table="patients">
+		<x-table class="table-hover table-striped" id="datatables" data-table="patients">
 			<x-slot name="thead">
 				<tr>
 					<th>No</th>

@@ -46,7 +46,7 @@
 				</div>
 				<h5>Labor Type</h5>
 			</x-slot>
-			<x-table class="table-hover table-bordered" id="datatables-labor-type">
+			<x-table class="table-hover table-striped" id="datatables-labor-type">
 				<x-slot name="thead">
 					<tr>
 						<th width="8%">No</th>
@@ -93,7 +93,7 @@
 				</div>
 				<h5>Labor Item</h5>
 			</x-slot>
-			<x-table class="table-hover table-bordered" id="datatables-labor-item">
+			<x-table class="table-hover table-striped" id="datatables-labor-item">
 				<x-slot name="thead">
 					<tr>
 						<th>No</th>

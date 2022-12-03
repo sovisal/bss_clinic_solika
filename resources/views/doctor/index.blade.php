@@ -3,7 +3,7 @@
 		<x-form.button href="{{ route('setting.doctor.create') }}" icon="bx bx-plus" label="Create" />	
 	</x-slot>
 	<x-card :foot="false"  :head="false">		
-		<x-table class="table-hover table-bordered" id="datatables">
+		<x-table class="table-hover table-striped" id="datatables">
 			<x-slot name="thead">
 				<tr>
 					<th>Code</th>

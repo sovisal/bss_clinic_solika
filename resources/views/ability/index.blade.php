@@ -32,7 +32,7 @@
 	</x-slot>
 
 	<x-card :foot="false" :head="false">
-		<x-table class="table-bordered" id="datatables">
+		<x-table class="table-striped" id="datatables">
 			<x-slot name="thead">
 				<tr>
 					<th width="6%">{!! __('table.no') !!}</th>
@@ -104,7 +104,7 @@
 			<div class="divider-text ability-module tw-text-2xl text-primary"></div>
 		</div>
 		<div class="table-responsive">
-			<x-table id="table-ability-detail" class="table-bordered table-striped table-hover">
+			<x-table id="table-ability-detail" class="table-striped table-striped table-hover">
 				<x-slot name="thead">
 					<tr>
 						<th>{!! __('table.no') !!}</th>

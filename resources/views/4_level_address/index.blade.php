@@ -13,7 +13,7 @@
 			<x-form.button href="?addr={{ $back_addr }}" label="Back" color="danger"/>
 		@endif
 		
-		<x-table class="table-hover table-bordered" id="datatables" data-table="patients">
+		<x-table class="table-hover table-striped" id="datatables" data-table="patients">
 			<x-slot name="thead">
 				<tr>
 					<th>No</th>

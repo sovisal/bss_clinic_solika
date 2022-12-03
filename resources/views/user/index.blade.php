@@ -4,7 +4,7 @@
 	</x-slot>
 
 	<x-card :foot="false" :head="false">
-		<x-table id="datatables" class="table-hover table-bordered" data-table="users">
+		<x-table id="datatables" class="table-hover table-striped" data-table="users">
 			<x-slot name="thead">
 				<tr>
 					<th width="6%" class="no-sort">
