@@ -18,6 +18,7 @@ class CreateInvoiceItemsTable extends Migration
             $table->string('service_name', 100)->default('');
             $table->string('service_type', 50)->default('');
             $table->integer('service_id')->nullable();
+            $table->integer('invoice_id');
             $table->string('qty')->default('0');
             $table->string('price')->default('0');
             $table->string('total')->default('0');

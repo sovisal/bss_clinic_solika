@@ -18,12 +18,15 @@ class CreateInvoicesTable extends Migration
 			$table->datetime('inv_date')->nullable();
 			$table->integer('doctor_id')->nullable();
 			$table->string('remark')->nullable();
-			$table->integer('pt_id')->nullable();
+			$table->integer('patient_id')->nullable();
 			$table->integer('pt_gender')->nullable();
 			$table->integer('pt_age')->nullable();
 			$table->integer('address_id')->nullable();
 			$table->float('exchange_rate')->default('0');
 			$table->float('total')->default('0');
+			$table->string('code', 50)->default('');
+            $table->integer('status')->default('0');
+			$table->datetime('requested_at')->nullable();
 			$table->timestamps();
 		});
 	}
