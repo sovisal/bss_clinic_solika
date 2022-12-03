@@ -29,10 +29,12 @@ Route::get('/db_backup', function () {
 	$dump = $is_hosted ? '/usr/bin/mysqldump' : 'C:\wamp64\bin\mysql\mysql5.7.26\bin\mysqldump'; // wamp server
 	$cmd = $dump . ' -h ' . env('DB_HOST') . ' -u ' . env('DB_USERNAME') . (env('DB_PASSWORD') ? ' -p"' . env('DB_PASSWORD') . '"' : '') . ' --databases ' . env('DB_DATABASE');
 	
+	
 	// Generate command
 	$output = [];
 	exec($cmd, $output);
 	$output = implode("\n",$output);
+
 
 	// Deposit file into safe places
 	$file_name =  'db_' . env('DB_DATABASE') . '_' . date('Ymd-His') . '.sql';
@@ -40,21 +42,21 @@ Route::get('/db_backup', function () {
 	Storage::disk('db_backup')->put($path, $output);
 	Storage::disk('ftp_db_backup')->put($path, $output);
 
+	
 	// Inform to admin
-	$size = Storage::disk('db_backup')->size($path);
-    $units = array( 'B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
-    $power = $size > 0 ? floor(log($size, 1024)) : 0;
-    $file_size = number_format($size / pow(1024, $power), 2, '.', ',') . ' ' . $units[$power];
+	if (env('TELEGRAM_TOKEN') && env('TELEGRAM_CART_ID')) {
+		$size = Storage::disk('db_backup')->size($path);
+		$units = array( 'B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
+		$power = $size > 0 ? floor(log($size, 1024)) : 0;
+		$file_size = number_format($size / pow(1024, $power), 2, '.', ',') . ' ' . $units[$power];
 
-
-	$msg = "=========" . date('Y-M-d H:i:s') . "==========" . " \n ";
-	$msg .= "DB : " . env('DB_DATABASE') . " \n ";
-	$msg .= "File : " . $file_name . " \n ";
-	$msg .= "Size : " . $file_size . " | Status : success" . " \n ";
-	$msg .= "============End=====================";
-	file_get_contents('https://api.telegram.org/bot2031396303:AAHzdx7Onkfgj-dFkMjrilXIv34oueOJOsg/sendMessage?chat_id=@bssclientinfo&text=' . urlencode($msg));
-
-
+		$msg = "=========" . date('Y-M-d H:i:s') . "==========" . " \n ";
+		$msg .= "DB : " . env('DB_DATABASE') . " \n ";
+		$msg .= "File : " . $file_name . " \n ";
+		$msg .= "Size : " . $file_size . " | Status : success" . " \n ";
+		$msg .= "============End=====================";
+		file_get_contents("https://api.telegram.org/bot" . env('TELEGRAM_TOKEN') . "/sendMessage?chat_id=@" . env('TELEGRAM_CART_ID') . "&text=" . urlencode($msg));
+	}
 });
 
 require __DIR__.'/patient-route.php';
