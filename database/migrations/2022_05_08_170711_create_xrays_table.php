@@ -28,6 +28,7 @@ class CreateXraysTable extends Migration
             $table->string('amount', 10)->default(0);
             $table->integer('status')->default(1);
             $table->text('attribute')->nullable();
+            $table->string('age', 3)->nullable();
             $table->text('other')->nullable();
             $table->timestamps();
         });
