@@ -13,7 +13,7 @@ class CreatePatientLinkables extends Migration
      */
     public function up()
     {
-        Schema::table('patient_linkables', function (Blueprint $table) {
+        Schema::create('patient_linkables', function (Blueprint $table) {
             $table->id();
             $table->integer('patient_id')->nullable();
 			$table->integer('pt_gender')->nullable();
@@ -28,8 +28,6 @@ class CreatePatientLinkables extends Migration
      */
     public function down()
     {
-        Schema::table('patient_linkables', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('patient_linkables');
     }
 }
