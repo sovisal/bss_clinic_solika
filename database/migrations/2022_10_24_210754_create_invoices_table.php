@@ -16,17 +16,17 @@ class CreateInvoicesTable extends Migration
 		Schema::create('invoices', function (Blueprint $table) {
 			$table->id();
 			$table->datetime('inv_date')->nullable();
-			$table->integer('doctor_id')->nullable();
-			$table->string('remark')->nullable();
-			$table->integer('patient_id')->nullable();
-			$table->integer('pt_gender')->nullable();
-			$table->integer('pt_age')->nullable();
-			$table->integer('address_id')->nullable();
-			$table->float('exchange_rate')->default('0');
-			$table->float('total')->default('0');
-			$table->string('code', 50)->default('');
-            $table->integer('status')->default('0');
-			$table->datetime('requested_at')->nullable();
+			$table->string('code', 50)->nullable();
+			$table->unsignedBigInteger('doctor_id')->default(0);
+			$table->unsignedBigInteger('patient_id')->default(0);
+			$table->unsignedBigInteger('address_id')->default(0);
+			$table->string('exchange_rate', 10)->default('0');
+			$table->string('total', 10)->default('0');
+			$table->text('remark')->nullable();
+            
+            $table->unsignedBigInteger('user_id')->default(0);
+            $table->tinyInteger('status')->default('0');
+			$table->softDeletes();
 			$table->timestamps();
 		});
 	}

@@ -14,13 +14,15 @@ class CreatePatientsTable extends Migration
 	public function up()
 	{
 		Schema::create('patients', function (Blueprint $table) {
-			$table->id();
-			$table->string('name_kh');
+            $table->id();
+            
+			$table->string('name_kh')->nullable();
 			$table->string('name_en')->nullable();
 			$table->string('id_card_no')->nullable();
-			$table->string('gender', 8)->nullable();
+			$table->unsignedBigInteger('gender')->default(0);
 			$table->string('email')->nullable();
-			$table->string('phone')->nullable();
+            $table->string('phone')->nullable();
+            
 			$table->date('date_of_birth')->nullable();
 			$table->integer('age')->nullable();
 			$table->string('education')->nullable();
@@ -36,25 +38,21 @@ class CreatePatientsTable extends Migration
 			$table->string('mother_position')->nullable();
 			$table->string('house_no')->nullable();
 			$table->string('street_no')->nullable();
-			$table->string('zip_code')->nullable();
-			$table->unsignedBigInteger('address_id')->nullable();
-			$table->unsignedBigInteger('created_by');
-			$table->unsignedBigInteger('updated_by');
-			$table->datetime('registered_at')->nullable();
+            $table->string('zip_code')->nullable();
+            
+			$table->unsignedBigInteger('address_id')->default(0);
+            $table->datetime('registered_at')->nullable();
+            
+            $table->unsignedBigInteger('user_id')->default(0);
+            $table->tinyInteger('status')->default('0');
+			$table->softDeletes();
 			$table->timestamps();
 			
-			$table->foreign('created_by')
+			$table->foreign('user_id')
 					->references('id')
 					->on('users')
 					->onUpdate('cascade')
 					->onDelete('cascade');
-
-			$table->foreign('updated_by')
-					->references('id')
-					->on('users')
-					->onUpdate('cascade')
-					->onDelete('cascade');
-
 		});
 	}
 

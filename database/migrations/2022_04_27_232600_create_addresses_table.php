@@ -18,11 +18,17 @@ class CreateAddressesTable extends Migration
             $table->string('_code', 10)->nullable();
             $table->string('_name_kh')->nullable();
             $table->string('_name_en')->nullable();
+
             $table->string('_type_kh')->nullable();
             $table->string('_type_en')->nullable();
+
             $table->string('_path_kh')->nullable();
             $table->string('_path_en')->nullable();
-            $table->timestamps();
+
+            $table->unsignedBigInteger('user_id')->default(0);
+            $table->tinyInteger('status')->default('0');
+            $table->softDeletes();
+			$table->timestamps();
         });
     }
 

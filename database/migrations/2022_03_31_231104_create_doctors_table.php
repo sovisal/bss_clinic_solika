@@ -14,29 +14,27 @@ class CreateDoctorsTable extends Migration
 	public function up()
 	{
 		Schema::create('doctors', function (Blueprint $table) {
-			$table->id();
-			$table->string('name_kh');
-			$table->string('name_en')->nullable();
+            $table->id();
+            
+			$table->string('name_kh')->nullable();
+            $table->string('name_en')->nullable();
+            
 			$table->string('id_card_no')->nullable();
-			$table->boolean('gender')->nullable();
+			$table->unsignedBigInteger('gender')->default(0);
 			$table->string('phone')->nullable();
 			$table->string('email')->nullable();
 			$table->text('address')->nullable();
-			$table->unsignedBigInteger('created_by');
-			$table->unsignedBigInteger('updated_by');
+            
+            $table->unsignedBigInteger('user_id')->default(0);
+            $table->tinyInteger('status')->default('0');
+			$table->softDeletes();
 			$table->timestamps();
 			
-			$table->foreign('created_by')
-					->references('id')
-					->on('users')
-					->onUpdate('cascade')
-					->onDelete('cascade');
-
-			$table->foreign('updated_by')
-					->references('id')
-					->on('users')
-					->onUpdate('cascade')
-					->onDelete('cascade');
+			$table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
 		});
 	}
 

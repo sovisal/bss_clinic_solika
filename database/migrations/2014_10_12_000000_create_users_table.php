@@ -29,7 +29,8 @@ class CreateUsersTable extends Migration
 			$table->text('bio')->nullable();
 			$table->boolean('isWebDev')->default(false);
 			$table->boolean('is_suspended')->default(false);
-			$table->rememberToken();
+            $table->rememberToken();
+            $table->softDeletes();
 			$table->timestamps();
 		});
 		

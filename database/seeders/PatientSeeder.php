@@ -24,8 +24,7 @@ class PatientSeeder extends Seeder
 				'registered_at' => now(),
 				'gender' => 1,
 				'nationality' => 3,
-				'created_by' => 1,
-				'updated_by' => 1,
+				'user_id' => 1,
 			],
 			[
 				'name_en' => 'Patient 2',
@@ -35,8 +34,7 @@ class PatientSeeder extends Seeder
 				'registered_at' => now(),
 				'gender' => 2,
 				'nationality' => 4,
-				'created_by' => 1,
-				'updated_by' => 1,
+				'user_id' => 1,
 			],
 		]);
 
@@ -44,22 +42,20 @@ class PatientSeeder extends Seeder
 			[
 				'patient_id' => 1,
 				'doctor_id' => 1,
-				'payment_type' => '',
+				'payment_type' => 0,
 				'evaluated_at' => now(),
 				'attribute' => '',
 				'status' => '1',
-				'created_by' => 1,
-				'updated_by' => 1,
+				'user_id' => 1,
 			],
 			[
 				'patient_id' => 2,
 				'doctor_id' => 1,
-				'payment_type' => '',
+				'payment_type' => 0,
 				'evaluated_at' => now(),
 				'attribute' => '',
 				'status' => '1',
-				'created_by' => 1,
-				'updated_by' => 1,
+				'user_id' => 1,
 			],
 		]);
     }

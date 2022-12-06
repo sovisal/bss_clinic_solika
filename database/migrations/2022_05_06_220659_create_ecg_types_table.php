@@ -15,15 +15,20 @@ class CreateEcgTypesTable extends Migration
     {
         Schema::create('ecg_types', function (Blueprint $table) {
             $table->id();
+
             $table->string('name_en')->nullable();
             $table->string('name_kh')->nullable();
+            
             $table->string('price', 10)->default(0);
             $table->integer('index')->default(99999);
             $table->text('attribite')->nullable();
             $table->text('default_form')->nullable();
-            $table->integer('status')->default(1);
             $table->text('other')->nullable();
-            $table->timestamps();
+
+            $table->unsignedBigInteger('user_id')->default(0);
+            $table->tinyInteger('status')->default('0');
+            $table->softDeletes();
+			$table->timestamps();
         });
 
         // Insert some stuff

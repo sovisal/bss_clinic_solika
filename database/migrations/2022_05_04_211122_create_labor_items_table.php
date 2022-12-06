@@ -15,16 +15,22 @@ class CreateLaborItemsTable extends Migration
     {
         Schema::create('labor_items', function (Blueprint $table) {
             $table->id();
+
             $table->string('name_en')->nullable();
             $table->string('name_kh')->nullable();
-            $table->string('min_range')->nullable();
-            $table->string('max_range')->nullable();
-            $table->string('unit')->nullable();
+
+            $table->string('min_range', 10)->nullable();
+            $table->string('max_range', 10)->nullable();
+            $table->string('unit', 50)->nullable();
+
             $table->unsignedBigInteger('type')->default(0);
-            $table->integer('status')->default(1);
             $table->integer('index')->default(9999);
             $table->text('other')->nullable();
-            $table->timestamps();
+
+            $table->unsignedBigInteger('user_id')->default(0);
+            $table->tinyInteger('status')->default('0');
+            $table->softDeletes();
+			$table->timestamps();
         });
 
         // Insert some stuff

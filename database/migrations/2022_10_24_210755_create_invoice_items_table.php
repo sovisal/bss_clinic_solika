@@ -15,15 +15,19 @@ class CreateInvoiceItemsTable extends Migration
     {
         Schema::create('invoice_items', function (Blueprint $table) {
             $table->id();
-            $table->string('service_name', 100)->default('');
-            $table->string('service_type', 50)->default('');
-            $table->integer('service_id')->nullable();
-            $table->integer('invoice_id');
-            $table->string('qty')->default('0');
-            $table->string('price')->default('0');
-            $table->string('total')->default('0');
-            $table->string('description')->default('');
-            $table->timestamps();
+            $table->string('service_name', 100)->nullable();
+            $table->string('service_type', 50)->nullable();
+            $table->unsignedBigInteger('service_id')->nullable();
+            $table->unsignedBigInteger('invoice_id')->default(0);
+            $table->string('qty', 10)->default('0');
+            $table->string('price', 10)->default('0');
+            $table->string('total', 10)->default('0');
+            $table->text('description');
+
+            $table->unsignedBigInteger('user_id')->default(0);
+            $table->tinyInteger('status')->default('0');
+            $table->softDeletes();
+			$table->timestamps();
         });
     }
 

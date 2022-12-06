@@ -14,15 +14,19 @@ class CreateConsultationsTable extends Migration
 	public function up()
 	{
 		Schema::create('consultations', function (Blueprint $table) {
-			$table->id();
+            $table->id();
+            
 			$table->text('attribute')->nullable();
-			$table->string('payment_type')->nullable();
-			$table->datetime('evaluated_at');
-			$table->string('status')->default('save');
-			$table->unsignedBigInteger('patient_id');
-			$table->unsignedBigInteger('doctor_id');
-			$table->unsignedBigInteger('created_by');
-			$table->unsignedBigInteger('updated_by');
+			$table->unsignedBigInteger('payment_type')->default(0);
+            $table->datetime('evaluated_at');
+            
+			$table->unsignedBigInteger('patient_id')->default(0);
+            $table->unsignedBigInteger('doctor_id')->default(0);
+            
+            
+			$table->unsignedBigInteger('user_id')->default(0);
+            $table->tinyInteger('status')->default('0');
+			$table->softDeletes();
 			$table->timestamps();
 
 			$table->foreign('patient_id')
@@ -37,12 +41,7 @@ class CreateConsultationsTable extends Migration
 					->onUpdate('cascade')
 					->onDelete('cascade');
 
-			$table->foreign('created_by')
-					->references('id')
-					->on('users')
-					->onUpdate('no action')
-					->onDelete('no action');
-			$table->foreign('updated_by')
+			$table->foreign('user_id')
 					->references('id')
 					->on('users')
 					->onUpdate('no action')

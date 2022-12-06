@@ -15,14 +15,20 @@ class CreateSettingTable extends Migration
 	{
 		Schema::create('setting', function (Blueprint $table) {
 			$table->id();
-			$table->string('clinic_name_kh', 255);
-			$table->string('clinic_name_en', 255);
+			$table->string('clinic_name_kh')->nullable();
+			$table->string('clinic_name_en')->nullable();
 			$table->string('sign_name_kh')->nullable();
-			$table->string('sign_name_en')->nullable();
+            $table->string('sign_name_en')->nullable();
+            
 			$table->string('logo')->default('logo.png');
 			$table->string('phone')->nullable();
 			$table->text('address')->nullable();
-			$table->text('description')->nullable();
+            $table->text('description')->nullable();
+
+            $table->unsignedBigInteger('user_id')->default(0);
+            $table->tinyInteger('status')->default('0');
+            $table->softDeletes();
+			$table->timestamps();
 		});
 	}
 

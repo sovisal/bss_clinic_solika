@@ -15,14 +15,17 @@ class CreateDataParentsTable extends Migration
     {
         Schema::create('data_parents', function (Blueprint $table) {
             $table->id();
-            $table->string('title_en', 255)->nullable();
-            $table->string('title_kh', 255)->nullable();
+            $table->string('title_en')->nullable();
+            $table->string('title_kh')->nullable();
             $table->string('type', 50)->nullable();
             $table->text('description')->nullable();
             $table->text('other')->nullable();
-            $table->integer('status')->default(1);
-            $table->integer('parent_id')->default(0);
-            $table->timestamps();
+            $table->unsignedBigInteger('parent_id')->default(0);
+
+            $table->unsignedBigInteger('user_id')->default(0);
+            $table->tinyInteger('status')->default('0');
+            $table->softDeletes();
+			$table->timestamps();
         });
 
         // Insert some stuff

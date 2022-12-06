@@ -20,24 +20,21 @@ class MedicineSeeder extends Seeder
 				'price' => '1',
 				'usage_id' => 15,
 				'description' => '',
-				'created_by' => 1,
-				'updated_by' => 1,
+				'user_id' => 1,
 			],
 			[
 				'name' => 'Aceptop 500mg',
 				'price' => '1',
 				'usage_id' => 15,
 				'description' => '',
-				'created_by' => 1,
-				'updated_by' => 1,
+				'user_id' => 1,
 			],
 			[
 				'name' => 'Aloparinol 100mg',
 				'price' => '1',
 				'usage_id' => 15,
 				'description' => '',
-				'created_by' => 1,
-				'updated_by' => 1,
+				'user_id' => 1,
 			],
 		]);
     }

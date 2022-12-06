@@ -16,14 +16,19 @@ class CreateLaborTypesTable extends Migration
     {
         Schema::create('labor_types', function (Blueprint $table) {
             $table->id();
+
             $table->string('name_en')->nullable();
             $table->string('name_kh')->nullable();
+
             $table->float('index')->default(99999);
             $table->string('type')->nullable();
             $table->string('parent_id')->nullable();
-            $table->integer('status')->default(1);
             $table->text('other')->nullable();
-            $table->timestamps();
+
+            $table->unsignedBigInteger('user_id')->default(0);
+            $table->tinyInteger('status')->default('0');
+            $table->softDeletes();
+			$table->timestamps();
         });
 
         // Insert some stuff

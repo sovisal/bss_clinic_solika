@@ -15,20 +15,29 @@ class CreateAddressLinkablesTable extends Migration
     {
         Schema::create('address_linkables', function (Blueprint $table) {
             $table->id();
+            
             $table->string('village_en')->nullable();
             $table->string('village_kh')->nullable();
             $table->string('village_code')->nullable();
+
             $table->string('commune_en')->nullable();
             $table->string('commune_kh')->nullable();
             $table->string('commune_code')->nullable();
+
             $table->string('district_en')->nullable();
             $table->string('district_kh')->nullable();
             $table->string('district_code')->nullable();
+
             $table->string('province_en')->nullable();
             $table->string('province_kh')->nullable();
             $table->string('province_code')->nullable();
+
             $table->string('type')->nullable();
-            $table->timestamps();
+
+            $table->unsignedBigInteger('user_id')->default(0);
+            $table->tinyInteger('status')->default('0');
+            $table->softDeletes();
+			$table->timestamps();
         });
     }
 

@@ -18,26 +18,20 @@ class DoctorSeeder extends Seeder
 			[
 				'name_kh' => 'ស៊ុន ពិសិដ្ឋ',
 				'name_en' => 'SUN PISETH',
-				'created_by' => 1,
-				'updated_by' => 1,
+				'user_id' => 1,
 				'created_at' => now(),
-				'updated_at' => now(),
 			],
 			[
 				'name_kh' => 'Doctor 2',
 				'name_en' => 'Doctor 2',
-				'created_by' => 1,
-				'updated_by' => 1,
+				'user_id' => 1,
 				'created_at' => now(),
-				'updated_at' => now(),
 			],
 			[
 				'name_kh' => 'Doctor 3',
 				'name_en' => 'Doctor 3',
-				'created_by' => 1,
-				'updated_by' => 1,
+				'user_id' => 1,
 				'created_at' => now(),
-				'updated_at' => now(),
 			],
 		]);
 	}

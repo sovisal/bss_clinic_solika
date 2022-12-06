@@ -17,8 +17,12 @@ class CreateLaborDetailsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('labor_id')->default(0);
             $table->unsignedBigInteger('labor_item_id')->default(0);
-            $table->string('value', 50)->default(0);
-            $table->timestamps();
+            $table->string('value', 10)->default('0');
+
+            $table->unsignedBigInteger('user_id')->default(0);
+            $table->tinyInteger('status')->default('0');
+            $table->softDeletes();
+			$table->timestamps();
         });
     }
 

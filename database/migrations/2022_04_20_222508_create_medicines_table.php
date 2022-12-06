@@ -14,13 +14,17 @@ class CreateMedicinesTable extends Migration
 	public function up()
 	{
 		Schema::create('medicines', function (Blueprint $table) {
-			$table->id();
+            $table->id();
+            
 			$table->string('name')->nullable();
-			$table->string('price')->nullable();
-			$table->text('description')->nullable();
-			$table->unsignedBigInteger('usage_id');
-			$table->unsignedBigInteger('created_by');
-			$table->unsignedBigInteger('updated_by');
+			$table->string('price', 10)->nullable();
+            $table->text('description')->nullable();
+            
+			$table->unsignedBigInteger('usage_id')->default(0);
+            
+            $table->unsignedBigInteger('user_id')->default(0);
+            $table->tinyInteger('status')->default('0');
+			$table->softDeletes();
 			$table->timestamps();
 
 			$table->foreign('usage_id')
@@ -29,13 +33,7 @@ class CreateMedicinesTable extends Migration
 					->onUpdate('cascade')
 					->onDelete('cascade');
 
-			$table->foreign('created_by')
-					->references('id')
-					->on('users')
-					->onUpdate('cascade')
-					->onDelete('cascade');
-
-			$table->foreign('updated_by')
+			$table->foreign('user_id')
 					->references('id')
 					->on('users')
 					->onUpdate('cascade')

@@ -15,9 +15,15 @@ class CreatePatientLinkables extends Migration
     {
         Schema::create('patient_linkables', function (Blueprint $table) {
             $table->id();
-            $table->integer('patient_id')->nullable();
-			$table->integer('pt_gender')->nullable();
-			$table->integer('pt_age')->nullable();
+
+            $table->unsignedBigInteger('patient_id')->default(0);
+			$table->unsignedBigInteger('pt_gender')->default(0);
+            $table->integer('pt_age')->nullable();
+
+            $table->unsignedBigInteger('user_id')->default(0);
+            $table->tinyInteger('status')->default('0');
+            $table->softDeletes();
+			$table->timestamps();
         });
     }
 
