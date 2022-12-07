@@ -16,6 +16,7 @@ class MedicineSeeder extends Seeder
     {
 		Medicine::insert([
 			[
+				'user_id' => 1,
 				'name' => 'Paracetamol 500',
 				'price' => '1',
 				'usage_id' => 15,
@@ -23,6 +24,7 @@ class MedicineSeeder extends Seeder
 				'user_id' => 1,
 			],
 			[
+				'user_id' => 1,
 				'name' => 'Aceptop 500mg',
 				'price' => '1',
 				'usage_id' => 15,
@@ -30,6 +32,7 @@ class MedicineSeeder extends Seeder
 				'user_id' => 1,
 			],
 			[
+				'user_id' => 1,
 				'name' => 'Aloparinol 100mg',
 				'price' => '1',
 				'usage_id' => 15,

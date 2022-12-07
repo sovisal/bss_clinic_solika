@@ -36,15 +36,6 @@ class CreateEcgTypesTable extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
         });
-
-        // Insert some stuff
-        // DB::table('ecg_types')->insert([
-        //     [
-        //         'name_en' => 'ECG',
-        //         'name_kh' => 'ECG',
-        //         'index' => 1
-        //     ]
-        // ]);
     }
 
     /**

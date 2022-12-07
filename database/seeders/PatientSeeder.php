@@ -15,48 +15,50 @@ class PatientSeeder extends Seeder
      */
     public function run()
     {
-		Patient::insert([
-			[
-				'name_en' => 'Patient 1',
-				'name_kh' => 'Patient 1',
-				'phone' => '011223344',
-				'date_of_birth' => '1996-01-01',
-				'registered_at' => now(),
-				'gender' => 1,
-				'nationality' => 3,
-				'user_id' => 1,
-			],
-			[
-				'name_en' => 'Patient 2',
-				'name_kh' => 'Patient 2',
-				'phone' => '012345678',
-				'date_of_birth' => '1995-01-01',
-				'registered_at' => now(),
-				'gender' => 2,
-				'nationality' => 4,
-				'user_id' => 1,
-			],
-		]);
+		// Patient::insert([
+		// 	[
+		// 		'user_id' => 1,
+		// 		'name_en' => 'Patient 1',
+		// 		'name_kh' => 'Patient 1',
+		// 		'phone' => '011223344',
+		// 		'date_of_birth' => '1996-01-01',
+		// 		'registered_at' => now(),
+		// 		'gender' => 1,
+		// 		'nationality' => 3,
+		// 		'user_id' => 1,
+		// 	],
+		// 	[
+		// 		'user_id' => 1,
+		// 		'name_en' => 'Patient 2',
+		// 		'name_kh' => 'Patient 2',
+		// 		'phone' => '012345678',
+		// 		'date_of_birth' => '1995-01-01',
+		// 		'registered_at' => now(),
+		// 		'gender' => 2,
+		// 		'nationality' => 4,
+		// 		'user_id' => 1,
+		// 	],
+		// ]);
 
-		Consultation::insert([
-			[
-				'patient_id' => 1,
-				'doctor_id' => 1,
-				'payment_type' => 0,
-				'evaluated_at' => now(),
-				'attribute' => '',
-				'status' => '1',
-				'user_id' => 1,
-			],
-			[
-				'patient_id' => 2,
-				'doctor_id' => 1,
-				'payment_type' => 0,
-				'evaluated_at' => now(),
-				'attribute' => '',
-				'status' => '1',
-				'user_id' => 1,
-			],
-		]);
+		// Consultation::insert([
+		// 	[
+		// 		'patient_id' => 1,
+		// 		'doctor_id' => 1,
+		// 		'payment_type' => 0,
+		// 		'evaluated_at' => now(),
+		// 		'attribute' => '',
+		// 		'status' => '1',
+		// 		'user_id' => 1,
+		// 	],
+		// 	[
+		// 		'patient_id' => 2,
+		// 		'doctor_id' => 1,
+		// 		'payment_type' => 0,
+		// 		'evaluated_at' => now(),
+		// 		'attribute' => '',
+		// 		'status' => '1',
+		// 		'user_id' => 1,
+		// 	],
+		// ]);
     }
 }
