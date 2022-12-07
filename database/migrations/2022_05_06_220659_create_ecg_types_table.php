@@ -18,7 +18,7 @@ class CreateEcgTypesTable extends Migration
 
             $table->string('name_en')->nullable();
             $table->string('name_kh')->nullable();
-            
+
             $table->string('price', 10)->default(0);
             $table->integer('index')->default(99999);
             $table->text('attribite')->nullable();
@@ -28,17 +28,23 @@ class CreateEcgTypesTable extends Migration
             $table->unsignedBigInteger('user_id')->default(0);
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
-			$table->timestamps();
+            $table->timestamps();
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
         });
 
         // Insert some stuff
-        DB::table('ecg_types')->insert([
-            [
-                'name_en' => 'ECG',
-                'name_kh' => 'ECG',
-                'index' => 1
-            ]
-        ]);
+        // DB::table('ecg_types')->insert([
+        //     [
+        //         'name_en' => 'ECG',
+        //         'name_kh' => 'ECG',
+        //         'index' => 1
+        //     ]
+        // ]);
     }
 
     /**

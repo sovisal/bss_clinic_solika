@@ -22,7 +22,25 @@ class CreateLaborDetailsTable extends Migration
             $table->unsignedBigInteger('user_id')->default(0);
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
-			$table->timestamps();
+            $table->timestamps();
+
+            $table->foreign('labor_id')
+                ->references('id')
+                ->on('laboratories')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('labor_item_id')
+                ->references('id')
+                ->on('labor_items')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
         });
     }
 

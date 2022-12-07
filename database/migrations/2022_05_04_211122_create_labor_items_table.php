@@ -30,36 +30,48 @@ class CreateLaborItemsTable extends Migration
             $table->unsignedBigInteger('user_id')->default(0);
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
-			$table->timestamps();
+            $table->timestamps();
+
+            $table->foreign('type')
+                ->references('id')
+                ->on('labor_types')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
         });
 
         // Insert some stuff
-        DB::table('labor_items')->insert([
-            [
-                'name_en' => 'Leucocytes',
-                'name_kh' => 'Leucocytes',
-                'min_range' => '100',
-                'max_range' => '200',
-                'unit' => '10<sup>3</sup>3/uL',
-                'type' => 1
-            ],
-            [
-                'name_en' => 'Hématies',
-                'name_kh' => 'Hématies',
-                'min_range' => '10',
-                'max_range' => '20',
-                'unit' => '10<sup>6</sup>6/uL',
-                'type' => 1
-            ],
-            [
-                'name_en' => 'Polynucléaire neutrophile',
-                'name_kh' => 'Polynucléaire neutrophile',
-                'min_range' => '1',
-                'max_range' => '100',
-                'unit' => '%',
-                'type' => 2
-            ],
-        ]);
+        // DB::table('labor_items')->insert([
+        //     [
+        //         'name_en' => 'Leucocytes',
+        //         'name_kh' => 'Leucocytes',
+        //         'min_range' => '100',
+        //         'max_range' => '200',
+        //         'unit' => '10<sup>3</sup>3/uL',
+        //         'type' => 1
+        //     ],
+        //     [
+        //         'name_en' => 'Hématies',
+        //         'name_kh' => 'Hématies',
+        //         'min_range' => '10',
+        //         'max_range' => '20',
+        //         'unit' => '10<sup>6</sup>6/uL',
+        //         'type' => 1
+        //     ],
+        //     [
+        //         'name_en' => 'Polynucléaire neutrophile',
+        //         'name_kh' => 'Polynucléaire neutrophile',
+        //         'min_range' => '1',
+        //         'max_range' => '100',
+        //         'unit' => '%',
+        //         'type' => 2
+        //     ],
+        // ]);
     }
 
     /**

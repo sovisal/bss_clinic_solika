@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePatientLinkables extends Migration
+class CreateMedicinesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,33 +13,29 @@ class CreatePatientLinkables extends Migration
      */
     public function up()
     {
-        Schema::create('patient_linkables', function (Blueprint $table) {
+        Schema::create('medicines', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('patient_id')->default(0);
-            $table->unsignedBigInteger('gender')->default(0);
-            $table->integer('age')->nullable();
+            $table->string('name')->nullable();
+            $table->string('price', 10)->nullable();
+            $table->text('description')->nullable();
+
+            $table->unsignedBigInteger('usage_id')->default(0);
 
             $table->unsignedBigInteger('user_id')->default(0);
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();
 
+            $table->foreign('usage_id')
+                ->references('id')
+                ->on('data_parents')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-
-            $table->foreign('patient_id')
-                ->references('id')
-                ->on('patients')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-
-            $table->foreign('gender')
-                ->references('id')
-                ->on('data_parents')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
         });
@@ -52,6 +48,6 @@ class CreatePatientLinkables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('patient_linkables');
+        Schema::dropIfExists('medicines');
     }
 }

@@ -6,38 +6,80 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateInvoicesTable extends Migration
 {
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::create('invoices', function (Blueprint $table) {
-			$table->id();
-			$table->datetime('inv_date')->nullable();
-			$table->string('code', 50)->nullable();
-			$table->unsignedBigInteger('doctor_id')->default(0);
-			$table->unsignedBigInteger('patient_id')->default(0);
-			$table->unsignedBigInteger('address_id')->default(0);
-			$table->string('exchange_rate', 10)->default('0');
-			$table->string('total', 10)->default('0');
-			$table->text('remark')->nullable();
-            
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('invoices', function (Blueprint $table) {
+            $table->id();
+            $table->datetime('inv_date')->nullable();
+            $table->string('code', 50)->nullable();
+            $table->unsignedBigInteger('patient_id')->default(0);
+
+            $table->unsignedBigInteger('doctor_id')->default(0);
+            $table->unsignedBigInteger('address_id')->default(0);
+
+            $table->string('amount', 10)->default('0');
+            $table->string('exchange_rate', 10)->default('0');
+            $table->string('total', 10)->default('0');
+            $table->text('remark')->nullable();
+
+            $table->unsignedBigInteger('payment_type')->default(0);
+            $table->unsignedBigInteger('payment_status')->default(0);
+
             $table->unsignedBigInteger('user_id')->default(0);
             $table->tinyInteger('status')->default('0');
-			$table->softDeletes();
-			$table->timestamps();
-		});
-	}
+            $table->softDeletes();
+            $table->timestamps();
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::dropIfExists('invoices');
-	}
+            $table->foreign('patient_id')
+                ->references('id')
+                ->on('patient_linkables')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('doctor_id')
+                ->references('id')
+                ->on('doctors')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('payment_type')
+                ->references('id')
+                ->on('data_parents')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('payment_status')
+                ->references('id')
+                ->on('data_parents')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('address_id')
+                ->references('id')
+                ->on('address_linkables')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('invoices');
+    }
 }

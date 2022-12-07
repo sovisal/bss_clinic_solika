@@ -32,7 +32,31 @@ class CreatePrescriptionsTable extends Migration
             $table->unsignedBigInteger('user_id')->default(0);
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
-			$table->timestamps();
+            $table->timestamps();
+            
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('patient_id')
+                ->references('id')
+                ->on('patients')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('requested_by')
+                ->references('id')
+                ->on('doctors')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('doctor_id')
+                ->references('id')
+                ->on('doctors')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
         });
     }
 

@@ -37,7 +37,13 @@ class CreateAddressLinkablesTable extends Migration
             $table->unsignedBigInteger('user_id')->default(0);
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
-			$table->timestamps();
+            $table->timestamps();
+            
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
         });
     }
 

@@ -18,27 +18,71 @@ class CreateEchographiesTable extends Migration
 
             $table->string('code')->nullable();
             $table->unsignedBigInteger('type')->default(0);
-            
             $table->unsignedBigInteger('patient_id')->default(0);
-            $table->unsignedBigInteger('doctor_id')->default(0);
-            
-            $table->unsignedBigInteger('requested_by')->default(0);
+
             $table->datetime('requested_at')->nullable();
+            $table->unsignedBigInteger('requested_by')->default(0);
             
+            $table->datetime('analysis_at')->nullable();
+            $table->unsignedBigInteger('doctor_id')->default(0);
+
+            $table->string('amount', 10)->default(0);
+            $table->string('exchange_rate', 10)->default(0);
             $table->unsignedBigInteger('payment_type')->default(0);
             $table->unsignedBigInteger('payment_status')->default(0);
-            
+
             $table->string('image_1')->nullable();
             $table->string('image_2')->nullable();
-            
-            $table->string('amount', 10)->default(0);
+
             $table->text('attribute')->nullable();
             $table->text('other')->nullable();
 
             $table->unsignedBigInteger('user_id')->default(0);
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
-			$table->timestamps();
+            $table->timestamps();
+
+            $table->foreign('type')
+                ->references('id')
+                ->on('echo_types')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('patient_id')
+                ->references('id')
+                ->on('patients')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('requested_by')
+                ->references('id')
+                ->on('doctors')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('doctor_id')
+                ->references('id')
+                ->on('doctors')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('payment_type')
+                ->references('id')
+                ->on('data_parents')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('payment_status')
+                ->references('id')
+                ->on('data_parents')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
         });
     }
 

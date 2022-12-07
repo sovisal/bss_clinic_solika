@@ -20,7 +20,7 @@ body .navbar-top {
 body .navbar-top .navbar-nav .nav-item a.nav-link {
     padding-top: 13px;
     padding-left: 15px; padding-right: 15px;
-    color : #ccc!important;
+    color : #f5f5f5!important;
     font-family: 'sysFont';
     font-weight: 400;
 }

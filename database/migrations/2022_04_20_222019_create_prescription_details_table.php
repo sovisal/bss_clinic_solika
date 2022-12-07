@@ -15,7 +15,7 @@ class CreatePrescriptionDetailsTable extends Migration
     {
         Schema::create('prescription_details', function (Blueprint $table) {
             $table->id();
-            
+
             $table->unsignedBigInteger('prescription_id')->default(0);
             $table->unsignedBigInteger('medicine_id')->default(0);
 
@@ -32,7 +32,31 @@ class CreatePrescriptionDetailsTable extends Migration
             $table->unsignedBigInteger('user_id')->default(0);
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
-			$table->timestamps();
+            $table->timestamps();
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('prescription_id')
+                ->references('id')
+                ->on('prescriptions')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('medicine_id')
+                ->references('id')
+                ->on('medicines')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('usage_id')
+                ->references('id')
+                ->on('data_parents')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
         });
     }
 
