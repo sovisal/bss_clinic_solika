@@ -26,7 +26,15 @@ class CreateRolesTable extends Migration
 			$table->id();
 			$table->string('name')->unique();
 			$table->string('label');
+			$table->string('category');
+			$table->unsignedBigInteger('ability_module_id');
 			$table->timestamps();
+
+			$table->foreign('ability_module_id')
+				->references('id')
+				->on('ability_modules')
+				->onUpdate('cascade')
+				->onDelete('cascade');
 		});
 
 		Schema::create('ability_role', function (Blueprint $table) {
@@ -92,6 +100,10 @@ class CreateRolesTable extends Migration
 	 */
 	public function down()
 	{
-		
+		Schema::dropIfExists('ability_user');
+		Schema::dropIfExists('role_user');
+		Schema::dropIfExists('ability_role');
+		Schema::dropIfExists('abilities');
+		Schema::dropIfExists('roles');
 	}
 }

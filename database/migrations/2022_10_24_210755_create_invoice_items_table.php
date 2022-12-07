@@ -19,9 +19,12 @@ class CreateInvoiceItemsTable extends Migration
             $table->string('service_type', 50)->nullable();
             $table->unsignedBigInteger('service_id')->nullable();
             $table->unsignedBigInteger('invoice_id')->default(0);
+
             $table->string('qty', 10)->default('0');
             $table->string('price', 10)->default('0');
             $table->string('total', 10)->default('0');
+            $table->string('exchange_rate', 10)->default('0');
+            
             $table->text('description');
 
             $table->unsignedBigInteger('user_id')->default(0);

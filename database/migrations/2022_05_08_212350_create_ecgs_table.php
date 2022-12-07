@@ -15,10 +15,10 @@ class CreateEcgsTable extends Migration
     {
         Schema::create('ecgs', function (Blueprint $table) {
             $table->id();
-
             $table->string('code', 50)->nullable();
             $table->unsignedBigInteger('type')->default(0);
             $table->unsignedBigInteger('patient_id')->default(0);
+            $table->unsignedBigInteger('address_id')->default(0);
 
             $table->datetime('requested_at')->nullable();
             $table->unsignedBigInteger('requested_by')->default(0);
@@ -51,6 +51,12 @@ class CreateEcgsTable extends Migration
             $table->foreign('patient_id')
                 ->references('id')
                 ->on('patients')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('address_id')
+                ->references('id')
+                ->on('address_linkables')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 

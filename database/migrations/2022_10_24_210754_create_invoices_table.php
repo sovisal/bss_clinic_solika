@@ -18,17 +18,18 @@ class CreateInvoicesTable extends Migration
             $table->datetime('inv_date')->nullable();
             $table->string('code', 50)->nullable();
             $table->unsignedBigInteger('patient_id')->default(0);
+            $table->unsignedBigInteger('address_id')->default(0);
 
             $table->unsignedBigInteger('doctor_id')->default(0);
             $table->unsignedBigInteger('address_id')->default(0);
 
             $table->string('amount', 10)->default('0');
             $table->string('exchange_rate', 10)->default('0');
-            $table->string('total', 10)->default('0');
-            $table->text('remark')->nullable();
-
             $table->unsignedBigInteger('payment_type')->default(0);
             $table->unsignedBigInteger('payment_status')->default(0);
+
+            $table->string('total', 10)->default('0');
+            $table->text('remark')->nullable();
 
             $table->unsignedBigInteger('user_id')->default(0);
             $table->tinyInteger('status')->default('0');
@@ -38,6 +39,12 @@ class CreateInvoicesTable extends Migration
             $table->foreign('patient_id')
                 ->references('id')
                 ->on('patient_linkables')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('address_id')
+                ->references('id')
+                ->on('address_linkables')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 

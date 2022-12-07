@@ -18,17 +18,6 @@ class CreateAbilityModulesTable extends Migration
 			$table->string('module')->unique();
 			$table->timestamps();
 		});
-
-		Schema::table('abilities', function (Blueprint $table) {
-			$table->string('category')->after('label');
-			$table->unsignedBigInteger('ability_module_id')->after('category');
-			$table->foreign('ability_module_id')
-					->references('id')
-					->on('ability_modules')
-					->onUpdate('cascade')
-					->onDelete('cascade');
-		});
-
 	}
 
 	/**
@@ -39,9 +28,5 @@ class CreateAbilityModulesTable extends Migration
 	public function down()
 	{
 		Schema::dropIfExists('ability_modules');
-		Schema::table('sales', function (Blueprint $table) {
-			$table->dropForeign('abilities_ability_modules_ability_module_id_foreign');
-			$table->dropColumn('ability_module_id');
-		});
 	}
 }

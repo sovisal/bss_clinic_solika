@@ -17,6 +17,7 @@ class CreateLaboratoriesTable extends Migration
             $table->id();
             $table->string('code', 50)->nullable();
             $table->unsignedBigInteger('patient_id')->default(0);
+            $table->unsignedBigInteger('address_id')->default(0);
 
             $table->datetime('requested_at')->nullable();
             $table->unsignedBigInteger('requested_by')->default(0);
@@ -25,6 +26,8 @@ class CreateLaboratoriesTable extends Migration
             $table->unsignedBigInteger('doctor_id')->default(0);
 
             $table->string('amount', 10)->default('0');
+            $table->string('exchange_rate', 10)->default('0');
+            $table->string('total', 10)->default('0');
             $table->unsignedBigInteger('payment_type')->default(0);
             $table->unsignedBigInteger('payment_status')->default(0);
 
@@ -43,6 +46,12 @@ class CreateLaboratoriesTable extends Migration
             $table->foreign('patient_id')
                 ->references('id')
                 ->on('patients')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('address_id')
+                ->references('id')
+                ->on('address_linkables')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 

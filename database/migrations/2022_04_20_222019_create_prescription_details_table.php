@@ -15,10 +15,10 @@ class CreatePrescriptionDetailsTable extends Migration
     {
         Schema::create('prescription_details', function (Blueprint $table) {
             $table->id();
-
             $table->unsignedBigInteger('prescription_id')->default(0);
             $table->unsignedBigInteger('medicine_id')->default(0);
 
+            $table->string('price', 10)->default(0);
             $table->string('qty', 10)->default(0);
             $table->string('upd', 10)->default(0);
             $table->string('nod', 10)->default(0);

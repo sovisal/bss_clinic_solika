@@ -50,8 +50,8 @@ class CreateConsultationsTable extends Migration
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
-                ->onUpdate('no action')
-                ->onDelete('no action');
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
         });
     }
 
