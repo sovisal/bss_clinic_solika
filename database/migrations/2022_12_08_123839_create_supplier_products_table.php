@@ -15,6 +15,10 @@ class CreateSupplierProductsTable extends Migration
     {
         Schema::create('supplier_products', function (Blueprint $table) {
             $table->id();
+            /* 
+             * id, supplier_id, product_id
+             * user_id, status, softDelete
+             */
             $table->timestamps();
         });
     }
