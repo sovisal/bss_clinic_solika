@@ -15,6 +15,10 @@ class CreateStockInsTable extends Migration
     {
         Schema::create('stock_ins', function (Blueprint $table) {
             $table->id();
+            /* 
+             * id, supplier_id, product_id, unit, price, qty, date, reciept_no, exp_date, 
+             * user_id, status, softDelete
+             */
             $table->timestamps();
         });
     }

@@ -15,6 +15,10 @@ class CreateProductPackagesTable extends Migration
     {
         Schema::create('product_packages', function (Blueprint $table) {
             $table->id();
+            /* 
+             * id, product_id, product_unit_id, base_qty (default 1), qty, price, code
+             * user_id, status, softDelete
+             */
             $table->timestamps();
         });
     }

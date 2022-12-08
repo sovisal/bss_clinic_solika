@@ -15,6 +15,10 @@ class CreateStockOutsTable extends Migration
     {
         Schema::create('stock_outs', function (Blueprint $table) {
             $table->id();
+            /* 
+             * id, product_id, unit, price, qty, date, type ('by invoice, by adjust, by prescription'), document_no, stock_in_id ('FIFO'),
+             * user_id, status, softDelete
+             */
             $table->timestamps();
         });
     }

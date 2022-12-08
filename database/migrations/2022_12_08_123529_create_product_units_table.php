@@ -15,6 +15,10 @@ class CreateProductUnitsTable extends Migration
     {
         Schema::create('product_units', function (Blueprint $table) {
             $table->id();
+            /* 
+             * id, name_en, name_kh, description,
+             * user_id, status, softDelete
+             */
             $table->timestamps();
         });
     }

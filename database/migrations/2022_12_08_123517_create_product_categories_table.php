@@ -15,6 +15,10 @@ class CreateProductCategoriesTable extends Migration
     {
         Schema::create('product_categories', function (Blueprint $table) {
             $table->id();
+            /* 
+             * id, name_en, name_kh, description, nb_product, 
+             * user_id, status, softDelete
+             */
             $table->timestamps();
         });
     }
