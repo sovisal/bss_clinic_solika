@@ -15,11 +15,24 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            /* 
-             * id, code (unique), name_en, name_kh, description, cost, price, image, qty_alert, qty_in, qty_out, qty_remain,
-             * type_id, category_id
-             * user_id, status, softDelete
-             */
+            $table->string('code')->unique()->nullable();
+            $table->string('name_en')->nullable();
+            $table->string('name_kh')->nullable();
+            $table->string('cost', 10)->default('0');
+            $table->string('price', 10)->default('0');
+            $table->string('image', 10)->default('0');
+
+            $table->float('qty_alert')->default(0);
+            $table->float('qty_in')->default(0);
+            $table->float('qty_out')->default(0);
+            $table->float('qty_remain')->default(0);
+
+            $table->unsignedBigInteger('unit_id')->default('0');
+            $table->unsignedBigInteger('category_id')->default('0');
+
+            $table->unsignedBigInteger('user_id')->default(0);
+            $table->tinyInteger('status')->default('0');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
