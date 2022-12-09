@@ -18,7 +18,8 @@ class EcgTypeSeeder extends Seeder
             [
                 'name_en' => 'ECG',
                 'name_kh' => 'ECG',
-                'index' => 1
+                'index' => 1,
+                'status' => 1,
             ]
         ]);
     }

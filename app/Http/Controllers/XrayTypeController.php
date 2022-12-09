@@ -16,7 +16,7 @@ class XrayTypeController extends Controller
      */
     public function index()
     {
-        $this->data['rows'] = XrayType::where('status', 1)
+        $this->data['rows'] = XrayType::with(['user'])->where('status', 1)
         ->orderBy('index', 'asc')
         ->get();
         return view('xray_type.index', $this->data);

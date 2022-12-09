@@ -399,21 +399,32 @@ function render_synonyms_name($name_en = '', $name_kh = '')
     }
 }
 
-function d_text ($txt = null, $default = '-') {
+function d_text($txt = null, $default = '-')
+{
     return $txt ?: $default;
 }
 
-function d_link ($label = null, $link = null) {
+function d_link($label = null, $link = null)
+{
     return '<a href="' . $link . '">' . $label . '</a>';
 }
 
-function d_combine_obj($obj, $keys, $separator = ' :: ') {
-    return implode($separator, array_map(function ($key) use ($obj) {
+function d_combine_obj($obj, $keys, $separator = ' :: ')
+{
+    return implode($separator, array_unique(array_map(function ($key) use ($obj) {
         return $obj->{$key};
-    }, $keys));
+    }, $keys)));
 }
 
-function d_obj ($obj = null, $param1 = null, $param2 = null, $param3 = null) {
+function d_combine_array($arr, $keys, $separator = ' :: ')
+{
+    return implode($separator, array_unique(array_map(function ($key) use ($arr) {
+        return trim($arr[$key]);
+    }, $keys)));
+}
+
+function d_obj($obj = null, $param1 = null, $param2 = null, $param3 = null)
+{
     $result = $obj;
 
     if ($result && $param1) {
@@ -447,10 +458,10 @@ function d_obj ($obj = null, $param1 = null, $param2 = null, $param3 = null) {
     }
 }
 
-function d_number () {
-
+function d_number()
+{
 }
 
-function d_money ($amn, $currency = 'USD') {
-
+function d_money($amn, $currency = 'USD')
+{
 }

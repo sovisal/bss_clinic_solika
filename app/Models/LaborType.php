@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class LaborType extends Model
+class LaborType extends BaseModel
 {
 	use HasFactory;
 
@@ -18,7 +18,7 @@ class LaborType extends Model
 
 	public function types()
 	{
-		return $this->hasMany(LaborType::class, 'type')->where('status', 1);
+		return $this->hasMany(LaborType::class, 'parent_id')->where('status', 1);
 	}
 
 	public function item()
@@ -49,10 +49,10 @@ class LaborType extends Model
 	// Separate Labor type into 2 level of groups
 	public function scopeRegroupe($query)
 	{
-		$types = $query->whereNull('type')->with(['types' => fn($q) => $q->with(['items'])])->get() ?: [];
+		$types = $query->whereNull('parent_id')->with(['types' => fn($q) => $q->with(['items'])])->get() ?: [];
 		$result = [];
 		foreach ($types as $labor_type) {
-			$labor_type->is_parent = (count($labor_type->types) > 0);
+			$labor_type->is_parent = $labor_type->parent_id > 0;
 			$labor_type->child = (array) $labor_type->types->all();
 			$result[] = $labor_type;
 		}

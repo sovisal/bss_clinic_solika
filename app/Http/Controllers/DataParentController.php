@@ -18,7 +18,7 @@ class DataParentController extends Controller
     {
         $type = $request->type ?: session('data_parent_type') ?? 'blood_type';
         $this->data['type'] = $type;
-        $this->data['rows'] = DataParent::where('type', $type)->where('status', 1)->get();
+        $this->data['rows'] = DataParent::with(['user'])->where('type', $type)->where('status', 1)->get();
 
         // 2 level selection
         $this->data['module_conf'] = $module_conf = data_parent_selection_conf()[$type];

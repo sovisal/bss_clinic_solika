@@ -18,7 +18,8 @@ class XrayTypeSeeder extends Seeder
             [
                 'name_en' => 'XRay',
                 'name_kh' => 'XRay',
-                'index' => 1
+                'index' => 1,
+                'status' => 1,
             ]
         ]);
     }
