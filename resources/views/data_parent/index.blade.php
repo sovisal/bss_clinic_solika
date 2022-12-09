@@ -5,7 +5,7 @@
 	<x-card :foot="false"  :head="false">
 		@foreach(data_parent_selection_conf() as $key => $val)
 			@if (empty($val['is_invisible']) || $val['is_invisible'] == false) 
-				<a href="?parent={{ $key }}" style="{{ $type == $key ? 'text-decoration: underline; font-weight: bold;' : '' }}" color="{{ $type == $key ? 'secondary' : 'primary' }}">{{ $val['label'] }}</a>
+				<a href="?type={{ $key }}" style="{{ $type == $key ? 'text-decoration: underline; font-weight: bold;' : '' }}" color="{{ $type == $key ? 'secondary' : 'primary' }}">{{ $val['label'] }}</a>
 				&nbsp;
 			@endif
 		@endforeach
@@ -33,7 +33,7 @@
 					<td>{{ $row->title_en }}</td>
 					<td>{{ $row->title_kh }}</td>
 					@if ($module_conf['is_child'] ?? false)
-						<td>{{ $row->parent_id == 0 ? 'N/A' : $parent_list[$row->parent_id] }}</td>
+						<td>{{ $row->parent_id ? $parent_list[$row->parent_id] : 'N/A' }}</td>
 					@endif
 					<td>{{ $row->description }}</td>
 					<td class="text-center">{{ $row->status }}</td>

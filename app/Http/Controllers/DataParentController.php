@@ -16,7 +16,7 @@ class DataParentController extends Controller
      */
     public function index(Request $request)
     {
-        $type = $request->parent ?: session('data_parent_type') ?? 'blood_type';
+        $type = $request->type ?: session('data_parent_type') ?? 'blood_type';
         $this->data['type'] = $type;
         $this->data['rows'] = DataParent::where('type', $type)->where('status', 1)->get();
 
