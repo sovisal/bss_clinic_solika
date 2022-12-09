@@ -398,3 +398,59 @@ function render_synonyms_name($name_en = '', $name_kh = '')
         return $name_en ?: $name_kh ?: 'N/A';
     }
 }
+
+function d_text ($txt = null, $default = '-') {
+    return $txt ?: $default;
+}
+
+function d_link ($label = null, $link = null) {
+    return '<a href="' . $link . '">' . $label . '</a>';
+}
+
+function d_combine_obj($obj, $keys, $separator = ' :: ') {
+    return implode($separator, array_map(function ($key) use ($obj) {
+        return $obj->{$key};
+    }, $keys));
+}
+
+function d_obj ($obj = null, $param1 = null, $param2 = null, $param3 = null) {
+    $result = $obj;
+
+    if ($result && $param1) {
+        if (is_array($param1)) {
+            $result = d_combine_obj($result, $param1);
+        } else {
+            $result = $result->$param1;
+        }
+    } else {
+        return d_text($result);
+    }
+
+    if ($result && $param2) {
+        if (is_array($param2)) {
+            $result = d_combine_obj($result, $param2);
+        } else {
+            $result = $result->$param2;
+        }
+    } else {
+        return d_text($result);
+    }
+
+    if ($result && $param3) {
+        if (is_array($param3)) {
+            $result = d_combine_obj($result, $param3);
+        } else {
+            $result = $result->$param3;
+        }
+    } else {
+        return d_text($result);
+    }
+}
+
+function d_number () {
+
+}
+
+function d_money ($amn, $currency = 'USD') {
+
+}
