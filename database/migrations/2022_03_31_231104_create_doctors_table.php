@@ -23,7 +23,7 @@ class CreateDoctorsTable extends Migration
             $table->unsignedBigInteger('gender_id')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
-            $table->text('address')->nullable();
+            $table->unsignedBigInteger('address_id')->nullable();
 
             $table->unsignedBigInteger('user_id')->nullable();
             $table->tinyInteger('status')->default('0');
@@ -39,6 +39,12 @@ class CreateDoctorsTable extends Migration
             $table->foreign('gender_id')
                 ->references('id')
                 ->on('data_parents')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('address_id')
+                ->references('id')
+                ->on('address_linkables')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
         });
