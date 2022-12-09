@@ -16,7 +16,6 @@ class XrayTypeSeeder extends Seeder
     {
         DB::table('xray_types')->insert([
             [
-                'user_id' => 1,
                 'name_en' => 'XRay',
                 'name_kh' => 'XRay',
                 'index' => 1

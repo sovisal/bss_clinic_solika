@@ -21,8 +21,8 @@ class CreateDataParentsTable extends Migration
             $table->text('description')->nullable();
             $table->text('other')->nullable();
 
-            $table->unsignedBigInteger('parent_id')->default(0);
-            $table->unsignedBigInteger('user_id')->default(0);
+            $table->unsignedBigInteger('parent_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();

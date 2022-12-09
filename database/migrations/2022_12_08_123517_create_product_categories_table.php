@@ -20,7 +20,7 @@ class CreateProductCategoriesTable extends Migration
             $table->string('description')->nullable();
             $table->float('total_product')->default(0);
 
-            $table->unsignedBigInteger('user_id')->default(0);
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();

@@ -23,15 +23,15 @@ class CreateSuppliersTable extends Migration
             $table->string('contact_name')->nullable();
             $table->string('contact_number')->nullable();
             
-            $table->unsignedBigInteger('category_id')->default(0);
-            $table->unsignedBigInteger('address_id')->default(0);
-            $table->unsignedBigInteger('type_id')->default(0);
+            $table->unsignedBigInteger('category_id')->nullable();
+            $table->unsignedBigInteger('address_id')->nullable();
+            $table->unsignedBigInteger('type_id')->nullable();
 
             $table->string('other')->nullable();
             $table->string('payment_info')->nullable();
             $table->string('ap_amount')->nullable();
       
-            $table->unsignedBigInteger('user_id')->default(0);
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();

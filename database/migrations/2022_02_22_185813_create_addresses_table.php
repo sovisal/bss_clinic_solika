@@ -25,7 +25,7 @@ class CreateAddressesTable extends Migration
             $table->string('_path_kh')->nullable();
             $table->string('_path_en')->nullable();
 
-            $table->unsignedBigInteger('user_id')->default(0);
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();

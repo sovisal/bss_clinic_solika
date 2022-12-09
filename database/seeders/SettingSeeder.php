@@ -16,7 +16,6 @@ class SettingSeeder extends Seeder
 	{
 		Setting::firstOrCreate([
 			'id' => 1,
-			'user_id' => 1,
 			'clinic_name_kh' => 'មន្ទីរសម្រាកព្យាបាល ស៊ុន ពិសិដ្ឋ',
 			'clinic_name_en' => 'SUN PISETH CLINIC',
 			'sign_name_kh' => 'ស៊ុន ពិសិដ្ឋ',

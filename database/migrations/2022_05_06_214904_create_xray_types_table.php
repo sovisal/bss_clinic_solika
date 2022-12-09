@@ -25,7 +25,7 @@ class CreateXrayTypesTable extends Migration
             $table->text('default_form')->nullable();
             $table->text('other')->nullable();
 
-            $table->unsignedBigInteger('user_id')->default(0);
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();

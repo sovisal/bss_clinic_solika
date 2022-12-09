@@ -17,14 +17,14 @@ class CreateConsultationsTable extends Migration
             $table->id();
 
             $table->text('attribute')->nullable();
-            $table->unsignedBigInteger('payment_type')->default(0);
+            $table->unsignedBigInteger('payment_type')->nullable();
             $table->datetime('evaluated_at');
 
-            $table->unsignedBigInteger('patient_id')->default(0);
-            $table->unsignedBigInteger('doctor_id')->default(0);
+            $table->unsignedBigInteger('patient_id')->nullable();
+            $table->unsignedBigInteger('doctor_id')->nullable();
 
 
-            $table->unsignedBigInteger('user_id')->default(0);
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();

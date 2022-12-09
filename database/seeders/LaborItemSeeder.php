@@ -16,7 +16,6 @@ class LaborItemSeeder extends Seeder
     {
         DB::table('labor_items')->insert([
             [
-                'user_id' => 1,
                 'name_en' => 'Leucocytes',
                 'name_kh' => 'Leucocytes',
                 'min_range' => '100',
@@ -25,7 +24,6 @@ class LaborItemSeeder extends Seeder
                 'type' => 1
             ],
             [
-                'user_id' => 1,
                 'name_en' => 'Hématies',
                 'name_kh' => 'Hématies',
                 'min_range' => '10',
@@ -34,7 +32,6 @@ class LaborItemSeeder extends Seeder
                 'type' => 1
             ],
             [
-                'user_id' => 1,
                 'name_en' => 'Polynucléaire neutrophile',
                 'name_kh' => 'Polynucléaire neutrophile',
                 'min_range' => '1',

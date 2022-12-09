@@ -23,11 +23,11 @@ class CreateLaborItemsTable extends Migration
             $table->string('max_range', 10)->nullable();
             $table->string('unit', 50)->nullable();
 
-            $table->unsignedBigInteger('type')->default(0);
+            $table->unsignedBigInteger('type')->nullable();
             $table->integer('index')->default(9999);
             $table->text('other')->nullable();
 
-            $table->unsignedBigInteger('user_id')->default(0);
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();

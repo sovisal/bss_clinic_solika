@@ -27,10 +27,10 @@ class CreateProductsTable extends Migration
             $table->float('qty_out')->default(0);
             $table->float('qty_remain')->default(0);
 
-            $table->unsignedBigInteger('unit_id')->default('0');
-            $table->unsignedBigInteger('category_id')->default('0');
+            $table->unsignedBigInteger('unit_id')->nullable();
+            $table->unsignedBigInteger('category_id')->nullable();
 
-            $table->unsignedBigInteger('user_id')->default(0);
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();

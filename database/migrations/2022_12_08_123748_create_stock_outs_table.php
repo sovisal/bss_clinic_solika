@@ -19,16 +19,16 @@ class CreateStockOutsTable extends Migration
             $table->date('date')->nullable();
             $table->string('document_no')->nullable();
             
-            $table->unsignedBigInteger('stock_in_id')->default(0);
-            $table->unsignedBigInteger('type_id')->default(0);
+            $table->unsignedBigInteger('stock_in_id')->nullable();
+            $table->unsignedBigInteger('type_id')->nullable();
             
-            $table->unsignedBigInteger('product_id')->default(0);
-            $table->unsignedBigInteger('unit_id')->default(0);
+            $table->unsignedBigInteger('product_id')->nullable();
+            $table->unsignedBigInteger('unit_id')->nullable();
             
             $table->float('price')->default(0);
             $table->float('qty')->default(0);
 
-            $table->unsignedBigInteger('user_id')->default(0);
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();

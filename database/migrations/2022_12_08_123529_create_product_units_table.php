@@ -19,7 +19,7 @@ class CreateProductUnitsTable extends Migration
             $table->string('name_kh')->nullable();
             $table->string('description')->nullable();
 
-            $table->unsignedBigInteger('user_id')->default(0);
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();

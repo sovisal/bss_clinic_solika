@@ -16,7 +16,6 @@ class EcgTypeSeeder extends Seeder
     {
         DB::table('ecg_types')->insert([
             [
-                'user_id' => 1,
                 'name_en' => 'ECG',
                 'name_kh' => 'ECG',
                 'index' => 1

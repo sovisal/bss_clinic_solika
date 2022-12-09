@@ -20,14 +20,14 @@ class CreateStockInsTable extends Migration
             $table->date('exp_date')->nullalbe();
             $table->string('reciept_no')->nullalbe();
 
-            $table->unsignedBigInteger('supplier_id')->default(0);
-            $table->unsignedBigInteger('product_id')->default(0);
-            $table->unsignedBigInteger('unit_id')->default(0);
+            $table->unsignedBigInteger('supplier_id')->nullable();
+            $table->unsignedBigInteger('product_id')->nullable();
+            $table->unsignedBigInteger('unit_id')->nullable();
 
             $table->float('price')->default(0);
             $table->float('qty')->default(0);
 
-            $table->unsignedBigInteger('user_id')->default(0);
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();
