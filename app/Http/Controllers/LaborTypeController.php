@@ -57,8 +57,7 @@ class LaborTypeController extends Controller
 			'name_kh' => $request->name,
 			'name_en' => $request->name,
 			'type' => $type,
-			'created_by' => auth()->user()->id,
-			'updated_by' => auth()->user()->id
+			'user_id' => auth()->user()->id,
 		]);
 		$url = route('setting.labor-type.index', ['type' => $type]);
 		if ($request->save_opt == 'save_create') {
@@ -87,8 +86,7 @@ class LaborTypeController extends Controller
 		$laborType->update([
 			'name_kh' => $request->name,
 			'name_en' => $request->name,
-			'created_by' => auth()->user()->id,
-			'updated_by' => auth()->user()->id,
+			'user_id' => auth()->user()->id,
 		]);
 		return redirect(route('setting.labor-type.index', ['type' => request()->type]))->with('success', __('alert.message.success.crud.update'));
 	}

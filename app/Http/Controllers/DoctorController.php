@@ -17,7 +17,7 @@ class DoctorController extends Controller
 				'doctors.*',
 				'updatedBy.name AS updated_by_name',
 			])
-				->join('users AS updatedBy', 'updatedBy.id', '=', 'doctors.updated_by')
+				->join('users AS updatedBy', 'updatedBy.id', '=', 'doctors.user_id')
 				->orderBy('name_kh', 'asc')->get()
 		];
 		return view('doctor.index', $data);
@@ -47,8 +47,7 @@ class DoctorController extends Controller
 			'email' => $request->email,
 			'phone' => $request->phone,
 			'address' => $request->address,
-			'created_by' => auth()->user()->id,
-			'updated_by' => auth()->user()->id,
+			'user_id' => auth()->user()->id,
 		]);
 		$url = route('setting.doctor.index');
 		if ($request->save_opt == 'save_create') {
@@ -92,7 +91,7 @@ class DoctorController extends Controller
 			'email' => $request->email,
 			'phone' => $request->phone,
 			'address' => $request->address,
-			'updated_by' => auth()->user()->id,
+			'user_id' => auth()->user()->id,
 		]);
 		return back()->with('success', __('alert.message.success.crud.update'));
 	}

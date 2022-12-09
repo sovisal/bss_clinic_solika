@@ -21,7 +21,7 @@ class MedicineController extends Controller
 										'Usage.title_kh AS usage_name_kh',
 										'Usage.title_en AS usage_name_en',
 									])
-									->join('users AS updatedBy', 'updatedBy.id', '=' ,'medicines.updated_by')
+									->join('users AS updatedBy', 'updatedBy.id', '=' ,'medicines.user_id')
 									->join('data_parents AS Usage', 'Usage.id', '=' ,'medicines.usage_id')
 									->orderBy('name', 'asc')->get(),
 		];
@@ -49,8 +49,7 @@ class MedicineController extends Controller
 			'price' => $request->price,
 			'usage_id' => $request->usage_id,
 			'description' => $request->description,
-			'created_by' => auth()->user()->id,
-			'updated_by' => auth()->user()->id,
+			'user_id' => auth()->user()->id,
 		]);
 
 		if ($request->ajax()) {
@@ -88,7 +87,7 @@ class MedicineController extends Controller
 			'price' => $request->price,
 			'usage_id' => $request->usage_id,
 			'description' => $request->description,
-			'updated_by' => auth()->user()->id,
+			'user_id' => auth()->user()->id,
 		]);
 		return back()->with('success', __('alert.message.success.crud.update'));
 	}
