@@ -16,7 +16,7 @@ class EcgTypeController extends Controller
      */
     public function index()
     {
-        $this->data['rows'] = EcgType::where('status', 1)
+        $this->data['rows'] = EcgType::with('user')->where('status', 1)
         ->orderBy('index', 'asc')
         ->get();
         return view('ecg_type.index', $this->data);

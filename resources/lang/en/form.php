@@ -28,8 +28,7 @@ return [
 	'none' => 'None',
 	'active' => 'Active',
 	'inactive' => 'Inactive',
-	'created_by' => 'Created By',
-	'updated_by' => 'Updated By',
+	'user_id' => 'Created By',
 
 	'echography' => [
 		'hr_heart_rate' => 'HR ចង្វាក់បេះដូង',

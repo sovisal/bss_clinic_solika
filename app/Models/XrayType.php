@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class XrayType extends Model
+class XrayType extends BaseModel
 {
-    use HasFactory;
-    protected $fillable = [
-		'name_en', 'name_kh', 'default_form', 'attribite', 'price',
-        'status', 'index', 'other'
-	];
+  use HasFactory;
+  protected $fillable = [
+    'name_en', 'name_kh', 'default_form', 'attribite', 'price',
+    'status', 'index', 'other'
+  ];
 }

@@ -15,10 +15,14 @@ class CreateProductTypesTable extends Migration
     {
         Schema::create('product_types', function (Blueprint $table) {
             $table->id();
-            /* 
-             * id, name_en, name_kh, description, nb_product, 
-             * user_id, status, softDelete
-             */
+            $table->string('name_en')->nullable();
+            $table->string('name_kh')->nullable();
+            $table->string('description')->nullable();
+            $table->float('total_product')->default(0);
+
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->tinyInteger('status')->default('0');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

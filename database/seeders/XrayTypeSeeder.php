@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use DB;
 
 class XrayTypeSeeder extends Seeder
 {
@@ -13,6 +14,13 @@ class XrayTypeSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('xray_types')->insert([
+            [
+                'name_en' => 'XRay',
+                'name_kh' => 'XRay',
+                'index' => 1,
+                'status' => 1,
+            ]
+        ]);
     }
 }

@@ -15,10 +15,13 @@ class CreateProductUnitsTable extends Migration
     {
         Schema::create('product_units', function (Blueprint $table) {
             $table->id();
-            /* 
-             * id, name_en, name_kh, description,
-             * user_id, status, softDelete
-             */
+            $table->string('name_en')->nullable();
+            $table->string('name_kh')->nullable();
+            $table->string('description')->nullable();
+
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->tinyInteger('status')->default('0');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

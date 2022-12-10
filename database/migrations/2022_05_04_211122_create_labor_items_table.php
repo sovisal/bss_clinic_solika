@@ -23,11 +23,11 @@ class CreateLaborItemsTable extends Migration
             $table->string('max_range', 10)->nullable();
             $table->string('unit', 50)->nullable();
 
-            $table->unsignedBigInteger('type')->default(0);
+            $table->unsignedBigInteger('type')->nullable();
             $table->integer('index')->default(9999);
             $table->text('other')->nullable();
 
-            $table->unsignedBigInteger('user_id')->default(0);
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();
@@ -44,34 +44,6 @@ class CreateLaborItemsTable extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
         });
-
-        // Insert some stuff
-        // DB::table('labor_items')->insert([
-        //     [
-        //         'name_en' => 'Leucocytes',
-        //         'name_kh' => 'Leucocytes',
-        //         'min_range' => '100',
-        //         'max_range' => '200',
-        //         'unit' => '10<sup>3</sup>3/uL',
-        //         'type' => 1
-        //     ],
-        //     [
-        //         'name_en' => 'Hématies',
-        //         'name_kh' => 'Hématies',
-        //         'min_range' => '10',
-        //         'max_range' => '20',
-        //         'unit' => '10<sup>6</sup>6/uL',
-        //         'type' => 1
-        //     ],
-        //     [
-        //         'name_en' => 'Polynucléaire neutrophile',
-        //         'name_kh' => 'Polynucléaire neutrophile',
-        //         'min_range' => '1',
-        //         'max_range' => '100',
-        //         'unit' => '%',
-        //         'type' => 2
-        //     ],
-        // ]);
     }
 
     /**

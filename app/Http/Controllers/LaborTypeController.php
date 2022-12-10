@@ -13,11 +13,11 @@ class LaborTypeController extends Controller
 	 */
 	public function index()
 	{
-		$laborTypes = LaborType::where('labor_types.status', 1)
+		$laborTypes = LaborType::with('user')->where('labor_types.status', 1)
 			->when(request()->type, function($q){
 				$q->where('labor_types.id', request()->type)
 				->select(['labor_types.*','labor_parents.name_en as type_name'])
-				->leftJoin('labor_types as labor_parents', 'labor_parents.id', '=' ,'labor_types.type');
+				->leftJoin('labor_types as labor_parents', 'labor_parents.id', '=' ,'labor_types.parent_id');
 			})
 			->with([
 				'items' => function($query){
@@ -33,7 +33,7 @@ class LaborTypeController extends Controller
 			
 		$data['LaborLevel'][] = request()->old ? LaborType::find(request()->old) : null;
 		$data['LaborLevel'][] = $laborTypes->where('id', request()->type)->first();
-		$data['rows'] = ((count($laborTypes) == 1)? $laborTypes->first()->types : $laborTypes->whereNull('type'));
+		$data['rows'] = ((count($laborTypes) == 1)? $laborTypes->first()->types : $laborTypes->whereNull('parent_id'));
 		$data['item_rows'] = ((request()->type && $laborTypes->first())? $laborTypes->first()->items : []);
 		return view('labor_type.index', $data);
 	}
@@ -57,8 +57,7 @@ class LaborTypeController extends Controller
 			'name_kh' => $request->name,
 			'name_en' => $request->name,
 			'type' => $type,
-			'created_by' => auth()->user()->id,
-			'updated_by' => auth()->user()->id
+			'user_id' => auth()->user()->id,
 		]);
 		$url = route('setting.labor-type.index', ['type' => $type]);
 		if ($request->save_opt == 'save_create') {
@@ -87,8 +86,7 @@ class LaborTypeController extends Controller
 		$laborType->update([
 			'name_kh' => $request->name,
 			'name_en' => $request->name,
-			'created_by' => auth()->user()->id,
-			'updated_by' => auth()->user()->id,
+			'user_id' => auth()->user()->id,
 		]);
 		return redirect(route('setting.labor-type.index', ['type' => request()->type]))->with('success', __('alert.message.success.crud.update'));
 	}

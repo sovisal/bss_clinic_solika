@@ -15,11 +15,25 @@ class CreateSuppliersTable extends Migration
     {
         Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
-            /* 
-             * id, name_en, name_kh, description, logo, address_id, contact_name, contact_number, type_id, category_id, other, 
-             * payment_info, ap_amount
-             * user_id, status, softDelete
-             */
+            $table->string('name_en')->nullable();
+            $table->string('name_kh')->nullable();
+            $table->string('description')->nullable();
+            $table->string('logo')->nullable();
+            
+            $table->string('contact_name')->nullable();
+            $table->string('contact_number')->nullable();
+            
+            $table->unsignedBigInteger('category_id')->nullable();
+            $table->unsignedBigInteger('address_id')->nullable();
+            $table->unsignedBigInteger('type_id')->nullable();
+
+            $table->string('other')->nullable();
+            $table->string('payment_info')->nullable();
+            $table->string('ap_amount')->nullable();
+      
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->tinyInteger('status')->default('0');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -62,8 +62,7 @@ class ConsultationController extends Controller
 				'evaluated_at' => $request->evaluated_at,
 				'attribute' => $attribute,
 				'status' => $request->submit_option,
-				'created_by' => auth()->user()->id,
-				'updated_by' => auth()->user()->id,
+				'user_id' => auth()->user()->id,
 			]);
 		}
 		return redirect()->route('patient.show', $request->patient_id)->with('success', __('alert.message.success.crud.create'));
@@ -113,7 +112,7 @@ class ConsultationController extends Controller
 				'evaluated_at' => $request->evaluated_at,
 				'attribute' => $attribute,
 				'status' => $request->submit_option,
-				'updated_by' => auth()->user()->id,
+				'user_id' => auth()->user()->id,
 			]);
 		}
 		return redirect()->route('patient.index')->with('success', __('alert.message.success.crud.update'));

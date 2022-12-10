@@ -55,6 +55,8 @@
 						<th>Type</th>
 						@endif
 						<th>Index</th>
+						<th>User</th>
+						<th>Status</th>
 						<th width="15%">Action</th>
 					</tr>
 				</x-slot>
@@ -64,11 +66,13 @@
 				@foreach($rows as $row)
 				<tr>
 					<td class="text-center">{{ ++$i }}</td>
-					<td>{{ $row->name_en }}</td>
+					<td>{{ d_text($row->name_en) }}</td>
 					@if (request()->type)
-					<th>{{ $row->type_name }}</th>
+					<th>{{ d_text($row->type_name) }}</th>
 					@endif
 					<td class="text-center">{{ $row->index }}</td>
+					<td class="text-center">{{ d_obj($row, 'user', 'name') }}</td>
+					<td class="text-center">{{ $row->status }}</td>
 					<td class="text-center">
 						<x-form.button class="btn-sm" href="{!! route('setting.labor-type.index', ['type' => $row->id, 'old' => request()->type]) !!}" icon="bx bx-detail" />
 						<x-form.button color="secondary" class="btn-sm" href="{!! route('setting.labor-type.edit', ['laborType' => $row->id, 'type' => request()->type]) !!}" icon="bx bx-edit-alt" />

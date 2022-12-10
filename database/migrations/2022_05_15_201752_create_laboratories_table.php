@@ -16,20 +16,20 @@ class CreateLaboratoriesTable extends Migration
         Schema::create('laboratories', function (Blueprint $table) {
             $table->id();
             $table->string('code', 50)->nullable();
-            $table->unsignedBigInteger('patient_id')->default(0);
-            $table->unsignedBigInteger('address_id')->default(0);
+            $table->unsignedBigInteger('patient_id')->nullable();
+            $table->unsignedBigInteger('address_id')->nullable();
 
             $table->datetime('requested_at')->nullable();
-            $table->unsignedBigInteger('requested_by')->default(0);
+            $table->unsignedBigInteger('requested_by')->nullable();
 
             $table->datetime('analysis_at')->nullable();
-            $table->unsignedBigInteger('doctor_id')->default(0);
+            $table->unsignedBigInteger('doctor_id')->nullable();
 
             $table->string('amount', 10)->default('0');
             $table->string('exchange_rate', 10)->default('0');
             $table->string('total', 10)->default('0');
-            $table->unsignedBigInteger('payment_type')->default(0);
-            $table->unsignedBigInteger('payment_status')->default(0);
+            $table->unsignedBigInteger('payment_type')->nullable();
+            $table->unsignedBigInteger('payment_status')->nullable();
 
             $table->text('result')->nullable();
             $table->string('sample')->nullable();
@@ -38,7 +38,7 @@ class CreateLaboratoriesTable extends Migration
             $table->text('attribute')->nullable();
             $table->text('other')->nullable();
 
-            $table->unsignedBigInteger('user_id')->default(0);
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();

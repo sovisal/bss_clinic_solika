@@ -19,7 +19,7 @@ class CreatePatientsTable extends Migration
             $table->string('name_kh')->nullable();
             $table->string('name_en')->nullable();
             $table->string('id_card_no')->nullable();
-            $table->unsignedBigInteger('gender')->default(0);
+            $table->unsignedBigInteger('gender')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
 
@@ -40,10 +40,10 @@ class CreatePatientsTable extends Migration
             $table->string('street_no')->nullable();
             $table->string('zip_code')->nullable();
 
-            $table->unsignedBigInteger('address_id')->default(0);
+            $table->unsignedBigInteger('address_id')->nullable();
             $table->datetime('registered_at')->nullable();
 
-            $table->unsignedBigInteger('user_id')->default(0);
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();

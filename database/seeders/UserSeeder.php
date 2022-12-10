@@ -15,6 +15,7 @@ class UserSeeder extends Seeder
 	public function run()
 	{
 		User::firstOrCreate([
+			'id' => 1,
 			'name' => 'Web Developer',
 			'username' => 'webdev',
 			'image' => 'default.png',
@@ -23,6 +24,7 @@ class UserSeeder extends Seeder
 			'isWebDev' => true,
 		]);
 		User::firstOrCreate([
+			'id' => 2,
 			'name' => 'SUN PISETH',
 			'username' => 'sunpiseth',
 			'image' => 'default.png',

@@ -17,10 +17,16 @@ class DatabaseSeeder extends Seeder
             AbilitySeeder::class,
             RoleSeeder::class,
             UserSeeder::class,
-        //     SettingSeeder::class,
-        //     DoctorSeeder::class,
-        //     MedicineSeeder::class,
-        //     PatientSeeder::class,
+            DataParentSeeder::class,
+            LaborTypeSeeder::class,
+            LaborItemSeeder::class,
+            EchoTypeSeeder::class,
+            XrayTypeSeeder::class,
+            EcgTypeSeeder::class,
+            SettingSeeder::class,
+            DoctorSeeder::class,
+            MedicineSeeder::class,
+            PatientSeeder::class,
         ]);
         \App\Models\User::factory(10)->create();
     }

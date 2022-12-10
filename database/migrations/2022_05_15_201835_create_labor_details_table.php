@@ -15,11 +15,11 @@ class CreateLaborDetailsTable extends Migration
     {
         Schema::create('labor_details', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('labor_id')->default(0);
-            $table->unsignedBigInteger('labor_item_id')->default(0);
+            $table->unsignedBigInteger('labor_id')->nullable();
+            $table->unsignedBigInteger('labor_item_id')->nullable();
             $table->string('value', 10)->default('0');
 
-            $table->unsignedBigInteger('user_id')->default(0);
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();

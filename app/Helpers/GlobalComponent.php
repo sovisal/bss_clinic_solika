@@ -211,8 +211,7 @@ class GlobalComponent extends Controller
 					'gender' => (($request->pt_gender == 'ប្រុស' || strtolower(trim($request->pt_gender)) == 'male') ? '1' : '2'),
 					'phone' => $request->pt_phone ?? '',
 					'address_code' => $request->pt_village_id,
-					'created_by' => auth()->user()->id,
-					'updated_by' => auth()->user()->id,
+					'user_id' => auth()->user()->id,
 				]);
 				$patient_id = $created_patient->id;
 			}

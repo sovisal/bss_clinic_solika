@@ -16,7 +16,7 @@ class EchoTypeController extends Controller
      */
     public function index()
     {
-        $this->data['rows'] = EchoType::where('status', 1)
+        $this->data['rows'] = EchoType::with(['user'])->where('status', 1)
                                 ->orderBy('index', 'asc')
                                 ->get();
         return view('echo_type.index', $this->data);

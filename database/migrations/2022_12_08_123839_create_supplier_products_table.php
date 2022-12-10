@@ -15,10 +15,12 @@ class CreateSupplierProductsTable extends Migration
     {
         Schema::create('supplier_products', function (Blueprint $table) {
             $table->id();
-            /* 
-             * id, supplier_id, product_id
-             * user_id, status, softDelete
-             */
+            $table->unsignedBigInteger('supplier_id')->nullable();
+            $table->unsignedBigInteger('product_id')->nullable();
+
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->tinyInteger('status')->default('0');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

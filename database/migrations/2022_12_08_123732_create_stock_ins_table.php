@@ -15,10 +15,21 @@ class CreateStockInsTable extends Migration
     {
         Schema::create('stock_ins', function (Blueprint $table) {
             $table->id();
-            /* 
-             * id, supplier_id, product_id, unit, price, qty, date, reciept_no, exp_date, 
-             * user_id, status, softDelete
-             */
+
+            $table->date('date')->nullalbe();
+            $table->date('exp_date')->nullalbe();
+            $table->string('reciept_no')->nullalbe();
+
+            $table->unsignedBigInteger('supplier_id')->nullable();
+            $table->unsignedBigInteger('product_id')->nullable();
+            $table->unsignedBigInteger('unit_id')->nullable();
+
+            $table->float('price')->default(0);
+            $table->float('qty')->default(0);
+
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->tinyInteger('status')->default('0');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

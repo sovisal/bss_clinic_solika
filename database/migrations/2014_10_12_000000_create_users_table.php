@@ -24,8 +24,8 @@ class CreateUsersTable extends Migration
 			$table->string('position')->nullable();
 			$table->string('phone')->nullable();
 			$table->string('address')->nullable();
-			$table->unsignedBigInteger('doctor_id')->default(0);
-			$table->unsignedBigInteger('gender_id')->default(0);
+			$table->unsignedBigInteger('doctor_id')->nullable();
+			$table->unsignedBigInteger('gender_id')->nullable();
 			$table->text('bio')->nullable();
 			$table->boolean('isWebDev')->default(false);
 			$table->boolean('is_suspended')->default(false);

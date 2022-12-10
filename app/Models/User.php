@@ -30,7 +30,7 @@ class User extends Authenticatable
 		'image',
 		'is_suspended',
 		'password',
-		'doctor',
+		'doctor_id',
 	];
 
 	/**
@@ -148,6 +148,6 @@ class User extends Authenticatable
 	}
 
 	public function doctor() {
-		return $this->belongsTo(Doctor::class, 'doctor')->first();
+		return $this->hasOne(Doctor::class, 'id', 'doctor_id');
 	}
 }

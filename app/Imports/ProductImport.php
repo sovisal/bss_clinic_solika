@@ -50,8 +50,7 @@ class ProductImport implements ToModel, WithHeadingRow, WithValidation
 							'tracking_stock' => ($row['tracking_stock']=='Yes'? true : false ),
 							'popular' => ($row['popular']=='Yes'? true : false ),
 							'description' => $row['description'],
-							'created_by' => auth()->user()->id,
-							'updated_by' => auth()->user()->id,
+							'user_id' => auth()->user()->id,
 						]);
 	}
 }

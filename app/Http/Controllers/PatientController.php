@@ -22,7 +22,7 @@ class PatientController extends Controller
 				'patients.*',
 				'updatedBy.name AS updated_by_name',
 			])
-				->join('users AS updatedBy', 'updatedBy.id', '=', 'patients.updated_by')
+				->join('users AS updatedBy', 'updatedBy.id', '=', 'patients.user_id')
 				->orderBy('id', 'desc')->get()
 		];
 		return view('patient.index', $data);
@@ -75,8 +75,7 @@ class PatientController extends Controller
 			'zip_code' => $request->zip_code,
 			'address_id' => $address_id,
 			'registered_at' => $request->registered_at,
-			'created_by' => auth()->user()->id,
-			'updated_by' => auth()->user()->id,
+			'user_id' => auth()->user()->id,
 		]);
 
 		if ($patient) {
@@ -87,8 +86,7 @@ class PatientController extends Controller
 				'evaluated_at' => now(),
 				'attribute' => '',
 				'status' => '1',
-				'created_by' => auth()->user()->id,
-				'updated_by' => auth()->user()->id,
+				'user_id' => auth()->user()->id,
 			]);
 		}
 
@@ -259,7 +257,7 @@ class PatientController extends Controller
 			'zip_code' => $request->zip_code,
 			'address_id' => $address_id,
 			'registered_at' => $request->registered_at,
-			'updated_by' => auth()->user()->id,
+			'user_id' => auth()->user()->id,
 		]);
 
 		if ($patient->address_id) {
