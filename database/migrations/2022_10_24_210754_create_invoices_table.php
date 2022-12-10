@@ -21,7 +21,6 @@ class CreateInvoicesTable extends Migration
             $table->unsignedBigInteger('address_id')->default(0);
 
             $table->unsignedBigInteger('doctor_id')->default(0);
-            $table->unsignedBigInteger('address_id')->default(0);
 
             $table->string('amount', 10)->default('0');
             $table->string('exchange_rate', 10)->default('0');
@@ -63,12 +62,6 @@ class CreateInvoicesTable extends Migration
             $table->foreign('payment_status')
                 ->references('id')
                 ->on('data_parents')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-
-            $table->foreign('address_id')
-                ->references('id')
-                ->on('address_linkables')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
