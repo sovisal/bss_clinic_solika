@@ -128,6 +128,7 @@ return [
 		'position' => 'Position',
 		'password' => 'Password',
 		'ability' => 'Ability',
+		'doctor' => 'Doctor',
 		'change_profile_pricture' => 'Change Profile Picture',
 		'current_password' => 'Current-Password',
 		'new_password' => 'New-Password',

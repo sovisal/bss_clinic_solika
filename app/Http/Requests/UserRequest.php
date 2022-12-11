@@ -27,10 +27,11 @@ class UserRequest extends FormRequest
 	{
 		return [
 			'name' => 'required|string|min:2|max:255',
+			'gender_id' => 'required|max:255',
 			'phone' => 'nullable|numeric|digits_between:9,12',
 			'position' => 'nullable|max:255',
 			'address' => 'nullable|max:255',
-			'username' => 'required|string|min:3|max:255|unique:users',
+			'username' => ['required', 'string', 'min:3', 'max:255', Rule::unique('users')->ignore($this->user)],
 			'password' => ['required', 'confirmed', Password::defaults()],
 		];
 	}

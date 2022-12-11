@@ -7,42 +7,42 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateUsersTable extends Migration
 {
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::create('users', function (Blueprint $table) {
-			$table->id();
-			$table->string('name')->nullable();
-			$table->string('username')->unique();
-			$table->string('password');
-			$table->string('color')->nullable();
-			$table->string('image')->nullable();
-			$table->string('position')->nullable();
-			$table->string('phone')->nullable();
-			$table->string('address')->nullable();
-			$table->unsignedBigInteger('doctor_id')->nullable();
-			$table->unsignedBigInteger('gender_id')->nullable();
-			$table->text('bio')->nullable();
-			$table->boolean('isWebDev')->default(false);
-			$table->boolean('is_suspended')->default(false);
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->nullable();
+            $table->string('username')->unique();
+            $table->string('password');
+            $table->string('color')->nullable();
+            $table->string('image')->nullable();
+            $table->string('position')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
+            $table->unsignedBigInteger('doctor_id')->nullable();
+            $table->unsignedBigInteger('gender_id')->nullable();
+            $table->text('bio')->nullable();
+            $table->boolean('isWebDev')->default(false);
+            $table->boolean('is_suspended')->default(false);
             $table->rememberToken();
             $table->softDeletes();
-			$table->timestamps();
-		});
-		
-	}
+            $table->timestamps();
+        });
+        
+    }
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::dropIfExists('users');
-	}
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('users');
+    }
 }

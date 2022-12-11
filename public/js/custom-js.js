@@ -4,6 +4,7 @@ pace.start();
 $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
 // Start setup CSRF for ajax
 
+
 // document.addEventListener('contextmenu', event => event.preventDefault());
 
 const swalWithBootstrapButtons = Swal.mixin({
@@ -202,6 +203,8 @@ function flashMsg(type='success', title, text) {
 
 
 $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip({ container: "body" }),
+
 	// Start Initial Daterangepicker
 		$(".daterange-picker").daterangepicker({
 			ranges: {

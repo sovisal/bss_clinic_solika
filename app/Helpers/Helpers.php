@@ -1,7 +1,6 @@
 <?php
 
-use App\Models\Setting;
-use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Models\Address_linkable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
@@ -179,38 +178,38 @@ function getParaClinicHeaderDetail($row = null)
     $status_html = (($row->status == 2) ? '<span class="badge badge-primary">Completed</span>' : '<span class="badge badge-light">Incompleted</span>');
     $status_html .= (($row->payment_status == 2) ? '<span class="badge badge-success tw-ml-1">Paid</span>' : '<span class="badge badge-light tw-ml-1">Unpaid</span>');
     return '<table class="table-form table-header-info">
-				<thead>
-					<tr>
-						<th colspan="4" class="text-left tw-bg-gray-100">Patient <span class="tw-pl-2 detail-status">' . $status_html . '</span></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td width="20%" class="text-right tw-bg-gray-100">Form</td>
-						<td class="type">' . render_synonyms_name($row->type_en, $row->type_kh) . '</td>
-						<td width="20%" class="text-right tw-bg-gray-100">Code</td>
-						<td class="code">' . $row->code . '</td>
-					</tr>
-					<tr>
-						<td class="text-right tw-bg-gray-100">Name</td>
-						<td class="name">' . render_synonyms_name($row->patient_en, $row->patient_kh) . '</td>
-						<td class="text-right tw-bg-gray-100">Requested date</td>
-						<td class="requested_date">' . date('d/m/Y H:i', strtotime($row->requested_at)) . '</td>
-					</tr>
-					<tr>
-						<td class="text-right tw-bg-gray-100">Requested by</td>
-						<td class="reqeusted_by">' . render_synonyms_name($row->requested_en, $row->requested_kh) . '</td>
-						<td class="text-right tw-bg-gray-100">Physician</td>
-						<td class="physician">' . render_synonyms_name($row->physician_en, $row->physician_kh) . '</td>
-					</tr>
-					<tr>
-						<td class="text-right tw-bg-gray-100">Payment type</td>
-						<td class="payment_type">' . render_synonyms_name($row->payment_type_en, $row->payment_type_kh) . '</td>
-						<td class="text-right tw-bg-gray-100">Amount</td>
-						<td class="amount">' . $row->amount . ' USD</td>
-					</tr>
-				</tbody>
-			</table>';
+                <thead>
+                    <tr>
+                        <th colspan="4" class="text-left tw-bg-gray-100">Patient <span class="tw-pl-2 detail-status">' . $status_html . '</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td width="20%" class="text-right tw-bg-gray-100">Form</td>
+                        <td class="type">' . render_synonyms_name($row->type_en, $row->type_kh) . '</td>
+                        <td width="20%" class="text-right tw-bg-gray-100">Code</td>
+                        <td class="code">' . $row->code . '</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right tw-bg-gray-100">Name</td>
+                        <td class="name">' . render_synonyms_name($row->patient_en, $row->patient_kh) . '</td>
+                        <td class="text-right tw-bg-gray-100">Requested date</td>
+                        <td class="requested_date">' . date('d/m/Y H:i', strtotime($row->requested_at)) . '</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right tw-bg-gray-100">Requested by</td>
+                        <td class="reqeusted_by">' . render_synonyms_name($row->requested_en, $row->requested_kh) . '</td>
+                        <td class="text-right tw-bg-gray-100">Physician</td>
+                        <td class="physician">' . render_synonyms_name($row->physician_en, $row->physician_kh) . '</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right tw-bg-gray-100">Payment type</td>
+                        <td class="payment_type">' . render_synonyms_name($row->payment_type_en, $row->payment_type_kh) . '</td>
+                        <td class="text-right tw-bg-gray-100">Amount</td>
+                        <td class="amount">' . $row->amount . ' USD</td>
+                    </tr>
+                </tbody>
+            </table>';
 }
 
 // How to use in view : {{ getParentDataByType('enterprise', 1) }}
@@ -464,4 +463,13 @@ function d_number()
 
 function d_money($amn, $currency = 'USD')
 {
+}
+
+function d_status($status)
+{
+    if ($status) {
+        return '<span class="badge badge-danger">'. __('table.inactive') .'</span>';
+    }
+
+    return '<span class="badge badge-success">'. __('table.active') .'</span>';
 }

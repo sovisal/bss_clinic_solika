@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Doctor;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\AbilityModule;
 use App\Http\Requests\UserRequest;
-use App\Models\Doctor;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -23,8 +24,9 @@ class UserController extends Controller
     public function index()
     {
         $data = [
-            'users' => User::where('isWebDev', false)->with(['hasRoles', 'doctor'])->orderBy('name', 'asc')->get(),
+            'users' => User::where('isWebDev', false)->when(auth()->user()->isWebDev, fn($q) => $q->withTrashed())->with(['hasRoles', 'doctor'])->orderBy('name', 'asc')->get(),
         ];
+
         return view('user.index', $data);
     }
 
@@ -34,25 +36,8 @@ class UserController extends Controller
     public function create()
     {
         $data = [
-            'positions' => [
-                '' => __('form.please_select'),
-                'Author' => 'Author',
-            ],
-            'gender' => [
-                [
-                    'id' => 'male',
-                    'value' => '0',
-                    'checked' => true,
-                    'label' => __('form.male')
-                ],
-                [
-                    'id' => 'female',
-                    'value' => '1',
-                    'checked' => false,
-                    'label' => __('form.female')
-                ],
-            ],
-            'doctor' => Doctor::orderBy('name_en', 'asc')->get(),
+            'genders' => getParentDataSelection('gender'),
+            'doctors' => Doctor::orderBy('name_en', 'asc')->get(),
         ];
         return view('user.create', $data);
     }
@@ -67,11 +52,11 @@ class UserController extends Controller
             'username' => $request->username,
             'password' => Hash::make($request->password),
             'phone' => $request->phone,
-            'gender' => $request->gender,
+            'gender_id' => $request->gender_id,
             'position' => $request->position,
             'address' => $request->address,
             'bio' => $request->bio,
-            'doctor' => $request->doctor_id ?: 0,
+            'doctor_id' => $request->doctor_id ?: 0,
             'color' => bg_random()
         ]);
         $url = route('user.index');
@@ -90,19 +75,8 @@ class UserController extends Controller
     {
         $data = [
             'user' => $user,
-            'gender' => [
-                [
-                    'id' => 'male',
-                    'value' => '0',
-                    'label' => __('form.male')
-                ],
-                [
-                    'id' => 'female',
-                    'value' => '1',
-                    'label' => __('form.female')
-                ],
-            ],
-            'doctor' => Doctor::orderBy('name_en', 'asc')->get(),
+            'genders' => getParentDataSelection('gender'),
+            'doctors' => Doctor::orderBy('name_en', 'asc')->get(),
         ];
         return view('user.edit', $data);
     }
@@ -115,12 +89,12 @@ class UserController extends Controller
         $user->update([
             'name' => $request->name,
             'phone' => $request->phone,
-            'gender' => $request->gender,
+            'gender_id' => $request->gender_id,
             'position' => $request->position,
             'is_suspended' => ($request->is_suspended == 'on' ? true : false),
             'address' => $request->address,
             'bio' => $request->bio,
-            'doctor' => $request->doctor_id ?:  auth()->user()->doctor ?? 0
+            'doctor_id' => $request->doctor_id ?:  auth()->user()->doctor ?? 0
         ]);
         return back()->with('success', __('alert.message.success.crud.update'));
     }
@@ -180,23 +154,10 @@ class UserController extends Controller
         return back()->with('success', __('alert.message.success.crud.update'));
     }
 
-
     public function password(User $user)
     {
         $data = [
             'user' => $user,
-            'gender' => [
-                [
-                    'id' => 'male',
-                    'value' => '0',
-                    'label' => __('form.male')
-                ],
-                [
-                    'id' => 'female',
-                    'value' => '1',
-                    'label' => __('form.female')
-                ],
-            ]
         ];
         return view('user.password', $data);
     }
@@ -221,7 +182,6 @@ class UserController extends Controller
         return back()->with('success', __('alert.message.success.crud.update'));
     }
 
-
     public function account($type)
     {
         $ability_modules = [];
@@ -235,7 +195,7 @@ class UserController extends Controller
         }
         $data = [
             'type' => $type,
-            'gender' => [
+            'gender_id' => [
                 [
                     'id' => 'male',
                     'value' => '0',
@@ -251,7 +211,6 @@ class UserController extends Controller
         ];
         return view('user.account', $data);
     }
-
 
     public function update_account(Request $request, $type)
     {
@@ -294,11 +253,11 @@ class UserController extends Controller
                     'image' => $profileImage
                 ]);
 
-
                 return response()->json([
                     'success' => true
                 ]);
             } else {
+
                 return response()->json([
                     'success' => false,
                     'message' => __('validation.required', ['attribute' => 'image'])
@@ -309,7 +268,7 @@ class UserController extends Controller
                 'name' => $request->name,
                 'phone' => $request->phone,
                 'position' => $request->position,
-                'gender' => $request->gender,
+                'gender_id' => $request->gender_id,
                 'address' => $request->address,
                 'bio' => $request->bio
             ]);
@@ -322,9 +281,27 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        $user->update([
+            'username' => Str::of($user->username)->append(' deleted_'),
+        ]);
         if ($user->delete()) {
             return back()->with('success', __('alert.message.success.crud.delete'));
         }
         return back()->with('error', __('alert.message.error.crud.delete'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function restore($id)
+    {
+        $user = User::onlyTrashed()->findOrFail($id);
+        if ($user->update([
+            'username' => Str::replace('deleted_', '', $user->username),
+            'deleted_at' => null
+        ])) {
+            return back()->with('success', __('alert.message.success.crud.restore'));
+        }
+        return back()->with('error', __('alert.message.error.crud.restore'));
     }
 }

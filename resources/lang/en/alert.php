@@ -49,6 +49,7 @@ return [
 				'create' => 'Data has been created successfully.',
 				'update' => 'Data has been updated successfully.',
 				'delete' => 'Data has been deleted successfully.',
+				'restore' => 'Data has been restored successfully.',
 				'import' => 'Data has been Imported successfully.',
 			],
 			'backup' => 'Database has been Backup successfully.',
