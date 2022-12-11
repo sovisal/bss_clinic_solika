@@ -63,6 +63,11 @@ class BaseModel extends Model
 
     public function user()
     {
-        return $this->hasOne(User::class, 'id', 'user_id');
+        return $this->belongsTo(User::class);
+    }
+
+    public function address()
+    {
+        return $this->belongsTo(Address_linkable::class);
     }
 }

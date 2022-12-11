@@ -465,3 +465,16 @@ function d_number()
 function d_money($amn, $currency = 'USD')
 {
 }
+
+function d_status($status = 0)
+{
+    if ($status == '0') {
+        return 'Disabled';
+    } elseif ($status == '1') {
+        return 'Active';
+    } elseif ($status == '2') {
+        return 'Pending';
+    } elseif ($status == '3') {
+        return 'Closed';
+    }
+}

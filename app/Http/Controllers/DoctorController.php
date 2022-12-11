@@ -13,7 +13,7 @@ class DoctorController extends Controller
     public function index()
     {
         $data = [
-            'doctors' => Doctor::with(['user'])->orderBy('name_kh', 'asc')->get()
+            'doctors' => Doctor::with(['user', 'address'])->orderBy('name_kh', 'asc')->get()
         ];
         return view('doctor.index', $data);
     }
