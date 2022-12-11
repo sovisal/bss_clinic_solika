@@ -28,10 +28,10 @@
                 <td>{!! d_text($user->position) !!}</td>
                 <td>{!! d_obj($user, 'doctor', ['name_kh', 'name_en']) !!} </td>
                 <td>
-                    {!! d_status($user->is_suspended) !!}
+                    {!! d_status(!$user->is_suspended) !!}
                 </td>
                 <td>
-                    <x-table-action-btn :isTrashed="$user->trashed()" :id="$user->id" module="user">
+                    <x-table-action-btn module="user" :id="$user->id" :is-trashed="$user->trashed()" :show-btn-show="false">
                         @can('UpdateUserPassword')
                             <x-form.button
                                 class="btn-sm"
