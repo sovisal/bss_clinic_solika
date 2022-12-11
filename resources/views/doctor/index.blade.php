@@ -28,7 +28,7 @@
                 <td>{{ d_text($doctor->email) }}</td>
                 <td>{{ d_obj($doctor, 'address', ['village_kh', 'commune_kh', 'district_kh', 'province_kh'] ) }}</td>
                 <td>{{ d_obj($doctor, 'user', 'name') }}</td>
-                <td>{{ d_status($doctor->status) }}</td>
+                <td>{!! d_status($doctor->status) !!}</td>
 
                 <td class="text-center">
                     @can('UpdateDoctor')
