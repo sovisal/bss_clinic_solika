@@ -24,7 +24,8 @@ class DoctorController extends Controller
     public function create()
     {
         $data = [
-            'gender' => getParentDataSelection('gender'),
+            'genders' => getParentDataSelection('gender'),
+            'addresses' => get4LevelAdressSelector('xx', 'option'),
         ];
         return view('doctor.create', $data);
     }
@@ -38,12 +39,12 @@ class DoctorController extends Controller
             'name_kh' => $request->name_kh,
             'name_en' => $request->name_en,
             'id_card_no' => $request->id_card_no,
-            'gender' => $request->gender,
+            'gender_id' => $request->gender_id,
             'email' => $request->email,
             'phone' => $request->phone,
-            'address' => $request->address,
-            'user_id' => auth()->user()->id,
         ]);
+        $doctor->update(['address_id' => update4LevelAddress($request)]);
+
         $url = route('setting.doctor.index');
         if ($request->save_opt == 'save_create') {
             $url = route('setting.doctor.create');
@@ -68,7 +69,8 @@ class DoctorController extends Controller
     {
         $data = [
             'doctor' => $doctor,
-            'gender' => getParentDataSelection('gender'),
+            'genders' => getParentDataSelection('gender'),
+            'addresses' => get4LevelAdressSelectorByID($doctor->address_id, ...['xx', 'option']),
         ];
         return view('doctor.edit', $data);
     }
@@ -82,12 +84,12 @@ class DoctorController extends Controller
             'name_kh' => $request->name_kh,
             'name_en' => $request->name_en,
             'id_card_no' => $request->id_card_no,
-            'gender' => $request->gender,
+            'gender_id' => $request->gender_id,
             'email' => $request->email,
             'phone' => $request->phone,
-            'address' => $request->address,
-            'user_id' => auth()->user()->id,
         ]);
+        $doctor->update(['address_id' => update4LevelAddress($request)]);
+
         return back()->with('success', __('alert.message.success.crud.update'));
     }
 
