@@ -9,6 +9,15 @@ class BaseModel extends Model
 {
     use HasFactory;
 
+    protected static function boot()
+    {
+        static::created(function ($model) {
+            $model->update(['user_id' => Auth()->user()->id, 'status' => 1]);
+        });
+        
+        parent::boot();
+    }
+
     public function scopeFilter($query)
     {
         $query->when(request()->ft_daterangepicker_drp_start, function ($query, $daterangepicker_drp_start) {
