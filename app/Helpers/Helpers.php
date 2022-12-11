@@ -468,8 +468,8 @@ function d_money($amn, $currency = 'USD')
 function d_status($status)
 {
     if ($status) {
-        return '<span class="badge badge-danger">'. __('table.inactive') .'</span>';
+        return '<span class="badge badge-success">'. __('table.active') .'</span>';
     }
 
-    return '<span class="badge badge-success">'. __('table.active') .'</span>';
+    return '<span class="badge badge-danger">'. __('table.inactive') .'</span>';
 }
