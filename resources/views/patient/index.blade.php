@@ -37,9 +37,9 @@
 						{{ ++$key }}
 					</td>
 					<td class="text-center">
-						<a href="{{ route('patient.consultation.edit', $consultant) }}">
+						{{-- <a href="{{ route('patient.consultation.edit', $consultant) }}"> --}}
 							PT-{!! str_pad($patient->id, 6, '0', STR_PAD_LEFT) !!}
-						</a>
+						{{-- </a> --}}
 					</td>
 					<td>{!! render_synonyms_name($patient->name_en, $patient->name_kh) !!}</td>
 					<td class="text-center">{!! (($patient->date_of_birth)? date('d-M-Y', strtotime($patient->date_of_birth)) : '') !!}</td>
@@ -51,23 +51,7 @@
 					<!-- <td>{!! $patient->updated_by_name !!}</td> -->
 					<td class="text-center">{!! render_record_status($status) !!}</td>
 					<td class="text-right">
-						<x-form.button color="primary" class="btn-sm" href="{{ route('patient.show', $patient->id) }}" icon="bx bx-detail" />
-						@if ($status == 1)
-							@can('UpdatePatient')
-								<x-form.button color="secondary" class="btn-sm" href="{{ route('patient.edit', $patient->id) }}" icon="bx bx-edit-alt" />
-							@endcan
-							@can('DeletePatient')
-								<x-form.button color="danger" class="confirmDelete btn-sm" data-id="{{ $patient->id }}" icon="bx bx-trash" />
-								<form class="sr-only" id="form-delete-{{ $patient->id }}" action="{{ route('patient.delete', $patient->id) }}" method="POST">
-									@csrf
-									@method('DELETE')
-									<button class="sr-only" id="btn-{{ $patient->id }}">Delete</button>
-								</form>
-							@endcan
-						@else
-							<x-form.button color="secondary" class="btn-sm" icon="bx bx-edit-alt" disabled/>
-							<x-form.button color="danger" class="btn-sm" icon="bx bx-trash" disabled/>
-						@endif
+                        <x-table-action-btn module="patient" :id="$patient->id" :isTrashed="$patient->trashed()" :disableEdit="$status != 1" :disableDelete="$status != 1" />
 					</td>
 				</tr>
 			@endforeach

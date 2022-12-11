@@ -65,4 +65,9 @@ class BaseModel extends Model
 	{
 		return $this->hasOne(User::class, 'id', 'user_id');
 	}
+
+    public function scopeFilterTrashed($query)
+    {
+        $query->when(auth()->user()->isWebDev, fn($q) => $q->withTrashed());
+    }
 }
