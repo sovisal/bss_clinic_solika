@@ -12,7 +12,9 @@ class BaseModel extends Model
     protected static function boot()
     {
         static::created(function ($model) {
-            $model->update(['user_id' => Auth()->user()->id, 'status' => 1]);
+            if (Auth()->user()) {
+                $model->update(['user_id' => Auth()->user()->id, 'status' => 1]);
+            }
         });
         
         parent::boot();
