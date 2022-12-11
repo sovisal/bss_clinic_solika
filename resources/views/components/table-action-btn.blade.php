@@ -17,6 +17,7 @@
     @can('Show'. Str::ucfirst($module))
         <x-form.button
             class="btn-sm"
+            href="{{ route($module .'.show', $id) }}"
             data-toggle="tooltip"
             data-placement="top"
             title="{{ __('button.crud.show') }}"
@@ -31,7 +32,7 @@
         <x-form.button
             class="btn-sm"
             color="secondary"
-            href="{{ route('user.edit', $id) }}"
+            href="{{ route($module .'.edit', $id) }}"
             data-toggle="tooltip"
             data-placement="top"
             title="{{ __('button.crud.edit') }}"
@@ -50,12 +51,12 @@
                 data-id="{{ $id }}"
                 data-toggle="tooltip"
                 data-placement="top"
-                onclick="if(confirm('Do you really want to restore this user?')){$('#restore-form-{{ $id }}').submit()}"
+                onclick="if(confirm('Do you really want to restore this record?')){$('#restore-form-{{ $id }}').submit()}"
                 title="{{ __('button.crud.restore') }}"
                 icon="bx bx-refresh"
 				:disabled="$disableRestore"
             />
-            <form class="d-inline" id="restore-form-{{ $id }}" action="{{ route('user.restore', $id) }}" method="POST">
+            <form class="d-inline" id="restore-form-{{ $id }}" action="{{ route($module .'.restore', $id) }}" method="POST">
                 @csrf
                 @method('PUT')
             </form>
@@ -74,7 +75,7 @@
                 icon="bx bx-trash"
 				:disabled="$disableDelete"
             />
-            <form class="sr-only" id="form-delete-{{ $id }}" action="{{ route('user.delete', $id) }}" method="POST">
+            <form class="sr-only" id="form-delete-{{ $id }}" action="{{ route($module .'.delete', $id) }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <button class="sr-only" id="btn-{{ $id }}">Delete</button>

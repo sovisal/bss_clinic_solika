@@ -59,7 +59,7 @@ body .navbar-top .navbar-nav .nav-item a.nav-link {
     text-align: left;
 }
 
-html body .table tbody td, .table-padding-sm tbody th, .table-padding-sm tbody td {
+html body .table tbody td:not(.dataTables_empty), .table-padding-sm tbody th, .table-padding-sm tbody td:not(.dataTables_empty) {
     padding: 5px 3px !important;
     text-align: left!important;
 }

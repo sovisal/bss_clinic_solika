@@ -59,13 +59,8 @@ class UserController extends Controller
             'doctor_id' => $request->doctor_id ?: 0,
             'color' => bg_random()
         ]);
-        $url = route('user.index');
-        if ($request->save_opt == 'save_create') {
-            $url = route('user.create');
-        } else if ($request->save_opt == 'save_edit') {
-            $url = route('user.edit', $user->id);
-        }
-        return redirect($url)->with('success', __('alert.message.success.crud.create'));
+
+        return redirect(route('user.index'))->with('success', __('alert.message.success.crud.create'));
     }
 
     /**
@@ -209,6 +204,7 @@ class UserController extends Controller
             ],
             'ability_modules' => $ability_modules
         ];
+        
         return view('user.account', $data);
     }
 
@@ -227,14 +223,11 @@ class UserController extends Controller
             $request->validate([
                 'password' => ['required', 'min:8', 'confirmed']
             ]);
-
             $user->update([
                 'password' => Hash::make($request->password),
             ]);
         } elseif ($type == 'image') {
-
             if ($request->image) {
-
                 $data = $request->image;
                 list($type, $data) = explode(';', $data);
                 list(, $data)      = explode(',', $data);
@@ -248,7 +241,6 @@ class UserController extends Controller
                 $profileImage = $user->id . '_' . time() . ".png";
                 $path = public_path('images/users/' . $profileImage);
                 file_put_contents($path, $data);
-
                 $user->update([
                     'image' => $profileImage
                 ]);

@@ -19,10 +19,9 @@ class CreatePatientsTable extends Migration
             $table->string('name_kh')->nullable();
             $table->string('name_en')->nullable();
             $table->string('id_card_no')->nullable();
-            $table->unsignedBigInteger('gender')->nullable();
+            $table->unsignedBigInteger('gender_id')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
-
             $table->date('date_of_birth')->nullable();
             $table->integer('age')->nullable();
             $table->string('education')->nullable();
@@ -54,7 +53,7 @@ class CreatePatientsTable extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
-            $table->foreign('gender')
+            $table->foreign('gender_id')
                 ->references('id')
                 ->on('data_parents')
                 ->onUpdate('cascade')
