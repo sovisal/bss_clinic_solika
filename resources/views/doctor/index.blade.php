@@ -11,7 +11,7 @@
                     <th>Gender</th>
                     <th>Phone</th>
                     <th>Email</th>
-                    {{-- <th>Address</th> --}}
+                    <th>Address</th>
                     <th>User</th>
                     <th>Status</th>
                     <th>Action</th>
@@ -26,9 +26,9 @@
                 <td>{{ d_text(getParentDataByType('gender', $doctor->gender_id)) }}</td>
                 <td>{{ d_text($doctor->phone) }}</td>
                 <td>{{ d_text($doctor->email) }}</td>
-                {{-- <td>{{ $doctor->phone }}</td> --}}
+                <td>{{ d_obj($doctor, 'address', ['village_kh', 'commune_kh', 'district_kh', 'province_kh'] ) }}</td>
                 <td>{{ d_obj($doctor, 'user', 'name') }}</td>
-                <td>{{ $doctor->status }}</td>
+                <td>{!! d_status($doctor->status) !!}</td>
 
                 <td class="text-center">
                     @can('UpdateDoctor')
