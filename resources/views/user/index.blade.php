@@ -16,44 +16,56 @@
                     <th>{!! __('table.position') !!}</th>
                     <th>Doctor</th>
                     <th>{!! __('table.status') !!}</th>
-                    <th width="10%">{!! __('table.action') !!}</th>
+                    <th width="15%">{!! __('table.action') !!}</th>
                 </tr>
             </x-slot>
             @foreach ($users as $key => $user)
             <tr>
-                <td class="text-center">{{ ++$key }}</td>
+                <td>{{ ++$key }}</td>
                 <td>{!! d_text($user->name) !!}</td>
                 <td>{!! d_text($user->username) !!}</td>
-                <td class="text-center">{!! d_obj($user->hasRoles->first(), 'name') !!}</td>
-                <td class="text-center">{!! d_text($user->position) !!}</td>
+                <td>{!! d_obj($user->hasRoles->first(), 'name') !!}</td>
+                <td>{!! d_text($user->position) !!}</td>
                 <td>{!! d_obj($user, 'doctor', ['name_kh', 'name_en']) !!} </td>
-                <td class="text-center">
-                    {!! $user->is_suspended ? '<span class="badge badge-light-danger">'. __('table.suspended') .'</span>' : '<span class="badge badge-light-success">'. __('table.active') .'</span>' !!}
+                <td>
+                    {!! d_status($user->is_suspended) !!}
                 </td>
-                <td class="text-center">
-                    @canany(['UpdateUser','DeleteUser','AssignUserRole','AssignUserAbility','UpdateUserPassword'])
-                    <x-table-action>
-                        @can('UpdateUser')
-                        <a class="dropdown-item" href="{{ route('user.edit', $user->id) }}"><i class="bx bx-edit-alt mr-1"></i> {{ __('button.crud.edit') }}</a>
-                        @endcan
+                <td>
+                    <x-table-action-btn :isTrashed="$user->trashed()" :id="$user->id" module="user">
                         @can('UpdateUserPassword')
-                        <a class="dropdown-item" href="{{ route('user.password', $user->id) }}"><i class="bx bx-key mr-1"></i> {{ __('button.change_password') }}</a>
+                            <x-form.button
+                                class="btn-sm"
+                                color="dark"
+                                href="{{ route('user.password', $user->id) }}"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title="{{ __('button.change_password') }}"
+                                icon="bx bx-key"
+                            />
                         @endcan
                         @can('AssignUserRole')
-                        <a class="dropdown-item" href="{{ route('user.role', $user->id) }}"><i class="bx bxs-graduation mr-1"></i> {{ __('button.role') }}</a>
+                            <x-form.button
+                                class="btn-sm"
+                                color="dark"
+                                href="{{ route('user.role', $user->id) }}"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title="{{ __('button.role') }}"
+                                icon="bx bxs-graduation"
+                            />
                         @endcan
                         @can('AssignUserAbility')
-                        <a class="dropdown-item" href="{{ route('user.ability', $user->id) }}"><i class="bx bxs-check-shield mr-1"></i> {{ __('button.specific_ability') }}</a>
+                            <x-form.button
+                                class="btn-sm"
+                                color="dark"
+                                href="{{ route('user.ability', $user->id) }}"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title="{{ __('button.specific_ability') }}"
+                                icon="bx bxs-check-shield"
+                            />
                         @endcan
-                        @can('DeleteUser')
-                        <a class="dropdown-item confirmDelete" href="javascript:void(0);" data-id="{{ $user->id }}"><i class="bx bx-trash mr-1"></i> {{ __('button.crud.delete') }}</a>
-                        <form class="sr-only" id="form-delete-{{ $user->id }}" action="{{ route('user.delete', $user->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                        </form>
-                        @endcan
-                    </x-table-action>
-                    @endcanany
+                    </x-table-action-btn>
                 </td>
             </tr>
             @endforeach

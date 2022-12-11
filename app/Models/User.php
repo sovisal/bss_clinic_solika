@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Route;
@@ -11,27 +12,14 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-	use HasApiTokens, HasFactory, Notifiable;
+	use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
 	/**
 	 * The attributes that are mass assignable.
 	 *
 	 * @var array
 	 */
-	protected $fillable = [
-		'name',
-		'username',
-		'position',
-		'gender',
-		'phone',
-		'address',
-		'color',
-		'bio',
-		'image',
-		'is_suspended',
-		'password',
-		'doctor_id',
-	];
+	protected $guarded = ['id'];
 
 	/**
 	 * The attributes that should be hidden for arrays.
@@ -104,8 +92,8 @@ class User extends Authenticatable
 
 	public function assignRole($role)
 	{
-		if (is_string($role)) {
-			$role = Role::whereName($role)->firstOrFail();
+        if (is_string($role)) {
+            $role = Role::whereName($role)->firstOrFail();
 		}
 		$this->hasRoles()->sync($role);
 	}

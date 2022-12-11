@@ -19,6 +19,7 @@ Route::name('user.')->middleware(['auth'])->group(function () {
 		Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit')->middleware('can:UpdateUser');
 		Route::put('/{user}/update', [UserController::class, 'update'])->name('update')->middleware('can:UpdateUser');
 		Route::delete('/{user}/delete', [UserController::class, 'destroy'])->name('delete')->middleware('can:DeleteUser');
+		Route::put('/{user}/restore', [UserController::class, 'restore'])->name('restore')->middleware('can:RestoreUser');
 		Route::get('/{user}/role', [UserController::class, 'role'])->name('role')->middleware('can:AssignUserRole');
 		Route::put('/{user}/assign_role', [UserController::class, 'assign_role'])->name('assign_role')->middleware('can:AssignUserRole');
 		Route::get('/{user}/ability', [UserController::class, 'ability'])->name('ability')->middleware('can:AssignUserAbility');
