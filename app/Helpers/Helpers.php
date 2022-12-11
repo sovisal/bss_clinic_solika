@@ -465,19 +465,6 @@ function d_money($amn, $currency = 'USD')
 {
 }
 
-<<<<<<< HEAD
-function d_status($status = 0)
-{
-    if ($status == '0') {
-        return 'Disabled';
-    } elseif ($status == '1') {
-        return 'Active';
-    } elseif ($status == '2') {
-        return 'Pending';
-    } elseif ($status == '3') {
-        return 'Closed';
-    }
-=======
 function d_status($status)
 {
     if ($status) {
@@ -485,5 +472,4 @@ function d_status($status)
     }
 
     return '<span class="badge badge-success">'. __('table.active') .'</span>';
->>>>>>> dc8a612cc206a37bb105440a4bf0919cde59aead
 }
