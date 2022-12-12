@@ -30,9 +30,6 @@
             <x-dragable-list>
                 @foreach ($rows as $row)
                 <x-dragable-item>
-                    <x-slot name="rightSide">
-                        {{ d_currency($row->price) }} : <strong>Price</strong>
-                    </x-slot>
                     <input type="hidden" name="ids[]" value="{{ $row->id }}" />
                     <div>
                         {{ d_obj($row, ['name_en', 'name_kh']) }}

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\EcgType;
 use Illuminate\Http\Request;
 use App\Http\Requests\EcgTypeRequest;
+use App\Models\Ecg;
 
 class EcgTypeController extends Controller
 {
@@ -90,12 +91,7 @@ class EcgTypeController extends Controller
 
     public function update_order(Request $request)
     {
-        if (is_array($request->ids) && count($request->ids) > 0) {
-            $rows = EcgType::where('status', 1)->whereIn('id', $request->ids)->orderBy('index', 'asc')->get();
-            foreach ($request->ids as $index => $id) {
-                $rows->where('id', $id)->first()->update(['index' => ++$index]);
-            }
-        }
+        EcgType::saveOrder($request);
         return back()->with('success', 'Data sort successful');
     }
 

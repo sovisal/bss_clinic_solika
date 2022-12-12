@@ -232,7 +232,7 @@ class AppLayout extends Component
                     'ecg-type' => [
                         'can' => 'DeveloperMode',
                         'url' => route('setting.ecg-type.index'),
-                        'name' => ['index', 'create', 'edit'],
+                        'name' => ['index', 'create', 'edit', 'sort_order'],
                         'label' => 'ECG Service',
                     ],
                     'xray-type' => [

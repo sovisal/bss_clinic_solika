@@ -91,4 +91,14 @@ class BaseModel extends Model
     {
         return (parent::select('index')->orderBy('index', 'desc')->first()->index ?? 0) + 1;
     }
+
+    static function saveOrder($request)
+    {
+        if (is_array($request->ids) && count($request->ids) > 0) {
+            $rows = parent::where('status', 1)->whereIn('id', $request->ids)->orderBy('index', 'asc')->get();
+            foreach ($request->ids as $index => $id) {
+                $rows->where('id', $id)->first()->update(['index' => ++$index]);
+            }
+        }
+    }
 }
