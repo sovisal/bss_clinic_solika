@@ -38,9 +38,10 @@
                         <x-table-action-btn
                             module="patient"
                             :id="$patient->id"
-                            :isTrashed="$patient->trashed()"
-                            :disableEdit="($patient->lastedConsultation()->status ?? 1) != 1"
-                            :disableDelete="($patient->lastedConsultation()->status ?? 1) != 1"
+                            :is-trashed="$patient->trashed()"
+                            :disable-show="$patient->trashed()"
+                            :disable-edit="$patient->trashed() || ($patient->lastedConsultation()->status ?? 1) != 1"
+                            :disable-delete="($patient->lastedConsultation()->status ?? 1) != 1"
                         />
                     </td>
                 </tr>

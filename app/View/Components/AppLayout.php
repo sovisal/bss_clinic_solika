@@ -233,7 +233,7 @@ class AppLayout extends Component
                         'can' => 'DeveloperMode',
                         'url' => route('setting.ecg-type.index'),
                         'name' => ['index', 'create', 'edit'],
-                        'label' => 'ECG Template',
+                        'label' => 'ECG Service',
                     ],
                     'xray-type' => [
                         'can' => 'DeveloperMode',

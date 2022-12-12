@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class EcgTypeSeeder extends Seeder
 {
@@ -20,6 +20,21 @@ class EcgTypeSeeder extends Seeder
                 'name_kh' => 'ECG',
                 'index' => 1,
                 'status' => 1,
+                'user_id' => 1,
+            ],
+            [
+                'name_en' => 'ECG Type 1',
+                'name_kh' => 'ECG Type 1',
+                'index' => 2,
+                'status' => 1,
+                'user_id' => 1,
+            ],
+            [
+                'name_en' => 'ECG Type 2',
+                'name_kh' => 'ECG Type 2',
+                'index' => 3,
+                'status' => 1,
+                'user_id' => 1,
             ]
         ]);
     }

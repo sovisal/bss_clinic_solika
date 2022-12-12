@@ -1,20 +1,23 @@
 @props([
-	'id',
-	'module' => '',
-	'isTrashed' => false,
-	'disableShow' => false,
-	'disableEdit' => false,
-	'disableDelete' => false,
-	'disableRestore' => false,
-	'showBtnShow' => true,
-	'showBtnEdit' => true,
-	'showBtnDetele' => true,
-	'showBtnRestore' => true,
+    'id',
+    'module' => '',
+    'moduleAbility',
+    'isTrashed' => false,
+    'disableShow' => false,
+    'disableEdit' => false,
+    'disableDelete' => false,
+    'disableRestore' => false,
+    'disableForceDelete' => false,
+    'showBtnShow' => true,
+    'showBtnEdit' => true,
+    'showBtnDelete' => true,
+    'showBtnRestore' => true,
+    'showBtnForceDelete' => false,
 ])
 
 {!! $slot !!}
 @if($showBtnShow)
-    @can('Show'. Str::ucfirst($module))
+    @can('Show'. Str::ucfirst($moduleAbility ?? $module))
         <x-form.button
             class="btn-sm"
             href="{{ route($module .'.show', $id) }}"
@@ -28,7 +31,7 @@
 @endif
 
 @if($showBtnEdit)
-    @can('Update'. Str::ucfirst($module))
+    @can('Update'. Str::ucfirst($moduleAbility ?? $module))
         <x-form.button
             class="btn-sm"
             color="secondary"
@@ -44,7 +47,7 @@
 
 @if ($isTrashed)
     @if($showBtnRestore)
-        @can('Restore'. Str::ucfirst($module))
+        @can('Restore'. Str::ucfirst($moduleAbility ?? $module))
             <x-form.button
                 color="success"
                 class="btn-sm"
@@ -54,7 +57,7 @@
                 onclick="if(confirm('Do you really want to restore this record?')){$('#restore-form-{{ $id }}').submit()}"
                 title="{{ __('button.crud.restore') }}"
                 icon="bx bx-refresh"
-				:disabled="$disableRestore"
+                :disabled="$disableRestore"
             />
             <form class="d-inline" id="restore-form-{{ $id }}" action="{{ route($module .'.restore', $id) }}" method="POST">
                 @csrf
@@ -62,9 +65,28 @@
             </form>
         @endcan
     @endif
+    @if($showBtnForceDelete)
+        @can('ForceDelete'. Str::ucfirst($moduleAbility ?? $module))
+            <x-form.button
+                color="danger"
+                class="confirmDelete btn-sm"
+                data-id="{{ $id }}"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="{{ __('button.crud.force_delete') }}"
+                icon="bx bx-x"
+                :disabled="$disableForceDelete"
+            />
+            <form class="sr-only" id="form-delete-{{ $id }}" action="{{ route($module .'.force_delete', $id) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button class="sr-only" id="btn-{{ $id }}">Delete</button>
+            </form>
+        @endcan
+    @endif
 @else
-    @if($showBtnDetele)
-        @can('Delete'. Str::ucfirst($module))
+    @if($showBtnDelete)
+        @can('Delete'. Str::ucfirst($moduleAbility ?? $module))
             <x-form.button
                 color="danger"
                 class="confirmDelete btn-sm"
@@ -73,7 +95,7 @@
                 data-placement="top"
                 title="{{ __('button.crud.delete') }}"
                 icon="bx bx-trash"
-				:disabled="$disableDelete"
+                :disabled="$disableDelete"
             />
             <form class="sr-only" id="form-delete-{{ $id }}" action="{{ route($module .'.delete', $id) }}" method="POST">
                 @csrf

@@ -19,7 +19,7 @@ class PatientController extends Controller
     public function index()
     {
         $data = [
-            'patients' => Patient::webDevTrashed()
+            'patients' => Patient::filterTrashed()
                 ->with(['address', 'user', 'consultations'])
                 ->orderBy('id', 'desc')->get()
         ];

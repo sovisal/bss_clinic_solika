@@ -82,8 +82,13 @@ class BaseModel extends Model
         return $this->belongsTo(Address_linkable::class);
     }
 
-    public function scopeWebDevTrashed($q)
+    public function scopeFilterTrashed($q)
     {
         $q->when(auth()->user()->isWebDev, fn($q) => $q->withTrashed());
+    }
+
+    static function getNextIndex()
+    {
+        return (parent::select('index')->orderBy('index', 'desc')->first()->index ?? 0) + 1;
     }
 }

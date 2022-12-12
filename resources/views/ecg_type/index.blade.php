@@ -1,6 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <x-form.button href="{{ route('setting.ecg-type.create') }}" label="Create" icon="bx bx-plus" />
+        <x-form.button color="dark" href="{!! route('setting.ecg-type.sort_order') !!}" label="Sort Order" icon="bx bx-sort-alt-2" />
     </x-slot>
     <x-card :foot="false" :head="false">
         <x-table class="table-hover table-striped" id="datatables" data-table="patients">
@@ -15,31 +16,30 @@
                     <th>Action</th>
                 </tr>
             </x-slot>
-            @php
-            $i = 0;
-            @endphp
+            @php $i = 0; @endphp
             @foreach($rows as $row)
-            <tr>
-                <td class="text-center">{{ ++$i }}</td>
-                <td>{{ d_obj($row, ['name_en', 'name_kh']) }}</td>
-                <td class="text-right">{{ render_currency($row->price) }}</td>
-                <td class="text-center">{{ $row->index }}</td>
-                <td class="text-center">{{ d_obj($row, 'user', 'name') }}</td>
-                <td class="text-center">{{ $row->status }}</td>
-                <td class="text-center">
-                    <x-form.button color="secondary" class="btn-sm" href="{{ route('setting.ecg-type.edit', $row->id) }}" icon="bx bx-edit-alt" />
-                    <x-form.button color="danger" class="confirmDelete btn-sm" data-id="{{ $row->id }}" icon="bx bx-trash" />
-                    <form class="sr-only" id="form-delete-{{ $row->id }}" action="{{ route('setting.ecg-type.delete', $row->id) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button class="sr-only" id="btn-{{ $row->id }}">Delete</button>
-                    </form>
-                </td>
-            </tr>
+                <tr>
+                    <td>{{ ++$i }}</td>
+                    <td>{{ d_obj($row, ['name_en', 'name_kh']) }}</td>
+                    <td>{{ d_currency($row->price) }}</td>
+                    <td>{{ d_number($row->index) }}</td>
+                    <td>{{ d_obj($row, 'user', 'name') }}</td>
+                    <td>{!! d_status($row->status) !!}</td>
+                    <td>
+                        <x-table-action-btn
+                            module="setting.ecg-type"
+                            module-ability="EcgType"
+                            :id="$row->id"
+                            :is-trashed="$row->trashed()"
+                            :disable-edit="$row->trashed()"
+                            :show-btn-force-delete="true"
+                            :show-btn-show="false"
+                        />
+                    </td>
+                </tr>
             @endforeach
         </x-table>
     </x-card>
 
     <x-modal-confirm-delete />
-
 </x-app-layout>

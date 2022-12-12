@@ -6,6 +6,7 @@ return [
 		'create' => 'Create',
 		'edit' => 'Edit',
 		'delete' => 'Delete',
+		'force_delete' => 'Force Delete',
 		'restore' => 'Restore',
 		'show' => 'Show',
 		'show-ajax' => 'Show Ajax',

@@ -24,7 +24,7 @@ class UserController extends Controller
     public function index()
     {
         $data = [
-            'users' => User::where('isWebDev', false)->webDevTrashed()->with(['hasRoles', 'doctor'])->orderBy('name', 'asc')->get(),
+            'users' => User::where('isWebDev', false)->filterTrashed()->with(['hasRoles', 'doctor'])->orderBy('name', 'asc')->get(),
         ];
 
         return view('user.index', $data);

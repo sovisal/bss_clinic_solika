@@ -1,6 +1,5 @@
-<tr>
-	<td width="20%" class="text-right">Result</td>
-	<td>
-		<x-bss-form.textarea name="result" class="my-simple-editor" rows="15">{{ old('result', !empty($row) && $row->result ? $row->result : '') }}</x-bss-form.textarea>
-	</td>
-</tr>
+<x-bss-form.textarea-row
+    name="default_form"
+    label="Detail"
+    rows="3"
+>{{ old('default_form', !empty($row) && $row->default_form ? $row->default_form : '') }}</x-bss-form.textarea-row>

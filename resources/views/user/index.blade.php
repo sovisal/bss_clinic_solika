@@ -31,7 +31,7 @@
                     {!! d_status(!$user->is_suspended) !!}
                 </td>
                 <td>
-                    <x-table-action-btn module="user" :id="$user->id" :is-trashed="$user->trashed()" :show-btn-show="false">
+                    <x-table-action-btn module="user" :id="$user->id" :is-trashed="$user->trashed()" :disable-edit="$user->trashed()" :show-btn-show="false">
                         @can('UpdateUserPassword')
                             <x-form.button
                                 class="btn-sm"

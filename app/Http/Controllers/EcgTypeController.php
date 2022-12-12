@@ -3,77 +3,56 @@
 namespace App\Http\Controllers;
 
 use App\Models\EcgType;
-use App\Http\Requests\StoreEcgTypeRequest;
-use App\Http\Requests\UpdateEcgTypeRequest;
 use Illuminate\Http\Request;
+use App\Http\Requests\EcgTypeRequest;
 
 class EcgTypeController extends Controller
 {
+
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $this->data['rows'] = EcgType::with('user')->where('status', 1)
-        ->orderBy('index', 'asc')
-        ->get();
-        return view('ecg_type.index', $this->data);
+        $data['rows'] = EcgType::with('user')
+            ->where('status', 1)
+            ->filterTrashed()
+            ->orderBy('index', 'asc')
+            ->get();
+        return view('ecg_type.index', $data);
     }
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        return view('ecg_type.create');
+        $data['index'] = EcgType::getNextIndex();
+        return view('ecg_type.create', $data);
     }
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreEcgTypeRequest  $request
-     * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EcgTypeRequest $request)
     {
         // serialize all post into string
         $serialize = array_except($request->all(), ['_method', '_token']);
         $request['attribite'] = serialize($serialize);
-
-        $dataParent = new EcgType();
-        if ($dataParent->create([
+        if (EcgType::create([
             'name_en' => $request->name_en,
             'name_kh' => $request->name_kh,
             'price' => $request->price ?: 0,
             'attribite' => $request->attribite,
             'index' => $request->index ?: 999,
             'default_form' => $request->default_form,
-            'status' => 1,
         ])) {
             return redirect()->route('setting.ecg-type.index')->with('success', 'Data created success');
         }
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\EcgType  $ecgType
-     * @return \Illuminate\Http\Response
-     */
-    public function show(EcgType $ecgType)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\EcgType  $ecgType
-     * @return \Illuminate\Http\Response
      */
     public function edit(EcgType $ecgType)
     {
@@ -84,35 +63,73 @@ class EcgTypeController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateEcgTypeRequest  $request
-     * @param  \App\Models\EcgType  $ecgType
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, EcgType $ecgType)
+    public function update(EcgTypeRequest $request, EcgType $ecgType)
     {
-        $request['status'] = 1;
-
         // serialize all post into string
         $serialize = array_except($request->all(), ['_method', '_token']);
         $request['attribite'] = serialize($serialize);
 
-        if ($ecgType->update($request->all())) {
+        if ($ecgType->update([
+            'name_en' => $request->name_en,
+            'name_kh' => $request->name_kh,
+            'price' => $request->price ?: 0,
+            'attribite' => $request->attribite,
+            'index' => $request->index ?: 999,
+            'default_form' => $request->default_form,
+        ])) {
             return redirect()->route('setting.ecg-type.index')->with('success', 'Data update success');
+        }
+    }
+
+    public function sort_order()
+    {
+        $data['rows'] = EcgType::where('status', 1)->orderBy('index', 'asc')->get();
+        return view('ecg_type.order', $data);
+    }
+
+    public function update_order(Request $request)
+    {
+        if (is_array($request->ids) && count($request->ids) > 0) {
+            $rows = EcgType::where('status', 1)->whereIn('id', $request->ids)->orderBy('index', 'asc')->get();
+            foreach ($request->ids as $index => $id) {
+                $rows->where('id', $id)->first()->update(['index' => ++$index]);
+            }
+        }
+        return back()->with('success', 'Data sort successful');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(EcgType $ecgType)
+    {
+        if ($ecgType->delete()) {
+            return redirect()->route('setting.ecg-type.index')->with('success', __('alert.message.success.crud.delete'));
         }
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\EcgType  $ecgType
-     * @return \Illuminate\Http\Response
      */
-    public function destroy(EcgType $ecgType)
+    public function restore($id)
     {
-        $ecgType->status = 0;
-        if ($ecgType->update()) {
-            return redirect()->route('setting.ecg-type.index')->with('success', 'Data delete success');
+        $ecgType = EcgType::onlyTrashed()->findOrFail($id);
+        if ($ecgType->restore()) {
+            return back()->with('success', __('alert.message.success.crud.restore'));
         }
+        return back()->with('error', __('alert.message.error.crud.restore'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function force_delete($id)
+    {
+        $ecgType = EcgType::onlyTrashed()->findOrFail($id);
+        if ($ecgType->forceDelete()) {
+            return back()->with('success', __('alert.message.success.crud.force_detele'));
+        }
+        return back()->with('error', __('alert.message.error.crud.force_detele'));
     }
 }
