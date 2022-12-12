@@ -5,11 +5,18 @@
     <form action="{{ route('setting.address.store') . '?addr=' . @$addr }}" method="POST" autocomplete="off" enctype="multipart/form-data">
         @csrf
         <x-card bodyClass="pb-0">
-            @include('4_level_address.form')
-
-            <x-slot name="footer">
-                <x-form.button type="submit" icon="bx bx-save" label="Save" />
+            <x-slot name="action">
+                <div>
+                    <x-form.button type="submit" class="btn-submit" value="1" icon="bx bx-save" label="Save" />
+                </div>
             </x-slot>
+            <x-slot name="footer">
+                <div>
+                    <x-form.button type="submit" class="btn-submit" value="1" icon="bx bx-save" label="Save" />
+                </div>
+            </x-slot>
+
+            @include('4_level_address.form')
         </x-card>
     </form>
 

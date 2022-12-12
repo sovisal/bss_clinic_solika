@@ -253,12 +253,12 @@ class AppLayout extends Component
                         'name' => ['index', 'create', 'edit'],
                         'label' => 'Doctor',
                     ],
-                    'medicine' => [
-                        'can' => 'ViewAnyMedicine',
-                        'url' => route('setting.medicine.index'),
-                        'name' => ['index', 'create', 'edit'],
-                        'label' => 'Medicine',
-                    ],
+                    // 'medicine' => [
+                    //     'can' => 'ViewAnyMedicine',
+                    //     'url' => route('setting.medicine.index'),
+                    //     'name' => ['index', 'create', 'edit'],
+                    //     'label' => 'Medicine',
+                    // ],
                     'address' => [
                         'can' => 'DeveloperMode', // not yet create abilities
                         'url' => route('setting.address.index'),
