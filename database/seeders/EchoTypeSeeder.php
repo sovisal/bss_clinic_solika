@@ -21,6 +21,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'ការពិនិត្យផ្ទៃពោះ',
                 'index' => 1,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 1,
             ],
             [
@@ -28,6 +29,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'ការពិនិត្យផ្ទៃពោះនៅត្រីមាសទី ១',
                 'index' => 2,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 2,
             ],
             [
@@ -35,6 +37,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'ការពិនិត្យផ្ទៃពោះនៅត្រីមាសទី ២',
                 'index' => 3,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 3,
             ],
             [
@@ -42,6 +45,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'ការពិនិត្យផ្ទៃពោះនៅត្រីមាសទី ៣',
                 'index' => 4,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 4,
             ],
             [
@@ -49,6 +53,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'abdominal ultrasound',
                 'index' => 5,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 5,
             ],
             [
@@ -56,6 +61,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'ABDOMINO - ADENOPATHY',
                 'index' => 6,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 6,
             ],
             [
@@ -63,6 +69,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'ACUTE APPENDICITIS',
                 'index' => 7,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 7,
             ],
             [
@@ -70,6 +77,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'APPENDICITIS',
                 'index' => 8,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 8,
             ],
             [
@@ -77,6 +85,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'BREAST',
                 'index' => 9,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 9,
             ],
             [
@@ -84,6 +93,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'cevic',
                 'index' => 10,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 10,
             ],
             [
@@ -91,6 +101,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'CHC',
                 'index' => 11,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 11,
             ],
             [
@@ -98,6 +109,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'CHRONIC CYSTITIS',
                 'index' => 12,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 12,
             ],
             [
@@ -105,6 +117,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'Echo abdomino pelvice normal ',
                 'index' => 13,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 13,
             ],
             [
@@ -112,6 +125,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'ECHOGRAPHY',
                 'index' => 14,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 14,
             ],
             [
@@ -119,6 +133,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'ECOCARDIOGRAPHIE ',
                 'index' => 15,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 15,
             ],
             [
@@ -126,6 +141,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'ECOGRAPHIE',
                 'index' => 16,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 16,
             ],
             [
@@ -133,6 +149,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'Examen du sein ',
                 'index' => 17,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 17,
             ],
             [
@@ -140,6 +157,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'GALLBLADDER STONE ',
                 'index' => 18,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 18,
             ],
             [
@@ -147,6 +165,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'Goiter',
                 'index' => 19,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 19,
             ],
             [
@@ -154,6 +173,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'HEART FAILURE ',
                 'index' => 20,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 20,
             ],
             [
@@ -161,6 +181,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'KNEE',
                 'index' => 21,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 21,
             ],
             [
@@ -168,6 +189,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'Left breast cyst',
                 'index' => 22,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 22,
             ],
             [
@@ -175,6 +197,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'MILD HYDRONEPHROSIS',
                 'index' => 23,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 23,
             ],
             [
@@ -182,6 +205,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'Multi lobar liver abscess',
                 'index' => 24,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 24,
             ],
             [
@@ -189,6 +213,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'NECK ',
                 'index' => 25,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 25,
             ],
             [
@@ -196,6 +221,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'NECK copy',
                 'index' => 26,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 26,
             ],
             [
@@ -203,6 +229,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'NECK ECHOGRAPHY ',
                 'index' => 27,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 27,
             ],
             [
@@ -210,6 +237,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'PERITONITIS BY GASTRIC PERFORATION',
                 'index' => 28,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 28,
             ],
             [
@@ -217,6 +245,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'RIGHT PSOAS abscess ',
                 'index' => 29,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 29,
             ],
             [
@@ -224,6 +253,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'RIGHT RENAL CYST',
                 'index' => 30,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 30,
             ],
             [
@@ -231,6 +261,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'RIGHT RENAL STONES + HYDRONEPHROSIS ',
                 'index' => 31,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 31,
             ],
             [
@@ -238,6 +269,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'THYROID GLAND',
                 'index' => 32,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 32,
             ],
             [
@@ -245,6 +277,7 @@ class EchoTypeSeeder extends Seeder
                 'name_kh' => 'Tumefaction',
                 'index' => 33,
                 'status' => 1,
+                'user_id' => 1,
                 'id' => 33,
             ],
         ]);

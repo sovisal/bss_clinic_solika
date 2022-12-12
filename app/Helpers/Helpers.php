@@ -464,12 +464,53 @@ function d_obj($obj = null, $param1 = null, $param2 = null, $param3 = null)
     }
 }
 
-function d_number()
+function d_array($array = null, $param1 = null, $param2 = null, $param3 = null)
 {
+    $result = $array;
+
+    if ($result && $param1) {
+        if (is_array($param1)) {
+            $result = d_combine_array($result, $param1);
+        } else {
+            $result = $result[$param1];
+        }
+    } else {
+        return d_text($result);
+    }
+
+    if ($result && $param2) {
+        if (is_array($param2)) {
+            $result = d_combine_array($result, $param2);
+        } else {
+            $result = $result[$param2];
+        }
+    } else {
+        return d_text($result);
+    }
+
+    if ($result && $param3) {
+        if (is_array($param3)) {
+            $result = d_combine_array($result, $param3);
+        } else {
+            $result = $result[$param3];
+        }
+    } else {
+        return d_text($result);
+    }
 }
 
-function d_money($amn, $currency = 'USD')
+function d_number($num)
 {
+    return is_numeric($num) ? $num : '-';
+}
+
+function d_currency($amn, $digit = 2, $currency = 'USD', $id_suffix_display = false)
+{
+    $amn = $amn ?? 0;
+    if ($id_suffix_display) {
+        return number_format($amn, $digit) . ' ' . $currency;
+    }
+    return $currency . ' ' . number_format($amn, $digit);
 }
 
 function d_date($date, $format = 'Y-m-d H:i:s', $default = '-')

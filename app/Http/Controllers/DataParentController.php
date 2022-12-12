@@ -65,7 +65,6 @@ class DataParentController extends Controller
             'description' => $request->description,
             'parent_id' => $request->parent_id ?: 0,
             'type' => $type,
-            'status' => 1
         ])) {
             return redirect()->route('setting.data-parent.index')->with('success', 'Data created success');
         }
@@ -124,10 +123,9 @@ class DataParentController extends Controller
      * @param  \App\Models\DataParent  $dataParent
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, DataParent $dataParent)
+    public function destroy(DataParent $dataParent)
     {
-        $dataParent->status = 0;
-        if ($dataParent->update()) {
+        if ($dataParent->delete()) {
             return redirect()->route('setting.data-parent.index')->with('success', 'Data delete success');
         }
     }

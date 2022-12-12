@@ -3,13 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class EchoType extends BaseModel
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $fillable = [
-		'name_en', 'name_kh', 'default_form', 'attribite', 'price',
-        'status', 'index', 'other'
-	];
+        'name_en', 'name_kh', 'default_form', 'attribite', 'price',
+        'status', 'user_id', 'index', 'other'
+    ];
 }

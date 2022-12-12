@@ -227,7 +227,7 @@ class AppLayout extends Component
                         'can' => 'DeveloperMode',
                         'url' => route('setting.echo-type.index'),
                         'name' => ['index', 'create', 'edit'],
-                        'label' => 'Echo Template',
+                        'label' => 'Echo Service',
                     ],
                     'ecg-type' => [
                         'can' => 'DeveloperMode',
@@ -239,7 +239,7 @@ class AppLayout extends Component
                         'can' => 'DeveloperMode',
                         'url' => route('setting.xray-type.index'),
                         'name' => ['index', 'create', 'edit'],
-                        'label' => 'Xray Template',
+                        'label' => 'Xray Service',
                     ],
                     'data-parent' => [
                         'can' => 'DeveloperMode',
@@ -253,12 +253,12 @@ class AppLayout extends Component
                         'name' => ['index', 'create', 'edit'],
                         'label' => 'Doctor',
                     ],
-                    'medicine' => [
-                        'can' => 'ViewAnyMedicine',
-                        'url' => route('setting.medicine.index'),
-                        'name' => ['index', 'create', 'edit'],
-                        'label' => 'Medicine',
-                    ],
+                    // 'medicine' => [
+                    //     'can' => 'ViewAnyMedicine',
+                    //     'url' => route('setting.medicine.index'),
+                    //     'name' => ['index', 'create', 'edit'],
+                    //     'label' => 'Medicine',
+                    // ],
                     'address' => [
                         'can' => 'DeveloperMode', // not yet create abilities
                         'url' => route('setting.address.index'),
