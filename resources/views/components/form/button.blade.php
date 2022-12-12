@@ -1,52 +1,57 @@
 @props([
-	'label' => '',
-	'icon' => '',
-	'href' => '',
-	'hideLabelOnXS' => false,
-	'iconPosition' => 'left',
-	'color' => 'primary',
-	'type' => 'button',
+    'label' => '',
+    'icon' => '',
+    'href' => '',
+    'hideLabelOnXS' => false,
+    'iconPosition' => 'left',
+    'color' => 'primary',
 ])
 @if ($href=='')
-	<button {{ $attributes->merge(["class" => "btn-sm btn btn-". $color ." ". (($label=='')? 'btn-icon' : '' ) ]) }} type="{{ $type }}">
-		@if ($hideLabelOnXS)
-			<div class=" d-block d-sm-none">
-				<i class="{!! $icon !!}"></i>
-			</div>
-			<span class="d-none d-sm-block">
-		@endif
-	
-		@if ($iconPosition=='left')
-			<i class="{!! $icon !!}"></i> 
-		@endif
-		{!! $label !!}
-		@if ($iconPosition=='right')
-			<i class="{!! $icon !!}"></i> 
-		@endif
+    <button {{ $attributes->merge([
+        "type" => 'button',
+        "class" => "btn btn-". $color ." ". (($label=='')? 'btn-icon' : '' ),
+    ]) }}>
+        @if ($hideLabelOnXS)
+            <div class=" d-block d-sm-none">
+                <i class="{!! $icon !!}"></i>
+            </div>
+            <span class="d-none d-sm-block">
+        @endif
+    
+        @if ($iconPosition=='left')
+            <i class="{!! $icon !!}"></i> 
+        @endif
+        {!! $label !!}
+        @if ($iconPosition=='right')
+            <i class="{!! $icon !!}"></i> 
+        @endif
 
-		@if ($hideLabelOnXS)
-		</span>
-		@endif
-	</button>
+        @if ($hideLabelOnXS)
+        </span>
+        @endif
+    </button>
 @else
-	<a href="{{ $href }}" {{ $attributes->merge(["class" => "btn-sm btn btn-". $color ." ". (($label=='')? 'btn-icon' : '' ) ]) }}>
-		@if ($hideLabelOnXS)
-			<div class=" d-block d-sm-none">
-				<i class="{!! $icon !!}"></i>
-			</div>
-			<span class="d-none d-sm-block">
-		@endif
+    <a {{ $attributes->merge([
+        "href" => (($attributes['disabled'])? 'javascription:void(0)' : $href),
+        "class" => "btn btn-". $color ." ". (($label=='')? 'btn-icon' : '' ) .  (($attributes['disabled'])? ' disabled' : '')
+    ]) }}>
+        @if ($hideLabelOnXS)
+            <div class=" d-block d-sm-none">
+                <i class="{!! $icon !!}"></i>
+            </div>
+            <span class="d-none d-sm-block">
+        @endif
 
-		@if ($iconPosition=='left')
-			<i class="{!! $icon !!}"></i> 
-		@endif
-		{!! $label !!}
-		@if ($iconPosition=='right')
-			<i class="{!! $icon !!}"></i> 
-		@endif
+        @if ($iconPosition=='left')
+            <i class="{!! $icon !!}"></i> 
+        @endif
+        {!! $label !!}
+        @if ($iconPosition=='right')
+            <i class="{!! $icon !!}"></i> 
+        @endif
 
-		@if ($hideLabelOnXS)
-		</span>
-		@endif
-	</a>
+        @if ($hideLabelOnXS)
+        </span>
+        @endif
+    </a>
 @endif

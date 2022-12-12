@@ -3,6 +3,7 @@
 use Illuminate\Support\Str;
 use App\Models\Address_linkable;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 function InternetIsConnected()
@@ -398,6 +399,12 @@ function render_synonyms_name($name_en = '', $name_kh = '')
     }
 }
 
+function validateDate($date, $format = 'Y-m-d')
+{
+    $d = DateTime::createFromFormat($format, $date);
+    return $d && $d->format($format) === $date;
+}
+
 function d_text($txt = null, $default = '-')
 {
     return $txt ?: $default;
@@ -463,6 +470,16 @@ function d_number()
 
 function d_money($amn, $currency = 'USD')
 {
+}
+
+function d_date($date, $format = 'Y-m-d H:i:s', $default = '-')
+{
+    return validateDate($date, $format) ? date('d-M-Y', strtotime($date)) : $default;
+}
+
+function d_date_time($date, $format = 'Y-m-d H:i:s', $default = '-')
+{
+    return validateDate($date, $format) ? date('d-M-Y h:i A', strtotime($date)) : $default;
 }
 
 function d_status($status)

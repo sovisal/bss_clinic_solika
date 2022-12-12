@@ -2,10 +2,9 @@
 	font-family: 'sysFont';
 	src: url('../../fonts/en/Segoe-UI.ttf');
 }
-
 html {
     color : #f5f5f5;
-    font-size: 14px;
+    font-size: 16px; /* Font size 14px is too small */
     font-style: normal;
     font-variant: normal;
     font-weight: 400;

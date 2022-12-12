@@ -2409,7 +2409,7 @@ ul.list-inline.list-inline-pipe > li + li:before {
 }
 /* .disabled:hover,
 :disabled:hover {
-	cursor: auto !important;
+	cursor: not-allowed !important;
 } */
 .round {
 	border-radius: 1.5rem;

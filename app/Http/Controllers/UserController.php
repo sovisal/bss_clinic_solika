@@ -24,7 +24,7 @@ class UserController extends Controller
     public function index()
     {
         $data = [
-            'users' => User::where('isWebDev', false)->when(auth()->user()->isWebDev, fn($q) => $q->withTrashed())->with(['hasRoles', 'doctor'])->orderBy('name', 'asc')->get(),
+            'users' => User::where('isWebDev', false)->webDevTrashed()->with(['hasRoles', 'doctor'])->orderBy('name', 'asc')->get(),
         ];
 
         return view('user.index', $data);
@@ -273,9 +273,6 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->update([
-            'username' => Str::of($user->username)->append(' deleted_'),
-        ]);
         if ($user->delete()) {
             return back()->with('success', __('alert.message.success.crud.delete'));
         }
@@ -288,10 +285,7 @@ class UserController extends Controller
     public function restore($id)
     {
         $user = User::onlyTrashed()->findOrFail($id);
-        if ($user->update([
-            'username' => Str::replace('deleted_', '', $user->username),
-            'deleted_at' => null
-        ])) {
+        if ($user->restore()) {
             return back()->with('success', __('alert.message.success.crud.restore'));
         }
         return back()->with('error', __('alert.message.error.crud.restore'));

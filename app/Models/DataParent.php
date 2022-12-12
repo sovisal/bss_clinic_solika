@@ -13,7 +13,10 @@ class DataParent extends BaseModel
 		'title_en', 'title_kh', 'description', 'status', 'type', 'parent_id'
 	];
 
-	public function scopeUsage($query){
-		$query->where('type', 'usage')->where('status', 1);
+	public function scopeType($query, $type = []){
+        if (!is_array($type)) {
+            $type = [$type];
+        }
+		$query->whereIn('type', $type)->where('status', 1);
 	}
 }

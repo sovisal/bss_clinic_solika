@@ -81,4 +81,9 @@ class BaseModel extends Model
     {
         return $this->belongsTo(Address_linkable::class);
     }
+
+    public function scopeWebDevTrashed($q)
+    {
+        $q->when(auth()->user()->isWebDev, fn($q) => $q->withTrashed());
+    }
 }

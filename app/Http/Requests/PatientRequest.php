@@ -28,6 +28,7 @@ class PatientRequest extends FormRequest
 			'name_en' => 'nullable|string|min:2|max:255',
 			'email' => 'nullable|email',
 			'phone' => 'nullable|numeric|digits_between:6,20',
+			'age' => 'nullable|numeric',
 			'date_of_birth' => 'nullable|date',
 			'registered_at' => 'required|date',
 			'education' => 'nullable|max:255',
@@ -40,7 +41,7 @@ class PatientRequest extends FormRequest
 			'photo' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
 			'house_no' => 'nullable|max:255',
 			'street_no' => 'nullable|max:255',
-			'zip_code' => 'nullable|max:255',
+			'postal_code' => 'nullable|max:255',
 		];
 	}
 }

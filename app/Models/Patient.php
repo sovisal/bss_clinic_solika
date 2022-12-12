@@ -13,15 +13,42 @@ class Patient extends BaseModel
     
     public function consultations()
     {
-        return $this->hasMany(Consultation::class, 'patient_id');
+        return $this->hasMany(Consultation::class, 'patient_id')->orderBy('status', 'asc');
     }
-    public function hasAddress()
+    
+    public function lastedConsultation()
     {
-        return $this->belongsTo(Address_linkable::class, 'address_id');
+        return $this->hasMany(Consultation::class, 'patient_id')->orderBy('status', 'asc')->first();
     }
+
+    public function gender()
+    {
+        return $this->belongsTo(DataParent::class, 'gender_id');
+    }
+
+    public function nationality()
+    {
+        return $this->belongsTo(DataParent::class, 'nationality_id');
+    }
+
+    public function enterprise()
+    {
+        return $this->belongsTo(DataParent::class, 'enterprise_id');
+    }
+
+    public function marital_status()
+    {
+        return $this->belongsTo(DataParent::class, 'marital_status_id');
+    }
+
+    public function blood_type()
+    {
+        return $this->belongsTo(DataParent::class, 'blood_type_id');
+    }
+
     public function address()
     {
-        return $this->belongsTo(Address_linkable::class, 'address_id')->first();
+        return $this->belongsTo(Address_linkable::class, 'address_id');
     }
 
     public function history()

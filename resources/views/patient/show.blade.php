@@ -15,7 +15,6 @@
 				<td>{{ date('d-M-Y H:m', strtotime($patient->registered_at)) }}</td>
 				<td width="150px" class="text-center" rowspan="4" style="vertical-align: top;">
 					<x-form.button href="{{ route('patient.edit', $patient->id) }}" class="btn-block" icon="bx bx-edit-alt" label="Edit" />
-					{{-- <x-form.button href="{{ route('patient.edit', $patient->id) }}" class="btn-block" color="secondary" icon="bx bx-printer" label="Print" /> --}}
 				</td>
 			</tr>
 			<tr>
@@ -26,7 +25,7 @@
 			</tr>
 			<tr>
 				<th>Gender <span class="float-right">:</span></th>
-				<td>{{ getParentDataByType('gender', $patient->gender) }}</td>
+				<td>{{ d_obj($patient, 'gender', ['title_kh', 'title_en']) }}</td>
 				<th>Phone <span class="float-right">:</span></th>
 				<td>{{ $patient->phone }}</td>
 			</tr>
@@ -63,7 +62,7 @@
 						<th width="200px">ID Card Number <span class="float-right">:</span></th>
 						<td>{{ $patient->id_card_no }}</td>
 						<th width="200px">Nationality <span class="float-right">:</span></th>
-						<td>{{ getParentDataByType('nationality', $patient->nationality) }}</td>
+						<td>{{ d_obj($patient, 'nationality', ['title_kh', 'title_en']) }}</td>
 					</tr>
 					<tr>
 						<th>Date of birth <span class="float-right">:</span></th>
@@ -75,17 +74,17 @@
 						<th>Education <span class="float-right">:</span></th>
 						<td>{{ $patient->education }}</td>
 						<th>Marital Status <span class="float-right">:</span></th>
-						<td>{{ getParentDataByType('marital_status', $patient->marital_status) }}</td>
+						<td>{{ d_obj($patient, 'marital_status', ['title_kh', 'title_en']) }}</td>
 					</tr>
 					<tr>
 						<th>Position <span class="float-right">:</span></th>
 						<td>{{ $patient->position }}</td>
 						<th>Enterprise <span class="float-right">:</span></th>
-						<td>{{ $patient->enterprise }}</td>
+						<td>{{ d_obj($patient, 'enterprise', ['title_kh', 'title_en']) }}</td>
 					</tr>
 					<tr>
 						<th>Blood Type <span class="float-right">:</span></th>
-						<td>{{ getParentDataByType('blood_type', $patient->blood_type) }}</td>
+						<td>{{ d_obj($patient, 'blood_type', ['title_kh', 'title_en']) }}</td>
 						<td colspan="2"></td>
 					</tr>
 
@@ -100,19 +99,19 @@
 					</tr>
 					<tr>
 						<th>Villsage <span class="float-right">:</span></th>
-						<td>{{ $patient->hasAddress ? render_synonyms_name($patient->hasAddress->village_en, $patient->hasAddress->village_kh) : 'N/A' }}</td>
+						<td>{{ $patient->address ? render_synonyms_name($patient->address->village_en, $patient->address->village_kh) : 'N/A' }}</td>
 						<th>Commune <span class="float-right">:</span></th>
-						<td>{{ $patient->hasAddress ? render_synonyms_name($patient->hasAddress->commune_en, $patient->hasAddress->commune_kh) : 'N/A' }}</td>
+						<td>{{ $patient->address ? render_synonyms_name($patient->address->commune_en, $patient->address->commune_kh) : 'N/A' }}</td>
 					</tr>
 					<tr>
 						<th>District <span class="float-right">:</span></th>
-						<td>{{ $patient->hasAddress ? render_synonyms_name($patient->hasAddress->district_en, $patient->hasAddress->district_kh) : 'N/A' }}</td>
+						<td>{{ $patient->address ? render_synonyms_name($patient->address->district_en, $patient->address->district_kh) : 'N/A' }}</td>
 						<th>Province <span class="float-right">:</span></th>
-						<td>{{ $patient->hasAddress ? render_synonyms_name($patient->hasAddress->province_en, $patient->hasAddress->province_kh) : 'N/A' }}</td>
+						<td>{{ $patient->address ? render_synonyms_name($patient->address->province_en, $patient->address->province_kh) : 'N/A' }}</td>
 					</tr>
 					<tr>
 						<th>Zip Code <span class="float-right">:</span></th>
-						<td>{{ $patient->zip_code }}</td>
+						<td>{{ $patient->postal_code }}</td>
 						<td colspan="2"></td>
 					</tr>
 				</table>

@@ -2,7 +2,10 @@
 
 namespace Database\Seeders;
 
+use Exception;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Config;
 
 class AddressLinkableSeeder extends Seeder
 {
@@ -13,6 +16,6 @@ class AddressLinkableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        exec("mysql --user=".Config::get('database.connections.mysql.username')." --password=".Config::get('database.connections.mysql.password')." ".Config::get('database.connections.mysql.database')." < ". database_path('manual_sql/addresses.sql'));
     }
 }

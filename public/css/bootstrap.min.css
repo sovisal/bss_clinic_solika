@@ -2830,10 +2830,10 @@ textarea.form-control.is-invalid {
 .btn:disabled {
 	opacity: 0.6;
 }
-a.btn.disabled,
+/* a.btn.disabled,
 fieldset:disabled a.btn {
 	pointer-events: none;
-}
+} */
 .btn-primary {
 	color: #fff;
 	background-color: #5a8dee;
