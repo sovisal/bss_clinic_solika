@@ -20,17 +20,19 @@
                     <th>
                         {{ $code_length == 2 ? 'Commune' : ($code_length == 4 ? 'Village' : ($code_length == 6 ? '' : 'District')) }}
                     </th>
+                    <th>User</th>
                     <th width="10%">Action</th>
                 </tr>
             </x-slot>
             @foreach($address as $i => $addr)
             <tr>
                 <td class="text-center">{{ ++$i }}</td>
-                <td>{{ d_combine_array($addr, ['_name_en', '_name_kh']) }}</td>
-                <td>{{ d_combine_array($addr, ['_type_en', '_type_kh']) }}</td>
+                <td>{{ d_array($addr, ['_name_en', '_name_kh']) }}</td>
+                <td>{{ d_array($addr, ['_type_en', '_type_kh']) }}</td>
                 <td class="text-center">
                     {!! ($code_length < 6) ? '<a href="?addr=' . $addr['_code'] .'"><i class="bx bx-folder-open"></i></a>' : '--' !!}
                 </td>
+                <td>{{ d_array($addr, 'user', 'name') }}</td>
                 <td class="text-center">
                     <x-form.button color="secondary" class="btn-sm" href="{{ route('setting.address.edit', $addr['_code']) }}?addr={{ $_addr }}" icon="bx bx-edit-alt" />
                 </td>

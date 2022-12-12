@@ -59,7 +59,7 @@ class FourLevelAddressController extends Controller
         else $province = FourLevelAddress::where('_type_en', $level_type);
 
         if ($code) $province->where('_code', 'like',  $code . '%');
-        return $province->orderBy($order_by)->limit(100)->get()->toArray();
+        return $province->with('user')->orderBy($order_by)->limit(100)->get()->toArray();
     }
 
     // array|selection|datalist|option|array_selection
