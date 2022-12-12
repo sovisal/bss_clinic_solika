@@ -31,30 +31,30 @@ class DataParentController extends Controller
         return view('data_parent.index', $this->data);
     }
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
-	public function create()
-	{
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
         $type = session('data_parent_type') ?? 'blood_type';
         $this->data['module_conf'] = $module_conf = data_parent_selection_conf()[$type];
         if ($module_conf['is_child'] ?? false) {
             $this->data['parent_module_conf'] = data_parent_selection_conf()[$module_conf['child_of']];
             $this->data['parent_list'] = getParentDataSelection($module_conf['child_of']);
         }
-		return view('data_parent.create', $this->data);
-	}
+        return view('data_parent.create', $this->data);
+    }
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @param  \App\Http\Requests\StoreDataParentRequest  $request
-	 * @return \Illuminate\Http\Response
-	 */
-	public function store(Request $request)
-	{
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\StoreDataParentRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
         $dataParent = new DataParent();
         $type = session('data_parent_type') ?? 'other';
 
@@ -64,22 +64,21 @@ class DataParentController extends Controller
             'description' => $request->description,
             'parent_id' => $request->parent_id ?: 0,
             'type' => $type,
-            'status' => 1
         ])) {
             return redirect()->route('setting.data-parent.index')->with('success', 'Data created success');
         }
-	}
+    }
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  \App\Models\DataParent  $dataParent
-	 * @return \Illuminate\Http\Response
-	 */
-	public function show(DataParent $dataParent)
-	{
-		//
-	}
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\DataParent  $dataParent
+     * @return \Illuminate\Http\Response
+     */
+    public function show(DataParent $dataParent)
+    {
+        //
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -93,7 +92,7 @@ class DataParentController extends Controller
         $type = session('data_parent_type') ?? 'blood_type';
         $data['row'] = $dataParent;
         $data['module_conf'] = $module_conf = data_parent_selection_conf()[$type];
-        
+
         if ($module_conf['is_child'] ?? false) {
             $data['parent_module_conf'] = data_parent_selection_conf()[$module_conf['child_of']];
             $data['parent_list'] = getParentDataSelection($module_conf['child_of']);
@@ -117,26 +116,26 @@ class DataParentController extends Controller
         }
     }
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  \App\Models\DataParent  $dataParent
-	 * @return \Illuminate\Http\Response
-	 */
-	public function destroy(Request $request, DataParent $dataParent)
-	{
-		$dataParent->status = 0;
-        if ($dataParent->update()) {
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\DataParent  $dataParent
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(DataParent $dataParent)
+    {
+        if ($dataParent->delete()) {
             return redirect()->route('setting.data-parent.index')->with('success', 'Data delete success');
         }
-	}
+    }
 
     /* Function to get value of data-parent (For table display)
     * Can be used in table display
     * example :  {{ (\App\Http\Controllers\DataParentController::getParentDataByType('nationality', 1)) }} type + id
     * this function is store in session for performance purpose
     */
-    static function getParentDataByType($type, $id) {
+    static function getParentDataByType($type, $id)
+    {
         if (empty($type) || empty($id)) {
             return '';
         }
@@ -154,7 +153,7 @@ class DataParentController extends Controller
             session(['backup_rows' => $rows]);
         }
 
-        if (sizeof($rows) > 0)  {
+        if (sizeof($rows) > 0) {
             return array_key_exists($id, $rows) ? render_synonyms_name($rows[$id]['title_en'], $rows[$id]['title_kh']) : '';
         }
         return '';
@@ -164,7 +163,8 @@ class DataParentController extends Controller
     * Can be used in form selection
     * example :  {{ (\App\Http\Controllers\DataParentController::getParentDataSelection('nationality')) }} type
     */
-    static function getParentDataSelection($type = '', $where_clause = []) {
+    static function getParentDataSelection($type = '', $where_clause = [])
+    {
         if (!$type) {
             return [];
         }
@@ -172,7 +172,7 @@ class DataParentController extends Controller
         $rows = [];
         array_map(function ($obj) use (&$rows) {
             $rows[$obj['id']] = render_synonyms_name($obj['title_en'], $obj['title_kh']);
-        }, DataParent::where('type', $type)->where($where_clause ?: ['status'=> 1])->orderBy('title_en', 'ASC')->get()->toArray());
+        }, DataParent::where('type', $type)->where($where_clause ?: ['status' => 1])->orderBy('title_en', 'ASC')->get()->toArray());
 
         return $rows;
     }

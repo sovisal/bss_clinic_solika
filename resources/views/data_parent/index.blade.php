@@ -36,7 +36,7 @@
                 @endif
                 <td>{{ d_text($row->description) }}</td>
                 <td class="text-center">{{ d_obj($row, 'user', 'name') }}</td>
-                <td class="text-center">{{ $row->status }}</td>
+                <td class="text-center">{!! d_status($row->status) !!}</td>
                 <td class="text-center">
                     <x-form.button color="secondary" class="btn-sm" href="{{ route('setting.data-parent.edit', $row->id) }}" icon="bx bx-edit-alt" />
                     <x-form.button color="danger" class="confirmDelete btn-sm" data-id="{{ $row->id }}" icon="bx bx-trash" />
