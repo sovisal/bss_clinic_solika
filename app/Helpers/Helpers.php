@@ -457,12 +457,18 @@ function d_obj($obj = null, $param1 = null, $param2 = null, $param3 = null)
     }
 }
 
-function d_number()
+function d_number($num)
 {
+    return is_numeric($num) ? $num : '-';
 }
 
-function d_money($amn, $currency = 'USD')
+function d_currency($amn, $digit = 2, $currency = 'USD', $id_suffix_display = false)
 {
+    $amn = $amn ?? 0;
+    if ($id_suffix_display) {
+        return number_format($amn, $digit) . ' ' . $currency;
+    }
+    return $currency . ' ' . number_format($amn, $digit);
 }
 
 function d_status($status)

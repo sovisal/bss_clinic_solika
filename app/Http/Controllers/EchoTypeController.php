@@ -17,8 +17,8 @@ class EchoTypeController extends Controller
     public function index()
     {
         $this->data['rows'] = EchoType::with(['user'])->where('status', 1)
-                                ->orderBy('index', 'asc')
-                                ->get();
+            ->orderBy('index', 'asc')
+            ->get();
         return view('echo_type.index', $this->data);
     }
 
@@ -52,7 +52,6 @@ class EchoTypeController extends Controller
             'attribite' => $request->attribite,
             'index' => $request->index ?: 999,
             'default_form' => $request->default_form,
-            'status' => 1,
         ])) {
             return redirect()->route('setting.echo-type.index')->with('success', 'Data created success');
         }
@@ -91,8 +90,6 @@ class EchoTypeController extends Controller
      */
     public function update(Request $request, EchoType $echoType)
     {
-        $request['status'] = 1;
-
         // serialize all post into string
         $serialize = array_except($request->all(), ['_method', '_token']);
         $request['attribite'] = serialize($serialize);
@@ -110,8 +107,7 @@ class EchoTypeController extends Controller
      */
     public function destroy(EchoType $echoType)
     {
-        $echoType->status = 0;
-        if ($echoType->update()) {
+        if ($echoType->delete()) {
             return redirect()->route('setting.echo-type.index')->with('success', 'Data delete success');
         }
     }

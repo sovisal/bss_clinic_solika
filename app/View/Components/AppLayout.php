@@ -227,7 +227,7 @@ class AppLayout extends Component
                         'can' => 'DeveloperMode',
                         'url' => route('setting.echo-type.index'),
                         'name' => ['index', 'create', 'edit'],
-                        'label' => 'Echo Template',
+                        'label' => 'Echo Service',
                     ],
                     'ecg-type' => [
                         'can' => 'DeveloperMode',

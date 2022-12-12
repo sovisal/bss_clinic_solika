@@ -22,10 +22,10 @@
             <tr>
                 <td class="text-center">{{ ++$i }}</td>
                 <td>{{ d_obj($row, ['name_en', 'name_kh']) }}</td>
-                <td class="text-right">{{ render_currency($row->price) }}</td>
-                <td class="text-center">{{ $row->index }}</td>
+                <td class="text-right">{{ d_currency($row->price) }}</td>
+                <td class="text-center">{{ d_number($row->index) }}</td>
                 <td class="text-center">{{ d_obj($row, 'user', 'name') }}</td>
-                <td class="text-center">{{ $row->status }}</td>
+                <td class="text-center">{!! d_status($row->status) !!}</td>
                 <td class="text-center">
                     <x-form.button color="secondary" class="btn-sm" href="{{ route('setting.echo-type.edit', $row->id) }}" icon="bx bx-edit-alt" />
                     <x-form.button color="danger" class="confirmDelete btn-sm" data-id="{{ $row->id }}" icon="bx bx-trash" />
