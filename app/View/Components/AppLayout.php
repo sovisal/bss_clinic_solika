@@ -239,7 +239,7 @@ class AppLayout extends Component
                         'can' => 'DeveloperMode',
                         'url' => route('setting.xray-type.index'),
                         'name' => ['index', 'create', 'edit'],
-                        'label' => 'Xray Template',
+                        'label' => 'Xray Service',
                     ],
                     'data-parent' => [
                         'can' => 'DeveloperMode',

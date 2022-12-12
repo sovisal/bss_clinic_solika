@@ -17,8 +17,8 @@ class XrayTypeController extends Controller
     public function index()
     {
         $this->data['rows'] = XrayType::with(['user'])->where('status', 1)
-        ->orderBy('index', 'asc')
-        ->get();
+            ->orderBy('index', 'asc')
+            ->get();
         return view('xray_type.index', $this->data);
     }
 
@@ -52,7 +52,6 @@ class XrayTypeController extends Controller
             'attribite' => $request->attribite,
             'index' => $request->index ?: 999,
             'default_form' => $request->default_form,
-            'status' => 1,
         ])) {
             return redirect()->route('setting.xray-type.index')->with('success', 'Data created success');
         }
@@ -91,8 +90,6 @@ class XrayTypeController extends Controller
      */
     public function update(Request $request, XrayType $xrayType)
     {
-        $request['status'] = 1;
-
         // serialize all post into string
         $serialize = array_except($request->all(), ['_method', '_token']);
         $request['attribite'] = serialize($serialize);
@@ -110,8 +107,7 @@ class XrayTypeController extends Controller
      */
     public function destroy(XrayType $xrayType)
     {
-        $xrayType->status = 0;
-        if ($xrayType->update()) {
+        if ($xrayType->delete()) {
             return redirect()->route('setting.xray-type.index')->with('success', 'Data delete success');
         }
     }
