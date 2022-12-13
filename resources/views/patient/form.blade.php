@@ -5,27 +5,12 @@
     <x-bss-form.input-row name="name_kh" :value="old('name_kh', @$patient->name_kh)" required autofocus label="Name in Khmer" />
     <x-bss-form.input-row name="name_en" :value="old('name_en', @$patient->name_en)" label="Name in English" />
     <x-bss-form.input-row name="id_card_no" :value="old('id_card_no', @$patient->id_card_no)" label="Identity Card Number" />
-    <x-bss-form.choices-row type="radio" name="gender_id" :checked="old('gender_id', @$patient->gender_id) ?? 2" :data="$genders" required
-        label="Gender" />
+    <x-bss-form.choices-row type="radio" name="gender_id" :checked="old('gender_id', @$patient->gender_id) ?? 2" :data="$genders" required label="Gender" />
     <x-bss-form.input-row type="email" name="email" :value="old('email', @$patient->email)" label="E-mail" />
     <x-bss-form.input-row name="phone" class="is_number" :value="old('phone', @$patient->phone)" label="Phone" />
     <x-bss-form.input-row name="age" class="is_number" :value="old('age', @$patient->age)" label="Age" />
-    <x-bss-form.input-row
-        name="date_of_birth"
-        :value="old('date_of_birth', @$patient->date_of_birth)"
-        class="date-picker"
-        hasIcon="right"
-        icon="bx bx-calendar"
-        label="Date of Birth"
-    />
-    <x-bss-form.input-row
-        name="registered_at"
-        :value="old('registered_at', ($patient->registered_at ?? date('Y-m-d H:i:s')))"
-        class="date-time-picker"
-        hasIcon="right"
-        icon="bx bx-calendar"
-        label="Date of Birth"
-    />
+    <x-bss-form.input-row name="date_of_birth" :value="old('date_of_birth', @$patient->date_of_birth)" class="date-picker" hasIcon="right" icon="bx bx-calendar" label="Date of Birth" />
+    <x-bss-form.input-row name="registered_at" :value="old('registered_at', ($patient->registered_at ?? date('Y-m-d H:i:s')))" class="date-time-picker" hasIcon="right" icon="bx bx-calendar" label="Registered at" />
     <x-bss-form.input-row name="education" :value="old('education', @$patient->education)" label="Education" />
     <x-bss-form.select-row name="marital_status_id" :selected="old('marital_status_id', @$patient->marital_status_id)" :data="$marital_statuses" label="Marital Status" />
     <x-bss-form.select-row name="nationality_id" :selected="old('nationality_id', @$patient->nationality_id)" :data="$nationalities" label="Nationality" />

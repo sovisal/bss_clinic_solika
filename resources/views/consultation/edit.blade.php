@@ -215,7 +215,7 @@
                     <td width="20%" class="text-right">Patient <small class='required'>*</small></td>
                     <td width="30%">
                         <x-bss-form.select name="patient_id" :select2="false" readonly required>
-                            <option value="{{ $consultation->patient_id }}" selected>{{ $consultation->patient->name_kh }}</option>
+                            <option value="{{ $consultation->patient_id }}" selected>{{ render_synonyms_name($consultation->patient->name_en, $consultation->patient->name_kh) }}</option>
                             </x-form.select2>
                     </td>
                     <td width="20%" class="text-right">Payment Type</td>

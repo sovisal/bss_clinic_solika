@@ -43,6 +43,8 @@ class CreatePatientsTable extends Migration
             $table->foreignId('user_id')->nullable()->constrained();
             $table->softDeletes();
             $table->timestamps();
+
+            $table->index(['age']);
         });
     }
 

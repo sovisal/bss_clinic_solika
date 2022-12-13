@@ -139,7 +139,7 @@ class User extends Authenticatable
         return $this->hasOne(Doctor::class, 'id', 'doctor_id');
     }
 
-    public function scopeWebDevTrashed($q)
+    public function scopeFilterTrashed($q)
     {
         $q->when(auth()->user()->isWebDev, fn($q) => $q->withTrashed());
     }

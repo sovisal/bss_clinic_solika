@@ -444,7 +444,7 @@
                     <td width="30%">
                         @if ($patient)
                         <x-bss-form.select name="patient_id" :select2="false" readonly required>
-                            <option value="{{ $patient->id }}" selected>{{ $patient->name_kh }}</option>
+                            <option value="{{ $patient->id }}" selected>{{ render_synonyms_name($patient->name_en, $patient->name_kh) }}</option>
                             </x-form.select2>
                             @else
                             <x-bss-form.select2 name="patient_id" data-url="{{ route('patient.getSelect2') }}" data-placeholder="---- None ----"

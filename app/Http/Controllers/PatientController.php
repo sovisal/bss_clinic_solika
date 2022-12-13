@@ -58,8 +58,6 @@ class PatientController extends Controller
                 'payment_type' => null,
                 'evaluated_at' => now(),
                 'attribute' => '',
-                'status' => '1',
-                'user_id' => auth()->user()->id,
             ]);
         }
 
