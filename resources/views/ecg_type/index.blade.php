@@ -7,13 +7,13 @@
         <x-table class="table-hover table-striped" id="datatables" data-table="patients">
             <x-slot name="thead">
                 <tr>
-                    <th>No</th>
+                    <th width="8%">No</th>
                     <th>Name</th>
-                    <th>Price</th>
-                    <th>Index</th>
-                    <th>User</th>
-                    <th>Status</th>
-                    <th>Action</th>
+                    <th width="15%">Price</th>
+                    <th width="10%">Order</th>
+                    <th width="15%">User</th>
+                    <th width="12%">Status</th>
+                    <th width="15%">Action</th>
                 </tr>
             </x-slot>
             @php $i = 0; @endphp
@@ -32,7 +32,6 @@
                             :id="$row->id"
                             :is-trashed="$row->trashed()"
                             :disable-edit="$row->trashed()"
-                            :show-btn-force-delete="true"
                             :show-btn-show="false"
                         />
                     </td>

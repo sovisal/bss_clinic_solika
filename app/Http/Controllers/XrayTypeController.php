@@ -11,12 +11,12 @@ class XrayTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $this->data['rows'] = XrayType::with(['user'])->where('status', 1)
+        $this->data['rows'] = XrayType::with(['user'])
+            ->where('status', 1)
+            ->filterTrashed()
             ->orderBy('index', 'asc')
             ->get();
         return view('xray_type.index', $this->data);
@@ -24,28 +24,22 @@ class XrayTypeController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        return view('xray_type.create');
+        $data['index'] = XrayType::getNextIndex();
+        return view('xray_type.create', $data);
     }
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreXrayTypeRequest  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         // serialize all post into string
         $serialize = array_except($request->all(), ['_method', '_token']);
         $request['attribite'] = serialize($serialize);
-
-        $dataParent = new XrayType();
-        if ($dataParent->create([
+        if (XrayType::create([
             'name_en' => $request->name_en,
             'name_kh' => $request->name_kh,
             'price' => $request->price ?: 0,
@@ -58,21 +52,7 @@ class XrayTypeController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\XrayType  $xrayType
-     * @return \Illuminate\Http\Response
-     */
-    public function show(XrayType $xrayType)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\XrayType  $xrayType
-     * @return \Illuminate\Http\Response
      */
     public function edit(XrayType $xrayType)
     {
@@ -83,10 +63,6 @@ class XrayTypeController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateXrayTypeRequest  $request
-     * @param  \App\Models\XrayType  $xrayType
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, XrayType $xrayType)
     {
@@ -94,21 +70,62 @@ class XrayTypeController extends Controller
         $serialize = array_except($request->all(), ['_method', '_token']);
         $request['attribite'] = serialize($serialize);
 
-        if ($xrayType->update($request->all())) {
+        if ($xrayType->update([
+            'name_en' => $request->name_en,
+            'name_kh' => $request->name_kh,
+            'price' => $request->price ?: 0,
+            'attribite' => $request->attribite,
+            'index' => $request->index ?: 999,
+            'default_form' => $request->default_form,
+        ])) {
             return redirect()->route('setting.xray-type.index')->with('success', 'Data update success');
         }
     }
 
+    public function sort_order()
+    {
+        $data['rows'] = XrayType::where('status', 1)->orderBy('index', 'asc')->get();
+        $data['url'] = route('setting.xray-type.update_order');
+        return view('shared.setting_service.order', $data);
+    }
+
+    public function update_order(Request $request)
+    {
+        XrayType::saveOrder($request);
+        return back()->with('success', 'Data sort successful');
+    }
+
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\XrayType  $xrayType
-     * @return \Illuminate\Http\Response
      */
     public function destroy(XrayType $xrayType)
     {
         if ($xrayType->delete()) {
             return redirect()->route('setting.xray-type.index')->with('success', 'Data delete success');
         }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function restore($id)
+    {
+        $ecgType = XrayType::onlyTrashed()->findOrFail($id);
+        if ($ecgType->restore()) {
+            return back()->with('success', __('alert.message.success.crud.restore'));
+        }
+        return back()->with('error', __('alert.message.error.crud.restore'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function force_delete($id)
+    {
+        $ecgType = XrayType::onlyTrashed()->findOrFail($id);
+        if ($ecgType->forceDelete()) {
+            return back()->with('success', __('alert.message.success.crud.force_detele'));
+        }
+        return back()->with('error', __('alert.message.error.crud.force_detele'));
     }
 }

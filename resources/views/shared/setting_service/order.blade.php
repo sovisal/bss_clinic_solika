@@ -20,11 +20,13 @@
     </x-slot>
 
 
-    <form action="{{ route('setting.ecg-type.update_order') }}" method="POST">
+    <form action="{{ $url ?? '#' }}" method="POST">
         @csrf
         <x-card class="widget-todo">
-            <x-slot name="header">
-                <h5>Sort Type Order</h5>
+            <x-slot name="action">
+                <x-form.button type="submit" icon="bx bx-save" label="Save" />
+            </x-slot>
+            <x-slot name="footer">
                 <x-form.button type="submit" icon="bx bx-save" label="Save" />
             </x-slot>
             <x-dragable-list>
@@ -37,9 +39,6 @@
                 </x-dragable-item>
                 @endforeach
             </x-dragable-list>
-            <x-slot name="footer">
-                <x-form.button type="submit" icon="bx bx-save" label="Save" />
-            </x-slot>
         </x-card>
     </form>
 </x-app-layout>

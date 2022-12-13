@@ -2,6 +2,9 @@
 	<x-slot name="header">
 		<x-form.button href="{{ route('setting.echo-type.index') }}" color="danger" icon="bx bx-left-arrow-alt" label="Back" />
 	</x-slot>
+    <x-slot name="js">
+        <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+    </x-slot>
 	<form action="{{ route('setting.echo-type.store') }}" method="POST" autocomplete="off" enctype="multipart/form-data">
 		@method('PUT')
 		@csrf

@@ -13,6 +13,7 @@ return [
 		'create' => 'Create',
 		'edit' => 'Edit',
 		'show' => 'Show',
+		'sort_order' => 'Sort Order',
 		'image' => 'Image',
 		'ability' => 'Assign Ability',
 		'role' => 'Assign Role',
