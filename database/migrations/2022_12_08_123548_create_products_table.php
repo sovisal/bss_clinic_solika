@@ -22,6 +22,7 @@ class CreateProductsTable extends Migration
             $table->string('price', 10)->default('0');
             $table->string('image', 10)->default('0');
 
+            $table->float('qty_begin')->default(0);
             $table->float('qty_alert')->default(0);
             $table->float('qty_in')->default(0);
             $table->float('qty_out')->default(0);
