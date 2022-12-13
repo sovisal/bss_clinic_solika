@@ -1,12 +1,12 @@
 pace.start();
 
 // Start setup CSRF for ajax
-$.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
+$.ajaxSetup({
+    headers: { "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content") },
+});
 // Start setup CSRF for ajax
 
-
 // document.addEventListener('contextmenu', event => event.preventDefault());
-
 const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
         confirmButton: "btn btn-primary tw-ml-1",
@@ -15,51 +15,67 @@ const swalWithBootstrapButtons = Swal.mixin({
     buttonsStyling: false,
 });
 
-
-function getDetail(id, url, title = 'Detail'){
+function getDetail(id, url, title = "Detail") {
     $.ajax({
         type: "POST",
         url: url,
         data: {
-            'id': id,
+            id: id,
         },
-        success: function(rs){
+        success: function (rs) {
             if (rs.success) {
-                $('#detail-modal .modal-body .header-info').html(rs.header);
-                $('#detail-modal .modal-body .body').html(rs.body);
-                $('#detail-modal .btn-print').attr('onclick', `printPopup('${rs.print_url}')`);
-                $('#detail-modal .modal-header h3').html(title);
-                $('#detail-modal').modal();
+                $("#detail-modal .modal-body .header-info").html(rs.header);
+                $("#detail-modal .modal-body .body").html(rs.body);
+                $("#detail-modal .btn-print").attr(
+                    "onclick",
+                    `printPopup('${rs.print_url}')`
+                );
+                $("#detail-modal .modal-header h3").html(title);
+                $("#detail-modal").modal();
             }
         },
-        error: function (rs){
+        error: function (rs) {
             alert(rs.message);
-        }
+        },
     });
 }
 
-
-function formValidate(target = 'form') {
+function formValidate(target = "form") {
     var rs = true;
-    $(target +" input,"+ target +" textarea,"+ target +" checkbox,"+ target +" radio,"+ target +" select").each(function () {
-        var attr = $(this).attr('required');
-        if ((typeof attr !== "undefined" && attr !== false) && $(this).val() == '') {
-            swalWithBootstrapBtns.fire({
-                title: "Invalid input!",
-                text: "Input all required fields.",
-                icon: 'warning',
-                confirmButtonText: "Okay",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    
-                }
-            })
+    $(
+        target +
+            " input," +
+            target +
+            " textarea," +
+            target +
+            " checkbox," +
+            target +
+            " radio," +
+            target +
+            " select"
+    ).each(function () {
+        var attr = $(this).attr("required");
+        if (
+            typeof attr !== "undefined" &&
+            attr !== false &&
+            $(this).val() == ""
+        ) {
+            swalWithBootstrapBtns
+                .fire({
+                    title: "Invalid input!",
+                    text: "Input all required fields.",
+                    icon: "warning",
+                    confirmButtonText: "Okay",
+                })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                    }
+                });
             rs = false;
         }
     });
     return rs;
 }
-
 
 // Start Input Number only
 function isNum(value) {
@@ -69,34 +85,34 @@ function isInt(value) {
     return /^\d*$/.test(value);
 }
 function isNumber(evt) {
-    evt = (evt) ? evt : window.event;
-    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    evt = evt ? evt : window.event;
+    var charCode = evt.which ? evt.which : evt.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 46) {
         return false;
     }
     return true;
 }
 function isInteger(evt) {
-    evt = (evt) ? evt : window.event;
-    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    evt = evt ? evt : window.event;
+    var charCode = evt.which ? evt.which : evt.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
         return false;
     }
     return true;
 }
 
-$(document).on('focusout keyup', 'input[type="number"]', function () {
-    var min = $(this).attr('min'),
-        max = $(this).attr('max'),
+$(document).on("focusout keyup", 'input[type="number"]', function () {
+    var min = $(this).attr("min"),
+        max = $(this).attr("max"),
         value = $(this).val();
-    if (min != undefined && (parseInt(value) < parseInt(min))) {
+    if (min != undefined && parseInt(value) < parseInt(min)) {
         $(this).val(min);
     }
-    if (max != undefined && (parseInt(value) > parseInt(max))) {
+    if (max != undefined && parseInt(value) > parseInt(max)) {
         $(this).val(max);
     }
- });
-$(document).on('keyup keypress', '.is_number', function (evt) {
+});
+$(document).on("keyup keypress", ".is_number", function (evt) {
     if (isNum(this.value)) {
         this.oldValue = this.value;
         this.oldSelectionStart = this.selectionStart;
@@ -109,7 +125,7 @@ $(document).on('keyup keypress', '.is_number', function (evt) {
     }
     return isNumber(evt);
 });
-$(document).on('keyup keypress', '.is_integer', function (evt) {
+$(document).on("keyup keypress", ".is_integer", function (evt) {
     if (isInt(this.value)) {
         this.oldValue = this.value;
         this.oldSelectionStart = this.selectionStart;
@@ -124,539 +140,758 @@ $(document).on('keyup keypress', '.is_integer', function (evt) {
 });
 // End Input Number only
 
-
 // start export filter to excel
-$(document).on('click', '.btn-export', function() {
-    var url = $(this).data('url');
-    if (url!=undefined) {
-        $('#form-filter').attr('action', url).submit();
-        $('button').prop('disabled', false);
+$(document).on("click", ".btn-export", function () {
+    var url = $(this).data("url");
+    if (url != undefined) {
+        $("#form-filter").attr("action", url).submit();
+        $("button").prop("disabled", false);
         setTimeout(() => {
-            $('.btn-search-filter').click();
+            $(".btn-search-filter").click();
         }, 1000);
     }
 });
-$(document).on('click', '.btn-search-filter', function(e) {
-    var url = $(this).data('url');
-    if (url!=undefined) {
+$(document).on("click", ".btn-search-filter", function (e) {
+    var url = $(this).data("url");
+    if (url != undefined) {
         e.preventDefault();
-        $('#form-filter').attr('action', url).submit();
+        $("#form-filter").attr("action", url).submit();
     }
 });
 // end export filter to excel
 
-function pageLoading(value = 'show') {
-    if (value == 'show') {
-        $('.custom-loading-screen').removeClass('sr-only');
+function pageLoading(value = "show") {
+    if (value == "show") {
+        $(".custom-loading-screen").removeClass("sr-only");
     } else {
-        $('.custom-loading-screen').addClass('sr-only');
+        $(".custom-loading-screen").addClass("sr-only");
     }
 }
 function printPopup(url) {
-    var printWindow = window.open(url, 'To Print', "width="+ screen.availWidth +",height="+ screen.availHeight +",_blank");
+    var printWindow = window.open(
+        url,
+        "To Print",
+        "width=" +
+            screen.availWidth +
+            ",height=" +
+            screen.availHeight +
+            ",_blank"
+    );
     var printAndClose = function () {
-        if (printWindow.document.readyState == 'complete') {
+        if (printWindow.document.readyState == "complete") {
             clearInterval(sched);
             printWindow.print();
             printWindow.close();
         }
-    }
+    };
     var sched = setInterval(printAndClose, 1000);
-};
+}
 
 function previewPopup(url) {
-    var printWindow = window.open(url, 'To Print', "width="+ screen.availWidth +",height="+ screen.availHeight +",_blank");
-};
+    var printWindow = window.open(
+        url,
+        "To Print",
+        "width=" +
+            screen.availWidth +
+            ",height=" +
+            screen.availHeight +
+            ",_blank"
+    );
+}
 
 // Start Initial Toastr
-function flashMsg(type='success', title, text) {
+function flashMsg(type = "success", title, text) {
     var toastrConfig = {
-                        showMethod: "slideDown",
-                        hideMethod: "slideUp",
-                        showDuration: 100,
-                        hideDuration: 100,
-                        timeOut: 3e3,
-                        closeButton: !0,
-                        tapToDismiss: 1
-                    };
-    if (type=='success') {
-        toastr.success(
-            text,
-            title,
-            toastrConfig
-        );
-    }else if(type=='warning'){
-        toastr.warning(
-            text,
-            title,
-            toastrConfig
-        );
-    }else if(type=='error'){
-        toastr.error(
-            text,
-            title,
-            toastrConfig
-        );
+        showMethod: "slideDown",
+        hideMethod: "slideUp",
+        showDuration: 100,
+        hideDuration: 100,
+        timeOut: 3e3,
+        closeButton: !0,
+        tapToDismiss: 1,
+    };
+    if (type == "success") {
+        toastr.success(text, title, toastrConfig);
+    } else if (type == "warning") {
+        toastr.warning(text, title, toastrConfig);
+    } else if (type == "error") {
+        toastr.error(text, title, toastrConfig);
     }
 }
 // End Initial Toastr
 
-
-$(document).ready(function(){
+$(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip({ container: "body" });
-
     // Start Initial Daterangepicker
-        $(".daterange-picker").daterangepicker({
+    $(".daterange-picker")
+        .daterangepicker({
             ranges: {
                 Today: [moment(), moment()],
-                Yesterday: [moment().subtract(1, "days"), moment().subtract(1, "days")],
+                Yesterday: [
+                    moment().subtract(1, "days"),
+                    moment().subtract(1, "days"),
+                ],
                 "Last 7 Days": [moment().subtract(6, "days"), moment()],
                 "Last 30 Days": [moment().subtract(29, "days"), moment()],
-                "This Month": [moment().startOf("month"), moment().endOf("month")],
-                "Last Month": [moment().subtract(1, "month").startOf("month"), moment().subtract(1, "month").endOf("month")],
-                "Life Time": [moment('2020-01-01'), moment()],
+                "This Month": [
+                    moment().startOf("month"),
+                    moment().endOf("month"),
+                ],
+                "Last Month": [
+                    moment().subtract(1, "month").startOf("month"),
+                    moment().subtract(1, "month").endOf("month"),
+                ],
+                "Life Time": [moment("2020-01-01"), moment()],
             },
             locale: {
-                cancelLabel: 'Clear',
+                cancelLabel: "Clear",
             },
-            cancelClass:"btn-danger",
+            cancelClass: "btn-danger",
             autoUpdateInput: false,
             alwaysShowCalendars: true,
-        }).on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format('DD/MMM/YYYY') + ' - ' + picker.endDate.format('DD/MMM/YYYY'));
-            $('#'+ picker.element.attr('id') +'_drp_start').val(picker.startDate.format('YYYY-MM-DD'));
-            $('#'+ picker.element.attr('id') +'_drp_end').val(picker.endDate.format('YYYY-MM-DD'));
-        }).on('cancel.daterangepicker', function(event, picker) {
-            $(this).val('');
-            $('#'+ picker.element.attr('id') +'_drp_start').val('');
-            $('#'+ picker.element.attr('id') +'_drp_end').val('');
+        })
+        .on("apply.daterangepicker", function (ev, picker) {
+            $(this).val(
+                picker.startDate.format("DD/MMM/YYYY") +
+                    " - " +
+                    picker.endDate.format("DD/MMM/YYYY")
+            );
+            $("#" + picker.element.attr("id") + "_drp_start").val(
+                picker.startDate.format("YYYY-MM-DD")
+            );
+            $("#" + picker.element.attr("id") + "_drp_end").val(
+                picker.endDate.format("YYYY-MM-DD")
+            );
+        })
+        .on("cancel.daterangepicker", function (event, picker) {
+            $(this).val("");
+            $("#" + picker.element.attr("id") + "_drp_start").val("");
+            $("#" + picker.element.attr("id") + "_drp_end").val("");
         });
-        $(".daterange-picker").each(function () {
-            var drp_start = $('#'+ $(this).attr('id') +'_drp_start').val();
-            var drp_end = $('#'+ $(this).attr('id') +'_drp_end').val();
-            if (drp_start != '' && drp_end != '') {
-                $(this).data('daterangepicker').setStartDate(moment(drp_start));
-                $(this).data('daterangepicker').setEndDate(moment(drp_end));
-            }
-        });
-        
-        $(".datetimerange-picker").daterangepicker({
+    $(".daterange-picker").each(function () {
+        var drp_start = $("#" + $(this).attr("id") + "_drp_start").val();
+        var drp_end = $("#" + $(this).attr("id") + "_drp_end").val();
+        if (drp_start != "" && drp_end != "") {
+            $(this).data("daterangepicker").setStartDate(moment(drp_start));
+            $(this).data("daterangepicker").setEndDate(moment(drp_end));
+        }
+    });
+
+    $(".datetimerange-picker")
+        .daterangepicker({
             ranges: {
                 Today: [moment(), moment()],
-                Yesterday: [moment().subtract(1, "days"), moment().subtract(1, "days")],
+                Yesterday: [
+                    moment().subtract(1, "days"),
+                    moment().subtract(1, "days"),
+                ],
                 "Last 7 Days": [moment().subtract(6, "days"), moment()],
                 "Last 30 Days": [moment().subtract(29, "days"), moment()],
-                "This Month": [moment().startOf("month"), moment().endOf("month")],
-                "Last Month": [moment().subtract(1, "month").startOf("month"), moment().subtract(1, "month").endOf("month")],
-                "Life Time": [moment('2020-01-01 00:00:00'), moment()],
+                "This Month": [
+                    moment().startOf("month"),
+                    moment().endOf("month"),
+                ],
+                "Last Month": [
+                    moment().subtract(1, "month").startOf("month"),
+                    moment().subtract(1, "month").endOf("month"),
+                ],
+                "Life Time": [moment("2020-01-01 00:00:00"), moment()],
             },
             locale: {
-                cancelLabel: 'Clear',
+                cancelLabel: "Clear",
             },
-            cancelClass:"btn-danger",
+            cancelClass: "btn-danger",
             autoUpdateInput: false,
             alwaysShowCalendars: true,
             timePicker: true,
             timePicker24Hour: true,
             // timePickerIncrement: 5,
-        }).on('apply.daterangepicker', function(event, picker) {
-            $(this).val(picker.startDate.format('DD/MMM/YYYY HH:mm:ss') + ' - ' + picker.endDate.format('DD/MMM/YYYY HH:mm:ss'));
-            $('#'+ picker.element.attr('id') +'_drp_start').val(picker.startDate.format('YYYY-MM-DD HH:mm:ss'));
-            $('#'+ picker.element.attr('id') +'_drp_end').val(picker.endDate.format('YYYY-MM-DD HH:mm:ss'));
-        }).on('cancel.daterangepicker', function(event, picker) {
-            $(this).val('');
-            $('#'+ picker.element.attr('id') +'_drp_start').val('');
-            $('#'+ picker.element.attr('id') +'_drp_end').val('');
+        })
+        .on("apply.daterangepicker", function (event, picker) {
+            $(this).val(
+                picker.startDate.format("DD/MMM/YYYY HH:mm:ss") +
+                    " - " +
+                    picker.endDate.format("DD/MMM/YYYY HH:mm:ss")
+            );
+            $("#" + picker.element.attr("id") + "_drp_start").val(
+                picker.startDate.format("YYYY-MM-DD HH:mm:ss")
+            );
+            $("#" + picker.element.attr("id") + "_drp_end").val(
+                picker.endDate.format("YYYY-MM-DD HH:mm:ss")
+            );
+        })
+        .on("cancel.daterangepicker", function (event, picker) {
+            $(this).val("");
+            $("#" + picker.element.attr("id") + "_drp_start").val("");
+            $("#" + picker.element.attr("id") + "_drp_end").val("");
         });
-        $(".datetimerange-picker").each(function () {
-            var drp_start = $('#'+ $(this).attr('id') +'_drp_start').val();
-            var drp_end = $('#'+ $(this).attr('id') +'_drp_end').val();
-            if (drp_start != '' && drp_end != '') {
-                $(this).data('daterangepicker').setStartDate(moment(drp_start));
-                $(this).data('daterangepicker').setEndDate(moment(drp_end));
-            }
-        });
+    $(".datetimerange-picker").each(function () {
+        var drp_start = $("#" + $(this).attr("id") + "_drp_start").val();
+        var drp_end = $("#" + $(this).attr("id") + "_drp_end").val();
+        if (drp_start != "" && drp_end != "") {
+            $(this).data("daterangepicker").setStartDate(moment(drp_start));
+            $(this).data("daterangepicker").setEndDate(moment(drp_end));
+        }
+    });
     // End Initial Daterangepicker
 
     // Start Initial Datatables
-        $("#datatables").DataTable({
-            "columnDefs": [{
-                "targets": 'no-sort',
-                "orderable": false,
-            }],
-            dom:  "<'row dt-buttons'<'col-sm-8'<'d-flex'<l><'ml-1'B>>><'col-sm-4'f>>" +
-                    "<'row'<'col-sm-12'tr>>" +
-                    "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-            buttons: [
-                { extend: 'csv', text: 'CSV  &nbsp;&nbsp;|', className: 'btn-sm'},
-                { extend: 'excel', text: 'EXCEL  &nbsp;&nbsp;|', className: 'btn-sm'},
-                { extend: 'print', text: 'PRINT', className: 'btn-sm'}
-            ],
-        });
+    let lengthMenu = [
+        [10, 15, 20, 25, 30, 50, 100, -1],
+        [10, 15, 20, 25, 30, 50, 100, "All"],
+    ];
+    let dt_table = $("#datatables").DataTable({
+        lengthMenu: lengthMenu,
+        pageLength: 15,
+        columnDefs: [
+            {
+                targets: "no-sort",
+                orderable: false,
+            },
+        ],
+        dom:
+            "<'row dt-buttons'<'col-sm-8'<'d-flex'<l><'ml-1'B>>><'col-sm-4'f>>" +
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+        buttons: [
+            { extend: "csv", text: "CSV  &nbsp;&nbsp;|", className: "btn-sm" },
+            {
+                extend: "excel",
+                text: "EXCEL  &nbsp;&nbsp;|",
+                className: "btn-sm",
+            },
+            { extend: "print", text: "PRINT", className: "btn-sm" },
+        ],
+    });
+
+    // Datatable dynamic page length
+    $(document).ready(function () {
+        var BreakException = {};
+        try {
+            lengthMenu[0].forEach(function (l) {
+                if ($("body")[0].clientHeight < $("body")[0].scrollHeight) {
+                    dt_table.page.len(dt_table.page.info().length - 5).draw();
+                    throw BreakException;
+                } else {
+                    dt_table.page.len(l).draw();
+                }
+            });
+        } catch (e) {
+            if (e !== BreakException) throw e;
+        }
+    });
+
     // End Initial Datatables
 
     // Start Initial Select 2
-        $(".custom-select2").each((_i, e) => {
-            var $e = $(e);
-            $e.select2({
-                dropdownAutoWidth: !0,
-                minimumResultsForSearch: (($e.data('no_search')!=undefined && $e.data('no_search')==true)? (1/0) : ''),
-                width: "100%",
-                dropdownParent: $e.parent()
-            });
-        })
-        $(document).on('select2:open', () => {
-            document.querySelector('.select2-search__field').focus();
+    $(".custom-select2").each((_i, e) => {
+        var $e = $(e);
+        $e.select2({
+            dropdownAutoWidth: !0,
+            minimumResultsForSearch:
+                $e.data("no_search") != undefined &&
+                $e.data("no_search") == true
+                    ? 1 / 0
+                    : "",
+            width: "100%",
+            dropdownParent: $e.parent(),
         });
+    });
+    $(document).on("select2:open", () => {
+        document.querySelector(".select2-search__field").focus();
+    });
 
-        // Select2 Ajax
-        $('.select2ajax').each((_i, e) => {
-            var $e = $(e);
-            var url = $e.data('url');
-            var placeholder = $e.data('placeholder');
-            var id = $e.attr('id');
-            if ($('#hidden_'+ id).val()=='null') {
-                $e.val('').trigger('change');
-            }
-            if ((url!='' && url!=undefined) && (placeholder!='' || placeholder!=undefined)) {
-                $e.select2({
-                    width: "100%",
-                    dropdownAutoWidth: !0,
-                    dropdownParent: $e.parent(),
-                    placeholder: placeholder,
-                    allowClear: ((placeholder)? true : false),
-                    delay: 500,
-                    ajax: { 
-                        url: url,
-                        type: "post",
-                        dataType: 'json',
-                        delay: 250,
-                        data: function (params) {
-                            return {
-                                search: params.term
-                            };
-                        },
-                        processResults: function (data) {
-                            return {
-                                results: $.map(data, function (item) {
-                                    if (Object.keys(data).length > 0) {
-                                        var keys = Object.keys(data[0]);
-                                        var rs_data = {};
-                                        keys.forEach(function(value, index) {
-                                            if (index==0) {
-                                                rs_data['id'] = item[value];
-                                            }else if(index==1){
-                                                rs_data['text'] = item[value];
-                                            }else{
-                                                rs_data[value] = item[value];
-                                            }
-                                        });
-                                        return rs_data;
-                                    }
-                                })
-                            };
-                        },
-                        cache: true
-                    }
-                });
-            }
-        });
-        $(document).on('change', '.select2ajax', function () {
-            var selector = $(this).attr('id');
-            $('#hidden_'+ selector).val((($(this).find("option:selected").text()=='')? 'null' : $(this).find("option:selected").text()));
-        });
-        // select 2 Ajax
+    // Select2 Ajax
+    $(".select2ajax").each((_i, e) => {
+        var $e = $(e);
+        var url = $e.data("url");
+        var placeholder = $e.data("placeholder");
+        var id = $e.attr("id");
+        if ($("#hidden_" + id).val() == "null") {
+            $e.val("").trigger("change");
+        }
+        if (
+            url != "" &&
+            url != undefined &&
+            (placeholder != "" || placeholder != undefined)
+        ) {
+            $e.select2({
+                width: "100%",
+                dropdownAutoWidth: !0,
+                dropdownParent: $e.parent(),
+                placeholder: placeholder,
+                allowClear: placeholder ? true : false,
+                delay: 500,
+                ajax: {
+                    url: url,
+                    type: "post",
+                    dataType: "json",
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            search: params.term,
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                if (Object.keys(data).length > 0) {
+                                    var keys = Object.keys(data[0]);
+                                    var rs_data = {};
+                                    keys.forEach(function (value, index) {
+                                        if (index == 0) {
+                                            rs_data["id"] = item[value];
+                                        } else if (index == 1) {
+                                            rs_data["text"] = item[value];
+                                        } else {
+                                            rs_data[value] = item[value];
+                                        }
+                                    });
+                                    return rs_data;
+                                }
+                            }),
+                        };
+                    },
+                    cache: true,
+                },
+            });
+        }
+    });
+    $(document).on("change", ".select2ajax", function () {
+        var selector = $(this).attr("id");
+        $("#hidden_" + selector).val(
+            $(this).find("option:selected").text() == ""
+                ? "null"
+                : $(this).find("option:selected").text()
+        );
+    });
+    // select 2 Ajax
     // End Initial Select 2
 
     // Start Initial Text Editor Ckeditor
-        $('.my-editor').each(function (e) {
-            var height = $(this).data('height');
-            CKEDITOR.replace(this.id, {
-                height: ((height!='' || height!=undefined)? height : '250'),
-                skin: 'office2013',
-                font_names: 'Calibrib Bold; Calibri Italic; Calibri; Roboto Regular; Roboto Bold; Quicksand; Quicksand Medium; Quicksand Bold; Khmer OS Battambang; Khmer OS Muol Light; Khmer OS Content;',
-                filebrowserImageBrowseUrl: '/file-manager/ckeditor',
-                toolbar: [
-                    { name: 'document', items: [ 'Source', '-', 'Save', 'NewPage', 'ExportPdf', 'Preview', 'Print', '-', 'Templates' ] },
-                    { name: 'clipboard', items: [ 'Undo', 'Redo', '-', 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', ] },
-                    { name: 'editing', items: [ 'Find', 'Replace', 'SelectAll', '-', 'Blockquote', 'CreateDiv' ] },
-                    { name: 'insert', items: [ 'Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe' ] },
-                    { name: 'tools', items: [ 'ShowBlocks', 'Maximize' ] },
-                    '/',
-                    { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat' ] },
-                    { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
-                    { name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
-                    { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
-                ]
-            }); 
+    $(".my-editor").each(function (e) {
+        var height = $(this).data("height");
+        CKEDITOR.replace(this.id, {
+            height: height != "" || height != undefined ? height : "250",
+            skin: "office2013",
+            font_names:
+                "Calibrib Bold; Calibri Italic; Calibri; Roboto Regular; Roboto Bold; Quicksand; Quicksand Medium; Quicksand Bold; Khmer OS Battambang; Khmer OS Muol Light; Khmer OS Content;",
+            filebrowserImageBrowseUrl: "/file-manager/ckeditor",
+            toolbar: [
+                {
+                    name: "document",
+                    items: [
+                        "Source",
+                        "-",
+                        "Save",
+                        "NewPage",
+                        "ExportPdf",
+                        "Preview",
+                        "Print",
+                        "-",
+                        "Templates",
+                    ],
+                },
+                {
+                    name: "clipboard",
+                    items: [
+                        "Undo",
+                        "Redo",
+                        "-",
+                        "Cut",
+                        "Copy",
+                        "Paste",
+                        "PasteText",
+                        "PasteFromWord",
+                    ],
+                },
+                {
+                    name: "editing",
+                    items: [
+                        "Find",
+                        "Replace",
+                        "SelectAll",
+                        "-",
+                        "Blockquote",
+                        "CreateDiv",
+                    ],
+                },
+                {
+                    name: "insert",
+                    items: [
+                        "Image",
+                        "Table",
+                        "HorizontalRule",
+                        "Smiley",
+                        "SpecialChar",
+                        "PageBreak",
+                        "Iframe",
+                    ],
+                },
+                { name: "tools", items: ["ShowBlocks", "Maximize"] },
+                "/",
+                {
+                    name: "basicstyles",
+                    items: [
+                        "Bold",
+                        "Italic",
+                        "Underline",
+                        "Strike",
+                        "Subscript",
+                        "Superscript",
+                        "-",
+                        "CopyFormatting",
+                        "RemoveFormat",
+                    ],
+                },
+                {
+                    name: "paragraph",
+                    items: [
+                        "NumberedList",
+                        "BulletedList",
+                        "-",
+                        "Outdent",
+                        "Indent",
+                        "-",
+                        "JustifyLeft",
+                        "JustifyCenter",
+                        "JustifyRight",
+                        "JustifyBlock",
+                    ],
+                },
+                {
+                    name: "styles",
+                    items: ["Styles", "Format", "Font", "FontSize"],
+                },
+                { name: "colors", items: ["TextColor", "BGColor"] },
+            ],
         });
-        $('.my-simple-editor').each(function (e) {
-            var height = $(this).data('height');
-            CKEDITOR.replace(this.id, {
-                height: ((height!='' || height!=undefined)? height : '250'),
-                // skin: 'office2013',
-                toolbar: [
-                    { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike' ] },
-                    { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
-                ]
-            }); 
+    });
+    $(".my-simple-editor").each(function (e) {
+        var height = $(this).data("height");
+        CKEDITOR.replace(this.id, {
+            height: height != "" || height != undefined ? height : "250",
+            // skin: 'office2013',
+            toolbar: [
+                {
+                    name: "basicstyles",
+                    items: ["Bold", "Italic", "Underline", "Strike"],
+                },
+                {
+                    name: "paragraph",
+                    items: [
+                        "NumberedList",
+                        "BulletedList",
+                        "-",
+                        "JustifyLeft",
+                        "JustifyCenter",
+                        "JustifyRight",
+                        "JustifyBlock",
+                    ],
+                },
+            ],
         });
+    });
     // End Initial Text Editor Ckeditor
 
     // Start Initial Datetimepicker
-        var icons = {
-                        time: "bx bx-time",
-                        date: "bx bx-calendar",
-                        up: 'bx bx-chevron-up',
-                        down: 'bx bx-chevron-down',
-                        previous: 'bx bx-chevron-left',
-                        next: 'bx bx-chevron-right',
-                        today: 'bx bx-screenshot',
-                        clear: 'bx bx-trash',
-                        close: 'bx bx-x'
-                    };
-        $('.year-picker').datetimepicker({
-            icons: icons,
-            format: "YYYY",
-        });
-        $('.month-picker').datetimepicker({
-            icons: icons,
-            format: "YYYY-MM",
-        });
-        $('.date-picker').datetimepicker({
-            icons: icons,
-            format: "YYYY-MM-DD",
-            showTodayButton: true,
-        });
-        $('.date-time-picker').datetimepicker({
-            icons: icons,
-            format: "YYYY-MM-DD HH:mm:ss",
-            showTodayButton: true,
-        });
-        $('.date-time-picker-a').datetimepicker({
-            icons: icons,
-            format: "YYYY-MM-DD hh:mm a",
-            showTodayButton: true,
-        });
-        $('.time-picker').datetimepicker({
-            icons: icons,
-            format: "HH:mm:ss",
-        });
-        $('.time-picker-a').datetimepicker({
-            icons: icons,
-            format: "hh:mm:ss a",
-        });
+    var icons = {
+        time: "bx bx-time",
+        date: "bx bx-calendar",
+        up: "bx bx-chevron-up",
+        down: "bx bx-chevron-down",
+        previous: "bx bx-chevron-left",
+        next: "bx bx-chevron-right",
+        today: "bx bx-screenshot",
+        clear: "bx bx-trash",
+        close: "bx bx-x",
+    };
+    $(".year-picker").datetimepicker({
+        icons: icons,
+        format: "YYYY",
+    });
+    $(".month-picker").datetimepicker({
+        icons: icons,
+        format: "YYYY-MM",
+    });
+    $(".date-picker").datetimepicker({
+        icons: icons,
+        format: "YYYY-MM-DD",
+        showTodayButton: true,
+    });
+    $(".date-time-picker").datetimepicker({
+        icons: icons,
+        format: "YYYY-MM-DD HH:mm:ss",
+        showTodayButton: true,
+    });
+    $(".date-time-picker-a").datetimepicker({
+        icons: icons,
+        format: "YYYY-MM-DD hh:mm a",
+        showTodayButton: true,
+    });
+    $(".time-picker").datetimepicker({
+        icons: icons,
+        format: "HH:mm:ss",
+    });
+    $(".time-picker-a").datetimepicker({
+        icons: icons,
+        format: "hh:mm:ss a",
+    });
     // End Initial Datetimepicker
 
     // Start use class input-focus-select to select when click in textbox
-        $(document).on('focus', '.input-focus-select', function () {
-            $(this).select();
-        });
+    $(document).on("focus", ".input-focus-select", function () {
+        $(this).select();
+    });
     // End use class input-focus-select to select when click in textbox
 
-    // Start Protect user from spamming submit button 
-        $('form').submit(function(){
-            $(this).find(':input[type=submit]').prop('disabled', true);
-            $(this).find('button[type="submit"]').prop('disabled', true);
-        });
-    // End Protect user from spamming submit button 
+    // Start Protect user from spamming submit button
+    $("form").submit(function () {
+        $(this).find(":input[type=submit]").prop("disabled", true);
+        $(this).find('button[type="submit"]').prop("disabled", true);
+    });
+    // End Protect user from spamming submit button
 
     // Start Checking user and Password and Delete Data
-        $(document).on('click', '.confirmDelete', function () {
-            $('#submitConfirmDelete').val( $(this).data('id') );
-            $('#modal_confirm_delete').modal();
-        });
-        $('#modal_confirm_delete').on('shown.bs.modal', function () {
-            $('#password').focus();
-        })
-        $(document).on('keypress', '#password', function (e) {
-            if ( $(this).data('deleteonenter') == true && e.which == 13) {
-                var password = $('#password').val(), id = $('#submitConfirmDelete').val();
-                ajaxConfirmPassword(id, password);
-            }
-        });
-        $(document).on('click', '#submitConfirmDelete', function (e) {
-            var password = $('#password').val(), id = $('#submitConfirmDelete').val();
+    $(document).on("click", ".confirmDelete", function () {
+        $("#submitConfirmDelete").val($(this).data("id"));
+        $("#modal_confirm_delete").modal();
+    });
+    $("#modal_confirm_delete").on("shown.bs.modal", function () {
+        $("#password").focus();
+    });
+    $(document).on("keypress", "#password", function (e) {
+        if ($(this).data("deleteonenter") == true && e.which == 13) {
+            var password = $("#password").val(),
+                id = $("#submitConfirmDelete").val();
             ajaxConfirmPassword(id, password);
-        });
-        function ajaxConfirmPassword(id, password) {
-            if ( password !='' ) {
-                pageLoading('show');
-                $.ajax({
-                    url: "/ajaxConfirm",
-                    type: 'post',
-                    data: {
-                        id: id,
-                        password: password
-                    },
-                    success: function(rs){
-                        if(rs.success == true){
-                            document.getElementById("form-delete-"+ id).submit();
-                            setTimeout(() => {
-                                pageLoading('hide');
-                            }, 2000);
-                        }else{
-                            pageLoading('hide');
-                            Swal.fire({
-                                icon: 'warning',
-                                title: rs.error,
-                                confirmButtonText: 'Confirm',
-                                timer: 2500
-                            })
-                            .then((rs) => {
-                                $('#modal_confirm_delete').modal();
-                            });
-                        }
-                    },
-                    error: function (rs) {
-                        pageLoading('hide');
+        }
+    });
+    $(document).on("click", "#submitConfirmDelete", function (e) {
+        var password = $("#password").val(),
+            id = $("#submitConfirmDelete").val();
+        ajaxConfirmPassword(id, password);
+    });
+    function ajaxConfirmPassword(id, password) {
+        if (password != "") {
+            pageLoading("show");
+            $.ajax({
+                url: "/ajaxConfirm",
+                type: "post",
+                data: {
+                    id: id,
+                    password: password,
+                },
+                success: function (rs) {
+                    if (rs.success == true) {
+                        document.getElementById("form-delete-" + id).submit();
+                        setTimeout(() => {
+                            pageLoading("hide");
+                        }, 2000);
+                    } else {
+                        pageLoading("hide");
                         Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Something went wrong!',
-                            confirmButtonText: 'Confirm',
-                            timer: 1500
+                            icon: "warning",
+                            title: rs.error,
+                            confirmButtonText: "Confirm",
+                            timer: 2500,
+                        }).then((rs) => {
+                            $("#modal_confirm_delete").modal();
                         });
                     }
-                });
-            }else{
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Please input password.',
-                    confirmButtonText: 'Confirm',
-                    timer: 1500
-                })
-                .then((result) => {
-                    $('#modal_confirm_delete').modal();
-                })
-            }
+                },
+                error: function (rs) {
+                    pageLoading("hide");
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Something went wrong!",
+                        confirmButtonText: "Confirm",
+                        timer: 1500,
+                    });
+                },
+            });
+        } else {
+            Swal.fire({
+                icon: "warning",
+                title: "Please input password.",
+                confirmButtonText: "Confirm",
+                timer: 1500,
+            }).then((result) => {
+                $("#modal_confirm_delete").modal();
+            });
         }
+    }
     // End Checking user and Password and Delete Data
 
     // Start Croppie Image Cropping
-        $croppie_image = $('#image-cropping').croppie({
-            enableExif: true,
-            viewport: {
-                width: 200,
-                height: 200,
-                type:'square'
-            },
-            boundary:{
-                width: 200,
-                height: 200
+    $croppie_image = $("#image-cropping").croppie({
+        enableExif: true,
+        viewport: {
+            width: 200,
+            height: 200,
+            type: "square",
+        },
+        boundary: {
+            width: 200,
+            height: 200,
+        },
+    });
+    var croppie_target_id;
+    var image_url;
+    $(document).on("click", ".image-preview", function () {
+        croppie_target_id = $(this).data("id");
+        if (croppie_target_id != undefined && croppie_target_id != "") {
+            if (
+                document.getElementById("file-browse-" + croppie_target_id)
+                    .files.length != 0
+            ) {
+                $("#file-browse-" + croppie_target_id).val("");
             }
-        });
-        var croppie_target_id;
-        var image_url;
-        $(document).on('click', '.image-preview', function () {
-            croppie_target_id = $(this).data('id');
-            if (croppie_target_id!=undefined && croppie_target_id!='') {
-                if (document.getElementById("file-browse-"+ croppie_target_id).files.length != 0) {
-                    $('#file-browse-'+ croppie_target_id).val('');
-                }
-                $('#file-browse-'+ croppie_target_id).attr('data-id', croppie_target_id);
-                $('#file-browse-'+ croppie_target_id).trigger('click');
+            $("#file-browse-" + croppie_target_id).attr(
+                "data-id",
+                croppie_target_id
+            );
+            $("#file-browse-" + croppie_target_id).trigger("click");
+        }
+    });
+    $(".file-browse").on("change", function () {
+        if (croppie_target_id != undefined && croppie_target_id != "") {
+            if (
+                document.getElementById("file-browse-" + croppie_target_id)
+                    .files.length != 0 &&
+                (document.getElementById("file-browse-" + croppie_target_id)
+                    .files[0].type == "image/png" ||
+                    document.getElementById("file-browse-" + croppie_target_id)
+                        .files[0].type == "image/jpeg")
+            ) {
+                var reader = new FileReader();
+                reader.readAsDataURL(this.files[0]);
+                reader.onload = function (event) {
+                    image_url = event.target.result;
+                };
+                $("#modal-crop-image").modal("show");
+                $("#modal-crop-image").css({ visibility: "hidden" });
+            } else {
+                flashMsg(
+                    "error",
+                    "Error!",
+                    "Please check your file type again!"
+                );
             }
-        });
-        $('.file-browse').on('change', function(){
-            if (croppie_target_id!=undefined && croppie_target_id!='') {
-                if (document.getElementById("file-browse-"+ croppie_target_id).files.length != 0 && (document.getElementById("file-browse-"+ croppie_target_id).files[0].type == 'image/png' || document.getElementById("file-browse-"+ croppie_target_id).files[0].type == 'image/jpeg')) {
-                    var reader = new FileReader();
-                    reader.readAsDataURL(this.files[0]);
-                    reader.onload = function (event) {
-                        image_url = event.target.result;
-                    }
-                    $('#modal-crop-image').modal('show');
-                    $('#modal-crop-image').css({'visibility': 'hidden'});
-                }else{
-                    flashMsg('error', 'Error!', 'Please check your file type again!');
-                }
-            }
-        });
-        $('#modal-crop-image').on('shown.bs.modal', function () {
-            setTimeout(() => {
-                $croppie_image.croppie('bind', {
-                    url: image_url
-                }).then(function(){
-                    $('#modal-crop-image').css({'visibility': 'visible'});
+        }
+    });
+    $("#modal-crop-image").on("shown.bs.modal", function () {
+        setTimeout(() => {
+            $croppie_image
+                .croppie("bind", {
+                    url: image_url,
+                })
+                .then(function () {
+                    $("#modal-crop-image").css({ visibility: "visible" });
                 });
-            }, 100);
-        })
-        $('#btn-crop-image').on('click', function(){
-            $croppie_image.croppie('result', {
+        }, 100);
+    });
+    $("#btn-crop-image").on("click", function () {
+        $croppie_image
+            .croppie("result", {
                 circle: false,
-                type: 'canvas',
-                size: 'viewport'
-            }).then(function(response){
-                $('#'+ croppie_target_id).val(response);
-                $('#image-preview-'+ croppie_target_id).attr('src', response);
-                $('#modal-crop-image').modal('hide');
-                $('.delete-image-container-'+ croppie_target_id).html(`
-                    <a href="javascript:void(0)" class="text-danger btn-delete-image" id="btn-delete-image-"${ croppie_target_id }>
-                        <small>Delete Image</small>
-                    </a>
-                `);
+                type: "canvas",
+                size: "viewport",
+            })
+            .then(function (response) {
+                $("#" + croppie_target_id).val(response);
+                $("#image-preview-" + croppie_target_id).attr("src", response);
+                $("#modal-crop-image").modal("hide");
+                $(".delete-image-container-" + croppie_target_id).html(`
+					<a href="javascript:void(0)" class="text-danger btn-delete-image" id="btn-delete-image-"${croppie_target_id}>
+						<small>Delete Image</small>
+					</a>
+				`);
             });
-        });
-        // Delete Image from record
-        $(document).on('click', '.btn-delete-image', function(){
-            swalWithBootstrapButtons.fire({
+    });
+    // Delete Image from record
+    $(document).on("click", ".btn-delete-image", function () {
+        swalWithBootstrapButtons
+            .fire({
                 title: "Confirm:",
                 text: "Do you really want to remove this image?",
-                icon: 'question',
+                icon: "question",
                 showCancelButton: true,
                 confirmButtonText: "Yes",
                 cancelButtonText: "No",
-                reverseButtons: true
-            }).then((result) => {
+                reverseButtons: true,
+            })
+            .then((result) => {
                 if (result.isConfirmed) {
-                    if (croppie_target_id!=undefined && croppie_target_id!='') {
-                        $('#'+ croppie_target_id).val('/images/browse-image.jpg');
-                        $('#image-preview-'+ croppie_target_id).attr('src', '/images/browse-image.jpg');
-                        $(this).addClass('sr-only');
+                    if (
+                        croppie_target_id != undefined &&
+                        croppie_target_id != ""
+                    ) {
+                        $("#" + croppie_target_id).val(
+                            "/images/browse-image.jpg"
+                        );
+                        $("#image-preview-" + croppie_target_id).attr(
+                            "src",
+                            "/images/browse-image.jpg"
+                        );
+                        $(this).addClass("sr-only");
                     }
                 }
-            })
-        });
+            });
+    });
     // End Croppie Image Cropping
 
     // Start Image Zoom
-        $(document).on('click', '.image-zoom', function () {
-            if ($('.image-zoom-preview').length==0) {
-                $('body').append(`
-                    <div class="image-zoom-preview">
-                        <div class="close-zoom"><i class="bx bx-x"></i></div>
-                        <img src="${ $(this).data('src') }" class="zoom-${ $(this).data('zoom') }" />
-                    </div>
-                `).hide().fadeIn(100);
-            }else{
-                $('.image-zoom-preview').html(`
-                    <div class="close-zoom"><i class="bx bx-x"></i></div>
-                    <img src="${ $(this).data('src') }" class="zoom-${ $(this).data('zoom') }" />
-                `).hide().fadeIn(100);
-            }
-        });
-        $(document).on('click', '.close-zoom', function () {
-            $('.image-zoom-preview').remove();
-        });
+    $(document).on("click", ".image-zoom", function () {
+        if ($(".image-zoom-preview").length == 0) {
+            $("body")
+                .append(
+                    `
+					<div class="image-zoom-preview">
+						<div class="close-zoom"><i class="bx bx-x"></i></div>
+						<img src="${$(this).data("src")}" class="zoom-${$(this).data("zoom")}" />
+					</div>
+				`
+                )
+                .hide()
+                .fadeIn(100);
+        } else {
+            $(".image-zoom-preview")
+                .html(
+                    `
+					<div class="close-zoom"><i class="bx bx-x"></i></div>
+					<img src="${$(this).data("src")}" class="zoom-${$(this).data("zoom")}" />
+				`
+                )
+                .hide()
+                .fadeIn(100);
+        }
+    });
+    $(document).on("click", ".close-zoom", function () {
+        $(".image-zoom-preview").remove();
+    });
     // End Image Zoom
 });
 
-
-
-var getCambodiaChildUrl = '/address/getFullAddress';
-var getProvinceChildUrl = '/address/getProvinceChileSelection';
-var getDistrictChileUrl = '/address/getDistrictChileSelection';
-var getCommuneChileUrl = '/address/getCommuneChileSelection';
-var _patientRequestUrl = '/patient/getSelectDetail';
-var temp_address_code = '';
+var getCambodiaChildUrl = "/address/getFullAddress";
+var getProvinceChildUrl = "/address/getProvinceChileSelection";
+var getDistrictChileUrl = "/address/getDistrictChileSelection";
+var getCommuneChileUrl = "/address/getCommuneChileSelection";
+var _patientRequestUrl = "/patient/getSelectDetail";
+var temp_address_code = "";
 
 function bss_number(number) {
-    return (!number || typeof number == 'undefined' || number == 'undefined' || number == '0') ? 0 : parseFloat(number).toFixed(2);
+    return !number ||
+        typeof number == "undefined" ||
+        number == "undefined" ||
+        number == "0"
+        ? 0
+        : parseFloat(number).toFixed(2);
 }
 
 function bss_string(txt) {
-    return (!txt || typeof txt == 'undefined' || txt == 'undefined') ? '' : txt;
+    return !txt || typeof txt == "undefined" || txt == "undefined" ? "" : txt;
 }
 
 // calculate sum
@@ -670,18 +905,18 @@ function bss_sum_number() {
 }
 
 function bss_call_function(fc_name, clear_called = false) {
-    if (typeof fc_name == 'function') {
+    if (typeof fc_name == "function") {
         fc_name();
-        if (clear_called) fc_name = function () { };
+        if (clear_called) fc_name = function () {};
     }
 }
 
-function bss_swal_Success(title = '', text = '', fcCallBack) {
+function bss_swal_Success(title = "", text = "", fcCallBack) {
     Swal.fire({
-        icon: 'success',
+        icon: "success",
         title: bss_string(title),
         confirmButtonText: bss_string(text),
-        timer: 1500
+        timer: 1500,
     }).then(() => {
         fcCallBack();
     });
@@ -689,15 +924,15 @@ function bss_swal_Success(title = '', text = '', fcCallBack) {
 
 function bss_swal_Error(txt) {
     Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
+        icon: "error",
+        title: "Oops...",
         text: bss_string(txt),
     });
 }
 
-function bss_swal_Warning(title = '', text = '', fcCallBack) {
+function bss_swal_Warning(title = "", text = "", fcCallBack) {
     Swal.fire({
-        icon: 'warning',
+        icon: "warning",
         title: bss_string(title),
         confirmButtonText: bss_string(text),
         // timer: 1500
@@ -707,78 +942,104 @@ function bss_swal_Warning(title = '', text = '', fcCallBack) {
 }
 
 function bss_openPrintWindow(url, name) {
-    var printWindow = window.open(url, name, "width="+ screen.availWidth +",height="+ screen.availHeight +",_blank");
+    var printWindow = window.open(
+        url,
+        name,
+        "width=" +
+            screen.availWidth +
+            ",height=" +
+            screen.availHeight +
+            ",_blank"
+    );
     var printAndClose = function () {
-        if (printWindow.document.readyState == 'complete') {
+        if (printWindow.document.readyState == "complete") {
             clearInterval(sched);
             printWindow.print();
             printWindow.close();
         }
-    }  
+    };
     var sched = setInterval(printAndClose, 2000);
-};
-
+}
 
 // prepare form AJAX submission
 $(document).ready(function () {
-
-
-    $(document).on('click', '.submitFormAjx', function (e) {
+    $(document).on("click", ".submitFormAjx", function (e) {
         e.preventDefault(); // prevent form native submission
-        let _form = $(this).parents('form');
+        let _form = $(this).parents("form");
 
         $.ajax({
-            url: _form.attr('action'),
-            method: bss_string(_form.attr('method')),
+            url: _form.attr("action"),
+            method: bss_string(_form.attr("method")),
             data: bss_string(_form.serialize()),
             success: function (res) {
-                if (typeof onAjaxSuccess == 'string') {
+                if (typeof onAjaxSuccess == "string") {
                     bss_swal_Success(onAjaxSuccess);
-                    onAjaxSuccess = '';
-                } else if (typeof onAjaxSuccess == 'function') {
-                    onAjaxSuccess(res); onAjaxSuccess = function () { };
+                    onAjaxSuccess = "";
+                } else if (typeof onAjaxSuccess == "function") {
+                    onAjaxSuccess(res);
+                    onAjaxSuccess = function () {};
                 }
             },
             error: function (request, status, error) {
-                bss_swal_Error(bss_string(request.responseText) + ' : ' + bss_string(status) + ' : ' + bss_string(error));
-            }
+                bss_swal_Error(
+                    bss_string(request.responseText) +
+                        " : " +
+                        bss_string(status) +
+                        " : " +
+                        bss_string(error)
+                );
+            },
         });
     });
 
     // date picker
-    if ($('.bssDateRangePicker').length >= 1) {
-        $('.bssDateRangePicker').daterangepicker(
+    if ($(".bssDateRangePicker").length >= 1) {
+        $(".bssDateRangePicker").daterangepicker(
             {
                 ranges: {
-                    'Today': [moment(), moment()],
-                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                    'This Month': [moment().startOf('month'), moment().endOf('month')],
-                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                    Today: [moment(), moment()],
+                    Yesterday: [
+                        moment().subtract(1, "days"),
+                        moment().subtract(1, "days"),
+                    ],
+                    "Last 7 Days": [moment().subtract(6, "days"), moment()],
+                    "Last 30 Days": [moment().subtract(29, "days"), moment()],
+                    "This Month": [
+                        moment().startOf("month"),
+                        moment().endOf("month"),
+                    ],
+                    "Last Month": [
+                        moment().subtract(1, "month").startOf("month"),
+                        moment().subtract(1, "month").endOf("month"),
+                    ],
                 },
-                startDate: moment().startOf('month'),
-                endDate: moment().endOf('month')
+                startDate: moment().startOf("month"),
+                endDate: moment().endOf("month"),
             },
             function (start, end) {
-                $('#from').val(start.format('YYYY-MM-DD'));
-                $('#to').val(end.format('YYYY-MM-DD'));
-                getDatatable(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'))
+                $("#from").val(start.format("YYYY-MM-DD"));
+                $("#to").val(end.format("YYYY-MM-DD"));
+                getDatatable(
+                    start.format("YYYY-MM-DD"),
+                    end.format("YYYY-MM-DD")
+                );
             }
-        )
+        );
     }
 
     if ($('[name="patient_id"]').length >= 1) {
-        $(document).on('change', '[name="patient_id"]', function () {
-            $('[name="pt_district_id"], [name="pt_commune_id"], [name="pt_village_id"]').html('<option value=""></option>');
+        $(document).on("change", '[name="patient_id"]', function () {
+            $(
+                '[name="pt_district_id"], [name="pt_commune_id"], [name="pt_village_id"]'
+            ).html('<option value=""></option>');
 
-            if ($(this).val() != '') {
+            if ($(this).val() != "") {
                 $.ajax({
                     url: bss_string(_patientRequestUrl),
-                    type: 'post',
-                    data: { 
+                    type: "post",
+                    data: {
                         id: bss_number($(this).val()),
-                        with_address_selection : true
+                        with_address_selection: true,
                     },
                 }).done(function (result) {
                     // $('[name="pt_no"]').val(result.patient.no);
@@ -803,135 +1064,191 @@ $(document).ready(function () {
     }
 
     if ($('[name="pt_province_id"]').length >= 1) {
-        $(document).on('change', '[name="pt_province_id"]', function (e) {            
-            $('[name="pt_district_id"], [name="pt_commune_id"], [name="pt_village_id"]').html('<option value=""></option>');
-            
+        $(document).on("change", '[name="pt_province_id"]', function (e) {
+            $(
+                '[name="pt_district_id"], [name="pt_commune_id"], [name="pt_village_id"]'
+            ).html('<option value=""></option>');
+
             let targetObj = $('[name="pt_district_id"]');
             $.ajax({
                 url: bss_string(getProvinceChildUrl),
-                method: 'post',
+                method: "post",
                 data: { parent_code: bss_string($(this).val()) },
-                success: function (data) { targetObj.html(data); }
+                success: function (data) {
+                    targetObj.html(data);
+                },
             });
         });
     }
 
     if ($('[name="pt_district_id"]').length >= 1) {
-        $(document).on('change', '[name="pt_district_id"]', function (e) {
-            $('[name="pt_commune_id"], [name="pt_village_id"]').html('<option value=""></option>');
-            
+        $(document).on("change", '[name="pt_district_id"]', function (e) {
+            $('[name="pt_commune_id"], [name="pt_village_id"]').html(
+                '<option value=""></option>'
+            );
+
             let targetObj = $('[name="pt_commune_id"]');
             $.ajax({
                 url: bss_string(getDistrictChileUrl),
-                method: 'post',
+                method: "post",
                 data: { parent_code: bss_string($(this).val()) },
-                success: function (data) { targetObj.html(data); }
+                success: function (data) {
+                    targetObj.html(data);
+                },
             });
         });
     }
 
     if ($('[name="pt_commune_id"]').length >= 1) {
-        $(document).on('change', '[name="pt_commune_id"]', function (e) {
+        $(document).on("change", '[name="pt_commune_id"]', function (e) {
             $('[name="pt_village_id"]').html('<option value=""></option>');
 
             let targetObj = $('[name="pt_village_id"]');
             $.ajax({
                 url: bss_string(getCommuneChileUrl),
-                method: 'post',
+                method: "post",
                 data: { parent_code: bss_string($(this).val()) },
-                success: function (data) { targetObj.html(data); }
+                success: function (data) {
+                    targetObj.html(data);
+                },
             });
         });
     }
 
-    $('#btn_upload').click(function () {
-        $('#btn_upload').html('uploading data to BSS FTP server, please wait. <i class="fa fa-spinner fa-pulse"></i>');
+    $("#btn_upload").click(function () {
+        $("#btn_upload").html(
+            'uploading data to BSS FTP server, please wait. <i class="fa fa-spinner fa-pulse"></i>'
+        );
         $.ajax({
-            url: bss_string('/uplaoddb'),
-            method: 'post',
+            url: bss_string("/uplaoddb"),
+            method: "post",
             // async: false,
-            complete: function(xhr, textStatus) {
+            complete: function (xhr, textStatus) {
                 if (xhr.status == 200) {
-                    $('#btn_upload').html('<p class="text-success">already <i class="fa fa-check"></i></p>');
+                    $("#btn_upload").html(
+                        '<p class="text-success">already <i class="fa fa-check"></i></p>'
+                    );
                 } else {
-                    $('#btn_upload').html('<p class="text-danger">problem while uploading process. <i class="fa fa-times"></i></p>');
+                    $("#btn_upload").html(
+                        '<p class="text-danger">problem while uploading process. <i class="fa fa-times"></i></p>'
+                    );
                 }
-            } 
+            },
         });
     });
 
-    $('#btn_complement_field').click(function () {
-        $('#btn_complement_field').html('updating missing fiels or data. <i class="fa fa-spinner fa-pulse"></i>');
+    $("#btn_complement_field").click(function () {
+        $("#btn_complement_field").html(
+            'updating missing fiels or data. <i class="fa fa-spinner fa-pulse"></i>'
+        );
         $.ajax({
-            url: bss_string('/updatedb'),
-            method: 'post',
+            url: bss_string("/updatedb"),
+            method: "post",
             // async: false,
-            complete: function(xhr, textStatus) {
+            complete: function (xhr, textStatus) {
                 if (xhr.status == 200) {
-                    $('#btn_complement_field').html('<p class="text-success">already <i class="fa fa-check"></i></p>');
+                    $("#btn_complement_field").html(
+                        '<p class="text-success">already <i class="fa fa-check"></i></p>'
+                    );
                 } else {
-                    $('#btn_complement_field').html('<p class="text-danger">problem while updating process. <i class="fa fa-times"></i></p>');
+                    $("#btn_complement_field").html(
+                        '<p class="text-danger">problem while updating process. <i class="fa fa-times"></i></p>'
+                    );
                 }
-            } 
+            },
         });
     });
 
-    $(document).on('change', '.img_upload_preview', function (evt) {
-        document.getElementById($(this).data('output')).src = URL.createObjectURL(evt.target.files[0])
+    $(document).on("change", ".img_upload_preview", function (evt) {
+        document.getElementById($(this).data("output")).src =
+            URL.createObjectURL(evt.target.files[0]);
     });
 
     // Selection medicine when search with no result and press Enter key, then auto createService of invoice
-    $(document).on('keyup', 'select[name="medicine_id[]"] + span + span input.select2-search__field', function(e) {
-        if(e.keyCode === 13) {
-            let current_select = $(this);
-            if (current_select.val()) {
-                var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-                $.ajax({
-                    url: window.route_medicine,
-                    type: 'POST',
-                    data: {
-                        _token : CSRF_TOKEN,
-                        name : current_select.val(),
-                        price : '-1', usage_id : '1'
-                    },
-                    dataType: 'JSON',
-                    success: function (data) { 
-                        if (data.id) {
-                            let newOption = new Option(current_select.val(), data.id, false, false);
-                            $('select[name="medicine_id[]"').append(newOption);
-                            current_select.closest('tr').find('select[name="medicine_id[]"]').val(data.id).trigger('change');
-                        }
-                    }
-                }); 
+    $(document).on(
+        "keyup",
+        'select[name="medicine_id[]"] + span + span input.select2-search__field',
+        function (e) {
+            if (e.keyCode === 13) {
+                let current_select = $(this);
+                if (current_select.val()) {
+                    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr(
+                        "content"
+                    );
+                    $.ajax({
+                        url: window.route_medicine,
+                        type: "POST",
+                        data: {
+                            _token: CSRF_TOKEN,
+                            name: current_select.val(),
+                            price: "-1",
+                            usage_id: "1",
+                        },
+                        dataType: "JSON",
+                        success: function (data) {
+                            if (data.id) {
+                                let newOption = new Option(
+                                    current_select.val(),
+                                    data.id,
+                                    false,
+                                    false
+                                );
+                                $('select[name="medicine_id[]"').append(
+                                    newOption
+                                );
+                                current_select
+                                    .closest("tr")
+                                    .find('select[name="medicine_id[]"]')
+                                    .val(data.id)
+                                    .trigger("change");
+                            }
+                        },
+                    });
+                }
             }
         }
-    });
-    
+    );
+
     // Selection patient when search with no result and press Enter key, then auto create
-    $(document).on('keyup', 'select[name="patient_id"] + span + span input.select2-search__field', function(e) {
-        if(e.keyCode === 13) {
-            let current_select = $(this);
-            if (current_select.val()) {
-                var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-                $.ajax({
-                    url: window.route_patient,
-                    type: 'POST',
-                    data: {
-                        _token : CSRF_TOKEN,
-                        name_en : current_select.val(),
-                        name_kh : current_select.val(),
-                        registered_at : window.today,
-                    },
-                    dataType: 'JSON',
-                    success: function (data) { 
-                        if (data.id) {
-                            let newOption = new Option(current_select.val(), data.id, false, false);
-                            $('select[name="patient_id"').append(newOption);
-                            current_select.closest('tr').find('select[name="patient_id"]').val(data.id).trigger('change');
-                        }
-                    }
-                }); 
+    $(document).on(
+        "keyup",
+        'select[name="patient_id"] + span + span input.select2-search__field',
+        function (e) {
+            if (e.keyCode === 13) {
+                let current_select = $(this);
+                if (current_select.val()) {
+                    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr(
+                        "content"
+                    );
+                    $.ajax({
+                        url: window.route_patient,
+                        type: "POST",
+                        data: {
+                            _token: CSRF_TOKEN,
+                            name_en: current_select.val(),
+                            name_kh: current_select.val(),
+                            registered_at: window.today,
+                        },
+                        dataType: "JSON",
+                        success: function (data) {
+                            if (data.id) {
+                                let newOption = new Option(
+                                    current_select.val(),
+                                    data.id,
+                                    false,
+                                    false
+                                );
+                                $('select[name="patient_id"').append(newOption);
+                                current_select
+                                    .closest("tr")
+                                    .find('select[name="patient_id"]')
+                                    .val(data.id)
+                                    .trigger("change");
+                            }
+                        },
+                    });
+                }
             }
         }
-    });
+    );
 });
