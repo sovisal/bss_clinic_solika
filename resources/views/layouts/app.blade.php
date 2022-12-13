@@ -50,7 +50,7 @@
 		<script src="{{ asset('js/datatable/buttons.html5.min.js') }}"></script>
 		<script src="{{ asset('js/datatable/buttons.print.min.js') }}"></script>
 		<script src="{{ asset('js/datatable/jszip.min.js') }}"></script>
-		<script src="{{ asset('js/custom-js.js?v=' . rand(1111, 9999)) }}" defer></script>
+		<script src="{{ asset('js/custom-js.js?v=' . rand(1111, 9999)) }}"></script>
 		{!! $js ?? '' !!}
 	</body>
 </html>

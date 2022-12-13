@@ -9,14 +9,14 @@ use Illuminate\Http\Request;
 
 class EchoTypeController extends Controller
 {
+
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
         $this->data['rows'] = EchoType::with(['user'])->where('status', 1)
+            ->filterTrashed()
             ->orderBy('index', 'asc')
             ->get();
         return view('echo_type.index', $this->data);
@@ -24,8 +24,6 @@ class EchoTypeController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -34,9 +32,6 @@ class EchoTypeController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreEchoTypeRequest  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -58,21 +53,7 @@ class EchoTypeController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\EchoType  $echoType
-     * @return \Illuminate\Http\Response
-     */
-    public function show(EchoType $echoType)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\EchoType  $echoType
-     * @return \Illuminate\Http\Response
      */
     public function edit(EchoType $echoType)
     {
@@ -83,10 +64,6 @@ class EchoTypeController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateEchoTypeRequest  $request
-     * @param  \App\Models\EchoType  $echoType
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, EchoType $echoType)
     {
@@ -99,16 +76,50 @@ class EchoTypeController extends Controller
         }
     }
 
+    public function sort_order()
+    {
+        $data['rows'] = EchoType::where('status', 1)->orderBy('index', 'asc')->get();
+        $data['url'] = route('setting.echo-type.update_order');
+        return view('shared.setting_service.order', $data);
+    }
+
+    public function update_order(Request $request)
+    {
+        EchoType::saveOrder($request);
+        return back()->with('success', 'Data sort successful');
+    }
+
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\EchoType  $echoType
-     * @return \Illuminate\Http\Response
      */
     public function destroy(EchoType $echoType)
     {
         if ($echoType->delete()) {
             return redirect()->route('setting.echo-type.index')->with('success', 'Data delete success');
         }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function restore($id)
+    {
+        $echoType = EchoType::onlyTrashed()->findOrFail($id);
+        if ($echoType->restore()) {
+            return back()->with('success', __('alert.message.success.crud.restore'));
+        }
+        return back()->with('error', __('alert.message.error.crud.restore'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function force_delete($id)
+    {
+        $echoType = EchoType::onlyTrashed()->findOrFail($id);
+        if ($echoType->forceDelete()) {
+            return back()->with('success', __('alert.message.success.crud.force_detele'));
+        }
+        return back()->with('error', __('alert.message.error.crud.force_detele'));
     }
 }

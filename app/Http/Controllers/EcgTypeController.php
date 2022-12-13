@@ -86,7 +86,8 @@ class EcgTypeController extends Controller
     public function sort_order()
     {
         $data['rows'] = EcgType::where('status', 1)->orderBy('index', 'asc')->get();
-        return view('ecg_type.order', $data);
+        $data['url'] = route('setting.ecg-type.update_order');
+        return view('shared.setting_service.order', $data);
     }
 
     public function update_order(Request $request)
