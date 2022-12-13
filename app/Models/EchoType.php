@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class EchoType extends BaseModel
 {
     use HasFactory, SoftDeletes;
-    protected $fillable = [
-        'name_en', 'name_kh', 'default_form', 'attribite', 'price',
-        'status', 'user_id', 'index', 'other'
-    ];
+
+    protected $guarded = ['id'];
 }

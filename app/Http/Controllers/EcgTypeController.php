@@ -86,6 +86,7 @@ class EcgTypeController extends Controller
     {
         $data['rows'] = EcgType::where('status', 1)->orderBy('index', 'asc')->get();
         $data['url'] = route('setting.ecg-type.update_order');
+        $data['back_url'] = route('setting.ecg-type.index');
         return view('shared.setting_service.order', $data);
     }
 

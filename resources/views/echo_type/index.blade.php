@@ -1,6 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <x-form.button href="{{ route('setting.echo-type.create') }}" label="Create" icon="bx bx-plus" />
+        <x-form.button color="dark" href="{!! route('setting.echo-type.sort_order') !!}" label="Sort Order" icon="bx bx-sort-alt-2" />
     </x-slot>
     <x-card :foot="false" :head="false">
         <x-table class="table-hover table-striped" id="datatables" data-table="patients">
@@ -41,5 +42,4 @@
     </x-card>
 
     <x-modal-confirm-delete />
-
 </x-app-layout>

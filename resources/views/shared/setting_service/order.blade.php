@@ -2,8 +2,7 @@
     <x-slot name="header">
         <div class="d-flex justify-content-between align-items-bottom">
             <div>
-                <x-form.button color="danger" href="{!! route('setting.ecg-type.index') !!}"
-                    label="Back" icon="bx bx-left-arrow-alt" />
+                <x-form.button color="danger" href="{!! $back_url !!}" label="Back" icon="bx bx-left-arrow-alt" />
             </div>
         </div>
     </x-slot>

@@ -14,8 +14,8 @@ Route::middleware(['auth'])->name('setting.')->group(function () {
         Route::delete('/{ecgType}/delete', [EcgTypeController::class, 'destroy'])->name('delete')->middleware('can:DeleteEcgType');
         Route::put('/{ecgType}/restore', [EcgTypeController::class, 'restore'])->name('restore')->middleware('can:RestoreEcgType');
         Route::delete('/{ecgType}/force_delete', [EcgTypeController::class, 'force_delete'])->name('force_delete')->middleware('can:ForceDeleteEcgType');
-		Route::get('/sort_order', [EcgTypeController::class, 'sort_order'])->name('sort_order');
-		Route::post('/update_order', [EcgTypeController::class, 'update_order'])->name('update_order');
+		Route::get('/sort_order', [EcgTypeController::class, 'sort_order'])->name('sort_order')->middleware('can:UpdateEcgType');
+		Route::post('/update_order', [EcgTypeController::class, 'update_order'])->name('update_order')->middleware('can:UpdateEcgType');
 
     });
 });

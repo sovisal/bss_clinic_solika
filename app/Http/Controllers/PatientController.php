@@ -244,7 +244,7 @@ class PatientController extends Controller
                 File::delete($old_path);
             }
 
-            if ($address_id && $address_id > 0) delete4LevelAddress($address_id);
+            // if ($address_id && $address_id > 0) delete4LevelAddress($address_id);
             return back()->with('success', __('alert.message.success.crud.delete'));
         }
         return back()->with('error', __('alert.message.error.crud.delete'));

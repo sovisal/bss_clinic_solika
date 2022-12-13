@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\EchoType;
-use App\Http\Requests\StoreEchoTypeRequest;
-use App\Http\Requests\UpdateEchoTypeRequest;
 use Illuminate\Http\Request;
+use App\Http\Requests\EchoTypeRequest;
 
 class EchoTypeController extends Controller
 {
@@ -27,13 +26,14 @@ class EchoTypeController extends Controller
      */
     public function create()
     {
-        return view('echo_type.create');
+        $data['index'] = EchoType::getNextIndex();
+        return view('echo_type.create', $data);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(EchoTypeRequest $request)
     {
         // serialize all post into string
         $serialize = array_except($request->all(), ['_method', '_token']);
@@ -65,7 +65,7 @@ class EchoTypeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, EchoType $echoType)
+    public function update(EchoTypeRequest $request, EchoType $echoType)
     {
         // serialize all post into string
         $serialize = array_except($request->all(), ['_method', '_token']);
@@ -80,6 +80,7 @@ class EchoTypeController extends Controller
     {
         $data['rows'] = EchoType::where('status', 1)->orderBy('index', 'asc')->get();
         $data['url'] = route('setting.echo-type.update_order');
+        $data['back_url'] = route('setting.echo-type.index');
         return view('shared.setting_service.order', $data);
     }
 

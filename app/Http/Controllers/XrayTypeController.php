@@ -86,6 +86,7 @@ class XrayTypeController extends Controller
     {
         $data['rows'] = XrayType::where('status', 1)->orderBy('index', 'asc')->get();
         $data['url'] = route('setting.xray-type.update_order');
+        $data['back_url'] = route('setting.xray-type.index');
         return view('shared.setting_service.order', $data);
     }
 

@@ -220,13 +220,13 @@ class AppLayout extends Component
                     'labor-type' => [
                         'can' => 'ViewAnyLaborType',
                         'url' => route('setting.labor-type.index'),
-                        'name' => ['index', 'create', 'edit'],
+                        'name' => ['index', 'create', 'edit', 'sort_order'],
                         'label' => 'Labor Service',
                     ],
                     'echo-type' => [
                         'can' => 'DeveloperMode',
                         'url' => route('setting.echo-type.index'),
-                        'name' => ['index', 'create', 'edit'],
+                        'name' => ['index', 'create', 'edit', 'sort_order'],
                         'label' => 'Echo Service',
                     ],
                     'ecg-type' => [
@@ -238,7 +238,7 @@ class AppLayout extends Component
                     'xray-type' => [
                         'can' => 'DeveloperMode',
                         'url' => route('setting.xray-type.index'),
-                        'name' => ['index', 'create', 'edit'],
+                        'name' => ['index', 'create', 'edit', 'sort_order'],
                         'label' => 'Xray Service',
                     ],
                     'data-parent' => [

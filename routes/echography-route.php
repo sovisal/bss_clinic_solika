@@ -5,13 +5,17 @@ use App\Http\Controllers\EchographyController;
 use App\Http\Controllers\EchoTypeController;
 
 Route::middleware(['auth'])->name('setting.')->group(function () {
-	Route::prefix('echo-type')->group(function () {
-		Route::get('/', [EchoTypeController::class, 'index'])->name('echo-type.index');
-		Route::get('/create', [EchoTypeController::class, 'create'])->name('echo-type.create');
-		Route::put('/store', [EchoTypeController::class, 'store'])->name('echo-type.store');
-		Route::get('/{echoType}/edit', [EchoTypeController::class, 'edit'])->name('echo-type.edit');
-		Route::put('/{echoType}/update', [EchoTypeController::class, 'update'])->name('echo-type.update');
-		Route::delete('/{echoType}/delete', [EchoTypeController::class, 'destroy'])->name('echo-type.delete');
+	Route::prefix('echo-type')->name('echo-type.')->group(function () {
+		Route::get('/', [EchoTypeController::class, 'index'])->name('index')->middleware('can:ViewAnyEchoType');
+		Route::get('/create', [EchoTypeController::class, 'create'])->name('create')->middleware('can:CreateEchoType');
+		Route::put('/store', [EchoTypeController::class, 'store'])->name('store')->middleware('can:CreateEchoType');
+		Route::get('/{echoType}/edit', [EchoTypeController::class, 'edit'])->name('edit')->middleware('can:UpdateEchoType');
+		Route::put('/{echoType}/update', [EchoTypeController::class, 'update'])->name('update')->middleware('can:UpdateEchoType');
+		Route::delete('/{echoType}/delete', [EchoTypeController::class, 'destroy'])->name('delete')->middleware('can:DeleteEchoType');
+        Route::put('/{ecgType}/restore', [EchoTypeController::class, 'restore'])->name('restore')->middleware('can:RestoreEchoType');
+        Route::delete('/{ecgType}/force_delete', [EchoTypeController::class, 'force_delete'])->name('force_delete')->middleware('can:ForceDeleteEchoType');
+		Route::get('/sort_order', [EchoTypeController::class, 'sort_order'])->name('sort_order')->middleware('can:UpdateEchoType');
+		Route::post('/update_order', [EchoTypeController::class, 'update_order'])->name('update_order')->middleware('can:UpdateEchoType');
 	});
 });
 
