@@ -65,7 +65,6 @@ require __DIR__.'/para-clinic-route.php';
 require __DIR__.'/user-route.php';
 require __DIR__.'/setting-route.php';
 require __DIR__.'/data-parent-route.php';
-require __DIR__.'/labor-item-route.php';
 require __DIR__.'/echography-route.php';
 require __DIR__.'/xray-route.php';
 require __DIR__.'/ecg-route.php';

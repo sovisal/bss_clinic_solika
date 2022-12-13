@@ -17,9 +17,6 @@
             </x-slot>
 
             <table class="table-form striped">
-                <tr>
-                    <th colspan="4" class="text-left tw-bg-gray-100">Create New Information</th>
-                </tr>
 
                 @include('shared.setting_service.form')
 

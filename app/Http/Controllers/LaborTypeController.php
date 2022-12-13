@@ -8,113 +8,129 @@ use Illuminate\Http\Request;
 
 class LaborTypeController extends Controller
 {
-	/**
-	 * Display a listing of the resource.
-	 */
-	public function index()
-	{
-		$laborTypes = LaborType::with('user')->where('labor_types.status', 1)
-			->when(request()->type, function($q){
-				$q->where('labor_types.id', request()->type)
-				->select(['labor_types.*','labor_parents.name_en as type_name'])
-				->leftJoin('labor_types as labor_parents', 'labor_parents.id', '=' ,'labor_types.parent_id');
-			})
-			->with([
-				'items' => function($query){
-					$query->orderBy('index', 'asc');
-				},
-				'types' => function($query){
-					$query->with(['items', 'types'])
-					->orderBy('index', 'asc');
-				}
-			])
-			->orderBy('labor_types.index', 'asc')
-			->get();
-			
-		$data['LaborLevel'][] = request()->old ? LaborType::find(request()->old) : null;
-		$data['LaborLevel'][] = $laborTypes->where('id', request()->type)->first();
-		$data['rows'] = ((count($laborTypes) == 1)? $laborTypes->first()->types : $laborTypes->whereNull('parent_id'));
-		$data['item_rows'] = ((request()->type && $laborTypes->first())? $laborTypes->first()->items : []);
-		return view('labor_type.index', $data);
-	}
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $laborTypes = LaborType::with('user')
+            ->where('labor_types.status', 1)
+            ->with('parent')
+            ->orderBy('labor_types.index', 'asc')
+            ->filterTrashed()
+            ->get();
+        $data['rows'] = $laborTypes;
+        return view('labor_type.index', $data);
+    }
 
-	/**
-	 * Show the form for creating a new resource.
-	 */
-	public function create()
-	{
-		$data['type'] = request()->type;
-		return view('labor_type.create', $data);
-	}
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $data['index'] = LaborType::getNextIndex();
+        $data['parents'] = LaborType::select(['id', 'name_en', 'name_kh'])
+            ->where('parent_id', null)
+            ->orderBy('index', 'asc')->get()
+            ->map(function($parent) {
+                $parent->rendered_name = d_obj($parent, ['name_en', 'name_kh']);
+                return $parent;
+            })
+            ->pluck('rendered_name', 'id');
+        return view('labor_type.create', $data);
+    }
 
-	/**
-	 * Store a newly created resource in storage.
-	 */
-	public function store(LaborTypeRequest $request)
-	{
-		$type = $request->type;
-		$laborType = LaborType::create([
-			'name_kh' => $request->name,
-			'name_en' => $request->name,
-			'type' => $type,
-			'user_id' => auth()->user()->id,
-		]);
-		$url = route('setting.labor-type.index', ['type' => $type]);
-		if ($request->save_opt == 'save_create') {
-			$url = route('setting.labor-type.create', ['type' => $type]);
-		} else if ($request->save_opt == 'save_edit') {
-			$url = route('setting.labor-type.edit', ['laborType' => $laborType->id, 'type' => $type]);
-		}
-		return redirect($url)->with('success', __('alert.message.success.crud.create'));
-	}
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(LaborTypeRequest $request)
+    {
+        LaborType::create([
+            'name_kh' => $request->name_kh,
+            'name_en' => $request->name_en,
+            'index' => $request->index,
+            'parent_id' => $request->parent_id,
+            'user_id' => auth()->user()->id,
+        ]);
+        return redirect(route('setting.labor-type.index'))->with('success', __('alert.message.success.crud.create'));
+    }
 
-	/**
-	 * Show the form for editing the specified resource.
-	 */
-	public function edit(LaborType $laborType)
-	{
-		$data['type'] = request()->type;
-		$data['row'] = $laborType;
-		return view('labor_type.edit', $data);
-	}
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(LaborType $laborType)
+    {
+        $data['row'] = $laborType;
+        $data['parents'] = LaborType::select(['id', 'name_en', 'name_kh'])
+            ->where('parent_id', null)
+            ->orderBy('index', 'asc')->get()
+            ->map(function($parent) {
+                $parent->rendered_name = d_obj($parent, ['name_en', 'name_kh']);
+                return $parent;
+            })
+            ->pluck('rendered_name', 'id');
+        return view('labor_type.edit', $data);
+    }
 
-	/**
-	 * Update the specified resource in storage.
-	 */
-	public function update(LaborTypeRequest $request, LaborType $laborType)
-	{
-		$laborType->update([
-			'name_kh' => $request->name,
-			'name_en' => $request->name,
-			'user_id' => auth()->user()->id,
-		]);
-		return redirect(route('setting.labor-type.index', ['type' => request()->type]))->with('success', __('alert.message.success.crud.update'));
-	}
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(LaborTypeRequest $request, LaborType $laborType)
+    {
+        $laborType->update([
+            'name_kh' => $request->name_kh,
+            'name_en' => $request->name_en,
+            'index' => $request->index,
+            'parent_id' => $request->parent_id,
+        ]);
+        return redirect(route('setting.labor-type.index'))->with('success', __('alert.message.success.crud.update'));
+    }
 
-	/**
-	 * Remove the specified resource from storage.
-	 */
-	public function destroy(LaborType $laborType)
-	{
-		if ($laborType->update(['status' => 0])) {
-			return redirect(route('setting.labor-type.index', ['type' => request()->type]))->with('success', 'Data delete success');
-		}
-	}
+    public function sort_order()
+    {
+        $data['rows'] = LaborType::where('status', 1)->orderBy('index', 'asc')->get();
+        $data['url'] = route('setting.labor-type.update_order');
+        $data['back_url'] = route('setting.labor-type.index');
+        return view('shared.setting_service.order', $data);
+    }
 
-	public function sort_order()
-	{
-		$data['rows'] = LaborType::where('status', 1)->orderBy('index', 'asc')->get();
-		return view('labor_type.order', $data);
-	}
+    public function update_order(Request $request)
+    {
+        LaborType::saveOrder($request);
+        return redirect(route('setting.labor-type.index'))->with('success', 'Data sort successful');
+    }
 
-	public function update_order(Request $request)
-	{
-		if (is_array($request->ids) && count($request->ids) > 0) {
-			$laborTypes = LaborType::where('status', 1)->whereIn('id', $request->ids)->orderBy('index', 'asc')->get();
-			foreach ($request->ids as $index => $id) {
-				$laborTypes->where('id', $id)->first()->update(['index' => ++$index]);
-			}
-		}
-		return back()->with('success', 'Data sort successful');
-	}
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(LaborType $laborType)
+    {
+        if ($laborType->delete()) {
+            return redirect(route('setting.labor-type.index'))->with('success', 'Data delete success');
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function restore($id)
+    {
+        $laborType = LaborType::onlyTrashed()->findOrFail($id);
+        if ($laborType->restore()) {
+            return back()->with('success', __('alert.message.success.crud.restore'));
+        }
+        return back()->with('error', __('alert.message.error.crud.restore'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function force_delete($id)
+    {
+        $laborType = LaborType::onlyTrashed()->findOrFail($id);
+        if ($laborType->forceDelete()) {
+            return back()->with('success', __('alert.message.success.crud.force_detele'));
+        }
+        return back()->with('error', __('alert.message.error.crud.force_detele'));
+    }
 }

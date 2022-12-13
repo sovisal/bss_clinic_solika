@@ -87,7 +87,7 @@ class EchoTypeController extends Controller
     public function update_order(Request $request)
     {
         EchoType::saveOrder($request);
-        return back()->with('success', 'Data sort successful');
+        return redirect(route('setting.echo-type.index'))->with('success', 'Data sort successful');
     }
 
     /**

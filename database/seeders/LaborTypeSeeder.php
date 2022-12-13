@@ -3,152 +3,34 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class LaborTypeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run()
     {
-        DB::table('labor_types')->insert([
-            [
-                'name_en' => 'BACTERIOLOGIE',
-                'name_kh' => 'BACTERIOLOGIE',
-                'index' => 1,
-                'status' => 1,
-            ],
-            [
-                'name_en' => 'BIOCHIMIE',
-                'name_kh' => 'BIOCHIMIE',
-                'index' => 2,
-                'status' => 1,
-            ],
-            [
-                'name_en' => 'dematology',
-                'name_kh' => 'dematology',
-                'index' => 3,
-                'status' => 1,
-            ],
-            [
-                'name_en' => '- skin',
-                'name_kh' => '- skin',
-                'index' => 4,
-                'status' => 1,
-            ],
-            [
-                'name_en' => 'HEMATOLOGIE',
-                'name_kh' => 'HEMATOLOGIE',
-                'index' => 5,
-                'status' => 1,
-            ],
-            [
-                'name_en' => '- FORMULE LEUCOCYTAIRE:',
-                'name_kh' => '- FORMULE LEUCOCYTAIRE:',
-                'index' => 6,
-                'status' => 1,
-            ],
-            [
-                'name_en' => '- HbA1C',
-                'name_kh' => '- HbA1C',
-                'index' => 7,
-                'status' => 1,
-            ],
-            [
-                'name_en' => '- NUMERATION GLOBULAIRI:',
-                'name_kh' => '- NUMERATION GLOBULAIRI:',
-                'index' => 8,
-                'status' => 1,
-            ],
-            [
-                'name_en' => 'SELLE',
-                'name_kh' => 'SELLE',
-                'index' => 9,
-                'status' => 1,
-            ],
-            [
-                'name_en' => 'SEROLOGIES',
-                'name_kh' => 'SEROLOGIES',
-                'index' => 10,
-                'status' => 1,
-            ],
-            [
-                'name_en' => '- DIAGNOSTIC DE TREPONEMATOSES',
-                'name_kh' => '- DIAGNOSTIC DE TREPONEMATOSES',
-                'index' => 11,
-                'status' => 1,
-            ],
-            [
-                'name_en' => '- REACTION DE WALER ROSE',
-                'name_kh' => '- REACTION DE WALER ROSE',
-                'index' => 12,
-                'status' => 1,
-            ],
-            [
-                'name_en' => '- Serodiagnostic de widal (salmonelloses)',
-                'name_kh' => '- Serodiagnostic de widal (salmonelloses)',
-                'index' => 13,
-                'status' => 1,
-            ],
-            [
-                'name_en' => '- SEROLOGIE DE H.I.V. 1 / 2 ',
-                'name_kh' => '- SEROLOGIE DE H.I.V. 1 / 2 ',
-                'index' => 14,
-                'status' => 1,
-            ],
-            [
-                'name_en' => "- SEROLOGIE DE L'HEPATITE B,C",
-                'name_kh' => "- SEROLOGIE DE L'HEPATITE B,C",
-                'index' => 15,
-                'status' => 1,
-            ],
-            [
-                'name_en' => '- SEROLOGIE DES INFECTIONS A STREPTOCOQUE',
-                'name_kh' => '- SEROLOGIE DES INFECTIONS A STREPTOCOQUE',
-                'index' => 16,
-                'status' => 1,
-            ],
-            [
-                'name_en' => '- Serology de Helicobacter pylori ',
-                'name_kh' => '- Serology de Helicobacter pylori ',
-                'index' => 17,
-                'status' => 1,
-            ],
-            [
-                'name_en' => '- TEST DE LATEX POUR DETECTION PROTEIN C (CRP)',
-                'name_kh' => '- TEST DE LATEX POUR DETECTION PROTEIN C (CRP)',
-                'index' => 18,
-                'status' => 1,
-            ],
-            [
-                'name_en' => 'URINARIES ANALYSES',
-                'name_kh' => 'URINARIES ANALYSES',
-                'index' => 19,
-                'status' => 1,
-            ],
-
-            // --------------Add new---------------
-            [
-                'name_en' => 'IONOGRAME',
-                'name_kh' => 'IONOGRAME',
-                'index' => 8.5,
-                'status' => 1,
-            ],
-            [
-                'name_en' => 'BIOCHEMISTRY',
-                'name_kh' => 'BIOCHEMISTRY',
-                'index' => 2.1,
-                'status' => 1,
-            ],
-            [
-                'name_en' => 'Hemogram',
-                'name_kh' => 'Hemogram',
-                'index' => 8.1,
-                'status' => 1,
-            ],
-        ]);
+        DB::insert("INSERT INTO `labor_types` (`id`, `name_en`, `name_kh`, `index`, `status`, `parent_id`, `other`, `created_at`, `updated_at`, `user_id`) VALUES
+        (1, 'BACTERIOLOGIE', 'BACTERIOLOGIE', 1, 1, NULL, NULL, NULL, '2022-11-29 14:38:59', 1),
+        (2, 'BIOCHIMIE', 'BIOCHIMIE', 2, 1, NULL, NULL, NULL, '2022-11-29 14:38:59', 1),
+        (3, 'dematology', 'dematology', 3, 1, NULL, NULL, NULL, '2022-11-29 14:38:59', 1),
+        (4, '- skin', '- skin', 11, 1, '3', NULL, NULL, '2022-11-29 15:01:21', 1),
+        (5, 'HEMATOLOGIE', 'HEMATOLOGIE', 4, 1, NULL, NULL, NULL, '2022-11-29 15:01:21', 1),
+        (6, '- FORMULE LEUCOCYTAIRE:', '- FORMULE LEUCOCYTAIRE:', 12, 1, '5', NULL, NULL, '2022-11-29 15:01:21', 1),
+        (7, '- HbA1C', '- HbA1C', 13, 1, '5', NULL, NULL, '2022-11-29 15:01:21', 1),
+        (8, '- NUMERATION GLOBULAIRI:', '- NUMERATION GLOBULAIRI:', 14, 1, '5', NULL, NULL, '2022-11-29 15:01:21', 1),
+        (9, 'SELLE', 'SELLE', 7, 1, NULL, NULL, NULL, '2022-11-29 15:01:21', 1),
+        (10, 'SEROLOGIES', 'SEROLOGIES', 9, 1, NULL, NULL, NULL, '2022-11-29 15:01:21', 1),
+        (11, '- DIAGNOSTIC DE TREPONEMATOSES', '- DIAGNOSTIC DE TREPONEMATOSES', 15, 1, '10', NULL, NULL, '2022-11-29 15:01:21', 1),
+        (12, '- REACTION DE WALER ROSE', '- REACTION DE WALER ROSE', 16, 1, '10', NULL, NULL, '2022-11-29 15:01:21', 1),
+        (13, '- Serodiagnostic de widal (salmonelloses)', '- Serodiagnostic de widal (salmonelloses)', 17, 1, '10', NULL, NULL, '2022-11-29 15:01:21', 1),
+        (14, '- SEROLOGIE DE H.I.V. 1 / 2 ', '- SEROLOGIE DE H.I.V. 1 / 2 ', 18, 1, '10', NULL, NULL, '2022-11-29 15:01:21', 1),
+        (15, '- SEROLOGIE DE L\'HEPATITE B,C', '- SEROLOGIE DE L\'HEPATITE B,C', 19, 1, '10', NULL, NULL, '2022-11-29 15:01:21', 1),
+        (16, '- SEROLOGIE DES INFECTIONS A STREPTOCOQUE', '- SEROLOGIE DES INFECTIONS A STREPTOCOQUE', 20, 1, '10', NULL, NULL, '2022-11-29 15:01:21', 1),
+        (17, '- Serology de Helicobacter pylori ', '- Serology de Helicobacter pylori ', 21, 1, '10', NULL, NULL, '2022-11-29 14:38:59', 1),
+        (18, '- TEST DE LATEX POUR DETECTION PROTEIN C (CRP)', '- TEST DE LATEX POUR DETECTION PROTEIN C (CRP)', 22, 1, '10', NULL, NULL, '2022-11-29 14:38:59', 1),
+        (19, 'URINARIES ANALYSES', 'URINARIES ANALYSES', 5, 1, NULL, NULL, NULL, '2022-11-29 15:01:21', 1)");
     }
 }

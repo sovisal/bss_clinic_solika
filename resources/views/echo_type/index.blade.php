@@ -32,7 +32,6 @@
                         :id="$row->id"
                         :is-trashed="$row->trashed()"
                         :disable-edit="$row->trashed()"
-                        :show-btn-force-delete="true"
                         :show-btn-show="false"
                     />
                 </td>

@@ -93,7 +93,7 @@ class XrayTypeController extends Controller
     public function update_order(Request $request)
     {
         XrayType::saveOrder($request);
-        return back()->with('success', 'Data sort successful');
+        return redirect(route('setting.xray-type.index'))->with('success', 'Data sort successful');
     }
 
     /**

@@ -93,7 +93,7 @@ class EcgTypeController extends Controller
     public function update_order(Request $request)
     {
         EcgType::saveOrder($request);
-        return back()->with('success', 'Data sort successful');
+        return redirect(route('setting.ecg-type.index', request()->only(['parent'])))->with('success', 'Data sort successful');
     }
 
     /**

@@ -12,25 +12,19 @@ class LaborItemController extends Controller
 	/**
 	 * Display a listing of the resource.
 	 */
-	public function index()
+	public function index(LaborType $laborType)
 	{
-		$data['rows'] = LaborItem::where('labor_items.status', 1)
-			->select(['labor_items.*', 'labor_types.name_en as type_en'])
-			->leftJoin('labor_types', 'labor_types.id', '=', 'labor_items.type')
-			->orderBy('labor_items.index', 'asc')
-			->get();
+		$data['rows'] = $laborType->items;
+		$data['laborType'] = $laborType;
 		return view('labor_item.index', $data);
 	}
 
 	/**
 	 * Show the form for creating a new resource.
 	 */
-	public function create()
+	public function create(LaborType $laborType)
 	{
-		$data['type'] = LaborType::where('id', request()->type)
-								->where('status', 1)
-								->orderBy('index', 'asc')
-								->first();
+		$data['laborType'] = $laborType;
 		return view('labor_item.create', $data);
 	}
 
@@ -91,20 +85,17 @@ class LaborItemController extends Controller
 		}
 	}
 
-	public function sort_order()
-	{
-		$data['rows'] = LaborItem::with(['hasType'])->where('status', 1)->orderBy('index', 'asc')->get();
-		return view('labor_item.order', $data);
-	}
+    // public function sort_order(LaborType $laborType)
+    // {
+    //     $data['rows'] = LaborItem::where('status', 1)->orderBy('index', 'asc')->get();
+    //     $data['url'] = route('setting.labor-item.update_order');
+    //     $data['back_url'] = route('setting.labor-item.index');
+    //     return view('shared.setting_service.order', $data);
+    // }
 
-	public function update_order(Request $request)
-	{
-		if (is_array($request->ids) && count($request->ids) > 0) {
-			$laborItems = LaborItem::where('status', 1)->whereIn('id', $request->ids)->orderBy('index', 'asc')->get();
-			foreach ($request->ids as $index => $id) {
-				$laborItems->where('id', $id)->first()->update(['index' => ++$index]);
-			}
-		}
-		return back()->with('success', 'Data sort successful');
-	}
+    // public function update_order(LaborType $laborType, Request $request)
+    // {
+    //     LaborItem::saveOrder($request);
+    //     return redirect(route('setting.labor-item.index'))->with('success', 'Data sort successful');
+    // }
 }

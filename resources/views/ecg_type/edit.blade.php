@@ -17,16 +17,13 @@
             </x-slot>
 
             <table class="table-form striped">
-                <tr>
-                    <th colspan="4" class="text-left tw-bg-gray-100">Edit Information</th>
-                </tr>
 
                 @include('shared.setting_service.form')
 
                 @if (view()->exists('ecg_type.extra_form.' . $row->id))
-                    @include('ecg_type.extra_form.' . $row->id)
+                @include('ecg_type.extra_form.' . $row->id)
                 @else
-                    @include('ecg_type.extra_form.0')
+                @include('ecg_type.extra_form.0')
                 @endif
             </table>
         </x-card>

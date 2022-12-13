@@ -1,25 +1,20 @@
 <x-app-layout>
 	<x-slot name="header">
-		<x-form.button href="{!! route('setting.labor-type.index', ['type' => $type]) !!}" color="danger" icon="bx bx-left-arrow-alt" label="Back" />
+		<x-form.button href="{!! route('setting.labor-type.index') !!}" color="danger" icon="bx bx-left-arrow-alt" label="Back" />
 	</x-slot>
-	<form action="{{ route('setting.labor-type.store', ['type' => $type]) }}" method="POST" autocomplete="off" enctype="multipart/form-data">
+	<form action="{{ route('setting.labor-type.store') }}" method="POST" autocomplete="off" enctype="multipart/form-data">
 		@method('PUT')
 		@csrf
 		<x-card bodyClass="pb-0">
-			<table class="table-form striped">
-				<tr>
-					<th colspan="4" class="text-left tw-bg-gray-100">Create New Information</th>
-				</tr>
-				<tr>
-					<td width="20%" class="text-right">Name<small class='required'>*</small></td>
-					<td>
-						<x-bss-form.input name="name" required autofocus />
-					</td>
-				</tr>
-			</table>
+			<x-slot name="action">
+				<x-form.button type="submit" icon="bx bx-save" label="Save" />
+			</x-slot>
 			<x-slot name="footer">
 				<x-form.button type="submit" icon="bx bx-save" label="Save" />
 			</x-slot>
+			<table class="table-form striped">
+				@include('labor_type.form')
+			</table>
 		</x-card>
 	</form>
 

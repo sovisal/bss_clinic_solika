@@ -3,45 +3,30 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
 
 class CreateLaborTypesTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
         Schema::create('labor_types', function (Blueprint $table) {
             $table->id();
-
             $table->string('name_en')->nullable();
             $table->string('name_kh')->nullable();
-
-            $table->float('index')->default(99999);
-            $table->string('type')->nullable();
-            $table->string('parent_id')->nullable();
+            $table->float('index')->default(999);
             $table->text('other')->nullable();
-
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->tinyInteger('status')->default('0');
+            $table->boolean('status')->default(true);
+            $table->foreignID('parent_id')->nullable()->constrain('labor_types')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignID('user_id')->constrain()->onUpdate('cascade')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
-            
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {
