@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\EcgType;
 use Illuminate\Http\Request;
 use App\Http\Requests\EcgTypeRequest;
-use App\Models\Ecg;
 
 class EcgTypeController extends Controller
 {
