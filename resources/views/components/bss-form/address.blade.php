@@ -1,6 +1,6 @@
 @props([
     'name',
-    'value'
+    'value' => null,
 ])
 
 <?php
