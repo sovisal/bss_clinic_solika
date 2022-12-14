@@ -13,12 +13,12 @@ class LaborType extends BaseModel
 
 	public function items()
 	{
-		return $this->hasMany(LaborItem::class, 'type_id')->where('status', 1);
+		return $this->hasMany(LaborItem::class, 'type_id')->where('status', 1)->orderBy('index', 'asc');
 	}
 
 	public function types()
 	{
-		return $this->hasMany(LaborType::class, 'parent_id')->where('status', 1);
+		return $this->hasMany(LaborType::class, 'parent_id')->where('status', 1)->orderBy('index', 'asc');
 	}
 
 	public function parent()

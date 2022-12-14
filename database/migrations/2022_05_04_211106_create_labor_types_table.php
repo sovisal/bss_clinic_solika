@@ -19,7 +19,7 @@ class CreateLaborTypesTable extends Migration
             $table->text('other')->nullable();
             $table->boolean('status')->default(true);
             $table->foreignID('parent_id')->nullable()->constrain('labor_types')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignID('user_id')->constrain()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignID('user_id')->nullable()->constrain()->onUpdate('cascade')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

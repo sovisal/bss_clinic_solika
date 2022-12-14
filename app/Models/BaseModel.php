@@ -87,9 +87,9 @@ class BaseModel extends Model
         $q->when(auth()->user()->isWebDev, fn($q) => $q->withTrashed());
     }
 
-    static function getNextIndex()
+    static function getNextIndex($where_clause = [])
     {
-        return (parent::select('index')->orderBy('index', 'desc')->first()->index ?? 0) + 1;
+        return (parent::select('index')->where($where_clause)->orderBy('index', 'desc')->first()->index ?? 0) + 1;
     }
 
     static function saveOrder($request)

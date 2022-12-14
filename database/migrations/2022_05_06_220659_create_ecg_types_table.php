@@ -23,7 +23,7 @@ class CreateEcgTypesTable extends Migration
             $table->text('default_form')->nullable();
             $table->text('other')->nullable();
             $table->boolean('status')->default(true);
-            $table->foreignId('user_id')->constrain()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('user_id')->nullable()->constrain()->onUpdate('cascade')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
 

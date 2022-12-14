@@ -18,11 +18,11 @@ class CreateLaborItemsTable extends Migration
             $table->string('min_range', 10)->nullable();
             $table->string('max_range', 10)->nullable();
             $table->string('unit', 50)->nullable();
-            $table->integer('index')->default(999);
+            $table->double('index')->default(999);
             $table->text('other')->nullable();
             $table->boolean('status')->default(true);
             $table->foreignID('type_id')->constrain('labor_types')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignID('user_id')->constrain()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignID('user_id')->nullable()->constrain()->onUpdate('cascade')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

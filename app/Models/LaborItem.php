@@ -4,23 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class LaborItem extends Model
+class LaborItem extends BaseModel
 {
-	use HasFactory;
-	protected $fillable = [
-		'name_en', 'name_kh',
-		'min_range', 'max_range', 'unit', 'type',
-		'status', 'index', 'other'
-	];
+	use HasFactory, SoftDeletes;
+	protected $guarded = ['id'];
 
-	public function hasType()
+	public function type()
 	{
-		return $this->belongsTo(LaborType::class, 'type');
-	}
-
-	public function category()
-	{
-		return $this->belongsTo(LaborType::class, 'type')->first();
+		return $this->belongsTo(LaborType::class, 'type_id');
 	}
 }

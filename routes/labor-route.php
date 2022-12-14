@@ -20,14 +20,16 @@ Route::middleware(['auth'])->name('setting.')->group(function () {
     });
 
     Route::prefix('labor-item')->name('labor-item.')->group(function () {
-        Route::get('/{laborType}', [LaborItemController::class, 'index'])->name('index');
-        Route::get('/{laborType}/create', [LaborItemController::class, 'create'])->name('create');
-        Route::put('/{laborType}/store', [LaborItemController::class, 'store'])->name('store');
-        Route::get('/{laborType}/{laborItem}/edit', [LaborItemController::class, 'edit'])->name('edit');
-        Route::put('/{laborType}/{laborItem}/update', [LaborItemController::class, 'update'])->name('update');
-        Route::delete('/{laborType}/{laborItem}/delete', [LaborItemController::class, 'destroy'])->name('delete');
-        Route::get('/sort_order', [LaborItemController::class, 'sort_order'])->name('sort_order');
-        Route::post('/update_order', [LaborItemController::class, 'update_order'])->name('update_order');
+        Route::get('/{laborType}', [LaborItemController::class, 'index'])->name('index')->middleware('can:ViewAnyLaborItem');
+        Route::get('/{laborType}/create', [LaborItemController::class, 'create'])->name('create')->middleware('can:CreateLaborItem');
+        Route::put('/{laborType}/store', [LaborItemController::class, 'store'])->name('store')->middleware('can:CreateLaborItem');
+        Route::get('/{laborType}/{laborItem}/edit', [LaborItemController::class, 'edit'])->name('edit')->middleware('can:UpdateLaborItem');
+        Route::put('/{laborType}/{laborItem}/update', [LaborItemController::class, 'update'])->name('update')->middleware('can:UpdateLaborItem');
+        Route::delete('/{laborType}/{laborItem}/delete', [LaborItemController::class, 'destroy'])->name('delete')->middleware('can:DeleteLaborItem');
+        Route::put('/{laborItem}/restore', [LaborItemController::class, 'restore'])->name('restore')->middleware('can:RestoreLaborItem');
+        Route::delete('/{laborItem}/force_delete', [LaborItemController::class, 'force_delete'])->name('force_delete')->middleware('can:ForceDeleteLaborItem');
+        Route::get('/{laborType}/sort_order', [LaborItemController::class, 'sort_order'])->name('sort_order');
+        Route::post('/{laborType}/update_order', [LaborItemController::class, 'update_order'])->name('update_order');
     });
 });
 

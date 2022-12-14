@@ -63,6 +63,7 @@ class LaborTypeController extends Controller
         $data['row'] = $laborType;
         $data['parents'] = LaborType::select(['id', 'name_en', 'name_kh'])
             ->where('parent_id', null)
+            ->where('id', '!=', $laborType->id)
             ->orderBy('index', 'asc')->get()
             ->map(function($parent) {
                 $parent->rendered_name = d_obj($parent, ['name_en', 'name_kh']);

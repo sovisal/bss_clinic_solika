@@ -24,7 +24,9 @@ class LaborItemRequest extends FormRequest
 	public function rules()
 	{
 		return [
-			'name' => ['required','string','min:2','max:255'],
+            'name_kh' => 'required|string|min:2|max:255',
+            'name_en' => 'nullable|string|min:2|max:255',
+            'index' => 'nullable|numeric',
 		];
 	}
 }

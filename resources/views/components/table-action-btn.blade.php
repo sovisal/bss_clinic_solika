@@ -19,7 +19,6 @@
 @if($showBtnShow)
     @can('Show'. Str::ucfirst($moduleAbility ?? $module))
         <x-form.button
-            class="btn-sm"
             href="{{ route($module .'.show', $id) }}"
             data-toggle="tooltip"
             data-placement="top"
@@ -33,7 +32,6 @@
 @if($showBtnEdit)
     @can('Update'. Str::ucfirst($moduleAbility ?? $module))
         <x-form.button
-            class="btn-sm"
             color="secondary"
             href="{{ route($module .'.edit', $id) }}"
             data-toggle="tooltip"
@@ -50,7 +48,6 @@
         @can('Restore'. Str::ucfirst($moduleAbility ?? $module))
             <x-form.button
                 color="success"
-                class="btn-sm"
                 data-id="{{ $id }}"
                 data-toggle="tooltip"
                 data-placement="top"
@@ -69,7 +66,7 @@
         @can('ForceDelete'. Str::ucfirst($moduleAbility ?? $module))
             <x-form.button
                 color="danger"
-                class="confirmDelete btn-sm"
+                class="confirmDelete"
                 data-id="{{ $id }}"
                 data-toggle="tooltip"
                 data-placement="top"
@@ -89,7 +86,7 @@
         @can('Delete'. Str::ucfirst($moduleAbility ?? $module))
             <x-form.button
                 color="danger"
-                class="confirmDelete btn-sm"
+                class="confirmDelete"
                 data-id="{{ $id }}"
                 data-toggle="tooltip"
                 data-placement="top"

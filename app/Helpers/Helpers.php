@@ -523,11 +523,16 @@ function d_date_time($date, $format = 'Y-m-d H:i:s', $default = '-')
     return validateDate($date, $format) ? date('d-M-Y h:i A', strtotime($date)) : $default;
 }
 
-function d_status($status)
+function d_labor_range($min = '', $max = '')
+{
+    return ($min != '' && $max != '') ? $min .'-'. $max  : '';
+}
+
+function d_status($status, $true = 'Active', $false = 'Inactive')
 {
     if ($status) {
-        return '<span class="badge badge-success">'. __('table.active') .'</span>';
+        return '<span class="badge badge-success">' . $true . '</span>';
     }
 
-    return '<span class="badge badge-danger">'. __('table.inactive') .'</span>';
+    return '<span class="badge badge-danger">' . $false . '</span>';
 }
