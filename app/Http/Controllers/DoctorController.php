@@ -88,7 +88,7 @@ class DoctorController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
         ]);
-        $doctor->update(['address_id' => update4LevelAddress($request)]);
+        $doctor->update(['address_id' => update4LevelAddress($request, $doctor->address_id)]);
 
         return back()->with('success', __('alert.message.success.crud.update'));
     }

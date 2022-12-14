@@ -12,7 +12,6 @@
     <tr>
         <td colspan="4" class="text-left tw-bg-gray-100">Address</td>
     </tr>
-    <input type="hidden" name="address_id" value="{{ @$doctor->address_id }}" />
     <x-bss-form.select-row name="pt_province_id" label="Province">{!! $addresses[0] !!}</x-bss-form.select-row>
     <x-bss-form.select-row name="pt_district_id" label="District">{!! $addresses[1] !!}</x-bss-form.select-row>
     <x-bss-form.select-row name="pt_commune_id" label="Commune">{!! $addresses[2] !!}</x-bss-form.select-row>

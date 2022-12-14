@@ -242,10 +242,10 @@ function get4LevelAdressSelectorByID($id, ...$param)
     return get4LevelAdressSelector(...$param);
 }
 
-function update4LevelAddress($request)
+function update4LevelAddress($request, $address_id = null)
 {
-    if ($request->address_id) {
-        return app('App\Http\Controllers\AddressLinkableController')->update($request, $request->address_id);
+    if ($address_id || $request->address_id) {
+        return app('App\Http\Controllers\AddressLinkableController')->update($request, $address_id ?: $request->address_id);
     } else {
         return app('App\Http\Controllers\AddressLinkableController')->store($request);
     }
