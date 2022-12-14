@@ -25,7 +25,6 @@ class DoctorController extends Controller
     {
         $data = [
             'genders' => getParentDataSelection('gender'),
-            'addresses' => get4LevelAdressSelector('xx', 'option'),
         ];
         return view('doctor.create', $data);
     }
@@ -70,7 +69,6 @@ class DoctorController extends Controller
         $data = [
             'doctor' => $doctor,
             'genders' => getParentDataSelection('gender'),
-            'addresses' => get4LevelAdressSelectorByID($doctor->address_id, ...['xx', 'option']),
         ];
         return view('doctor.edit', $data);
     }
