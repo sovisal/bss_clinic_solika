@@ -16,6 +16,6 @@ class AddressLinkableSeeder extends Seeder
      */
     public function run()
     {
-        exec("mysql --user=".Config::get('database.connections.mysql.username')." --password=".Config::get('database.connections.mysql.password')." ".Config::get('database.connections.mysql.database')." < ". database_path('manual_sql/addresses.sql'));
+        // exec("mysql --user=".Config::get('database.connections.mysql.username')." --password=".Config::get('database.connections.mysql.password')." ".Config::get('database.connections.mysql.database')." < ". database_path('manual_sql/addresses.sql'));
     }
 }

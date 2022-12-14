@@ -50,7 +50,6 @@ class LaborTypeController extends Controller
             'name_en' => $request->name_en,
             'index' => $request->index,
             'parent_id' => $request->parent_id,
-            'user_id' => auth()->user()->id,
         ]);
         return redirect(route('setting.labor-type.index'))->with('success', __('alert.message.success.crud.create'));
     }

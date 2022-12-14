@@ -11,9 +11,10 @@ class BaseModel extends Model
 
     protected static function boot()
     {
-        static::created(function ($model) {
+        static::creating(function ($model) {
             if (Auth()->user()) {
-                $model->update(['user_id' => Auth()->user()->id, 'status' => 1]);
+                $model->user_id = Auth()->user()->id;
+                $model->status = 1;
             }
         });
         
@@ -84,7 +85,9 @@ class BaseModel extends Model
 
     public function scopeFilterTrashed($q)
     {
-        $q->when(auth()->user()->isWebDev, fn($q) => $q->withTrashed());
+        $q->when(auth()->user()->isWebDev, function ($q) {
+            return $q->withTrashed();
+        });
     }
 
     static function getNextIndex($where_clause = [])
