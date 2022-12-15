@@ -29,7 +29,7 @@ class CreateLaboratoriesTable extends Migration
             $table->string('exchange_rate', 10)->default('0');
             $table->string('total', 10)->default('0');
             $table->unsignedBigInteger('payment_type')->nullable();
-            $table->unsignedBigInteger('payment_status')->nullable();
+            $table->tinyInteger('payment_status')->default(0);
 
             $table->text('result')->nullable();
             $table->string('sample')->nullable();
@@ -68,12 +68,6 @@ class CreateLaboratoriesTable extends Migration
                 ->onDelete('cascade');
 
             $table->foreign('payment_type')
-                ->references('id')
-                ->on('data_parents')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-
-            $table->foreign('payment_status')
                 ->references('id')
                 ->on('data_parents')
                 ->onUpdate('cascade')

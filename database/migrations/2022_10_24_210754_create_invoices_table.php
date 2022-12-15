@@ -19,12 +19,12 @@ class CreateInvoicesTable extends Migration
             $table->string('code', 50)->nullable();
             $table->unsignedBigInteger('patient_id')->nullable();
             $table->unsignedBigInteger('address_id')->nullable();
-            $table->unsignedBigInteger('doctor_id')->default(0);
+            $table->unsignedBigInteger('doctor_id')->nullable();
 
             $table->string('amount', 10)->default('0');
             $table->string('exchange_rate', 10)->default('0');
             $table->unsignedBigInteger('payment_type')->nullable();
-            $table->unsignedBigInteger('payment_status')->nullable();
+            $table->tinyInteger('payment_status')->default(0);
 
             $table->string('total', 10)->default('0');
             $table->text('remark')->nullable();
@@ -53,12 +53,6 @@ class CreateInvoicesTable extends Migration
                 ->onDelete('cascade');
 
             $table->foreign('payment_type')
-                ->references('id')
-                ->on('data_parents')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-
-            $table->foreign('payment_status')
                 ->references('id')
                 ->on('data_parents')
                 ->onUpdate('cascade')

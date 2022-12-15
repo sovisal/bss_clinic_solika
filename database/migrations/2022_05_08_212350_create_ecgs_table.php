@@ -29,7 +29,7 @@ class CreateEcgsTable extends Migration
             $table->string('amount', 10)->default(0);
             $table->string('exchange_rate', 10)->default(0);
             $table->unsignedBigInteger('payment_type')->nullable();
-            $table->unsignedBigInteger('payment_status')->nullable();
+            $table->tinyInteger('payment_status')->default(0);
 
             $table->string('image_1')->nullable();
             $table->string('image_2')->nullable();
@@ -73,12 +73,6 @@ class CreateEcgsTable extends Migration
                 ->onDelete('cascade');
 
             $table->foreign('payment_type')
-                ->references('id')
-                ->on('data_parents')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-
-            $table->foreign('payment_status')
                 ->references('id')
                 ->on('data_parents')
                 ->onUpdate('cascade')
