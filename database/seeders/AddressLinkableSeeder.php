@@ -16,6 +16,9 @@ class AddressLinkableSeeder extends Seeder
      */
     public function run()
     {
-        // exec("mysql --user=".Config::get('database.connections.mysql.username')." --password=".Config::get('database.connections.mysql.password')." ".Config::get('database.connections.mysql.database')." < ". database_path('manual_sql/addresses.sql'));
+        if (env('SQL_PATH')) {
+            $pwd = (env('DB_PASSWORD') ? ' -p"' . env('DB_PASSWORD') . '"' : '');
+            exec(env('SQL_PATH') . " -h " . env('DB_HOST') . " -u " . env('DB_USERNAME') . $pwd . " " . env('DB_DATABASE') . " < " . database_path('manual_sql/addresses.sql'));
+        }
     }
 }

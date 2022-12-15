@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
             DoctorSeeder::class,
             MedicineSeeder::class,
             PatientSeeder::class,
-            // AddressLinkableSeeder::class,
+            AddressLinkableSeeder::class,
         ]);
     }
 }
