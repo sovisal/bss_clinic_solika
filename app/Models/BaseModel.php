@@ -78,6 +78,16 @@ class BaseModel extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function doctor()
+    {
+        return $this->belongsTo(Doctor::class);
+    }
+
+    public function patient()
+    {
+        return $this->belongsTo(Patient::class);
+    }
+
     public function address()
     {
         return $this->belongsTo(Address_linkable::class);

@@ -536,3 +536,13 @@ function d_status($status, $true = 'Active', $false = 'Inactive')
 
     return '<span class="badge badge-danger">' . $false . '</span>';
 }
+
+function d_paid_status ($status = 0) {
+    if ($status == '1') {
+        return '<span class="badge badge-success">Paid</span>';
+    } elseif ($status == '2') {
+        return '<span class="badge badge-info">Refunded</span>';
+    } else {
+        return '<span class="badge badge-secondary">Unpaid</span>';
+    }
+}
