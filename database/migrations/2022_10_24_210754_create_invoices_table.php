@@ -36,7 +36,7 @@ class CreateInvoicesTable extends Migration
 
             $table->foreign('patient_id')
                 ->references('id')
-                ->on('patient_linkables')
+                ->on('patients')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 

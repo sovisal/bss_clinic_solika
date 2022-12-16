@@ -16,8 +16,12 @@ class CreatePrescriptionsTable extends Migration
         Schema::create('prescriptions', function (Blueprint $table) {
             $table->id();
             $table->string('code', 50)->nullable();
-            $table->unsignedBigInteger('patient_id')->nullable();
             $table->unsignedBigInteger('address_id')->nullable();
+            
+            $table->unsignedBigInteger('patient_id')->nullable();
+            $table->unsignedBigInteger('gender_id')->nullable();
+            $table->tinyInteger('age')->nullable();
+            $table->tinyInteger('age_type')->default('1'); // 1=year, 2=month
 
             $table->datetime('requested_at')->nullable();
             $table->unsignedBigInteger('requested_by')->nullable();
@@ -25,7 +29,7 @@ class CreatePrescriptionsTable extends Migration
             $table->datetime('analysis_at')->nullable();
             $table->unsignedBigInteger('doctor_id')->nullable();
             
-            $table->string('amount', 10)->default('0');
+            $table->string('price', 10)->default('0');
             $table->string('exchange_rate', 10)->default('0');
             $table->string('total', 10)->default('0');
             $table->unsignedBigInteger('payment_type')->nullable();
@@ -41,6 +45,12 @@ class CreatePrescriptionsTable extends Migration
             $table->softDeletes();
             $table->timestamps();
             
+            $table->foreign('gender_id')
+                ->references('id')
+                ->on('data_parents')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')

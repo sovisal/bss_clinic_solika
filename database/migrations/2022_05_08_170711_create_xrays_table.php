@@ -16,9 +16,13 @@ class CreateXraysTable extends Migration
         Schema::create('xrays', function (Blueprint $table) {
             $table->id();
             $table->string('code', 50)->nullable();
-            $table->unsignedBigInteger('type')->nullable();
-            $table->unsignedBigInteger('patient_id')->nullable();
+            $table->unsignedBigInteger('type_id')->nullable();
             $table->unsignedBigInteger('address_id')->nullable();
+
+            $table->unsignedBigInteger('patient_id')->nullable();
+            $table->unsignedBigInteger('gender_id')->nullable();
+            $table->tinyInteger('age')->nullable();
+            $table->tinyInteger('age_type')->default('1'); // 1=year, 2=month
 
             $table->unsignedBigInteger('requested_by')->nullable();
             $table->datetime('requested_at')->nullable();
@@ -26,7 +30,7 @@ class CreateXraysTable extends Migration
             $table->datetime('analysis_at')->nullable();
             $table->unsignedBigInteger('doctor_id')->nullable();
             
-            $table->string('amount', 10)->default(0);
+            $table->string('price', 10)->default(0);
             $table->string('exchange_rate', 10)->default(0);
             $table->unsignedBigInteger('payment_type')->nullable();
             $table->tinyInteger('payment_status')->default(0);
@@ -42,7 +46,13 @@ class CreateXraysTable extends Migration
             $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('type')
+            $table->foreign('gender_id')
+                ->references('id')
+                ->on('data_parents')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('type_id')
                 ->references('id')
                 ->on('xray_types')
                 ->onUpdate('cascade')
