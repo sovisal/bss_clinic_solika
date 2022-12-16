@@ -11,8 +11,8 @@ class Echography extends BaseModel
     use HasFactory, SoftDeletes;
     protected $guarded = ['id'];
 
-    public function echoType()
+    public function type()
     {
-        return $this->belongsTo(EchoType::class, 'type');
+        return $this->belongsTo(EchoType::class);
     }
 }

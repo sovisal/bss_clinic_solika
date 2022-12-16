@@ -20,9 +20,9 @@ class EchographyController extends Controller
      */
     public function index()
     {
-        $this->data['rows'] = Echography::with(['address', 'user', 'doctor', 'patient', 'echoType'])
+        $this->data['rows'] = Echography::with(['address', 'user', 'doctor', 'patient', 'type', 'address', 'gender'])
             ->filter()
-            ->where('echographies.status', '>=', 1) //1-Draft, 2-Completed, Helper function render_record_status()
+            ->where('echographies.status', '>=', 1)
             ->orderBy('echographies.id', 'desc')
             ->limit(5000)
             ->get();
@@ -36,13 +36,15 @@ class EchographyController extends Controller
      */
     public function create()
     {
-        $data['type'] = EchoType::where('status', 1)->orderBy('index', 'asc')->get();
-        $data['patient'] = Patient::orderBy('name_en', 'asc')->get();
-        $data['doctor'] = Doctor::orderBy('id', 'asc')->get();
-        $data['payment_type'] = getParentDataSelection('payment_type');
-        $data['gender'] = getParentDataSelection('gender');
-        $data['addresses'] = get4LevelAdressSelector('xx', 'option');
-        $data['is_edit'] = false;
+        $data = [
+            'type' => EchoType::where('status', 1)->orderBy('index', 'asc')->get(),
+            'patient' => Patient::orderBy('name_en', 'asc')->get(),
+            'doctor' => Doctor::orderBy('id', 'asc')->get(),
+            'payment_type' => getParentDataSelection('payment_type'),
+            'gender' => getParentDataSelection('gender'),
+            'addresses' => get4LevelAdressSelector('xx', 'option'),
+            'is_edit' => false
+        ];
 
         return view('echography.create', $data);
     }
@@ -53,8 +55,8 @@ class EchographyController extends Controller
     public function store(EchographyRequest $request)
     {
         $echography = new Echography();
-        if ($request->type) {
-            $echo_type = EchoType::where('id', $request->type)->first();
+        if ($request->type_id) {
+            $echo_type = EchoType::where('id', $request->type_id)->first();
         }
 
         if ($request->file('img_1')) {
@@ -68,16 +70,20 @@ class EchographyController extends Controller
 
         if ($echo = $echography->create([
             'code' => generate_code('ECH', 'echographies'),
-            'type' => $request->type,
-            'patient_id' => $request->patient_id,
-            'doctor_id' => $request->doctor_id ?: auth()->user()->doctor ?? 0,
-            'requested_by' => $request->requested_by ?: auth()->user()->doctor ?? 0,
-            'payment_type' => $request->payment_type ?? 0,
+            'type_id' => $request->type_id ?: null,
+            'patient_id' => $request->patient_id ?: null,
+            'age' => $request->age ?: null,
+            'age_type' => 1, // Will link with data-patent to get age type and disply dropdown at form
+            'doctor_id' => $request->doctor_id ?: null,
+            'gender_id' => $request->gender_id ?: null,
+            'requested_by' => $request->requested_by ?: null,
+            'payment_type' => $request->payment_type ?: null,
             'payment_status' => 0,
             'requested_at' => $request->requested_at,
             'image_1' => $request->image_1,
             'image_2' => $request->image_2,
-            'amount' => $request->amount ?: ($echo_type ? $echo_type->price : 0),
+            'price' => $request->price ?: ($echo_type ? $echo_type->price : 0),
+            'exchange_rate' => d_exchange_rate(),
             'attribute' => $echo_type ? $echo_type->attribite : null,
         ])) {
             $echo->update(['address_id' => update4LevelAddress($request)]);
@@ -188,15 +194,16 @@ class EchographyController extends Controller
     {
         append_array_to_obj($echography, unserialize($echography->attribute) ?: []);
 
-        $data['row'] = $echography;
-        $data['type'] = EchoType::where('status', 1)->orderBy('index', 'asc')->get();
-        $data['patient'] = Patient::orderBy('name_en', 'asc')->get();
-        $data['doctor'] = Doctor::orderBy('id', 'asc')->get();
-        $data['addresses'] = get4LevelAdressSelectorByID($echography->address_id, ...['xx', 'option']);
-        $data['payment_type'] = getParentDataSelection('payment_type');
-        $data['gender'] = getParentDataSelection('gender');
-        $data['is_edit'] = true;
-
+        $data = [
+            'row' => $echography,
+            'type' => EchoType::where('status', 1)->orderBy('index', 'asc')->get(),
+            'patient' => Patient::orderBy('name_en', 'asc')->get(),
+            'doctor' => Doctor::orderBy('id', 'asc')->get(),
+            'addresses' => get4LevelAdressSelectorByID($echography->address_id, ...['xx', 'option']),
+            'payment_type' => getParentDataSelection('payment_type'),
+            'gender' => getParentDataSelection('gender'),
+            'is_edit' => true,
+        ];
         return view('echography.edit', $data);
     }
 
@@ -222,11 +229,13 @@ class EchographyController extends Controller
         // serialize all post into string
         $serialize = array_except($request->all(), ['_method', '_token', 'img_1', 'img_2']);
         $request['attribute'] = serialize($serialize);
-        $request['amount'] = $request->amount ?? 0;
-        // $request['doctor_id'] = $request->doctor_id ?? 0;
+
+        $request['price'] = $request->price ?: 0;
+        $request['address_id'] = update4LevelAddress($request, $echography->address_id);
 
         $path = public_path('/images/echographies/');
         File::makeDirectory($path, 0777, true, true);
+        
         if ($request->file('img_1')) {
             $img_1 = $request->file('img_1');
             $img_1_name = (($echography->image_1 != '') ? $echography->image_1 : time() . '_image_1_' . $echography->id . '.png');
@@ -239,6 +248,7 @@ class EchographyController extends Controller
             Image::make($img_2->getRealPath())->save($path . $img_2_name);
             $request['image_2'] = $img_2_name;
         }
+
         if ($echography->update($request->all())) {
             return redirect()->route('para_clinic.echography.index')->with('success', 'Data update success');
         }

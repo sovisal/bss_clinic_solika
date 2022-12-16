@@ -81,10 +81,13 @@
                 <tr>
                     <th>No</th>
                     <th>Code</th>
-                    <th>Patient</th>
-                    <th>Physician</th>
-                    <th>Requested Date</th>
                     <th>Form</th>
+                    <th>Patient</th>
+                    <th>Gender</th>
+                    <th>Age</th>
+                    <th>Address</th>
+                    <th>Requested Date</th>
+                    <th>Physician</th>
                     <th>Price</th>
                     <th>Payment</th>
                     <th>User</th>
@@ -96,11 +99,14 @@
             <tr>
                 <td>{{ ++$i }}</td>
                 <td>{{ $row->code }}</td>
+                <td>{{ d_obj($row, 'type', ['name_en', 'name_kh']) }}</td>
                 <td>{{ d_obj($row, 'patient', ['name_en', 'name_kh']) }}</td>
-                <td>{{ d_obj($row, 'doctor', ['name_en', 'name_kh']) }}</td>
+                <td>{{ d_obj($row, 'gender', ['title_en', 'title_kh']) }}</td>
+                <td>{{ d_obj($row, 'age') }}</td>
+                <td>{{ d_obj($row, 'address', ['village_kh', 'commune_kh', 'district_kh', 'province_kh']) }}</td>
                 <td>{{ render_readable_date($row->requested_at) }}</td>
-                <td>{{ d_obj($row, 'echoType', ['name_en', 'name_kh']) }}</td>
-                <td class="text-right">{{ d_currency($row->amount) }}</td>
+                <td>{{ d_obj($row, 'doctor', ['name_en', 'name_kh']) }}</td>
+                <td class="text-right">{{ d_currency($row->price) }}</td>
                 <td>{!! d_paid_status($row->payment_status) !!}</td>
                 <td>{{ d_obj($row, 'user', 'name') }}</td>
                 <td>{!! d_status($row->status) !!}</td>

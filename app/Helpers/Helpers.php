@@ -546,3 +546,7 @@ function d_paid_status ($status = 0) {
         return '<span class="badge badge-secondary">Unpaid</span>';
     }
 }
+
+function d_exchange_rate () {
+    return 4100;
+}

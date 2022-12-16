@@ -88,6 +88,10 @@ class BaseModel extends Model
         return $this->belongsTo(Patient::class);
     }
 
+    public function gender () {
+        return $this->belongsTo(DataParent::class, 'gender_id', 'id')->where('type', 'gender');
+    }
+
     public function address()
     {
         return $this->belongsTo(Address_linkable::class);

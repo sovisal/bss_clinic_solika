@@ -10,10 +10,10 @@
 <tr>
     <td width="15%" class="text-right">Form <small class='required'>*</small></td>
     <td>
-        <x-bss-form.select name="type" :disabled="$isEdit && $row->type" required>
+        <x-bss-form.select name="type_id" :disabled="$isEdit && $row->type_id" required>
             <option value="">Please choose</option>
             @foreach ($type as $data)
-            <option value="{{ $data->id }}" data-price="{{ $data->price }}" {{ old('type', @$row->type) == $data->id ? 'selected' : '' }}>{{ d_obj($data, ['name_en', 'name_kh']) }}</option>
+            <option value="{{ $data->id }}" data-price="{{ $data->price }}" {{ old('type', @$row->type_id) == $data->id ? 'selected' : '' }}>{{ d_obj($data, ['name_en', 'name_kh']) }}</option>
             @endforeach
         </x-bss-form.select>
     </td>
@@ -44,10 +44,10 @@
 <tr>
     <td class="text-right">Gender</td>
     <td>
-        <x-bss-form.select name="pt_gender" data-no_search="true" :disabled="$isEdit && $row->pt_gender">
+        <x-bss-form.select name="gender_id" data-no_search="true" :disabled="$isEdit && $row->gender_id">
             <option value="">Please choose gender</option>
             @foreach ($gender as $id => $data)
-            <option value="{{ $id }}" {{ (old('pt_gender', @$row->pt_gender) == $id) ? 'selected' : '' }}>{{ $data }}</option>
+            <option value="{{ $id }}" {{ (old('gender_id', @$row->gender_id) == $id) ? 'selected' : '' }}>{{ $data }}</option>
             @endforeach
         </x-bss-form.select>
     </td>
@@ -77,8 +77,8 @@
 <tr>
     <td class="text-right">Price</td>
     <td colspan="3">
-        <span id="amount_label"> {{ $row->amount ?? 0 }} </span> USD
-        <input type="hidden" name="amount" value="{{ $row->amount ?? 0 }}" :disabled="$isEdit">
+        <span id="price_label"> {{ $row->price ?? 0 }} </span> USD
+        <input type="hidden" name="price" value="{{ $row->price ?? 0 }}" :disabled="$isEdit">
     </td>
 </tr>
 {!! $slot !!}

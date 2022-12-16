@@ -1,12 +1,12 @@
 <script>
     $(document).ready(function() {
-        $('[name="type"]').change(function() {
+        $('[name="type_id"]').change(function() {
             $_this = $(this);
             $_option_selected = $(this).find('option:selected');
-            $_amount = $_option_selected.data('price');
+            $_price = $_option_selected.data('price');
 
-            $('#amount_label').html($_amount);
-            $('[name="amount"]').val($_amount);
+            $('#price_label').html($_price);
+            $('[name="price"]').val($_price);
         });
     });
 
