@@ -230,7 +230,10 @@ class EchographyController extends Controller
         $serialize = array_except($request->all(), ['_method', '_token', 'img_1', 'img_2']);
         $request['attribute'] = serialize($serialize);
 
-        $request['price'] = $request->price ?: 0;
+        if ($request->type_id) {
+            $echo_type = EchoType::where('id', $request->type_id)->first();
+        }        
+        $request['price'] = $request->price ?: ($echo_type ? $echo_type->price : 0);
         $request['address_id'] = update4LevelAddress($request, $echography->address_id);
 
         $path = public_path('/images/echographies/');
