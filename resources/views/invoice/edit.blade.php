@@ -12,29 +12,26 @@
         <x-card bodyClass="pb-0">
             <x-slot name="action">
                 <div>
-                    <x-form.button type="submit" class="btn-submit" value="2" color="success" icon="bx bx-check" label="Complete" />
+                    <x-form.button type="submit" class="btn-submit" value="2" color="success" icon="bx bx-dollar" label="Paid" />
                     <x-form.button type="submit" class="btn-submit" value="1" icon="bx bx-save" label="Save" />
                 </div>
             </x-slot>
             <x-slot name="footer">
                 <div>
-                    <x-form.button type="submit" class="btn-submit" value="2" color="success" icon="bx bx-check" label="Complete" />
+                    <x-form.button type="submit" class="btn-submit" value="2" color="success" icon="bx bx-dollar" label="Paid" />
                     <x-form.button type="submit" class="btn-submit" value="1" icon="bx bx-save" label="Save" />
                 </div>
             </x-slot>
-            <table class="table-form striped">
-                <tr>
-                    <th colspan="4" class="text-left tw-bg-gray-100">Invoice Code #{{ $row->code }}</th>
-                </tr>
-                @include('invoice.form_input')
-            </table>
+            
+            @include('invoice.form_input')
             <br>
-            @include('invoice.form_input_detail')
+            {{-- @include('invoice.form_input_detail') --}}
+
         </x-card>
     </form>
     <div>
         <table id="sample_result_row" class="hidden">
-            @include('invoice.form_sample_item')
+            {{-- @include('invoice.form_sample_item') --}}
         </table>
     </div>
 </x-app-layout>

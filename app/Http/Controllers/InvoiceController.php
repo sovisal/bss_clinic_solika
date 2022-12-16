@@ -9,6 +9,7 @@ use App\Models\Service;
 use App\Models\Doctor;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
+use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
 {
@@ -19,15 +20,9 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        $this->data['rows'] = Invoice::select([
-            'invoices.*',
-            'patients.name_en as patient_en', 'patients.name_kh as patient_kh',
-            'doctors.name_en as doctor_en', 'doctors.name_kh as doctor_kh',
-        ])
+        $this->data['rows'] = Invoice::with(['doctor', 'patient', 'gender', 'address', 'user'])
             ->filter()
             ->where('invoices.status', '>=', 1)
-            ->leftJoin('patients', 'patients.id', '=', 'invoices.patient_id')
-            ->leftJoin('doctors', 'doctors.id', '=', 'invoices.doctor_id')
             ->orderBy('id', 'DESC')
             ->limit(5000)
             ->get();
@@ -41,12 +36,17 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        $data['patient'] = Patient::orderBy('name_en', 'asc')->get();
-        $data['doctor'] = Doctor::orderBy('id', 'asc')->get();
-        $data['service'] = Service::orderBy('name', 'asc')->get();
-        $data['gender'] = getParentDataSelection('gender');
-        $data['code'] = generate_code('INV', 'invoices', false);
-        $data['is_edit'] = false;
+        $data = [
+            'code' => generate_code('INV', 'invoices', false),
+            'service' => [],
+            'patient' => Patient::orderBy('name_en', 'asc')->get(),
+            'doctor' => Doctor::orderBy('id', 'asc')->get(),
+            'payment_type' => getParentDataSelection('payment_type'),
+            'gender' => getParentDataSelection('gender'),
+            'addresses' => get4LevelAdressSelector('xx', 'option'),
+            'is_edit' => false
+        ];
+
         return view('invoice.create', $data);
     }
 
@@ -56,23 +56,23 @@ class InvoiceController extends Controller
      * @param  \App\Http\Requests\StoreInvoiceRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreInvoiceRequest $request)
+    public function store(Request $request)
     {
         if ($inv = Invoice::create([
             'code' => generate_code('INV', 'invoices'),
             'inv_date' => $request->inv_date ?: date('Y-m-d H:i:s'),
-            'doctor_id' => $request->doctor_id,
+            'patient_id' => $request->patient_id ?: null,
+            'age' => $request->age ?: '0',
+            'age_type' => 1, // Will link with data-patent to get age type and disply dropdown at form
+            'gender_id' => $request->gender_id ?: null,
+            'doctor_id' => $request->doctor_id ?: Auth()->user()->doctor_id ?: null,
             'remark' => $request->remark ?: '',
-            'patient_id' => $request->patient_id,
-            'pt_gender' => $request->pt_gender,
-            'pt_age' => $request->pt_age ?: '0',
-            'address_id' => update4LevelAddress($request),
-            'exchange_rate' => $request->exchange_rate ?: 4100,
+            'payment_type' => $request->payment_type ?: null,
+            'exchange_rate' => d_exchange_rate(),
             'total' => array_sum($request->total ?: []),
-            'requested_at' => $request->inv_date ?: date('Y-m-d H:i:s'),
-            'status' => 1,
         ])) {
-            $this->refresh_invoice_detail($request, $inv->id, true);
+            $inv->update(['address_id' => update4LevelAddress($request)]);
+            // $this->refresh_invoice_detail($request, $inv->id, true);
             return redirect()->route('invoice.edit', $inv->id)->with('success', 'Data created success');
         }
     }
@@ -119,16 +119,20 @@ class InvoiceController extends Controller
      */
     public function edit(Invoice $invoice)
     {
-        if (!$invoice) return;
+        $data = [
+            'row' => $invoice,
+            'code' => generate_code('INV', 'invoices', false),
+            'inv_number' => "PT-" . str_pad($invoice->id, 4, '0', STR_PAD_LEFT),
+            'service' => [],
+            'patient' => Patient::orderBy('name_en', 'asc')->get(),
+            'doctor' => Doctor::orderBy('id', 'asc')->get(),
+            'payment_type' => getParentDataSelection('payment_type'),
+            'gender' => getParentDataSelection('gender'),
+            'addresses' => get4LevelAdressSelector('xx', 'option'),
+            'invoice_detail' => $invoice->detail()->get(),
+            'is_edit' => true
+        ];
 
-        $data['row'] = $invoice;
-        $data['patient'] = Patient::orderBy('name_en', 'asc')->get();
-        $data['doctor'] = Doctor::orderBy('id', 'asc')->get();
-        $data['service'] = Service::orderBy('name', 'asc')->get();
-        $data['gender'] = getParentDataSelection('gender');
-        $data['invoice_detail'] = $invoice->detail()->get();
-        $data['inv_number'] = "PT-" . str_pad($invoice->id, 4, '0', STR_PAD_LEFT);
-        $data['is_edit'] = true;
         return view('invoice.edit', $data);
     }
 
@@ -139,21 +143,19 @@ class InvoiceController extends Controller
      * @param  \App\Models\Models\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateInvoiceRequest $request, Invoice $invoice)
+    public function update(Request $request, Invoice $invoice)
     {
         if ($invoice->update([
             'inv_date' => $request->inv_date ?: $invoice->inv_date,
             'doctor_id' => $request->doctor_id ?: $invoice->doctor_id,
-            'remark' => $request->remark ?: $invoice->remark,
             'patient_id' => $request->patient_id ?: $invoice->patient_id,
-            'pt_code' => $request->pt_code ?: $invoice->pt_code,
-            'pt_gender' => $request->pt_gender ?: $invoice->pt_gender,
-            'pt_age' => $request->pt_age ?: $invoice->pt_age,
-            'address_id' => update4LevelAddress($request),
+            'gender_id' => $request->gender_id ?: $invoice->gender_id,
+            'age' => $request->age ?: $invoice->age,
+            'address_id' => update4LevelAddress($request, $invoice->address_id),
             'exchange_rate' => $request->exchange_rate ?: $invoice->exchange_rate,
-            'requested_at' => $request->inv_date ?: $invoice->inv_date,
+            'payment_type' => $request->payment_type ?: $invoice->payment_type,
+            'remark' => $request->remark ?: $invoice->remark,
             'total' => array_sum($request->total ?: []),
-            'status' => $request->status ?: 1,
         ])) {
             $this->refresh_invoice_detail($request, $invoice->id);
             return redirect()->route('invoice.index')->with('success', 'Data update success');

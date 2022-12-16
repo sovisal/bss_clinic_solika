@@ -14,7 +14,7 @@
     </x-slot>
 
     @if (!request()->old)
-    <x-card :foot="false">
+    <x-card :foot="false" :head="false">
         <x-slot name="header">
             <h5>Labor Service</h5>
         </x-slot>

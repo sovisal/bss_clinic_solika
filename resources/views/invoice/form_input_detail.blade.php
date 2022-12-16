@@ -3,7 +3,7 @@
         <tr>
             <th colspan="10" class="tw-bg-gray-100">
                 <div class="d-flex justify-content-between align-items-center">
-                    Result
+                    Medicine
                     <div>
                         <!-- <x-form.button class="btn-add-medicine" icon="bx bx-plus" label="Add Medicine" /> -->
                         <x-form.button class="btn-add-service" icon="bx bx-plus" label="Add Service" />

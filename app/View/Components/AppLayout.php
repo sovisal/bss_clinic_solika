@@ -47,7 +47,7 @@ class AppLayout extends Component
 
             'invoice' => [
                 'can' => 'ViewAnyInvoice',
-                'url' => route('invoice.create'),
+                'url' => route('invoice.index'),
                 'label' => 'Invoice',
                 'sub' => [
                     'invoice' => [

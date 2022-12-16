@@ -1,69 +1,72 @@
 <x-app-layout>
-	<x-slot name="header">
-		<x-form.button href="{{ route('invoice.create') }}" label="Create" icon="bx bx-plus"/>
-	</x-slot>
-	<x-card :foot="false" :action-show="false">
-		<x-slot name="header">
-			<form class="w-100" action="{{ route('invoice.index') }}" method="get">
-				<x-report-filter />
-			</form>
-		</x-slot>
-		<x-table class="table-hover table-striped" id="datatables" data-table="patients">
-			<x-slot name="thead">
-				<tr>
-					<th>N<sup>o</sup></th>
-					<th>Code</th>
-					<th>Date</th>
-					<th>Doctor</th>
-					<th>Patient</th>
-					<th>Code</th>
-					<th>Gender</th>
-					<th>Age</th>
-					<th>Total USD</th>
-					<th>Exchange Rate</th>
-					<th>Total KHR</th>
-					<th>Status</th>
-					<th>Action</th>
-				</tr>
-			</x-slot>
-			@php
-				$i = 0;
-			@endphp
-			@foreach($rows as $row)
-				<tr>
-					<td class="text-center">{{ ++$i }}</td>
-					<td class="text-center">{{ $row->code }}</td>
-					<td class="text-center">{{ render_readable_date($row->inv_date) }}</td>
-					<td>{{ render_synonyms_name($row->doctor_en, $row->doctor_kh) }}</td>
-					<td>{{ render_synonyms_name($row->patient_en, $row->patient_kh) }}</td>
-					<td>{{ $row->pt_code }}</td>
-					<td class="text-center">{!! getParentDataByType('gender', $row->pt_gender) !!}</td>
-					<td class="text-center">{{ $row->pt_age }}</td>
-					<th class="text-center">{{ number_format($row->total, 2) }}</th>
-					<th class="text-center">{{ number_format($row->exchange_rate, 0) }}</th>
-					<th class="text-center">{{ number_format($row->total * $row->exchange_rate, 0) }}</th>
-					<td class="text-center">{!! render_record_status($row->status) !!}</td>
-					<td class="text-right">
-						<x-form.button color="dark" class="btn-sm" onclick="printPopup('{{ route('invoice.print', $row->id) }}')" icon="bx bx-printer" />
-						@if ($row->status == 1)
-							<x-form.button color="secondary" class="btn-sm" href="{{ route('invoice.edit', $row->id) }}" icon="bx bx-edit-alt" />
-							<x-form.button color="danger" class="confirmDelete btn-sm" data-id="{{ $row->id }}" icon="bx bx-trash" />
-							<form class="sr-only" id="form-delete-{{ $row->id }}" action="{{ route('invoice.delete', $row->id) }}" method="POST">
-								@csrf
-								@method('DELETE')
-								<button class="sr-only" id="btn-{{ $row->id }}">Delete</button>
-							</form>
-						@else
-							<x-form.button color="secondary" class="btn-sm" icon="bx bx-edit-alt" disabled/>
-							<x-form.button color="danger" class="btn-sm" icon="bx bx-trash" disabled/>
-						@endif
-					</td>
-				</tr>
-			@endforeach
-		</x-table>
-	</x-card>
+    <x-slot name="header">
+        <x-form.button href="{{ route('invoice.create') }}" label="Create" icon="bx bx-plus" />
+        <form class="w-100" action="{{ route('invoice.index') }}" method="get">
+            <x-report-filter />
+        </form>
+    </x-slot>
+    <x-card :foot="false" :action-show="false" :head="false">
+        <x-table class="table-hover table-striped" id="datatables" data-table="patients">
+            <x-slot name="thead">
+                <tr>
+                    <th>N<sup>o</sup></th>
+                    <th>Code</th>
+                    <th>Patient</th>
+                    <th>Gender</th>
+                    <th>Age</th>
+                    <th>Address</th>
+                    <th>Date</th>
+                    <th>Doctor</th>
+                    <th>Exchange</th>
+                    <th>Amount</th>
+                    <th>Payment</th>
+                    <th>User</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </x-slot>
+            @php
+            $i = 0;
+            @endphp
+            @foreach($rows as $row)
+            <tr>
+                <td>{{ ++$i }}</td>
+                <td>{{ d_text($row->code) }}</td>
+                <td>{!! $row->patientLink !!}</td>
+                <td>{{ d_obj($row, 'gender', ['title_en', 'title_kh']) }}</td>
+                <td>{{ d_text($row->age) }}</td>
+                <td>{{ d_obj($row, 'address', ['village_kh', 'commune_kh', 'district_kh', 'province_kh']) }}</td>
+                <td>{{ render_readable_date($row->inv_date) }}</td>
+                <td>{!! $row->doctorLink !!}</td>
+                <td>{{ d_number($row->exchange_rate) }}</td>
+                <td>
+                    {{ d_currency($row->total) }} <br />
+                    {{ d_currency($row->total * $row->exchange_rate, 0, 'KHR') }}
+                </td>
+                <td>{!! d_paid_status($row->payment_status) !!}</td>
+                <td>{!! d_obj($row, 'user', 'name') !!}</td>
+                <td>{!! d_status($row->status) !!}</td>
+                <td>
+                    <x-form.button color="dark" class="btn-sm" onclick="printPopup('{{ route('invoice.print', $row->id) }}')" icon="bx bx-printer" />
+                    @if ($row->status == 1)
+                    <x-form.button color="secondary" class="btn-sm" href="{{ route('invoice.edit', $row->id) }}" icon="bx bx-edit-alt" />
+                    <x-form.button color="danger" class="confirmDelete btn-sm" data-id="{{ $row->id }}" icon="bx bx-trash" />
+                    <form class="sr-only" id="form-delete-{{ $row->id }}" action="{{ route('invoice.delete', $row->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button class="sr-only" id="btn-{{ $row->id }}">Delete</button>
+                    </form>
+                    @else
+                    <x-form.button color="secondary" class="btn-sm" icon="bx bx-edit-alt" disabled />
+                    <x-form.button color="danger" class="btn-sm" icon="bx bx-trash" disabled />
+                    @endif
+                </td>
+            </tr>
+            @endforeach
+        </x-table>
+    </x-card>
 
-	<x-para-clinic.modal-detail />
+    <x-para-clinic.modal-detail />
 
-	<x-modal-confirm-delete />
+    <x-modal-confirm-delete />
 </x-app-layout>

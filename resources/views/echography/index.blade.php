@@ -44,7 +44,7 @@
             }
         </script>
     </x-slot>
-    <x-card :foot="false" :action-show="false">
+    <x-card :foot="false" :action-show="false" :head="false">
         <x-table class="table-hover table-striped" id="datatables" data-table="patients">
             <x-slot name="thead">
                 <tr>

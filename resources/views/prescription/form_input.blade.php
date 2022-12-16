@@ -19,7 +19,7 @@
 	<td>
 		<x-bss-form.select name="requested_by" required :disabled="$is_edit && $row->requested_by">
 			@foreach ($doctor as $data)
-				<option value="{{ $data->id }}" {{ ($row->requested_by ?? auth()->user()->doctor ?? false) == $data->id ? 'selected' : '' }} >{{ render_synonyms_name($data->name_en, $data->name_kh) }}</option>
+				<option value="{{ $data->id }}" {{ ($row->requested_by ?? auth()->user()->doctor_id ?? false) == $data->id ? 'selected' : '' }} >{{ render_synonyms_name($data->name_en, $data->name_kh) }}</option>
 			@endforeach
 		</x-bss-form.select>
 	</td>
@@ -27,7 +27,7 @@
 	<td>
 		<x-bss-form.select name="doctor_id" :disabled="$is_edit && $row->doctor_id">
 			@foreach ($doctor as $data)
-				<option value="{{ $data->id }}" {{ ($row->doctor_id ?? auth()->user()->doctor ?? false) == $data->id ? 'selected' : '' }} >{{ render_synonyms_name($data->name_en, $data->name_kh) }}</option>
+				<option value="{{ $data->id }}" {{ ($row->doctor_id ?? auth()->user()->doctor_id ?? false) == $data->id ? 'selected' : '' }} >{{ render_synonyms_name($data->name_en, $data->name_kh) }}</option>
 			@endforeach
 		</x-bss-form.select>
 	</td>
