@@ -106,11 +106,11 @@
                 <td>{{ d_obj($row, 'address', ['village_kh', 'commune_kh', 'district_kh', 'province_kh']) }}</td>
                 <td>{{ render_readable_date($row->requested_at) }}</td>
                 <td>{{ d_obj($row, 'doctor', ['name_en', 'name_kh']) }}</td>
-                <td class="text-right">{{ d_currency($row->price) }}</td>
+                <td>{{ d_currency($row->price) }}</td>
                 <td>{!! d_paid_status($row->payment_status) !!}</td>
                 <td>{{ d_obj($row, 'user', 'name') }}</td>
                 <td>{!! d_status($row->status) !!}</td>
-                <td class="text-right">
+                <td>
                     <x-form.button color="info" class="btn-sm" onclick="getDetail({{ $row->id }}, '{{ route('para_clinic.echography.getDetail', 'Echography Detail') }}')" icon="bx bx-detail" />
                     <x-form.button color="warning" class="btn-sm" onclick="getImage('{{ $row->image_1 }}', '{{ $row->image_2 }}')" icon="bx bx-image" />
                     <x-form.button color="dark" class="btn-sm" onclick="printPopup('{{ route('para_clinic.echography.print', $row->id) }}')" icon="bx bx-printer" />

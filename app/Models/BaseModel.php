@@ -83,6 +83,11 @@ class BaseModel extends Model
         return $this->belongsTo(Doctor::class);
     }
 
+    public function doctor_requested()
+    {
+        return $this->belongsTo(Doctor::class, 'requested_by', 'id');
+    }
+
     public function patient()
     {
         return $this->belongsTo(Patient::class);
@@ -95,6 +100,10 @@ class BaseModel extends Model
     public function address()
     {
         return $this->belongsTo(Address_linkable::class);
+    }
+
+    public function payment () {
+        return $this->belongsTo(DataParent::class, 'payment_type', 'id')->where('type', 'payment_type');
     }
 
     public function scopeFilterTrashed($q)

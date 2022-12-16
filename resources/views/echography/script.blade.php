@@ -17,8 +17,4 @@
         },
         buttonsStyling: false,
     });
-
-    $('.btn-submit').click(function() {
-        $('[name="status"]').val($(this).val());
-    });
 </script>
