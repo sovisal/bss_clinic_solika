@@ -55,9 +55,7 @@ class EchographyController extends Controller
     public function store(EchographyRequest $request)
     {
         $echography = new Echography();
-        if ($request->type_id) {
-            $echo_type = EchoType::where('id', $request->type_id)->first();
-        }
+        $echo_type = $request->type_id ? EchoType::where('id', $request->type_id)->first() : null;
 
         if ($request->file('img_1')) {
             $img_1_name = time() . '_image_1_' . rand(111, 999) . '.png';
@@ -76,7 +74,7 @@ class EchographyController extends Controller
             'age_type' => 1, // Will link with data-patent to get age type and disply dropdown at form
             'doctor_id' => $request->doctor_id ?: null,
             'gender_id' => $request->gender_id ?: null,
-            'requested_by' => $request->requested_by ?: null,
+            'requested_by' => $request->requested_by ?: Auth()->user()->doctor_id ?: null,
             'payment_type' => $request->payment_type ?: null,
             'payment_status' => 0,
             'requested_at' => $request->requested_at,
@@ -198,9 +196,8 @@ class EchographyController extends Controller
         $serialize = array_except($request->all(), ['_method', '_token', 'img_1', 'img_2']);
         $request['attribute'] = serialize($serialize);
 
-        if ($request->type_id) {
-            $echo_type = EchoType::where('id', $request->type_id)->first();
-        }
+        $echo_type = $request->type_id ? EchoType::where('id', $request->type_id)->first() : null;
+
         $request['price'] = $request->price ?: ($echo_type ? $echo_type->price : 0);
         $request['address_id'] = update4LevelAddress($request, $echography->address_id);
 
