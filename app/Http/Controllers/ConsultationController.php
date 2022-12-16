@@ -75,7 +75,7 @@ class ConsultationController extends Controller
 	{
 		$data = [
 			'consultation' => append_array_to_obj($consultation, unserialize($consultation->attribute) ?: []),
-			'doctors' => Doctor::orderBy('id', 'asc')->get(),
+			'doctors' => Doctor::where('status', 1)->get(),
 			'payment_types' => getParentDataSelection('payment_type'),
 			'evaluation_categories' => getParentDataSelection('evalutaion_category'),
 		];
