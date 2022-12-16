@@ -176,8 +176,7 @@ function bg_random()
 function getParaClinicHeaderDetail($row = null)
 {
     $row = is_null($row) ? new Collection : $row;
-    $status_html = (($row->status == 2) ? '<span class="badge badge-primary">Completed</span>' : '<span class="badge badge-light">Incompleted</span>');
-    $status_html .= (($row->payment_status == 2) ? '<span class="badge badge-success tw-ml-1">Paid</span>' : '<span class="badge badge-light tw-ml-1">Unpaid</span>');
+    $status_html = d_paid_status($row->payment_status) . ' ' . d_status($row->status);
     return '<table class="table-form table-header-info">
                 <thead>
                     <tr>

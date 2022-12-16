@@ -116,7 +116,7 @@ class EchographyController extends Controller
         if ($row) {
             $body = '';
             $tbody = '';
-            $attributes = array_except(filter_unit_attr(unserialize($row->attribute) ?: []), ['patient_id', 'gender_id', 'age', 'doctor_id', 'status', 'amount', 'price', 'payment_type', 'address_id', 'pt_province_id', 'pt_district_id', 'pt_commune_id', 'pt_village_id']);
+            $attributes = $row->filterAttr;
             foreach ($attributes as $label => $attr) {
                 $tbody .= '<tr>
 								<td width="30%" class="text-right tw-bg-gray-100">' . __('form.echography.' . $label) . '</td>
@@ -150,20 +150,7 @@ class EchographyController extends Controller
      */
     public function print($id)
     {
-        $echography = Echography::select([
-            'echographies.*',
-            'patients.name_kh as patient_kh',
-            'patients.age as patient_age',
-            'data_parents.title_en as patient_gender',
-            'doctors.name_kh as doctor_kh',
-            'echo_types.name_kh as type_kh'
-        ])
-            ->leftJoin('patients', 'patients.id', '=', 'echographies.patient_id')
-            ->leftJoin('data_parents', 'data_parents.id', '=', 'patients.gender')
-            ->leftJoin('doctors', 'doctors.id', '=', 'echographies.doctor_id')
-            ->leftJoin('echo_types', 'echo_types.id', '=', 'echographies.type')
-            ->find($id);
-        $echography->attribute = array_except(filter_unit_attr(unserialize($echography->attribute) ?: []), ['status', 'amount']);
+        $echography = Echography::with(['patient', 'gender', 'doctor', 'type'])->find($id);
         $data['echography'] = $echography;
         return view('echography.print', $data);
     }
@@ -213,13 +200,13 @@ class EchographyController extends Controller
 
         if ($request->type_id) {
             $echo_type = EchoType::where('id', $request->type_id)->first();
-        }        
+        }
         $request['price'] = $request->price ?: ($echo_type ? $echo_type->price : 0);
         $request['address_id'] = update4LevelAddress($request, $echography->address_id);
 
         $path = public_path('/images/echographies/');
         File::makeDirectory($path, 0777, true, true);
-        
+
         if ($request->file('img_1')) {
             $img_1 = $request->file('img_1');
             $img_1_name = (($echography->image_1 != '') ? $echography->image_1 : time() . '_image_1_' . $echography->id . '.png');
