@@ -20,7 +20,7 @@ class PatientController extends Controller
     {
         $data = [
             'patients' => Patient::filterTrashed()
-                ->with(['address', 'user', 'consultations'])
+                ->with(['address', 'user', 'consultations', 'gender'])
                 ->orderBy('id', 'desc')->get()
         ];
         return view('patient.index', $data);

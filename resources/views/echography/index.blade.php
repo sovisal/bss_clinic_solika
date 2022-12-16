@@ -1,6 +1,9 @@
 <x-app-layout>
     <x-slot name="header">
         <x-form.button href="{{ route('para_clinic.echography.create') }}" label="Create" icon="bx bx-plus" />
+        <form class="w-100" action="{{ route('para_clinic.echography.index') }}" method="get">
+            <x-report-filter />
+        </form>
     </x-slot>
     <x-slot name="css">
         <style>
@@ -17,35 +20,6 @@
     </x-slot>
     <x-slot name="js">
         <script>
-            // function getDetail(id){
-            // 	$.ajax({
-            // 		type: "POST",
-            // 		url: "{{ route('para_clinic.echography.getDetail') }}",
-            // 		data: {
-            // 			'id': id
-            // 		},
-            // 		success: function(rs){
-            // 			if (rs.success) {
-            // 				$('#detail-modal .type').html(rs.echography.type_en);
-            // 				$('#detail-modal .code').html(rs.echography.code);
-            // 				$('#detail-modal .name').html(rs.echography.patient_en);
-            // 				$('#detail-modal .requested_date').html(moment(rs.echography.requested_date).format('DD/MM/YYYY HH:mm'));
-            // 				$('#detail-modal .reqeusted_by').html(rs.echography.reqeusted_name);
-            // 				$('#detail-modal .physician').html(rs.echography.doctor_en);
-            // 				$('#detail-modal .payment_type').html(rs.echography.payment_type);
-            // 				$('#detail-modal .amount').html(rs.echography.amount + ' USD');
-            // 				$('#detail-modal .detail-status').html(rs.status_html);
-            // 				$('#detail-modal .table-detail-result tbody').html(rs.tbody);
-            // 				$('#detail-modal .btn-print').attr('onclick', `printPopup('${rs.print_url}')`);
-            // 				$('#detail-modal').modal();
-            // 			}
-            // 		},
-            // 		error: function (rs){
-            // 			alert(rs.message);
-            // 		}
-            // 	});
-            // }
-
             function getImage(img_1, img_2) {
                 var inner_slider;
                 $('#image-modal .modal-body .no-photo').remove();
@@ -71,11 +45,6 @@
         </script>
     </x-slot>
     <x-card :foot="false" :action-show="false">
-        <x-slot name="header">
-            <form class="w-100" action="{{ route('para_clinic.echography.index') }}" method="get">
-                <x-report-filter />
-            </form>
-        </x-slot>
         <x-table class="table-hover table-striped" id="datatables" data-table="patients">
             <x-slot name="thead">
                 <tr>
@@ -98,23 +67,22 @@
             @foreach($rows as $i => $row)
             <tr>
                 <td>{{ ++$i }}</td>
-                <td>{{ $row->code }}</td>
-                <td>{{ d_obj($row, 'type', ['name_en', 'name_kh']) }}</td>
-                <td>{{ d_obj($row, 'patient', ['name_en', 'name_kh']) }}</td>
+                <td>{!! d_link($row->code, "javascript:getDetail(" . $row->id . ", '" . route('para_clinic.echography.getDetail', 'Echography Detail') . "')") !!}</td>
+                <td>{!! $row->echoTypeLink !!}</td>
+                <td>{!! $row->patientLink !!}</td>
                 <td>{{ d_obj($row, 'gender', ['title_en', 'title_kh']) }}</td>
                 <td>{{ d_obj($row, 'age') }}</td>
                 <td>{{ d_obj($row, 'address', ['village_kh', 'commune_kh', 'district_kh', 'province_kh']) }}</td>
                 <td>{{ render_readable_date($row->requested_at) }}</td>
-                <td>{{ d_obj($row, 'doctor', ['name_en', 'name_kh']) }}</td>
+                <td>{!! $row->doctorLink !!}</td>
                 <td>{{ d_currency($row->price) }}</td>
                 <td>{!! d_paid_status($row->payment_status) !!}</td>
                 <td>{{ d_obj($row, 'user', 'name') }}</td>
                 <td>{!! d_status($row->status) !!}</td>
                 <td>
-                    <x-form.button color="info" class="btn-sm" onclick="getDetail({{ $row->id }}, '{{ route('para_clinic.echography.getDetail', 'Echography Detail') }}')" icon="bx bx-detail" />
                     <x-form.button color="warning" class="btn-sm" onclick="getImage('{{ $row->image_1 }}', '{{ $row->image_2 }}')" icon="bx bx-image" />
                     <x-form.button color="dark" class="btn-sm" onclick="printPopup('{{ route('para_clinic.echography.print', $row->id) }}')" icon="bx bx-printer" />
-                    @if ($row->status=='1')
+                    @if ($row->status=='1' && $row->payment_status == 0)
                     <x-form.button color="secondary" class="btn-sm" href="{{ route('para_clinic.echography.edit', $row->id) }}" icon="bx bx-edit-alt" />
                     <x-form.button color="danger" class="confirmDelete btn-sm" data-id="{{ $row->id }}" icon="bx bx-trash" />
                     <form class="sr-only" id="form-delete-{{ $row->id }}" action="{{ route('para_clinic.echography.delete', $row->id) }}" method="POST">

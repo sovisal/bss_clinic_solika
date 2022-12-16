@@ -59,6 +59,20 @@ body .navbar-top .navbar-nav .nav-item a.nav-link {
 }
 
 html body .table tbody td:not(.dataTables_empty), .table-padding-sm tbody th, .table-padding-sm tbody td:not(.dataTables_empty) {
+    vertical-align: top;
     padding: 5px 3px !important;
     text-align: left!important;
+    color: #333;
+    font-size: 14px;
+    font-weight: 100;
+}
+
+.d_link {
+    color: #0052cc;
+}
+.d_link:hover {
+    text-decoration: underline;
+}
+.d_link:active {
+    color: green;
 }

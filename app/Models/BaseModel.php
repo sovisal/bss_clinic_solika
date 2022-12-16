@@ -127,4 +127,29 @@ class BaseModel extends Model
             }
         }
     }
+
+    // Module Link
+    public function getPatientLinkAttribute () {
+        if ($this->patient->status > 0) { // will check permission
+            return d_link(d_obj($this, 'patient', ['name_en', 'name_kh']), route('patient.edit', d_obj($this, 'patient', 'id')));
+        } else {
+            return d_obj($this, 'patient', ['name_en', 'name_kh']);
+        }
+    }
+
+    public function getDoctorLinkAttribute () {
+        if ($this->doctor->status > 0) { // will check permission
+            return d_link(d_obj($this, 'doctor', ['name_en', 'name_kh']), route('setting.doctor.edit', d_obj($this, 'doctor', 'id')));
+        } else {
+            return d_obj($this, 'doctor', ['name_en', 'name_kh']);
+        }
+    }
+
+    public function getEchoTypeLinkAttribute () {
+        if ($this->type->status > 0) { // will check permission
+            return d_link(d_obj($this, 'type', ['name_en', 'name_kh']), route('setting.echo-type.edit', d_obj($this, 'type', 'id')));
+        } else {
+            return d_obj($this, 'type', ['name_en', 'name_kh']);
+        }
+    }
 }

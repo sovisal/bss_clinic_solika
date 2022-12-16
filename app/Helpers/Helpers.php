@@ -409,9 +409,9 @@ function d_text($txt = null, $default = '-')
     return $txt ?: $default;
 }
 
-function d_link($label = null, $link = null)
+function d_link($label = null, $link = null, $target = '_self')
 {
-    return '<a href="' . $link . '">' . $label . '</a>';
+    return '<a class="d_link" href="' . $link . '">' . $label . '</a>';
 }
 
 function d_combine_obj($obj, $keys, $separator = ' :: ')

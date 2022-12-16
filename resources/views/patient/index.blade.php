@@ -12,8 +12,9 @@
             <x-slot name="thead">
                 <tr>
                     <th>Code</th>
-                    <th>Name EN + Name KH</th>
+                    <th>Name</th>
                     <th>Gender</th>
+                    <th>Age</th>
                     <th>Phone</th>
                     <th>Address</th>
                     <th>Registered at</th>
@@ -25,10 +26,11 @@
             @foreach ($patients as $key => $patient)
                 <tr>
                     <td class="text-center">
-                        PT-{!! str_pad($patient->id, 6, '0', STR_PAD_LEFT) !!}
+                        {!! d_link('PT-' . str_pad($patient->id, 6, '0', STR_PAD_LEFT), route('patient.show', $patient->id)) !!}
                     </td>
                     <td>{{ d_obj($patient, ['name_en', 'name_kh']) }}</td>
-                    <td>{{ d_text(getParentDataByType('gender', $patient->gender_id)) }}</td>
+                    <td>{{ d_obj($patient, 'gender', ['title_en', 'title_kh']) }}</td>
+                    <td>{{ d_number($patient->age) }}</td>
                     <td>{{ d_text($patient->phone) }}</td>
                     <td>{{ d_obj($patient, 'address', ['village_kh', 'commune_kh', 'district_kh', 'province_kh'] ) }}</td>
                     <td>{{ d_date_time($patient->registered_at) }}</td>
