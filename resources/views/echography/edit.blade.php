@@ -30,7 +30,7 @@
                     <th colspan="4" class="text-left tw-bg-gray-100">Result</th>
                 </tr>
 
-                @includeFirst(['echo_type.extra_form.' . $row->type, 'echo_type.extra_form.0'])
+                @includeFirst(['echo_type.extra_form.' . $row->type_id, 'echo_type.extra_form.0'])
 
             </table>
         </x-card>

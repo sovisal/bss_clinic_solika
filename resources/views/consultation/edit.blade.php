@@ -194,7 +194,7 @@
         <input type="hidden" name="submit_option" value="cancel" />
         <x-card headerClass="" footerClass="" bodyClass="">
             <x-slot name="header">
-                <h4>Edit Consultation</h4>
+                <h4>Consultation</h4>
             </x-slot>
             <x-slot name="action">
                 <div>
