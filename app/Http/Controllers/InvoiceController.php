@@ -43,7 +43,6 @@ class InvoiceController extends Controller
             'doctor' => Doctor::orderBy('id', 'asc')->get(),
             'payment_type' => getParentDataSelection('payment_type'),
             'gender' => getParentDataSelection('gender'),
-            'addresses' => get4LevelAdressSelector('xx', 'option'),
             'is_edit' => false
         ];
 
@@ -128,10 +127,13 @@ class InvoiceController extends Controller
             'doctor' => Doctor::orderBy('id', 'asc')->get(),
             'payment_type' => getParentDataSelection('payment_type'),
             'gender' => getParentDataSelection('gender'),
-            'addresses' => get4LevelAdressSelector('xx', 'option'),
             'invoice_detail' => $invoice->detail()->get(),
             'is_edit' => true
         ];
+
+        // $data['service'] = [
+            // 'echo' => ''
+        // ];
 
         return view('invoice.edit', $data);
     }
