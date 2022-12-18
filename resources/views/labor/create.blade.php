@@ -1,27 +1,27 @@
 <x-app-layout>
+    <x-slot name="header">
+        <x-form.button-back href="{{ route('para_clinic.labor.index') }}"/>
+    </x-slot>
     <x-slot name="js">
         <script>
             $(document).ready(function () {
-				// Labor
-				$('.labor_row').hide();
-				$(document).on('change', '.btnCheckRow', function () {
-					$this_row = $(this).parents('tr.labor_row');
-					$this_row.find('input[type="checkbox"]').prop('checked', $(this).prop('checked'));
-				});
-				$(document).on('change', '#btnShowRow', function () {
-					$('.labor_row_' + $(this).val()).show();
-					$('.labor_rows_of_' + $(this).val()).show();
-				});
-				$(document).on('click', '.btnHideRow', function () {
-					$this_row = $(this).parents('tr.labor_row');
-					$this_row.find('input[type="checkbox"]').prop('checked', false);
-					$this_row.hide();
-				});
-			});
+                // Labor
+                $('.labor_row').hide();
+                $(document).on('change', '.btnCheckRow', function () {
+                    $this_row = $(this).parents('tr.labor_row');
+                    $this_row.find('input[type="checkbox"]').prop('checked', $(this).prop('checked'));
+                });
+                $(document).on('change', '#btnShowRow', function () {
+                    $('.labor_row_' + $(this).val()).show();
+                    $('.labor_rows_of_' + $(this).val()).show();
+                });
+                $(document).on('click', '.btnHideRow', function () {
+                    $this_row = $(this).parents('tr.labor_row');
+                    $this_row.find('input[type="checkbox"]').prop('checked', false);
+                    $this_row.hide();
+                });
+            });
         </script>
-    </x-slot>
-    <x-slot name="header">
-        <x-form.button href="{{ route('para_clinic.labor.index') }}" color="danger" icon="bx bx-left-arrow-alt" label="Back" />
     </x-slot>
     <form action="{{ route('para_clinic.labor.store') }}" method="POST" autocomplete="off" enctype="multipart/form-data">
         @method('PUT')

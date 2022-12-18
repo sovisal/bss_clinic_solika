@@ -1,6 +1,6 @@
 <x-app-layout>
 	<x-slot name="header">
-		<x-form.button href="{{ route('invoice.service.index') }}" color="danger" icon="bx bx-left-arrow-alt" label="Back" />
+        <x-form.button-back href="{{ route('invoice.service.index') }}"/>
 	</x-slot>
 	<form action="{{ route('invoice.service.update', $row->id) }}" method="POST" autocomplete="off">
 		@method('PUT')

@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-form.button href="{{ route('setting.doctor.index') }}" color="danger" icon="bx bx-left-arrow-alt" label="Back" />
+        <x-form.button-back href="{{ route('setting.doctor.index') }}"/>
     </x-slot>
     <form action="{{ route('setting.doctor.store') }}" method="POST" autocomplete="off" enctype="multipart/form-data">
         @csrf

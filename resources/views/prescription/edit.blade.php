@@ -1,4 +1,7 @@
 <x-app-layout>
+    <x-slot name="header">
+        <x-form.button-back href="{{ route('prescription.index') }}"/>
+    </x-slot>
     <x-slot name="js">
         <script>
             $(document).on('change', '[name="qty[]"], [name="upd[]"], [name="nod[]"]', function () {
@@ -14,9 +17,6 @@
 				$('[name="status"]').val($(this).val());
 			});
         </script>
-    </x-slot>
-    <x-slot name="header">
-        <x-form.button href="{{ route('prescription.index') }}" color="danger" icon="bx bx-left-arrow-alt" label="Back" />
     </x-slot>
     <form action="{{ route('prescription.update', $row) }}" method="POST" autocomplete="off" enctype="multipart/form-data">
         @method('PUT')

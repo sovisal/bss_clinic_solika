@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-form.button href="{!! route('setting.labor-item.index', $laborType->id) !!}" color="danger" icon="bx bx-left-arrow-alt" label="Back" />
+        <x-form.button-back href="{!! route('setting.labor-item.index', $laborType->id) !!}"/>
     </x-slot>
     <form action="{!! route('setting.labor-item.store', $laborType->id) !!}" method="POST" autocomplete="off">
         @method('PUT')

@@ -1,4 +1,7 @@
 <x-app-layout>
+	<x-slot name="header">
+        <x-form.button-back href="{{ route('user.index') }}"/>
+	</x-slot>
 	<x-slot name="css">
 		<style>
 			#datatable-ability td{
@@ -87,9 +90,6 @@
 				});
 			});
 		</script>
-	</x-slot>
-	<x-slot name="header">
-		<x-form.button href="{{ route('user.index') }}" color="danger" icon="bx bx-left-arrow-alt" label="{{ __('button.back') }}"/>
 	</x-slot>
 
 	<section id="page-account-settings">

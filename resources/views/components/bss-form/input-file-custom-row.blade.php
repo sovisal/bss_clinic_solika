@@ -4,6 +4,7 @@
     'labelWidth' => '20%',
     'id' => null,
     'tr' => true,
+	'class' => '',
 ])
 
 @if ($tr)

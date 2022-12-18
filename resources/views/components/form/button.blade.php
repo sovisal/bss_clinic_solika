@@ -6,6 +6,7 @@
     'iconPosition' => 'left',
     'color' => 'primary',
 ])
+
 @if ($href=='')
     <button {{ $attributes->merge([
         "type" => 'button',

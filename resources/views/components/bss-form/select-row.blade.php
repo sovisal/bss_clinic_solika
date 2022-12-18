@@ -2,7 +2,7 @@
     'name',
     'label',
     'labelWidth' => '20%',
-    'data',
+    'data'=> null,
     'id' => null,
     'selected' => null,
     'select2' => true,

@@ -136,7 +136,7 @@ class BaseModel extends Model
     // Module Link
     public function getPatientLinkAttribute () {
         if ($this->patient->status > 0) { // will check permission
-            return d_link(d_obj($this, 'patient', ['name_en', 'name_kh']), route('patient.edit', d_obj($this, 'patient', 'id')));
+            return d_link(d_obj($this, 'patient', ['name_en', 'name_kh']), route('patient.edit', [d_obj($this, 'patient', 'id'), 'back' => url()->current()]));
         } else {
             return d_obj($this, 'patient', ['name_en', 'name_kh']);
         }
@@ -144,23 +144,31 @@ class BaseModel extends Model
 
     public function getDoctorLinkAttribute () {
         if ($this->doctor->status > 0) { // will check permission
-            return d_link(d_obj($this, 'doctor', ['name_en', 'name_kh']), route('setting.doctor.edit', d_obj($this, 'doctor', 'id')));
+            return d_link(d_obj($this, 'doctor', ['name_en', 'name_kh']), route('setting.doctor.edit', [d_obj($this, 'doctor', 'id'), 'back' => url()->current()]));
         } else {
             return d_obj($this, 'doctor', ['name_en', 'name_kh']);
         }
     }
 
-    public function getEchoTypeLinkAttribute () {
+    public function getTypeLinkAttribute () {
+        
         if ($this->type->status > 0) { // will check permission
-            return d_link(d_obj($this, 'type', ['name_en', 'name_kh']), route('setting.echo-type.edit', d_obj($this, 'type', 'id')));
-        } else {
-            return d_obj($this, 'type', ['name_en', 'name_kh']);
-        }
-    }
-
-    public function getEcgTypeLinkAttribute () {
-        if ($this->type->status > 0) { // will check permission
-            return d_link(d_obj($this, 'type', ['name_en', 'name_kh']), route('setting.echo-type.edit', d_obj($this, 'type', 'id')));
+            switch ($this->table) {
+                case 'echographies':
+                    $rout_name = 'setting.echo-type.edit';
+                    break;
+                case 'ecgs':
+                    $rout_name = 'setting.ecg-type.edit';
+                    break;
+                case 'xrays':
+                    $rout_name = 'setting.xray-type.edit';
+                    break;
+                default:
+                    $rout_name = null;
+                    break;
+            }
+            $url = $rout_name ? route($rout_name, [d_obj($this, 'type', 'id'), 'back' => url()->current()]) : '#';
+            return d_link(d_obj($this, 'type', ['name_en', 'name_kh']), $url);
         } else {
             return d_obj($this, 'type', ['name_en', 'name_kh']);
         }

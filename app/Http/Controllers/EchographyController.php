@@ -15,13 +15,10 @@ class EchographyController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
         $this->data['rows'] = Echography::with(['address', 'user', 'doctor', 'patient', 'type', 'address', 'gender'])
-            // ->where('status', '>=', 1)
             ->filterTrashed()
             ->filter()
             ->orderBy('id', 'desc')
@@ -32,8 +29,6 @@ class EchographyController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -55,7 +50,6 @@ class EchographyController extends Controller
     public function store(EchographyRequest $request)
     {
         $echo_type = $request->type_id ? EchoType::where('id', $request->type_id)->first() : null;
-        
         if ($echo = Echography::create([
             'code' => generate_code('ECH', 'echographies'),
             'type_id' => $request->type_id ?: null,
@@ -225,7 +219,12 @@ class EchographyController extends Controller
     public function force_delete($id)
     {
         $echography = Echography::onlyTrashed()->findOrFail($id);
+        $image_1 = $echography->image_1;
+        $image_2 = $echography->image_2;
         if ($echography->forceDelete()) {
+            $path = public_path('/images/echographies/');
+            remove_file($image_1, $path);
+            remove_file($image_2, $path);
             return back()->with('success', __('alert.message.success.crud.force_detele'));
         }
         return back()->with('error', __('alert.message.error.crud.force_detele'));

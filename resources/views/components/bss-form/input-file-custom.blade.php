@@ -2,6 +2,7 @@
 	'name',
 	'class' => '',
 	'id' => null,
+	'class' => '',
 ])
 
 <div class="custom-file">

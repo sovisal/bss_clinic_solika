@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-form.button href="{{ route('setting.data-parent.index') }}" color="danger" icon="bx bx-left-arrow-alt" label="Back" />
+        <x-form.button-back href="{{ route('setting.data-parent.index') }}"/>
     </x-slot>
     <form action="{{ route('setting.data-parent.store') }}" method="POST" autocomplete="off" enctype="multipart/form-data">
         @method('PUT')

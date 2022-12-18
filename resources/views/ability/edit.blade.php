@@ -1,74 +1,74 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-form.button href="{{ route('user.ability.index') }}" color="danger" icon="bx bx-left-arrow-alt" label="Back" />
+        <x-form.button-back href="{{ route('user.ability.index') }}"/>
     </x-slot>
     <x-slot name="js">
         <script>
             $(document).on('change', '[name="category[]"],[name="old_category[]"]', function () {
-				var category = $(this).val();
-				var value = $('#module').val();
-				$(this).parent().parent().parent().find('[name="name[]"]').val(category + value);
-				$(this).parent().parent().parent().find('[name="label[]"]').val(value +' '+ category);
-				$(this).parent().parent().parent().find('[name="old_name[]"]').val(category + value);
-				$(this).parent().parent().parent().find('[name="old_label[]"]').val(value +' '+ category);
-			});
+                var category = $(this).val();
+                var value = $('#module').val();
+                $(this).parent().parent().parent().find('[name="name[]"]').val(category + value);
+                $(this).parent().parent().parent().find('[name="label[]"]').val(value +' '+ category);
+                $(this).parent().parent().parent().find('[name="old_name[]"]').val(category + value);
+                $(this).parent().parent().parent().find('[name="old_label[]"]').val(value +' '+ category);
+            });
 
-			$('#module').keyup(function () {
-				var value = $(this).val();
-				$('.ability-option').each(function () {
-					var category = $(this).find('[name="category[]"]').val();
-					$(this).find('[name="name[]"]').val(category + value);
-					$(this).find('[name="label[]"]').val(value +' '+ category);
-				});
-			});
+            $('#module').keyup(function () {
+                var value = $(this).val();
+                $('.ability-option').each(function () {
+                    var category = $(this).find('[name="category[]"]').val();
+                    $(this).find('[name="name[]"]').val(category + value);
+                    $(this).find('[name="label[]"]').val(value +' '+ category);
+                });
+            });
 
-			$('.add-more-ability-option').click(function () {
-				var module = $('#module').val();
-				var ability = `<div class="ability-option ability-option-crud">
-									<input type="hidden" name="hidden_crud[]" value="false" />
-									<div class="row">
-										<div class="col-sm-3">
-											<x-form.select
-												name="category[]"
-												:select2="false"
-												required
-												label="{!! __('form.ability.category') !!} <small class='required'>*</small>"
-											>
-												<option value="ViewAny">ViewAny</option>
-												<option value="Create">Create</option>
-												<option value="Update">Update</option>
-												<option value="Delete">Delete</option>
-												<option value="Other" selected>Other</option>
-											</x-form.select>
-										</div>
-										<div class="col-sm-4">
-											<x-form.input
-												name="name[]"
-												value="Other${ module }"
-												required
-												label="{!! __('form.name') !!} <small class='required'>*</small>"
-											/>
-										</div>
-										<div class="col-sm-4">
-											<x-form.input
-												name="label[]"
-												value="${ module } Other"
-												required
-												label="{!! __('form.label') !!} <small class='required'>*</small>"
-											/>
-										</div>
-										<div class="col-sm-1">
-											<x-form.field class="text-center tw-pt-3">
-												<a href="javascript:void(0)" class="text-danger d-block mt-2 remove-ability-option"><i class="bx bx-x-circle"></i></a>
-											</x-form.field>
-										</div>
-									</div>
-								</div>`;
-				$( ".ability-list" ).append(ability);
-			});
-			$(document).on('click', '.remove-ability-option', function () {
-				$(this).parent().parent().parent().parent().remove()
-			});
+            $('.add-more-ability-option').click(function () {
+                var module = $('#module').val();
+                var ability = `<div class="ability-option ability-option-crud">
+                                    <input type="hidden" name="hidden_crud[]" value="false" />
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <x-form.select
+                                                name="category[]"
+                                                :select2="false"
+                                                required
+                                                label="{!! __('form.ability.category') !!} <small class='required'>*</small>"
+                                            >
+                                                <option value="ViewAny">ViewAny</option>
+                                                <option value="Create">Create</option>
+                                                <option value="Update">Update</option>
+                                                <option value="Delete">Delete</option>
+                                                <option value="Other" selected>Other</option>
+                                            </x-form.select>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <x-form.input
+                                                name="name[]"
+                                                value="Other${ module }"
+                                                required
+                                                label="{!! __('form.name') !!} <small class='required'>*</small>"
+                                            />
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <x-form.input
+                                                name="label[]"
+                                                value="${ module } Other"
+                                                required
+                                                label="{!! __('form.label') !!} <small class='required'>*</small>"
+                                            />
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <x-form.field class="text-center tw-pt-3">
+                                                <a href="javascript:void(0)" class="text-danger d-block mt-2 remove-ability-option"><i class="bx bx-x-circle"></i></a>
+                                            </x-form.field>
+                                        </div>
+                                    </div>
+                                </div>`;
+                $( ".ability-list" ).append(ability);
+            });
+            $(document).on('click', '.remove-ability-option', function () {
+                $(this).parent().parent().parent().parent().remove()
+            });
 
         </script>
     </x-slot>

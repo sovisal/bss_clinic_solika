@@ -1,9 +1,9 @@
 <x-app-layout>
+    <x-slot name="header">
+        <x-form.button-back href="{{ route('para_clinic.xray.index') }}"/>
+    </x-slot>
     <x-slot name="js">
         <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
-    </x-slot>
-    <x-slot name="header">
-        <x-form.button href="{{ route('para_clinic.xray.index') }}" color="danger" icon="bx bx-left-arrow-alt" label="Back" />
     </x-slot>
     <x-card bodyClass="pb-0">
         <table class="table-form striped">

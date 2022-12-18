@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-form.button href="{{ route('patient.index') }}" color="danger" icon="bx bx-left-arrow-alt" label="Back" />
+        <x-form.button-back href="{{ route('patient.index') }}"/>
     </x-slot>
     <form action="{{ route('patient.update', $patient) }}" method="POST" autocomplete="off" enctype="multipart/form-data">
         @method('PUT')

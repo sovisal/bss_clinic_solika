@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-form.button href="{{ route('user.index') }}" color="danger" icon="bx bx-left-arrow-alt" label="Back" />
+        <x-form.button-back href="{{ route('user.index') }}"/>
     </x-slot>
     <form action="{{ route('user.update_password', $user) }}" method="POST" autocomplete="off">
         @method('PUT')

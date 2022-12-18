@@ -27,7 +27,7 @@
             <tr>
                 <td>{{ ++$i }}</td>
                 <td>{!! d_link($row->code, "javascript:getDetail(" . $row->id . ", '" . route('para_clinic.ecg.getDetail', 'ECG Detail') . "')") !!}</td>
-                <td>{!! $row->ecgTypeLink !!}</td>
+                <td>{!! $row->typeLink !!}</td>
                 <td>{!! $row->patientLink !!}</td>
                 <td>{{ d_obj($row, 'gender', ['title_en', 'title_kh']) }}</td>
                 <td>{{ d_obj($row, 'age') }}</td>
@@ -47,7 +47,6 @@
                         :disable-edit="$row->trashed() || !($row->status=='1' && $row->payment_status == 0)"
                         :disable-delete="!($row->status=='1' && $row->payment_status == 0)"
                         :show-btn-show="false"
-                        :show-btn-force-delete="true"
                     >
                         <x-form.button color="dark" class="btn-sm" onclick="printPopup('{{ route('para_clinic.ecg.print', $row->id) }}')" icon="bx bx-printer" />
                     </x-table-action-btn>

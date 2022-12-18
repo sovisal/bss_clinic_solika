@@ -1,20 +1,20 @@
 <x-app-layout>
+    <x-slot name="header">
+        <x-form.button-back href="{{ route('para_clinic.xray.index') }}"/>
+    </x-slot>
     <x-slot name="js">
         <script>
             $(document).ready(function () {
-				$('[name="type"]').change(function () {
-					$_this = $(this);
-					$_option_selected = $(this).find('option:selected');
-					$_amount = $_option_selected.data('price');
-					
-					$('#amount_label').html($_amount);
-					$('[name="amount"]').val($_amount);
-				});
-			});
+                $('[name="type"]').change(function () {
+                    $_this = $(this);
+                    $_option_selected = $(this).find('option:selected');
+                    $_amount = $_option_selected.data('price');
+                    
+                    $('#amount_label').html($_amount);
+                    $('[name="amount"]').val($_amount);
+                });
+            });
         </script>
-    </x-slot>
-    <x-slot name="header">
-        <x-form.button href="{{ route('para_clinic.xray.index') }}" color="danger" icon="bx bx-left-arrow-alt" label="Back" />
     </x-slot>
     <form action="{{ route('para_clinic.xray.store') }}" method="POST" autocomplete="off" enctype="multipart/form-data">
         @method('PUT')

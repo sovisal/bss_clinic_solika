@@ -1,7 +1,7 @@
 <x-app-layout>
     <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
     <x-slot name="header">
-        <x-form.button href="{{ route('para_clinic.echography.index') }}" color="danger" icon="bx bx-left-arrow-alt" label="Back" />
+        <x-form.button-back href="{{ route('para_clinic.echography.index') }}"/>
     </x-slot>
     <x-card bodyClass="pb-0">
         <table class="table-form striped">

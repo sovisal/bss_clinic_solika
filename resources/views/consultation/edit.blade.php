@@ -6,186 +6,186 @@
     <x-slot name="js">
         <script>
             // Prescription Request
-			$('.table-medicine').append($('#sample_prescription').html());
-			$('.table-medicine select').each((_i, e) => {
-				$(e).select2({
-					dropdownAutoWidth: !0,
-					width: "100%",
-					dropdownParent: $(e).parent()
-				});
-			});
-			$(document).on('click', '.btn-add-medicine', function () {
-				$('.table-medicine').append($('#sample_prescription').html());
-				$('.table-medicine select').each((_i, e) => {
-					$(e).select2({
-						dropdownAutoWidth: !0,
-						width: "100%",
-						dropdownParent: $(e).parent()
-					});
-				});
-			});
-			$(document).on('change', '[name="qty[]"], [name="upd[]"], [name="nod[]"]', function () {
-				$this_row = $(this).parents('tr');
-				$total = 	bss_number($this_row.find('[name="qty[]"]').val()) * 
-							bss_number($this_row.find('[name="upd[]"]').val()) * 
-							bss_number($this_row.find('[name="nod[]"]').val());
+            $('.table-medicine').append($('#sample_prescription').html());
+            $('.table-medicine select').each((_i, e) => {
+                $(e).select2({
+                    dropdownAutoWidth: !0,
+                    width: "100%",
+                    dropdownParent: $(e).parent()
+                });
+            });
+            $(document).on('click', '.btn-add-medicine', function () {
+                $('.table-medicine').append($('#sample_prescription').html());
+                $('.table-medicine select').each((_i, e) => {
+                    $(e).select2({
+                        dropdownAutoWidth: !0,
+                        width: "100%",
+                        dropdownParent: $(e).parent()
+                    });
+                });
+            });
+            $(document).on('change', '[name="qty[]"], [name="upd[]"], [name="nod[]"]', function () {
+                $this_row = $(this).parents('tr');
+                $total = 	bss_number($this_row.find('[name="qty[]"]').val()) * 
+                            bss_number($this_row.find('[name="upd[]"]').val()) * 
+                            bss_number($this_row.find('[name="nod[]"]').val());
 
-				$this_row.find('[name="total[]"]').val(bss_number($total));
-			});
+                $this_row.find('[name="total[]"]').val(bss_number($total));
+            });
 
-			// Labor
-			$('.labor_row').hide();
-			$(document).on('change', '.btnCheckRow', function () {
-				$this_row = $(this).parents('tr.labor_row');
-				$this_row.find('input[type="checkbox"]').prop('checked', $(this).prop('checked'));
-			});
-			$(document).on('change', '#btnShowRow', function () {
-				$('.labor_row_' + $(this).val()).show();
-				$('.labor_rows_of_' + $(this).val()).show();
-			});
-			$(document).on('click', '.btnHideRow', function () {
-				$this_row = $(this).parents('tr.labor_row');
-				$this_row.find('input[type="checkbox"]').prop('checked', false);
-				$this_row.hide();
-			});
+            // Labor
+            $('.labor_row').hide();
+            $(document).on('change', '.btnCheckRow', function () {
+                $this_row = $(this).parents('tr.labor_row');
+                $this_row.find('input[type="checkbox"]').prop('checked', $(this).prop('checked'));
+            });
+            $(document).on('change', '#btnShowRow', function () {
+                $('.labor_row_' + $(this).val()).show();
+                $('.labor_rows_of_' + $(this).val()).show();
+            });
+            $(document).on('click', '.btnHideRow', function () {
+                $this_row = $(this).parents('tr.labor_row');
+                $this_row.find('input[type="checkbox"]').prop('checked', false);
+                $this_row.hide();
+            });
 
-			$(document).ready(function () {
-				$(".data_parent").each(function () {
-					if ($(this).is(':checked')) {
-						$('[data-parent="'+ $(this).attr('id') +'"]').removeAttr('disabled');
-					} else {
-						$('[data-parent="'+ $(this).attr('id') +'"]').attr('disabled', 'disabled');
-					}
-				});
-				$('.data_parent').change(function (){
-					if ($(this).is(':checked')) {
-						$('[data-parent="'+ $(this).attr('id') +'"]').removeAttr('disabled');
-					} else {
-						$('[data-parent="'+ $(this).attr('id') +'"]').attr('disabled', 'disabled');
-					}
-				});
+            $(document).ready(function () {
+                $(".data_parent").each(function () {
+                    if ($(this).is(':checked')) {
+                        $('[data-parent="'+ $(this).attr('id') +'"]').removeAttr('disabled');
+                    } else {
+                        $('[data-parent="'+ $(this).attr('id') +'"]').attr('disabled', 'disabled');
+                    }
+                });
+                $('.data_parent').change(function (){
+                    if ($(this).is(':checked')) {
+                        $('[data-parent="'+ $(this).attr('id') +'"]').removeAttr('disabled');
+                    } else {
+                        $('[data-parent="'+ $(this).attr('id') +'"]').attr('disabled', 'disabled');
+                    }
+                });
 
-			});
+            });
 
-			const swalWithBootstrapBtns = Swal.mixin({
-				customClass: {
-					confirmButton: "btn btn-danger tw-ml-1",
-					cancelButton: "btn btn-light tw-mr-1",
-				},
-				buttonsStyling: false,
-			});
+            const swalWithBootstrapBtns = Swal.mixin({
+                customClass: {
+                    confirmButton: "btn btn-danger tw-ml-1",
+                    cancelButton: "btn btn-light tw-mr-1",
+                },
+                buttonsStyling: false,
+            });
 
-			function formValidate(target = 'form') {
-				var rs = true;
-				$(target +" input,"+ target +" textarea,"+ target +" checkbox,"+ target +" radio,"+ target +" select").each(function () {
-					var attr = $(this).attr('required');
-					if ((typeof attr !== 'undefined' && attr !== false) && $(this).val() == '') {
-						var id = $(this).closest('.tab-pane').attr('aria-labelledby');
-						$('#'+ id +' i').remove();
-						$('#'+ id).click().append('<i class="bx bx-error-circle text-danger animate__animated animate__rubberBand"></i>');
-						rs = false;
-					}
-				});
-				return rs;
-			}
+            function formValidate(target = 'form') {
+                var rs = true;
+                $(target +" input,"+ target +" textarea,"+ target +" checkbox,"+ target +" radio,"+ target +" select").each(function () {
+                    var attr = $(this).attr('required');
+                    if ((typeof attr !== 'undefined' && attr !== false) && $(this).val() == '') {
+                        var id = $(this).closest('.tab-pane').attr('aria-labelledby');
+                        $('#'+ id +' i').remove();
+                        $('#'+ id).click().append('<i class="bx bx-error-circle text-danger animate__animated animate__rubberBand"></i>');
+                        rs = false;
+                    }
+                });
+                return rs;
+            }
 
-			$(document).on('change', '#evaluation_category', function () {
-				$('#evaluation_indication').html('');
-				$id_category = $(this).val();
+            $(document).on('change', '#evaluation_category', function () {
+                $('#evaluation_indication').html('');
+                $id_category = $(this).val();
 
-				$.ajax({
-					url: "/patient/consultation/get_indication/" + $id_category,
-					type: 'get',
-					success: function(rs){
-						let obj = JSON.parse(rs);
-						for (i in obj) {
-							let newOption = new Option(name = obj[i], i, true, true);
-							$('#evaluation_indication').append(newOption);
-						}
-					},
-					error: function (rs) {
-						// pageLoading('hide');
-						Swal.fire({
-							icon: 'error',
-							title: 'Oops...',
-							text: 'Something went wrong!',
-							confirmButtonText: 'Confirm',
-							timer: 1500
-						});
-					}
-				});
-			});
+                $.ajax({
+                    url: "/patient/consultation/get_indication/" + $id_category,
+                    type: 'get',
+                    success: function(rs){
+                        let obj = JSON.parse(rs);
+                        for (i in obj) {
+                            let newOption = new Option(name = obj[i], i, true, true);
+                            $('#evaluation_indication').append(newOption);
+                        }
+                    },
+                    error: function (rs) {
+                        // pageLoading('hide');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Something went wrong!',
+                            confirmButtonText: 'Confirm',
+                            timer: 1500
+                        });
+                    }
+                });
+            });
 
-			function refresh_treament_plan_label (patient_id) {
-				$.ajax({
-					url: "/patient/consultation/treament_plan_label/" + patient_id,
-					type: 'get',
-					success: function(rs){
-						let obj = JSON.parse(rs);
-						$('#link_prescription').html(obj['list_prescription']);
-						$('#link_labor').html(obj['list_labor']);
-						$('#link_xray').html(obj['list_xray']);
-						$('#link_echo').html(obj['list_echo']);
-						$('#link_ecg').html(obj['list_ecg']);
-					},
-					error: function (rs) {
-						// pageLoading('hide');
-						Swal.fire({
-							icon: 'error',
-							title: 'Oops...',
-							text: 'Something went wrong!',
-							confirmButtonText: 'Confirm',
-							timer: 1500
-						});
-					}
-				});
-			}
-			refresh_treament_plan_label("{{ $consultation->patient_id }}");
+            function refresh_treament_plan_label (patient_id) {
+                $.ajax({
+                    url: "/patient/consultation/treament_plan_label/" + patient_id,
+                    type: 'get',
+                    success: function(rs){
+                        let obj = JSON.parse(rs);
+                        $('#link_prescription').html(obj['list_prescription']);
+                        $('#link_labor').html(obj['list_labor']);
+                        $('#link_xray').html(obj['list_xray']);
+                        $('#link_echo').html(obj['list_echo']);
+                        $('#link_ecg').html(obj['list_ecg']);
+                    },
+                    error: function (rs) {
+                        // pageLoading('hide');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Something went wrong!',
+                            confirmButtonText: 'Confirm',
+                            timer: 1500
+                        });
+                    }
+                });
+            }
+            refresh_treament_plan_label("{{ $consultation->patient_id }}");
 
-			$(document).on('submit', '#form_prescription', function (evt) {
-				$('[name^="time_usage_"]').each(function (i, e) {
-					if (!$(e).prop('checked')) {
-						$(e).val('OFF').prop('checked', true);
-					}
-				});
-			})
+            $(document).on('submit', '#form_prescription', function (evt) {
+                $('[name^="time_usage_"]').each(function (i, e) {
+                    if (!$(e).prop('checked')) {
+                        $(e).val('OFF').prop('checked', true);
+                    }
+                });
+            })
 
-			$('.btn-submit').click(function (){
-				var value = $(this).val();
-				$('[name="submit_option"]').val(value);
-				if (value=="cancel"){
-					swalWithBootstrapBtns.fire({
-						title: "Your data is not saved yet!",
-						text: "Are you sure you want to leave this page?",
-						icon: 'question',
-						showCancelButton: true,
-						confirmButtonText: "Leave",
-						cancelButtonText: "Stay",
-						reverseButtons: true
-					}).then((result) => {
-						if (result.isConfirmed) {
-							$('#consultation-form').submit();
-						}
-					})
-				}else{
-					if (formValidate('#consultation-form')) {
-						$('#consultation-form').submit();
-					}
-				}
-			});
+            $('.btn-submit').click(function (){
+                var value = $(this).val();
+                $('[name="submit_option"]').val(value);
+                if (value=="cancel"){
+                    swalWithBootstrapBtns.fire({
+                        title: "Your data is not saved yet!",
+                        text: "Are you sure you want to leave this page?",
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: "Leave",
+                        cancelButtonText: "Stay",
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $('#consultation-form').submit();
+                        }
+                    })
+                }else{
+                    if (formValidate('#consultation-form')) {
+                        $('#consultation-form').submit();
+                    }
+                }
+            });
 
-			// Remember tab of treament plan
-			$(document).ready(function () {
-				$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-					var target = $(e.target).attr("href");
-					localStorage.setItem("treament_plan_tab", target);
-				});
+            // Remember tab of treament plan
+            $(document).ready(function () {
+                $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                    var target = $(e.target).attr("href");
+                    localStorage.setItem("treament_plan_tab", target);
+                });
 
-				var target = localStorage.getItem("treament_plan_tab");
-				if (target) {
-					$('[href="' + target + '"]').tab('show');
-				}
-			});
+                var target = localStorage.getItem("treament_plan_tab");
+                if (target) {
+                    $('[href="' + target + '"]').tab('show');
+                }
+            });
         </script>
     </x-slot>
     <form id="consultation-form" action="{{ route('patient.consultation.update', $consultation->id) }}" method="post">

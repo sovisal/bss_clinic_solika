@@ -1,9 +1,9 @@
 <x-app-layout>
+    <x-slot name="header">
+        <x-form.button-back href="{{ route('setting.ecg-type.index') }}"/>
+    </x-slot>
     <x-slot name="js">
         <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
-    </x-slot>
-    <x-slot name="header">
-        <x-form.button href="{{ route('setting.ecg-type.index') }}" color="danger" icon="bx bx-left-arrow-alt" label="Back" />
     </x-slot>
     <form action="{{ route('setting.ecg-type.update', $row) }}" method="POST" autocomplete="off" enctype="multipart/form-data">
         @method('PUT')

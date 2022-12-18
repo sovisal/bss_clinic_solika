@@ -17,7 +17,6 @@ class EcgController extends Controller
     public function index()
     {
         $this->data['rows'] = Ecg::with(['address', 'user', 'doctor', 'patient', 'type', 'address', 'gender'])
-            // ->where('status', '>=', 1)
             ->filterTrashed()
             ->filter()
             ->orderBy('id', 'desc')
@@ -48,9 +47,8 @@ class EcgController extends Controller
      */
     public function store(EcgRequest $request)
     {
-        $ecg = new Ecg();
         $ecg_type = $request->type_id ? EcgType::where('id', $request->type_id)->first() : null;
-        if ($ecg = $ecg->create([
+        if ($ecg = Ecg::create([
             'code' => generate_code('ECG', 'ecgs'),
             'type_id' => $request->type_id ?: null,
             'patient_id' => $request->patient_id ?: null,
@@ -62,8 +60,6 @@ class EcgController extends Controller
             'payment_type' => $request->payment_type ?: null,
             'payment_status' => 0,
             'requested_at' => $request->requested_at,
-            'image_1' => $request->image_1,
-            'image_2' => $request->image_2,
             'price' => $request->price ?: ($ecg_type ? $ecg_type->price : 0),
             'exchange_rate' => d_exchange_rate(),
             'attribute' => $ecg_type ? $ecg_type->attribite : null,
