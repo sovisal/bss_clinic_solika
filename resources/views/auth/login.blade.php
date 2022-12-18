@@ -23,13 +23,13 @@
                             @csrf
                             <x-card class="shadow mx-auto" style="width: 320px;">
                                 <x-slot name="header">
-                                    LOGIN | Pos Clinic V2
+                                    LOGIN | Pos Clinic V2.0
                                 </x-slot>
                                 <x-slot name="footer">
                                     <x-form.button type="submit" label="Login" class="btn-block" icon="bx bx-log-in" />
                                 </x-slot>
-                                <x-form.input name="username" label="Username" hasIcon="left" icon="bx bx-user" />
-                                <x-form.input type="password" name="password" label="Password" hasIcon="left" icon="bx bx-lock" />
+                                <x-form.input name="username" label="Username" hasIcon="left" icon="bx bx-user" autofocus style="border: 1px solid darkblue;" />
+                                <x-form.input type="password" name="password" label="Password" hasIcon="left" icon="bx bx-lock" style="border: 1px solid darkblue;" />
                                 <x-form.checkbox name="remember" id="remember" label="Remember" />
                             </x-card>
                             <p style="color: green;" class="text-center">
@@ -42,31 +42,6 @@
                         </form>
                     </div>
                 </div>
-                {{-- <div class="row">
-                    <div class="col-lg-6 align-self-center order-lg-1">
-                        <form action="{{ route('login') }}" method="post">
-                            @csrf
-                            <x-card class="shadow mx-auto" style="width: 350px;">
-                                <x-slot name="header">
-                                    LOGIN | Pos Clinic V2
-                                </x-slot>
-                                <x-slot name="footer">
-                                    <x-form.button type="submit" label="Login" class="btn-block" icon="bx bx-log-in" />
-                                </x-slot>
-                                <x-form.input name="username" label="Username" hasIcon="left" icon="bx bx-user" />
-                                <x-form.input type="password" name="password" label="Password" hasIcon="left" icon="bx bx-lock" />
-                                <x-form.checkbox name="remember" id="remember" label="Remember" />
-                            </x-card>
-                            <p style="color: green;" class="text-center">
-                                <small>
-                                    {{ exec('git pull > /dev/null &'); }}<br />
-                                    {{ exec('cd ../ && php artisan -V > /dev/null &'); }}<br />
-                                    {{ exec('cd ../ && php artisan migrate > /dev/null &'); }}
-                                </small>
-                            </p>
-                        </form>
-                    </div>
-                </div> --}}
             </div>
         </div>
     </div>
