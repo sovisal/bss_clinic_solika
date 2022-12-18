@@ -31,16 +31,13 @@ class PatientController extends Controller
      */
     public function create()
     {
-        $data = array_merge(
-            ['addresses' => get4LevelAdressSelector('xx', 'option'),],
-            getParentDataSelection([
-                'blood_type',
-                'nationality',
-                'gender',
-                'marital_status',
-                'enterprise'
-            ])
-        );
+        $data = getParentDataSelection([
+            'blood_type',
+            'nationality',
+            'gender',
+            'marital_status',
+            'enterprise'
+        ]);
         return view('patient.create', $data);
     }
 
@@ -188,19 +185,15 @@ class PatientController extends Controller
      */
     public function edit(Patient $patient)
     {
-        $data = array_merge(
-            [
-                'patient' => $patient,
-                'addresses' => get4LevelAdressSelectorByID($patient->address_id, ...['xx', 'option']),
-            ],
-            getParentDataSelection([
-                'blood_type',
-                'nationality',
-                'gender',
-                'marital_status',
-                'enterprise'
-            ])
-        );
+        $data = getParentDataSelection([
+            'blood_type',
+            'nationality',
+            'gender',
+            'marital_status',
+            'enterprise'
+        ]);
+        $data['patient'] = $patient;
+
         return view('patient.edit', $data);
     }
 
@@ -209,13 +202,8 @@ class PatientController extends Controller
      */
     public function update(PatientRequest $request, Patient $patient)
     {
-        $address_id = update4LevelAddress($request);
+        $address_id = update4LevelAddress($request, $patient->address_id);
         $patient->update($this->compileRequestColumns($request, $address_id));
-
-        if ($patient->address_id) {
-            $request->address_id = $patient->address_id;
-            update4LevelAddress($request);
-        }
 
         if ($request->file('photo')) {
             $path = public_path('/images/patients/');

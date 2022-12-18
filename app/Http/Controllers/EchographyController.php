@@ -43,7 +43,6 @@ class EchographyController extends Controller
             'doctor' => Doctor::orderBy('id', 'asc')->get(),
             'payment_type' => getParentDataSelection('payment_type'),
             'gender' => getParentDataSelection('gender'),
-            'addresses' => get4LevelAdressSelector('xx', 'option'),
             'is_edit' => false
         ];
 
@@ -152,7 +151,6 @@ class EchographyController extends Controller
             'type' => EchoType::where('status', 1)->orderBy('index', 'asc')->get(),
             'patient' => Patient::orderBy('name_en', 'asc')->get(),
             'doctor' => Doctor::orderBy('id', 'asc')->get(),
-            'addresses' => get4LevelAdressSelectorByID($echography->address_id, ...['xx', 'option']),
             'payment_type' => getParentDataSelection('payment_type'),
             'gender' => getParentDataSelection('gender'),
             'is_edit' => true,

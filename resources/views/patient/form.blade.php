@@ -27,14 +27,9 @@
     <x-bss-form.input-row name="position" :value="old('position', @$patient->position)" label="position" />
     <x-bss-form.select-row name="enterprise_id" :selected="old('enterprise_id', @$patient->enterprise_id)" :data="$enterprises" label="Enterprise" />
 
-    <tr>
-        <td colspan="2" class="text-left tw-bg-gray-100">Address</td>
-    </tr>
-    <input type="hidden" name="address_id" value="{{ @$patient->address_id }}" />
-    <x-bss-form.select-row name="pt_province_id" label="Province">{!! $addresses[0] !!}</x-bss-form.select-row>
-    <x-bss-form.select-row name="pt_district_id" label="District">{!! $addresses[1] !!}</x-bss-form.select-row>
-    <x-bss-form.select-row name="pt_commune_id" label="Commune">{!! $addresses[2] !!}</x-bss-form.select-row>
-    <x-bss-form.select-row name="pt_village_id" label="Village">{!! $addresses[3] !!}</x-bss-form.select-row>
+    <tr><td colspan="2" class="text-left tw-bg-gray-100">Address</td></tr>
+    <x-bss-form.address name="address_id" :value="old('address_id', @$patient->address_id)"/>
+
     <x-bss-form.input-row name="street_no" :value="old('street_no', @$patient->street_no)" label="Street No." />
     <x-bss-form.input-row name="house_no" :value="old('house_no', @$patient->house_no)" label="House No." />
     <x-bss-form.input-row name="postal_code" class="is_number" :value="old('postal_code', @$patient->postal_code)" label="Postal Code" />

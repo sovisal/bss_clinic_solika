@@ -5,9 +5,12 @@
     'data',
     'type' => 'checkbox',
     'checked' => '',
+    'tr' => true,
 ])
 
+@if ($tr)
 <tr>
+@endif
     <td width="{{ $labelWidth }}" class="text-right">
         <label for="{{ $name }}">{!! $label . ($attributes['required']? ' <small class="required">*</small>' : '') !!}</label>
     </td>
@@ -35,4 +38,6 @@
         </x-ul-unstyled>
         <x-form.error name="{{ $name }}" />
     </td>
+@if ($tr)
 </tr>
+@endif
