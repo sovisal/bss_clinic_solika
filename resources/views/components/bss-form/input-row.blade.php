@@ -12,7 +12,6 @@
     'error'=>'',
     'tr' => true,
 ])
-
 @if ($tr)
 <tr>
 @endif

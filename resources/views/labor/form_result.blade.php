@@ -21,7 +21,7 @@
 		@endphp
 		<tr>
 			<td class="text-center">{{ $i++ }}</td>
-			<td>{{ render_synonyms_name($item->category()->name_en, $item->category()->name_kh) }}</td>
+			<td>{{ render_synonyms_name($item->type->name_en, $item->type->name_kh) }}</td>
 			<td>{{ render_synonyms_name($item->name_en, $item->name_kh) }}</td>
 			<td>
 				<input type="hidden" name="test_id[]" value="{{ $row->id }}"/>

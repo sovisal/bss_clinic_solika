@@ -1,8 +1,8 @@
 <div class="row">
-    <div class="col-8">
+    <div class="col-xl-8 col-lg-7 col-md-12">
         <table class="table-form striped">
             <tr>
-                <th colspan="4" class="text-left tw-bg-gray-100">Echo</th>
+                <th colspan="4" class="text-left tw-bg-gray-100">Ecg</th>
             </tr>
             <x-para-clinic.form-header
                 :isEdit="$is_edit"
@@ -15,7 +15,7 @@
             />
         </table>
     </div>
-    <div class="col-4">
+    <div class="col-xl-4 col-lg-5 col-md-12">
         <table class="table-form striped">
             <tr>
                 <th colspan="2" class="text-left tw-bg-gray-100">Address</th>

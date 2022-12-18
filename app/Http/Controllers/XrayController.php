@@ -168,23 +168,10 @@ class XrayController extends Controller
 
         $request['price'] = $request->price ?: ($xray_type ? $xray_type->price : 0);
         $request['address_id'] = update4LevelAddress($request, $xray->address_id);
-        dd($request['address_id']);
 
         if ($xray->update($request->all())) {
             return redirect()->route('para_clinic.xray.index')->with('success', 'Data update success');
         }
-        // // serialize all post into string
-        // $serialize = array_except($request->all(), ['_method', '_token', 'img_1', 'img_2']);
-        // $request['attribute'] = serialize($serialize);
-
-        // $xray_type = $request->type_id ? XrayType::where('id', $request->type_id)->first() : null;
-
-        // $request['price'] = $request->price ?: ($xray_type ? $xray_type->price : 0);
-        // $request['address_id'] = update4LevelAddress($request, $xray->address_id);
-
-        // if ($xray->update($request->all())) {
-        //     return redirect()->route('para_clinic.xray.index')->with('success', 'Data update success');
-        // }
     }
 
     /**

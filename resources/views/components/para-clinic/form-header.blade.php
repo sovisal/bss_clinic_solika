@@ -107,13 +107,6 @@
         </td>
     </tr>
     <tr>
-        <td class="text-right"><label>Requested date<small class='required'>*</small></label></td>
-        <td>
-            <x-bss-form.input name='requested_at' class="date-time-picker" hasIcon="right" icon="bx bx-calendar" value="{{ $row->requested_at ?? date('Y-m-d H:i:s') }}" :disabled="$isEdit && $row->requested_at" />
-        </td>
-        <td colspan="2"></td>
-    </tr>
-    <tr>
         <td class="text-right"><label>Price</label></td>
         <td colspan="3">
             <span id="price_label"> {{ $row->price ?? 0 }} </span> USD

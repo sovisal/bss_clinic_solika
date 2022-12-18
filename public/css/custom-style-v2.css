@@ -24,7 +24,13 @@ body .navbar-top .navbar-nav .nav-item a.nav-link {
     font-family: 'sysFont';
     font-weight: 400;
 }
-
+.btn{
+    font-size: 14px;
+	padding: 0.381rem 1rem;
+}
+.btn i{
+    font-size: 14px;
+}
 .sidebar-menu, .sidebar-menu li {
     background-color: unset;
     border: unset!important;
