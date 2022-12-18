@@ -16,7 +16,7 @@
                     <th width="15%">Action</th>
                 </tr>
             </x-slot>
-            @php $i = 0; @endphp
+            @php($i=0)
             @foreach($rows as $row)
             <tr>
                 <td>{{ ++$i }}</td>

@@ -723,122 +723,98 @@ $(document).ready(function () {
         }
     }
     // End Checking user and Password and Delete Data
-
+    
     // Start Croppie Image Cropping
-    $croppie_image = $("#image-cropping").croppie({
+    $(".image-preview").css({
+        width: ($("#image-cropping").data('prev-width') || 200) +'px',
+        height: ($("#image-cropping").data('prev-height') || 200) +'px',
+    });
+    $croppie_image = $('#image-cropping').croppie({
         enableExif: true,
         viewport: {
-            width: 200,
-            height: 200,
-            type: "square",
+            width: $("#image-cropping").data('width') || 200,
+            height: $("#image-cropping").data('height') || 200,
+            type:'square'
         },
-        boundary: {
-            width: 200,
-            height: 200,
-        },
+        boundary:{
+            width: $("#image-cropping").data('width') || 200,
+            height: $("#image-cropping").data('height') || 200,
+        }
     });
     var croppie_target_id;
     var image_url;
-    $(document).on("click", ".image-preview", function () {
-        croppie_target_id = $(this).data("id");
-        if (croppie_target_id != undefined && croppie_target_id != "") {
-            if (
-                document.getElementById("file-browse-" + croppie_target_id)
-                    .files.length != 0
-            ) {
-                $("#file-browse-" + croppie_target_id).val("");
+    $(document).on('click', '.image-preview', function () {
+        croppie_target_id = $(this).data('id');
+        if (croppie_target_id!=undefined && croppie_target_id!='') {
+            if (document.getElementById("file-browse-"+ croppie_target_id).files.length != 0) {
+                $('#file-browse-'+ croppie_target_id).val('');
             }
-            $("#file-browse-" + croppie_target_id).attr(
-                "data-id",
-                croppie_target_id
-            );
-            $("#file-browse-" + croppie_target_id).trigger("click");
+            $('#file-browse-'+ croppie_target_id).attr('data-id', croppie_target_id);
+            $('#file-browse-'+ croppie_target_id).trigger('click');
         }
     });
-    $(".file-browse").on("change", function () {
-        if (croppie_target_id != undefined && croppie_target_id != "") {
-            if (
-                document.getElementById("file-browse-" + croppie_target_id)
-                    .files.length != 0 &&
-                (document.getElementById("file-browse-" + croppie_target_id)
-                    .files[0].type == "image/png" ||
-                    document.getElementById("file-browse-" + croppie_target_id)
-                        .files[0].type == "image/jpeg")
-            ) {
+    $('.file-browse').on('change', function(){
+        if (croppie_target_id!=undefined && croppie_target_id!='') {
+            if (document.getElementById("file-browse-"+ croppie_target_id).files.length != 0 && (document.getElementById("file-browse-"+ croppie_target_id).files[0].type == 'image/png' || document.getElementById("file-browse-"+ croppie_target_id).files[0].type == 'image/jpeg')) {
                 var reader = new FileReader();
                 reader.readAsDataURL(this.files[0]);
                 reader.onload = function (event) {
                     image_url = event.target.result;
-                };
-                $("#modal-crop-image").modal("show");
-                $("#modal-crop-image").css({ visibility: "hidden" });
-            } else {
-                flashMsg(
-                    "error",
-                    "Error!",
-                    "Please check your file type again!"
-                );
+                }
+                $('#modal-crop-image').modal('show');
+                $('#modal-crop-image').css({'visibility': 'hidden'});
+            }else{
+                flashMsg('error', 'Error!', 'Please check your file type again!');
             }
         }
     });
-    $("#modal-crop-image").on("shown.bs.modal", function () {
+    $('#modal-crop-image').on('shown.bs.modal', function () {
         setTimeout(() => {
-            $croppie_image
-                .croppie("bind", {
-                    url: image_url,
-                })
-                .then(function () {
-                    $("#modal-crop-image").css({ visibility: "visible" });
-                });
-        }, 100);
-    });
-    $("#btn-crop-image").on("click", function () {
-        $croppie_image
-            .croppie("result", {
-                circle: false,
-                type: "canvas",
-                size: "viewport",
-            })
-            .then(function (response) {
-                $("#" + croppie_target_id).val(response);
-                $("#image-preview-" + croppie_target_id).attr("src", response);
-                $("#modal-crop-image").modal("hide");
-                $(".delete-image-container-" + croppie_target_id).html(`
-					<a href="javascript:void(0)" class="text-danger btn-delete-image" id="btn-delete-image-"${croppie_target_id}>
-						<small>Delete Image</small>
-					</a>
-				`);
+            $croppie_image.croppie('bind', {
+                url: image_url
+            }).then(function(){
+                $('#modal-crop-image').css({'visibility': 'visible'});
             });
+        }, 100);
+    })
+    $('#btn-crop-image').on('click', function(){
+        $croppie_image.croppie('result', {
+            circle: false,
+            type: 'canvas',
+            size: 'viewport'
+        }).then(function(response){
+            $('#'+ croppie_target_id).val(response);
+            $('#image-preview-'+ croppie_target_id).attr('src', response);
+            $('#modal-crop-image').modal('hide');
+            $('.delete-image-container-'+ croppie_target_id).html(`
+                <a href="javascript:void(0)" class="text-danger btn-delete-image" id="btn-delete-image-${ croppie_target_id }" data-id="${ croppie_target_id }">
+                    <small>Delete Image</small>
+                </a>
+            `);
+        });
     });
     // Delete Image from record
-    $(document).on("click", ".btn-delete-image", function () {
-        swalWithBootstrapButtons
-            .fire({
-                title: "Confirm:",
-                text: "Do you really want to remove this image?",
-                icon: "question",
-                showCancelButton: true,
-                confirmButtonText: "Yes",
-                cancelButtonText: "No",
-                reverseButtons: true,
-            })
-            .then((result) => {
-                if (result.isConfirmed) {
-                    if (
-                        croppie_target_id != undefined &&
-                        croppie_target_id != ""
-                    ) {
-                        $("#" + croppie_target_id).val(
-                            "/images/browse-image.jpg"
-                        );
-                        $("#image-preview-" + croppie_target_id).attr(
-                            "src",
-                            "/images/browse-image.jpg"
-                        );
-                        $(this).addClass("sr-only");
-                    }
+    $(document).on('click', '.btn-delete-image', function(){
+        if ($(this).data('id')!=undefined && $(this).data('id')!='' ) {
+            croppie_target_id = $(this).data('id');
+        }
+        swalWithBootstrapButtons.fire({
+            title: "Confirm:",
+            text: "Do you really want to remove this image?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: "Yes",
+            cancelButtonText: "No",
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if (croppie_target_id!=undefined && croppie_target_id!='') {
+                    $('#'+ croppie_target_id).val('/images/browse-image.jpg');
+                    $('#image-preview-'+ croppie_target_id).attr('src', '/images/browse-image.jpg');
+                    $(this).addClass('sr-only');
                 }
-            });
+            }
+        })
     });
     // End Croppie Image Cropping
 

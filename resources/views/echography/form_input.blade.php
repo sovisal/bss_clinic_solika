@@ -5,7 +5,23 @@
                 <th colspan="4" class="text-left tw-bg-gray-100">Echo</th>
             </tr>
             <x-para-clinic.form-header :isEdit="$is_edit" :row="@$row" :type="$type" :patient="$patient" :doctor="$doctor" :paymentType="$payment_type" :gender="$gender">
-                <tr valign=middle>
+                <tr>
+                    <x-bss-form.input-file-image-row
+                        name="img_1"
+                        path="{{ asset('images/echographies/') }}"
+                        :value="@$row->image_1"
+                        :tr="false"
+                        label="Image (First)"
+                    />
+                    <x-bss-form.input-file-image-row
+                        name="img_2"
+                        path="{{ asset('images/echographies/') }}"
+                        :value="@$row->image_2"
+                        :tr="false"
+                        label="Image (Second)"
+                    />
+                </tr>
+                {{-- <tr valign=middle>
                     <td class="text-right">Image(First)</td>
                     <td width="30%">
                         <x-bss-form.input name="img_1" :value="old('img_1')" type="file" class="img_upload_preview" data-output="img_result_1" />
@@ -16,7 +32,7 @@
                         <x-bss-form.input name="img_2" :value="old('img_2')" type="file" class="img_upload_preview" data-output="img_result_2" />
                         <img src="{{ @$row->image_2 ? '/images/echographies/' . $row->image_2 : '#' }}" alt="" id="img_result_2">
                     </td>
-                </tr>
+                </tr> --}}
             </x-para-clinic.form-header>
         </table>
     </div>
@@ -29,3 +45,5 @@
         </table>
     </div>
 </div>
+
+<x-modal-image-crop width="500" height="320" previewWidth="200" previewHeight="128"/>

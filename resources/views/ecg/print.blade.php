@@ -1,14 +1,10 @@
 <x-print-layout>
-	{{-- <x-slot name="css">
-		<link rel="stylesheet" href="{{ asset('css/print-style.css') }}">
-	</x-slot> --}}
-
 	<section class="print-preview-a4">
 		<x-para-clinic.print-header :row="$ecg" title="លទ្ធផលពិនិត្យ ECG" />
 
 		<section class="ecg-body">
 			<h3 class="text-center text-red title">{{ $ecg->type_kh }}</h3>
-			@foreach ($ecg->attribute as $label => $attr)
+			@foreach ($ecg->filterAttr as $label => $attr)
 				<div>
 					<b>{!! __('form.ecg.'. $label) !!}</b> : {!! $attr !!}
 				</div>

@@ -1,8 +1,4 @@
 <x-print-layout>
-    {{-- <x-slot name="css">
-		<link rel="stylesheet" href="{{ asset('css/print-style.css') }}">
-    </x-slot> --}}
-
     <section class="print-preview-a4">
         <header>
             <x-para-clinic.print-header :row="$echography" title="លទ្ធផលពិនិត្យ អេកូ" />

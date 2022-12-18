@@ -21,9 +21,10 @@ class EchographyController extends Controller
     public function index()
     {
         $this->data['rows'] = Echography::with(['address', 'user', 'doctor', 'patient', 'type', 'address', 'gender'])
+            // ->where('status', '>=', 1)
+            ->filterTrashed()
             ->filter()
-            ->where('echographies.status', '>=', 1)
-            ->orderBy('echographies.id', 'desc')
+            ->orderBy('id', 'desc')
             ->limit(5000)
             ->get();
         return view('echography.index', $this->data);
@@ -54,19 +55,9 @@ class EchographyController extends Controller
      */
     public function store(EchographyRequest $request)
     {
-        $echography = new Echography();
         $echo_type = $request->type_id ? EchoType::where('id', $request->type_id)->first() : null;
-
-        if ($request->file('img_1')) {
-            $img_1_name = time() . '_image_1_' . rand(111, 999) . '.png';
-            $request['image_1'] = $img_1_name;
-        }
-        if ($request->file('img_2')) {
-            $img_2_name = time() . '_image_2_' . rand(111, 999) . '.png';
-            $request['image_2'] = $img_2_name;
-        }
-
-        if ($echo = $echography->create([
+        
+        if ($echo = Echography::create([
             'code' => generate_code('ECH', 'echographies'),
             'type_id' => $request->type_id ?: null,
             'patient_id' => $request->patient_id ?: null,
@@ -86,16 +77,12 @@ class EchographyController extends Controller
         ])) {
             $echo->update(['address_id' => update4LevelAddress($request)]);
 
+            // Check if no exist folder/directory then create folder/directory
             $path = public_path('/images/echographies/');
             File::makeDirectory($path, 0777, true, true);
-            if ($request->file('img_1')) {
-                $img_1 = $request->file('img_1');
-                Image::make($img_1->getRealPath())->save($path . $img_1_name);
-            }
-            if ($request->file('img_2')) {
-                $img_2 = $request->file('img_2');
-                Image::make($img_2->getRealPath())->save($path . $img_2_name);
-            }
+            $image_1 =  create_image($request->img_1, $path, (time() . '_image_1_' . rand(111, 999) . '.png'));
+            $image_2 =  create_image($request->img_2, $path, (time() . '_image_2_' . rand(111, 999) . '.png'));
+            $echo->update(['image_1' => $image_1, 'image_2' => $image_2]);
 
             if ($request->is_treament_plan) {
                 return redirect()->route('patient.consultation.edit', $request->consultation_id)->with('success', 'Data created success');
@@ -117,18 +104,18 @@ class EchographyController extends Controller
             $attributes = $row->filterAttr;
             foreach ($attributes as $label => $attr) {
                 $tbody .= '<tr>
-								<td width="30%" class="text-right tw-bg-gray-100">' . __('form.echography.' . $label) . '</td>
-								<td>' . $attr . '</td>
-							</tr>';
+                                <td width="30%" class="text-right tw-bg-gray-100">' . __('form.echography.' . $label) . '</td>
+                                <td>' . $attr . '</td>
+                            </tr>';
             }
             $body = '<table class="table-form tw-mt-3 table-detail-result">
-						<thead>
-							<tr>
-								<th colspan="4" class="text-left tw-bg-gray-100">Result</th>
-							</tr>
-						</thead>
-						<tbody>' . ((empty($attributes)) ? '<tr><th colspan="4" class="text-center">No result</th></tr>' : $tbody) . '</tbody>
-					</table>';
+                        <thead>
+                            <tr>
+                                <th colspan="4" class="text-left tw-bg-gray-100">Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>' . ((empty($attributes)) ? '<tr><th colspan="4" class="text-center">No result</th></tr>' : $tbody) . '</tbody>
+                    </table>';
             return response()->json([
                 'success' => true,
                 'header' => getParaClinicHeaderDetail($row),
@@ -193,29 +180,19 @@ class EchographyController extends Controller
     public function update(EchographyRequest $request, Echography $echography)
     {
         // serialize all post into string
-        $serialize = array_except($request->all(), ['_method', '_token', 'img_1', 'img_2']);
+        $serialize = $request->except(['_method', '_token', 'img_1', 'img_2', 'file-browse-img_1', 'file-browse-img_2']);
         $request['attribute'] = serialize($serialize);
 
         $echo_type = $request->type_id ? EchoType::where('id', $request->type_id)->first() : null;
 
         $request['price'] = $request->price ?: ($echo_type ? $echo_type->price : 0);
         $request['address_id'] = update4LevelAddress($request, $echography->address_id);
-
+        
+        // Check if no exist folder/directory then create folder/directory
         $path = public_path('/images/echographies/');
         File::makeDirectory($path, 0777, true, true);
-
-        if ($request->file('img_1')) {
-            $img_1 = $request->file('img_1');
-            $img_1_name = (($echography->image_1 != '') ? $echography->image_1 : time() . '_image_1_' . $echography->id . '.png');
-            Image::make($img_1->getRealPath())->save($path . $img_1_name);
-            $request['image_1'] = $img_1_name;
-        }
-        if ($request->file('img_2')) {
-            $img_2 = $request->file('img_2');
-            $img_2_name = (($echography->image_2 != '') ? $echography->image_2 : time() . '_image_2_' . $echography->id . '.png');
-            Image::make($img_2->getRealPath())->save($path . $img_2_name);
-            $request['image_2'] = $img_2_name;
-        }
+        $request['image_1'] = update_image($request->img_1, $path, (time() . '_image_1_' . rand(111, 999) . '.png'), $echography->image_1);
+        $request['image_2'] = update_image($request->img_2, $path, (time() . '_image_2_' . rand(111, 999) . '.png'), $echography->image_2);
 
         if ($echography->update($request->all())) {
             return redirect()->route('para_clinic.echography.index')->with('success', 'Data update success');
@@ -227,9 +204,32 @@ class EchographyController extends Controller
      */
     public function destroy(Echography $echography)
     {
-        $echography->status = 0;
-        if ($echography->update()) {
+        if ($echography->delete()) {
             return redirect()->route('para_clinic.echography.index')->with('success', 'Data delete success');
         }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function restore($id)
+    {
+        $echography = Echography::onlyTrashed()->findOrFail($id);
+        if ($echography->restore()) {
+            return back()->with('success', __('alert.message.success.crud.restore'));
+        }
+        return back()->with('error', __('alert.message.error.crud.restore'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function force_delete($id)
+    {
+        $echography = Echography::onlyTrashed()->findOrFail($id);
+        if ($echography->forceDelete()) {
+            return back()->with('success', __('alert.message.success.crud.force_detele'));
+        }
+        return back()->with('error', __('alert.message.error.crud.force_detele'));
     }
 }

@@ -1,45 +1,13 @@
 <x-app-layout>
 	<x-slot name="header">
 		<x-form.button href="{{ route('para_clinic.xray.create') }}" label="Create" icon="bx bx-plus"/>
+        <x-report-filter url="{{ route('para_clinic.labor.index') }}"/>
 	</x-slot>
 	<x-slot name="js">
 		<script>
-			// function getDetail(id){
-			// 	$.ajax({
-			// 		type: "POST",
-			// 		url: "{{ route('para_clinic.xray.getDetail') }}",
-			// 		data: {
-			// 			'id': id
-			// 		},
-			// 		success: function(rs){
-			// 			if (rs.success) {
-			// 				$('#detail-modal .type').html(rs.xray.type_en);
-			// 				$('#detail-modal .code').html(rs.xray.code);
-			// 				$('#detail-modal .name').html(rs.xray.patient_en);
-			// 				$('#detail-modal .requested_date').html(moment(rs.xray.requested_date).format('DD/MM/YYYY HH:mm'));
-			// 				$('#detail-modal .reqeusted_by').html(rs.xray.reqeusted_name);
-			// 				$('#detail-modal .physician').html(rs.xray.doctor_en);
-			// 				$('#detail-modal .payment_type').html(rs.xray.payment_type);
-			// 				$('#detail-modal .amount').html(rs.xray.amount + ' USD');
-			// 				$('#detail-modal .detail-status').html(rs.status_html);
-			// 				$('#detail-modal .table-detail-result tbody').html(rs.tbody);
-			// 				$('#detail-modal .btn-print').attr('onclick', `printPopup('${rs.print_url}')`);
-			// 				$('#detail-modal').modal();
-			// 			}
-			// 		},
-			// 		error: function (rs){
-			// 			alert(rs.message);
-			// 		}
-			// 	});
-			// }
 		</script>
 	</x-slot>
 	<x-card :foot="false" :action-show="false">
-		<x-slot name="header">
-			<form class="w-100" action="{{ route('para_clinic.ecg.index') }}" method="get">
-				<x-report-filter />
-			</form>
-		</x-slot>
 		<x-table class="table-hover table-striped" id="datatables" data-table="patients">
 			<x-slot name="thead">
 				<tr>

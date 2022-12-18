@@ -4,6 +4,7 @@ use Illuminate\Support\Str;
 use App\Models\Address_linkable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 
 function InternetIsConnected()
@@ -548,4 +549,52 @@ function d_paid_status ($status = 0) {
 
 function d_exchange_rate () {
     return 4100;
+}
+
+// Param : (File Name, Main Path)
+function remove_file($file_name, $path){
+    if ($file_name && File::exists($path . $file_name)) {
+        File::delete($path . $file_name);
+    }
+}
+
+// Param : (Request->image, Main Path, New Image name)
+function create_image($image, $path, $image_name = null){
+    if ($image && $image != '/images/browse-image.jpg') {
+        // Get image Data
+        $data = $image;
+        list(, $data) = explode(';', $data);
+        list(, $data) = explode(',', $data);
+        $data = base64_decode($data);
+        // Set Image Name and Path
+        $image_name = $image_name ?: time() . '_image_' . rand(111, 999) . '.png';
+        // put image to folder/dir and update supplier field
+        file_put_contents(($path . $image_name), $data);
+        return $image_name;
+    }
+    return null;
+}
+
+// Param : (Request->image, Main Path, New Image name, Old image name)
+function update_image($image, $path, $image_name = null, $old_image = null){
+    if ($image) {
+        // set image name and path
+        $image_name = $image_name ?: time() . '_image_' . rand(111, 999) . '.png';
+        // Check if reset/delete image
+        if ($image == '/images/browse-image.jpg') {
+            remove_file($old_image, $path);
+            $image_name = null;
+        } else {
+            // get image data
+            $data = $image;
+            list(, $data) = explode(';', $data);
+            list(, $data) = explode(',', $data);
+            $data = base64_decode($data);
+            // put image to folder/dir
+            file_put_contents($path . $image_name, $data);
+            remove_file($old_image, $path);
+        }
+        return $image_name;
+    }
+    return $old_image ?: null;
 }

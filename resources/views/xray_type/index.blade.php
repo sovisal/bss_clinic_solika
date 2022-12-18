@@ -16,7 +16,7 @@
                     <th width="15%">Action</th>
                 </tr>
             </x-slot>
-            @php $i = 0; @endphp
+            @php($i=0)
             @foreach($rows as $row)
             <tr>
                 <td>{{ ++$i }}</td>
@@ -32,7 +32,6 @@
                         :id="$row->id"
                         :is-trashed="$row->trashed()"
                         :disable-edit="$row->trashed()"
-                        :show-btn-force-delete="true"
                         :show-btn-show="false"
                     />
                 </td>

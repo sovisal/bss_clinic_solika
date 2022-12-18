@@ -113,6 +113,7 @@ return [
 	],
 	'ecg' => [
 		'result' => 'Result',
+		'default_form' => 'Result',
 	],
 
 	'ability' => [

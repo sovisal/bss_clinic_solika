@@ -23,5 +23,3 @@
 		@endif
 	</div>
 </div>
-
-<x-modal-image-crop />

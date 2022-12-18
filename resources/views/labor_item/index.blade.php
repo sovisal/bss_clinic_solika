@@ -19,7 +19,8 @@
                     <th width="10%">Action</th>
                 </tr>
             </x-slot>
-            @foreach($rows as $i => $row)
+            @php($i=0)
+            @foreach($rows as $row)
             <tr>
                 <td>{{ ++$i }}</td>
                 <td>{{ d_obj($row, ['name_en', 'name_kh']) }}</td>

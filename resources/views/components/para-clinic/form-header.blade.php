@@ -55,14 +55,14 @@
         </x-bss-form.select>
     </td>
 </tr>
-<tr>
-    <td class="text-right">Age</td>
-    <td>
-        <x-bss-form.input name='age' value="{{ $row->age ?? '' }}" />
-    </td>
-    <td colspan="2"></td>
-</tr>
 @if ($isInvoice)
+    <tr>
+        <td class="text-right">Age</td>
+        <td>
+            <x-bss-form.input name='age' value="{{ $row->age ?? '' }}" />
+        </td>
+        <td colspan="2"></td>
+    </tr>
     <tr>
         <td class="text-right">Doctor <small class='required'>*</small></td>
         <td>
@@ -87,6 +87,16 @@
                 @endforeach
             </x-bss-form.select>
         </td>
+        <td class="text-right">Age</td>
+        <td>
+            <x-bss-form.input name='age' value="{{ $row->age ?? '' }}" />
+        </td>
+    </tr>
+    <tr>
+        <td class="text-right">Requested date <small class='required'>*</small></td>
+        <td>
+            <x-bss-form.input name='requested_at' class="date-time-picker" hasIcon="right" icon="bx bx-calendar" value="{{ $row->requested_at ?? date('Y-m-d H:i:s') }}" :disabled="$isEdit && $row->requested_at" />
+        </td>
         <td class="text-right">Physician</td>
         <td>
             <x-bss-form.select name="doctor_id">
@@ -95,13 +105,6 @@
                 @endforeach
             </x-bss-form.select>
         </td>
-    </tr>
-    <tr>
-        <td class="text-right">Requested date <small class='required'>*</small></td>
-        <td>
-            <x-bss-form.input name='requested_at' class="date-time-picker" hasIcon="right" icon="bx bx-calendar" value="{{ $row->requested_at ?? date('Y-m-d H:i:s') }}" :disabled="$isEdit && $row->requested_at" />
-        </td>
-        <td colspan="2"></td>
     </tr>
     <tr>
         <td class="text-right">Price</td>

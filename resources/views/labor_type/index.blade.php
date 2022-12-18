@@ -30,7 +30,7 @@
                     <th width="15%">Action</th>
                 </tr>
             </x-slot>
-            @php $i=0; @endphp
+            @php($i=0)
             @foreach($rows as $row)
                 <tr>
                     <td>{{ ++$i }}</td>
@@ -47,7 +47,6 @@
                             :is-trashed="$row->trashed()"
                             :disable-edit="$row->trashed()"
                             :show-btn-show="false"
-                            :show-btn-force-delete="true"
                         >
                             <x-form.button href="{!! route('setting.labor-item.index', $row->id) !!}" icon="bx bx-detail" />
                         </x-table-action-btn>

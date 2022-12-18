@@ -1,6 +1,6 @@
 <x-app-layout>
-    <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
     <x-slot name="js">
+        <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
         @include('echography.script')
     </x-slot>
     <x-slot name="header">

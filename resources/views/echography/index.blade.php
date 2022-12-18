@@ -1,9 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <x-form.button href="{{ route('para_clinic.echography.create') }}" label="Create" icon="bx bx-plus" />
-        <form class="w-100" action="{{ route('para_clinic.echography.index') }}" method="get">
-            <x-report-filter />
-        </form>
+        <x-report-filter url="{{ route('para_clinic.echography.index') }}"/>
     </x-slot>
     <x-slot name="css">
         <style>
@@ -12,7 +10,6 @@
                 margin: 10px auto;
                 overflow: hidden;
             }
-
             #image-slider .carousel-inner {
                 border-radius: 0;
             }
@@ -27,13 +24,13 @@
                     $('#image-modal #image-slider').removeClass('sr-only');
                     if (img_1 != '') {
                         inner_slider = `<div class="carousel-item active">
-											<img src="/images/echographies/${ img_1 }" class="d-block w-100" alt="...">
-										</div>`;
+                                            <img src="/images/echographies/${ img_1 }" class="d-block w-100" alt="...">
+                                        </div>`;
                     }
                     if (img_2 != '') {
                         inner_slider += `<div class="carousel-item ${ ((img_1 == '')? 'active' : '') }">
-											<img src="/images/echographies/${ img_2 }" class="d-block w-100" alt="...">
-										</div>`;
+                                            <img src="/images/echographies/${ img_2 }" class="d-block w-100" alt="...">
+                                        </div>`;
                     }
                     $('#image-modal #image-slider .carousel-inner').html(inner_slider);
                 } else {
@@ -80,7 +77,21 @@
                 <td>{{ d_obj($row, 'user', 'name') }}</td>
                 <td>{!! d_status($row->status) !!}</td>
                 <td>
-                    <x-form.button color="warning" class="btn-sm" onclick="getImage('{{ $row->image_1 }}', '{{ $row->image_2 }}')" icon="bx bx-image" />
+                    <x-table-action-btn
+                        module="para_clinic.echography"
+                        module-ability="Echography"
+                        :id="$row->id"
+                        :is-trashed="$row->trashed()"
+                        :disable-edit="$row->trashed() || !($row->status=='1' && $row->payment_status == 0)"
+                        :disable-delete="!($row->status=='1' && $row->payment_status == 0)"
+                        :show-btn-show="false"
+                        :show-btn-force-delete="true"
+                    >
+                        <x-form.button color="warning" class="btn-sm" onclick="getImage('{{ $row->image_1 }}', '{{ $row->image_2 }}')" icon="bx bx-image" />
+                        <x-form.button color="dark" class="btn-sm" onclick="printPopup('{{ route('para_clinic.echography.print', $row->id) }}')" icon="bx bx-printer" />
+                    </x-table-action-btn>
+
+                    {{-- <x-form.button color="warning" class="btn-sm" onclick="getImage('{{ $row->image_1 }}', '{{ $row->image_2 }}')" icon="bx bx-image" />
                     <x-form.button color="dark" class="btn-sm" onclick="printPopup('{{ route('para_clinic.echography.print', $row->id) }}')" icon="bx bx-printer" />
                     @if ($row->status=='1' && $row->payment_status == 0)
                     <x-form.button color="secondary" class="btn-sm" href="{{ route('para_clinic.echography.edit', $row->id) }}" icon="bx bx-edit-alt" />
@@ -93,7 +104,7 @@
                     @else
                     <x-form.button color="secondary" class="btn-sm" icon="bx bx-edit-alt" disabled />
                     <x-form.button color="danger" class="btn-sm" icon="bx bx-trash" disabled />
-                    @endif
+                    @endif --}}
                 </td>
             </tr>
             @endforeach
@@ -101,14 +112,12 @@
     </x-card>
 
     <x-para-clinic.modal-detail />
-
     <x-modal :foot="false" id="image-modal" dialogClass="modal-lg">
         <x-slot name="header">
             View Echography Photo
         </x-slot>
         <x-slider id="image-slider" :autoplay="false" />
     </x-modal>
-
     <x-modal-confirm-delete />
 
 </x-app-layout>

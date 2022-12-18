@@ -1,9 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <x-form.button href="{{ route('invoice.create') }}" label="Create" icon="bx bx-plus" />
-        <form class="w-100" action="{{ route('invoice.index') }}" method="get">
-            <x-report-filter />
-        </form>
+        <x-report-filter url="{{ route('invoice.index') }}" />
     </x-slot>
     <x-card :foot="false" :action-show="false" :head="false">
         <x-table class="table-hover table-striped" id="datatables" data-table="patients">

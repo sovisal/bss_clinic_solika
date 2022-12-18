@@ -7,7 +7,7 @@
 		{{ $title }}
 	</x-slot>
 	<x-slot name="footer">
-		<x-form.button class="btn-print" data-id="" label="Print" icon="bx bx-printer" /> 
+		<x-form.button color="dark" class="btn-print" data-id="" label="Print" icon="bx bx-printer" /> 
 	</x-slot>
 	
 	<div class="header-info">
