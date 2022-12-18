@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-form.button-back href="{{ route('setting.ecg-type.index') }}"/>
+        <x-form.button-back href="{{ route('setting.ecg-type.index') }}" />
     </x-slot>
     <x-slot name="js">
         <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
@@ -20,11 +20,7 @@
 
                 @include('shared.setting_service.form')
 
-                @if (view()->exists('ecg_type.extra_form.' . $row->id))
-                @include('ecg_type.extra_form.' . $row->id)
-                @else
-                @include('ecg_type.extra_form.0')
-                @endif
+                @includeFirst(['ecg_type.extra_form.' . $row->id, 'ecg_type.extra_form.0'])
             </table>
         </x-card>
     </form>

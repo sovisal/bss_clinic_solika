@@ -20,11 +20,7 @@
 
                 @include('shared.setting_service.form')
 
-                @if (view()->exists('echo_type.extra_form.' . $row->id))
-                    @include('echo_type.extra_form.' . $row->id)
-                @else
-                    @include('echo_type.extra_form.0')
-                @endif
+                @includeFirst(['ecg_type.extra_form.' . $row->id, 'ecg_type.extra_form.0'])
             </table>
         </x-card>
     </form>

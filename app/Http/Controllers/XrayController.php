@@ -116,66 +116,10 @@ class XrayController extends Controller
      */
     public function print($id)
     {
-        $xray = Xray::select([
-            'xrays.*',
-            'patients.name_en as patient_kh',
-            'patients.age as patient_age',
-            'data_parents.title_en as patient_gender',
-            'doctors.name_en as doctor_en',
-            'xray_types.name_en as type_en'
-        ])
-            ->leftJoin('patients', 'patients.id', '=', 'xrays.patient_id')
-            ->leftJoin('data_parents', 'data_parents.id', '=', 'patients.gender')
-            ->leftJoin('doctors', 'doctors.id', '=', 'xrays.doctor_id')
-            ->leftJoin('xray_types', 'xray_types.id', '=', 'xrays.type')
-            ->find($id);
+        $xray =  Xray::with(['patient', 'gender', 'doctor', 'type'])->find($id);
         $xray->attribute = array_except(filter_unit_attr(unserialize($xray->attribute) ?: []), ['status', 'amount', 'payment_type', 'requested_by']);
         $data['xray'] = $xray;
         return view('xray.print', $data);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Xray $xray)
-    {
-        append_array_to_obj($xray, unserialize($xray->attribute) ?: []);
-        if ($xray ?? false) {
-            $data['row'] = $xray;
-            $data['type'] = XrayType::where('status', 1)->orderBy('index', 'asc')->get();
-            $data['patient'] = Patient::orderBy('name_en', 'asc')->get();
-            $data['doctor'] = Doctor::orderBy('id', 'asc')->get();
-        }
-        $data['payment_type'] = getParentDataSelection('payment_type');
-        $data['is_edit'] = true;
-        return view('xray.edit', $data);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Xray $xray)
-    {
-        // serialize all post into string
-        $serialize = array_except($request->all(), ['_method', '_token']);
-        $request['attribute'] = serialize($serialize);
-        $request['amount'] = $request->amount ?? 0;
-        // $request['doctor_id'] = $request->doctor_id ?? 0;
-
-        if ($xray->update($request->all())) {
-            return redirect()->route('para_clinic.xray.index')->with('success', 'Data update success');
-        }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Xray $xray)
-    {
-        $xray->status = 0;
-        if ($xray->update()) {
-            return redirect()->route('para_clinic.xray.index')->with('success', 'Data delete success');
-        }
     }
 
     public function show(Xray $xray)
@@ -190,5 +134,77 @@ class XrayController extends Controller
         $data['payment_type'] = getParentDataSelection('payment_type');
         $data['is_edit'] = true;
         return view('xray.show', $data);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Xray $xray)
+    {
+        append_array_to_obj($xray, unserialize($xray->attribute) ?: []);
+        $data = [
+            'row' => $xray,
+            'type' => XrayType::where('status', 1)->orderBy('index', 'asc')->get(),
+            'patient' => Patient::orderBy('name_en', 'asc')->get(),
+            'doctor' => Doctor::orderBy('id', 'asc')->get(),
+            'addresses' => get4LevelAdressSelectorByID($xray->address_id, ...['xx', 'option']),
+            'payment_type' => getParentDataSelection('payment_type'),
+            'gender' => getParentDataSelection('gender'),
+            'is_edit' => true,
+        ];
+        return view('xray.edit', $data);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Xray $xray)
+    {
+        // serialize all post into string
+        $serialize = array_except($request->all(), ['_method', '_token', 'img_1', 'img_2']);
+        $request['attribute'] = serialize($serialize);
+
+        $xray_type = $request->type_id ? XrayType::where('id', $request->type_id)->first() : null;
+
+        $request['price'] = $request->price ?: ($xray_type ? $xray_type->price : 0);
+        $request['address_id'] = update4LevelAddress($request, $xray->address_id);
+
+        if ($xray->update($request->all())) {
+            return redirect()->route('para_clinic.xray.index')->with('success', 'Data update success');
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Xray $xray)
+    {
+        if ($xray->delete()) {
+            return redirect()->route('para_clinic.xray.index')->with('success', 'Data delete success');
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function restore($id)
+    {
+        $xray = Xray::onlyTrashed()->findOrFail($id);
+        if ($xray->restore()) {
+            return back()->with('success', __('alert.message.success.crud.restore'));
+        }
+        return back()->with('error', __('alert.message.error.crud.restore'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function force_delete($id)
+    {
+        $xray = Xray::onlyTrashed()->findOrFail($id);
+        if ($xray->forceDelete()) {
+            return back()->with('success', __('alert.message.success.crud.force_detele'));
+        }
+        return back()->with('error', __('alert.message.error.crud.force_detele'));
     }
 }

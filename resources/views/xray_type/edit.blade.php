@@ -19,11 +19,7 @@
 
                 @include('shared.setting_service.form')
 
-                @if (view()->exists('xray_type.extra_form.' . $row->id))
-                @include('xray_type.extra_form.' . $row->id)
-                @else
-                @include('xray_type.extra_form.0')
-                @endif
+                @includeFirst(['xray_type.extra_form.' . $row->id, 'xray_type.extra_form.0'])
             </table>
         </x-card>
     </form>

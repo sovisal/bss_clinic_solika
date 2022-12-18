@@ -1,13 +1,9 @@
 <x-app-layout>
 	<x-slot name="header">
 		<x-form.button href="{{ route('prescription.create') }}" label="Create" icon="bx bx-plus"/>
+        <x-report-filter url="{{ route('prescription.index') }}" />
 	</x-slot>
 	<x-card :foot="false" :action-show="false">
-		<x-slot name="header">
-			<form class="w-100" action="{{ route('prescription.index') }}" method="get">
-				<x-report-filter />
-			</form>
-		</x-slot>
 		<x-table class="table-hover table-striped" id="datatables" data-table="patients">
 			<x-slot name="thead">
 				<tr>

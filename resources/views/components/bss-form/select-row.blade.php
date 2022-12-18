@@ -26,7 +26,7 @@
             :select2="$select2"
             :place-holder="$placeHolder"
             :error="$error"
-        />
+        >{!! $slot !!}</x-bss-form.select>
     </td>
 @if ($tr)
 </tr>

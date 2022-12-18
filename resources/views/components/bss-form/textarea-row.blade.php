@@ -20,7 +20,7 @@
             :id="$id"
             :char-length="$charLength"
             :error="$error"
-        />
+        >{!! $slot !!}</x-bss-form.textarea>
     </td>
 @if ($tr)
 </tr>

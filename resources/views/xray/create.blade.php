@@ -3,21 +3,9 @@
         <x-form.button-back href="{{ route('para_clinic.xray.index') }}"/>
     </x-slot>
     <x-slot name="js">
-        <script>
-            $(document).ready(function () {
-                $('[name="type"]').change(function () {
-                    $_this = $(this);
-                    $_option_selected = $(this).find('option:selected');
-                    $_amount = $_option_selected.data('price');
-                    
-                    $('#amount_label').html($_amount);
-                    $('[name="amount"]').val($_amount);
-                });
-            });
-        </script>
+        @include('echography.script')
     </x-slot>
     <form action="{{ route('para_clinic.xray.store') }}" method="POST" autocomplete="off" enctype="multipart/form-data">
-        @method('PUT')
         @csrf
         <input type="hidden" name="status" value="1" />
         <x-card bodyClass="pb-0">
@@ -31,12 +19,8 @@
                     <x-form.button type="submit" class="btn-submit" value="1" icon="bx bx-save" label="Save" />
                 </div>
             </x-slot>
-            <table class="table-form striped">
-                <tr>
-                    <th colspan="4" class="text-left tw-bg-gray-100">X-Ray</th>
-                </tr>
-                <x-para-clinic.form-header :type="$type" :patient="$patient" :doctor="$doctor" :paymentType="$payment_type" />
-            </table>
+            
+            @include('xray.form_input')
         </x-card>
     </form>
 

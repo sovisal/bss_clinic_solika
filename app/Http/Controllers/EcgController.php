@@ -120,6 +120,20 @@ class EcgController extends Controller
         return view('ecg.print', $data);
     }
 
+    public function show(Ecg $ecg)
+    {
+        append_array_to_obj($ecg, unserialize($ecg->attribute) ?: []);
+        if ($ecg ?? false) {
+            $data['row'] = $ecg;
+            $data['type'] = EcgType::where('status', 1)->orderBy('index', 'asc')->get();
+            $data['patient'] = Patient::orderBy('name_en', 'asc')->get();
+            $data['doctor'] = Doctor::orderBy('id', 'asc')->get();
+        }
+        $data['payment_type'] = getParentDataSelection('payment_type');
+        $data['is_edit'] = true;
+        return view('ecg.show', $data);
+    }
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -169,20 +183,6 @@ class EcgController extends Controller
         }
     }
 
-    public function show(Ecg $ecg)
-    {
-        append_array_to_obj($ecg, unserialize($ecg->attribute) ?: []);
-        if ($ecg ?? false) {
-            $data['row'] = $ecg;
-            $data['type'] = EcgType::where('status', 1)->orderBy('index', 'asc')->get();
-            $data['patient'] = Patient::orderBy('name_en', 'asc')->get();
-            $data['doctor'] = Doctor::orderBy('id', 'asc')->get();
-        }
-        $data['payment_type'] = getParentDataSelection('payment_type');
-        $data['is_edit'] = true;
-        return view('ecg.show', $data);
-    }
-
     /**
      * Remove the specified resource from storage.
      */
@@ -206,4 +206,5 @@ class EcgController extends Controller
         }
         return back()->with('error', __('alert.message.error.crud.force_detele'));
     }
+
 }
