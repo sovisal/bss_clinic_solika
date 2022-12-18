@@ -18,11 +18,7 @@
             <tr>
                 <th colspan="4" class="text-left tw-bg-gray-100">Result</th>
             </tr>
-            @if (view()->exists('xray_type.extra_form.' . $row->type))
-            @include('xray_type.extra_form.' . $row->type)
-            @else
-            @include('xray_type.extra_form.0')
-            @endif
+            @includeFirst(['xray_type.extra_form.' . $row->type_id, 'xray_type.extra_form.0'])
         </table>
     </x-card>
 </x-app-layout>

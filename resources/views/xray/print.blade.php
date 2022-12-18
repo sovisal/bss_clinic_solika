@@ -8,7 +8,7 @@
 
 		<section class="xray-body">
 			<h3 class="text-center text-red title">{{ $xray->type_kh }}</h3>
-			@foreach ($xray->attribute as $label => $attr)
+			@foreach ($xray->filterAttr as $label => $attr)
 				<div>
 					<b>{!! __('form.xray.'. $label) !!}</b> : {!! $attr !!}
 				</div>

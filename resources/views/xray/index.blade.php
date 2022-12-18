@@ -45,7 +45,7 @@
                 <td>
                     <x-table-action-btn
                         module="para_clinic.xray"
-                        module-ability="Ecg"
+                        module-ability="Xray"
                         :id="$row->id"
                         :is-trashed="$row->trashed()"
                         :disable-edit="$row->trashed() || !($row->status=='1' && $row->payment_status == 0)"

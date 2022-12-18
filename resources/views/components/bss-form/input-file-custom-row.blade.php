@@ -14,7 +14,7 @@
         <label for="{{ $id ?? $name }}">{!! $label . ($attributes['required']? ' <small class="required">*</small>' : '') !!}</label>
     </td>
     <td>
-        <x-bss-form.input-file-custom :name="$name" :id="$id" :class="$class" />
+        <x-bss-form.input-file-custom :name="$name" :id="$id" :class="$class" {{ $attributes }}/>
     </td>
 @if ($tr)
 </tr>

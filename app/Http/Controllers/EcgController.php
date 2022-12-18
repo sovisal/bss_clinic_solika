@@ -160,7 +160,7 @@ class EcgController extends Controller
     public function update(Request $request, Ecg $ecg)
     {
         // serialize all post into string
-        $serialize = array_except($request->all(), ['_method', '_token', 'img_1', 'img_2']);
+        $serialize = array_except($request->all(), ['_method', '_token', 'img_1', 'img_2', 'file-browse-img_1', 'file-browse-img_2']);
         $request['attribute'] = serialize($serialize);
 
         $ecg_type = $request->type_id ? EcgType::where('id', $request->type_id)->first() : null;
