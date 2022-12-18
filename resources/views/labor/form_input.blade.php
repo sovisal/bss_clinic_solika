@@ -1,4 +1,64 @@
-<tr>
+<div class="row">
+    <div class="col-xl-8 col-lg-7 col-md-12">
+        <table class="table-form striped">
+            <tr>
+                <th colspan="4" class="text-left tw-bg-gray-100">Labor</th>
+            </tr>
+            <x-para-clinic.form-header
+                :isEdit="$is_edit"
+                :row="@$row"
+                :type="$type"
+                :patient="$patient"
+                :doctor="$doctor"
+                :paymentType="$payment_type"
+                :gender="$gender"
+            >
+                <tr>
+                    <x-bss-form.textarea-row name="result" :tr="false" label="Result">{{ $row->result ?? '' }}</x-bss-form.textarea-row>
+                    <x-bss-form.textarea-row name="diagnosis" :tr="false" label="Diagnosis">{{ $row->diagnosis ?? '' }}</x-bss-form.textarea-row>
+                </tr>
+                <tr>
+                    <td class="text-right">
+                        <label for="sample">Sample</label>
+                    </td>
+                    <td colspan="3">
+                        <x-bss-form.input name='sample' value="{{ $row->sample ?? '' }}" />
+                    </td>
+                </tr>
+            </x-para-clinic.form-header>
+        </table>
+    </div>
+    <div class="col-xl-4 col-lg-5 col-md-12">
+        <table class="table-form striped">
+            <tr>
+                <th colspan="2" class="text-left tw-bg-gray-100">Address</th>
+            </tr>
+            <x-bss-form.address name="address_id" :value="old('address_id', @$row->address_id)" />
+        </table>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{{-- <tr>
 	<td class="text-right">Patient name <small class='required'>*</small></td>
 	<td>
 		<x-bss-form.select name="patient_id" required :disabled="$is_edit && $row->patient_id">
@@ -38,9 +98,6 @@
 	<td class="text-right">Requested by <small class='required'>*</small></td>
 	<td>
 		<x-bss-form.select name="requested_by" required :disabled="$is_edit && $row->requested_by">
-			{{-- @if (!$is_edit)
-				<option value="">Please choose</option>
-			@endif --}}
 			@foreach ($doctor as $data)
 				<option value="{{ $data->id }}" {{ ($row->requested_by ?? auth()->user()->doctor ?? false) == $data->id ? 'selected' : '' }} >{{ render_synonyms_name($data->name_en, $data->name_kh) }}</option>
 			@endforeach
@@ -49,7 +106,6 @@
 	<td class="text-right">Analysis by</td>
 	<td>
 		<x-bss-form.select name="doctor_id" :disabled="$is_edit && $row->doctor_id">
-			{{-- <option value="">Please choose</option> --}}
 			@foreach ($doctor as $data)
 				<option value="{{ $data->id }}" {{ ($row->doctor_id ?? auth()->user()->doctor ?? false) == $data->id ? 'selected' : '' }} >{{ render_synonyms_name($data->name_en, $data->name_kh) }}</option>
 			@endforeach
@@ -92,4 +148,4 @@
 	<td>
 		<x-bss-form.input name='sample' value="{{ $row->sample ?? '' }}" />
 	</td>
-</tr>
+</tr> --}}
