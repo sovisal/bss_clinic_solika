@@ -2,7 +2,7 @@
     <div class="col-8">
         <table class="table-form striped">
             <tr>
-                <th colspan="4" class="text-left tw-bg-gray-100">Echo</th>
+                <th colspan="4" class="text-left tw-bg-gray-100">Ecg</th>
             </tr>
             <x-para-clinic.form-header
                 :isEdit="$is_edit"
