@@ -10,6 +10,7 @@ class Laboratory extends BaseModel
 {
     use HasFactory;
     protected $guarded = ['id'];
+    public $route = 'para_clinic.labor';
 
     public function detail()
 	{

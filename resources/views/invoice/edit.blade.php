@@ -31,7 +31,9 @@
     </form>
     <div>
         <table id="sample_result_row" class="hidden">
-            @include('invoice.form_sample_item')
+            {{-- @include('invoice.form_sample_item') --}}
         </table>
     </div>
+
+    <x-para-clinic.modal-detail />
 </x-app-layout>

@@ -390,10 +390,10 @@ function generate_code($prefix, $table_name, $auto_update = true)
     return $prefix . '-' . str_pad($code_increment, 5, "0", STR_PAD_LEFT);
 }
 
-function render_synonyms_name($name_en = '', $name_kh = '')
+function render_synonyms_name($name_en = '', $name_kh = '', $separator = '::')
 {
     if (!empty($name_en) && !empty($name_kh) && trim(strtolower($name_en)) != trim(strtolower($name_kh))) {
-        return $name_en . ' :: ' . $name_kh;
+        return $name_en . ' ' . $separator . ' ' . $name_kh;
     } else {
         return $name_en ?: $name_kh ?: 'N/A';
     }

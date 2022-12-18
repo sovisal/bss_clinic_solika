@@ -11,6 +11,11 @@ use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
 use Illuminate\Http\Request;
 
+use App\Models\Echography;
+use App\Models\Laboratory;
+use App\Models\Xray;
+use App\Models\Ecg;
+
 class InvoiceController extends Controller
 {
     /**
@@ -71,7 +76,9 @@ class InvoiceController extends Controller
             'total' => array_sum($request->total ?: []),
         ])) {
             $inv->update(['address_id' => update4LevelAddress($request)]);
-            // $this->refresh_invoice_detail($request, $inv->id, true);
+
+            $this->refresh_invoice_detail($request, $inv->id, true);
+
             return redirect()->route('invoice.edit', $inv->id)->with('success', 'Data created success');
         }
     }
@@ -131,9 +138,14 @@ class InvoiceController extends Controller
             'is_edit' => true
         ];
 
-        // $data['service'] = [
-            // 'echo' => ''
-        // ];
+        $data['invoice_item'] = [
+            'service' => [],
+            'medicine' => [],
+            'echo' => Echography::with(['type'])->where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
+            'labor' => Laboratory::where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
+            'xray' => Xray::with(['type'])->where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
+            'ecg' => Ecg::with(['type'])->where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
+        ];
 
         return view('invoice.edit', $data);
     }
@@ -180,34 +192,38 @@ class InvoiceController extends Controller
 
     public function refresh_invoice_detail($request, $parent_id = 0, $is_new = false)
     {
-        $ids = [];
-        foreach ($request->inv_item_id ?: [] as $index => $id) {
-            $item = [
-                'invoice_id'     => $parent_id,
-                'service_type'     => $request->service_type[$index] ?: '',
-                'service_name'  => $request->service_name[$index] ?: '',
-                'service_id'     => $request->service_id[$index] ?: 0,
-                'qty'             => $request->qty[$index] ?: 0,
-                'price'         => $request->price[$index] ?: 0,
-                'description'   => $request->description[$index] ?: '',
-                'total'         => $request->total[$index] ?: 0,
-            ];
+        // echography, ecg, ecg, xray, labor
+        // $ecg_selected = array_filter(fn ($v) => $v->chk, $request->ecg);
+        
+        dd($request->ecg);
+        // $ids = [];
+        // foreach ($request->inv_item_id ?: [] as $index => $id) {
+        //     $item = [
+        //         'invoice_id'     => $parent_id,
+        //         'service_type'     => $request->service_type[$index] ?: '',
+        //         'service_name'  => $request->service_name[$index] ?: '',
+        //         'service_id'     => $request->service_id[$index] ?: 0,
+        //         'qty'             => $request->qty[$index] ?: 0,
+        //         'price'         => $request->price[$index] ?: 0,
+        //         'description'   => $request->description[$index] ?: '',
+        //         'total'         => $request->total[$index] ?: 0,
+        //     ];
 
-            if ($id !== '0') {
-                $inv = InvoiceDetail::find($id)->update($item);
-                $ids[] = $id;
-            } else {
-                $inv = InvoiceDetail::create($item);
-                $ids[] = $inv->id;
-            }
-        }
+        //     if ($id !== '0') {
+        //         $inv = InvoiceDetail::find($id)->update($item);
+        //         $ids[] = $id;
+        //     } else {
+        //         $inv = InvoiceDetail::create($item);
+        //         $ids[] = $inv->id;
+        //     }
+        // }
 
-        if ($is_new == false) {
-            // Clean old data when clicked on icon trast/delete
-            if (sizeof($ids) > 0) {
-                $detailToDelete = InvoiceDetail::where('invoice_id', $parent_id)->whereNotIn('id', $ids);
-                $detailToDelete->delete();
-            }
-        }
+        // if ($is_new == false) {
+        //     // Clean old data when clicked on icon trast/delete
+        //     if (sizeof($ids) > 0) {
+        //         $detailToDelete = InvoiceDetail::where('invoice_id', $parent_id)->whereNotIn('id', $ids);
+        //         $detailToDelete->delete();
+        //     }
+        // }
     }
 }

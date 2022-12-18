@@ -1,5 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
+        @if(isset($_GET['back']))
+        <x-form.button-back href="{!! route('setting.xray-type.index') !!}"/>
+        @endif
         <x-form.button href="{{ route('para_clinic.labor.create') }}" label="Create" icon="bx bx-plus"/>
         <x-report-filter url="{{ route('para_clinic.labor.index') }}"/>
     </x-slot>

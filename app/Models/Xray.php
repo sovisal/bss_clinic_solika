@@ -11,6 +11,7 @@ class Xray extends BaseModel
 {
     use HasFactory, SoftDeletes;
     protected $guarded = ['id'];
+    public $route = 'para_clinic.xray';
 
     public function type()
     {

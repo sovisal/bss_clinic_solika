@@ -75,4 +75,10 @@
             }
         });
     });
+
+    function item_check_all () {
+        let el = $('input[name$="[chk]"]');
+        let el_checked = $('input[name$="[chk]"]:checked');
+        el.prop('checked', el.length > el_checked.length);
+    }
 </script>

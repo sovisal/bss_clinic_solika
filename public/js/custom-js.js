@@ -366,18 +366,20 @@ $(document).ready(function () {
 
     // Datatable dynamic page length
     $(document).ready(function () {
-        var BreakException = {};
-        try {
-            lengthMenu[0].forEach(function (l) {
-                if ($("body")[0].clientHeight < $("body")[0].scrollHeight) {
-                    dt_table.page.len(dt_table.page.info().length - 5).draw();
-                    throw BreakException;
-                } else {
-                    dt_table.page.len(l).draw();
-                }
-            });
-        } catch (e) {
-            if (e !== BreakException) throw e;
+        if ($("#datatables").length && dt_table) {
+            var BreakException = {};
+            try {
+                lengthMenu[0].forEach(function (l) {
+                    if ($("body")[0].clientHeight < $("body")[0].scrollHeight) {
+                        dt_table.page.len(dt_table.page.info().length - 5).draw();
+                        throw BreakException;
+                    } else {
+                        dt_table.page.len(l).draw();
+                    }
+                });
+            } catch (e) {
+                if (e !== BreakException) throw e;
+            }
         }
     });
 

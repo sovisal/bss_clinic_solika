@@ -10,6 +10,7 @@ class Echography extends BaseModel
 {
     use HasFactory, SoftDeletes;
     protected $guarded = ['id'];
+    public $route = 'para_clinic.echography';
 
     public function type()
     {
