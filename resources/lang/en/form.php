@@ -110,6 +110,7 @@ return [
 	],
 	'xray' => [
 		'result' => 'Result',
+		'default_form' => 'Result',
 	],
 	'ecg' => [
 		'result' => 'Result',

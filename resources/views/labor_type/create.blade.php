@@ -3,7 +3,6 @@
         <x-form.button-back href="{{ route('setting.labor-type.index') }}"/>
     </x-slot>
     <form action="{{ route('setting.labor-type.store') }}" method="POST" autocomplete="off" enctype="multipart/form-data">
-        @method('PUT')
         @csrf
         <x-card bodyClass="pb-0">
             <x-slot name="action">

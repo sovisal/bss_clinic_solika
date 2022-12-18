@@ -20,7 +20,7 @@ Route::prefix('xray-type')->middleware(['auth'])->name('setting.xray-type.')->co
 Route::prefix('xray')->middleware(['auth'])->name('para_clinic.xray.')->controller(XrayController::class)->group(function () {
     Route::get('/', 'index')->name('index')->middleware('can:ViewAnyXRay');
     Route::get('/create', 'create')->name('create')->middleware('can:CreateXRay');
-    Route::put('/store', 'store')->name('store')->middleware('can:CreateXRay');
+    Route::post('/store', 'store')->name('store')->middleware('can:CreateXRay');
     Route::get('/{xray}/edit', 'edit')->name('edit')->middleware('can:UpdateXRay');
     Route::put('/{xray}/update', 'update')->name('update')->middleware('can:UpdateXRay');
     Route::delete('/{xray}/delete', 'destroy')->name('delete')->middleware('can:DeleteXRay');

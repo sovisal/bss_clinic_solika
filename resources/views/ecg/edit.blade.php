@@ -3,9 +3,9 @@
         <x-form.button-back href="{{ route('para_clinic.ecg.index') }}"/>
     </x-slot>
     <x-slot name="js">
-        <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
-        @include('echography.script')
+        @include('ecg.script')
     </x-slot>
+
     <form action="{{ route('para_clinic.ecg.update', $row) }}" method="POST" autocomplete="off" enctype="multipart/form-data">
         @method('PUT')
         @csrf

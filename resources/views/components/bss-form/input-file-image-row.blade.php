@@ -14,7 +14,7 @@
         <label for="file-browse-{{ $name }}">{!! $label . ($attributes['required']? ' <small class="required">*</small>' : '') !!}</label>
     </td>
     <td class="text-center">
-        <x-bss-form.input-file-image :path="$path" :name="$name" :value="$value"/>
+        <x-bss-form.input-file-image :path="$path" :name="$name" :value="$value" {{ $attributes }} />
     </td>
     
 @if ($tr)

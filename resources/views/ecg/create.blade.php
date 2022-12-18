@@ -3,8 +3,9 @@
         <x-form.button-back href="{{ route('para_clinic.ecg.index') }}"/>
     </x-slot>
     <x-slot name="js">
-        @include('echography.script')
+        @include('ecg.script')
     </x-slot>
+
     <form action="{{ route('para_clinic.ecg.store') }}" method="POST" autocomplete="off" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="status" value="1" />

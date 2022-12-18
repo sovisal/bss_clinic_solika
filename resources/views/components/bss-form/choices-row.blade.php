@@ -20,6 +20,7 @@
             :data="$data"
             :type="$type"
             :checked="$checked"
+            {{ $attributes }}
         />
     </td>
 @if ($tr)

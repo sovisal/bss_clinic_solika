@@ -30,6 +30,7 @@
             :has-icon="$hasIcon"
             :icon="$icon"
             :error="$error"
+            {{ $attributes }}
         />
     </td>
 @if ($tr)

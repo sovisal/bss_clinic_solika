@@ -15,11 +15,7 @@
             <tr>
                 <th colspan="4" class="text-left tw-bg-gray-100">Result</th>
             </tr>
-            @if (view()->exists('ecg_type.extra_form.' . $row->type))
-            @include('ecg_type.extra_form.' . $row->type)
-            @else
-            @include('ecg_type.extra_form.0')
-            @endif
+            @includeFirst(['ecg_type.extra_form.' . $row->type_id, 'ecg_type.extra_form.0'])
         </table>
     </x-card>
 </x-app-layout>

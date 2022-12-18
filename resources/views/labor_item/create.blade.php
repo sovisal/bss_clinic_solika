@@ -3,7 +3,6 @@
         <x-form.button-back href="{!! route('setting.labor-item.index', $laborType->id) !!}"/>
     </x-slot>
     <form action="{!! route('setting.labor-item.store', $laborType->id) !!}" method="POST" autocomplete="off">
-        @method('PUT')
         @csrf
         <x-card bodyClass="pb-0">
             <x-slot name="action">
