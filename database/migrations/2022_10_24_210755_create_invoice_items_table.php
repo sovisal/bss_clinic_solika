@@ -25,7 +25,7 @@ class CreateInvoiceItemsTable extends Migration
             $table->string('total', 10)->default('0');
             $table->string('exchange_rate', 10)->default('0');
             
-            $table->text('description');
+            $table->text('description')->nullable();
 
             $table->unsignedBigInteger('user_id')->nullable();
             $table->tinyInteger('status')->default('0');

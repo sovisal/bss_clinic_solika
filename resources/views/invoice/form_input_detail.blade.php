@@ -1,4 +1,4 @@
-@if ($invoice_item)
+@if ($invoice_selection)
     <table class="table-form table-padding-sm table-striped" id="table_service_result">
         <thead>
             <tr>
@@ -26,10 +26,10 @@
         </thead>
         <tbody>
             <!-- JS dynamic & preload in Edit screen-->
-            @each ('invoice.item', $invoice_item['echo'], 'item')
-            @each ('invoice.item', $invoice_item['ecg'], 'item')
-            @each ('invoice.item', $invoice_item['xray'], 'item')
-            @each ('invoice.item', $invoice_item['labor'], 'item')
+            @each ('invoice.item', $invoice_selection['echography'], 'item')
+            @each ('invoice.item', $invoice_selection['ecg'], 'item')
+            @each ('invoice.item', $invoice_selection['xray'], 'item')
+            @each ('invoice.item', $invoice_selection['labor'], 'item')
         </tbody>
     </table>
 @endif

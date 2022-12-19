@@ -77,7 +77,7 @@ class InvoiceController extends Controller
         ])) {
             $inv->update(['address_id' => update4LevelAddress($request)]);
 
-            $this->refresh_invoice_detail($request, $inv->id, true);
+            // $this->refresh_invoice_detail($request, $inv->id, true);
 
             return redirect()->route('invoice.edit', $inv->id)->with('success', 'Data created success');
         }
@@ -138,14 +138,33 @@ class InvoiceController extends Controller
             'is_edit' => true
         ];
 
-        $data['invoice_item'] = [
+        // Invoice item selection
+        $selection = [
             'service' => [],
             'medicine' => [],
-            'echo' => Echography::with(['type'])->where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
+            'echography' => Echography::with(['type'])->where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
             'labor' => Laboratory::where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
             'xray' => Xray::with(['type'])->where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
             'ecg' => Ecg::with(['type'])->where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
         ];
+
+        // Invoice item selected
+        $data['invoice_selection'] = [];
+        foreach ($selection as $type => $items) {
+            $items_selected = $invoice->detail()->where('service_type', $type)->get()->keyBy('service_id');
+            $item_selection = [];
+            foreach ($items as $item) {
+                if ($items_selected && isset($items_selected[$item['id']])) {
+                    $item['chk'] = 1;
+                    $item['qty'] = $items_selected[$item['id']]->qty;
+                    $item['price'] = $items_selected[$item['id']]->price;
+                    $item['total'] = $items_selected[$item['id']]->total;
+                    $item['description'] = $items_selected[$item['id']]->description;
+                }
+                $item_selection[] = $item;
+            }
+            $data['invoice_selection'][$type] = $item_selection;
+        }
 
         return view('invoice.edit', $data);
     }
@@ -171,7 +190,19 @@ class InvoiceController extends Controller
             'remark' => $request->remark ?: $invoice->remark,
             'total' => array_sum($request->total ?: []),
         ])) {
-            $this->refresh_invoice_detail($request, $invoice->id);
+            // Invoice items
+            $items = array_merge($request->echography ?: [], $request->ecg ?: [], $request->xray ?: [], $request->labor ?: []);
+            $items = array_filter($items, function ($item) {
+                return isset($item['chk']);
+            });
+            $items = array_map(function ($item) {
+                $item['exchange_rate'] = d_exchange_rate();
+                return $item;
+            }, $items);
+
+            $invoice->detail()->delete();
+            $invoice->detail()->createMany($items);
+
             return redirect()->route('invoice.index')->with('success', 'Data update success');
         }
     }
@@ -195,7 +226,16 @@ class InvoiceController extends Controller
         // echography, ecg, ecg, xray, labor
         // $ecg_selected = array_filter(fn ($v) => $v->chk, $request->ecg);
         
-        dd($request->ecg);
+        // $invoice_detail = new InvoiceDetail();
+        $items = array_merge($request->echography ?: [], $request->ecg ?: [], $request->xray ?: [], $request->labor ?: []);
+        foreach ($items as $item) {
+            if (isset($item['chk'])) {
+                InvoiceDetail::create($item);
+            }
+        }
+
+        dd(print_r($items, true));
+
         // $ids = [];
         // foreach ($request->inv_item_id ?: [] as $index => $id) {
         //     $item = [
