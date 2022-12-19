@@ -22,13 +22,14 @@ $value_description = old($control_name . '[description]', $item->description);
     <input type="hidden" name="{{ $control_name }}[service_id]" value="{{ $service_id }}">
     <input type="hidden" name="{{ $control_name }}[service_name]" value="{{ $service_name }}">
     <input type="hidden" name="{{ $control_name }}[service_type]" value="{{ $service_type }}">
+    <input type="hidden" name="{{ $control_name }}[qty]" value="{{ $value_qty }}">
     <td>
         <input type="checkbox" name="{{ $control_name }}[chk]" {{ $checked ? 'checked' : '' }} value="1"/>
     </td>
     <td>{!! d_link(class_basename($item), route($item->route . '.index', ['back' => url()->current()])) !!}</td>
     <td>{!! d_text($service_label) !!}</td>
     <td>
-        <x-bss-form.input type="number" name="{{ $control_name }}[qty]" value="{{ $value_qty }}" required class="text-center"/>
+        <x-bss-form.input type="number" name="{{ $control_name }}[qty]" disabled value="{{ $value_qty }}" required class="text-center"/>
     </td>
     <td>
         <x-bss-form.input type="number" name="{{ $control_name }}[price]" value="{{ $value_price }}" required class="text-center"/>
@@ -38,8 +39,5 @@ $value_description = old($control_name . '[description]', $item->description);
     </td>
     <td>
         <x-bss-form.input type="text" name="{{ $control_name }}[description]" value="{{ $value_description }}"/>
-    </td>
-    <td>
-        <x-form.button color="danger" class="btn-sm" icon="bx bx-trash" onclick="$(this).parents('tr').remove();"/>
     </td>
 </tr>

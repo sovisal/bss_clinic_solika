@@ -3,18 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Invoice;
-use App\Models\InvoiceDetail;
 use App\Models\Patient;
-use App\Models\Service;
 use App\Models\Doctor;
-use App\Http\Requests\StoreInvoiceRequest;
-use App\Http\Requests\UpdateInvoiceRequest;
-use Illuminate\Http\Request;
-
+use App\Models\Service;
 use App\Models\Echography;
 use App\Models\Laboratory;
 use App\Models\Xray;
 use App\Models\Ecg;
+
+use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
 {
@@ -43,7 +40,6 @@ class InvoiceController extends Controller
     {
         $data = [
             'code' => generate_code('INV', 'invoices', false),
-            'service' => [],
             'patient' => Patient::orderBy('name_en', 'asc')->get(),
             'doctor' => Doctor::orderBy('id', 'asc')->get(),
             'payment_type' => getParentDataSelection('payment_type'),
@@ -76,9 +72,6 @@ class InvoiceController extends Controller
             'total' => array_sum($request->total ?: []),
         ])) {
             $inv->update(['address_id' => update4LevelAddress($request)]);
-
-            // $this->refresh_invoice_detail($request, $inv->id, true);
-
             return redirect()->route('invoice.edit', $inv->id)->with('success', 'Data created success');
         }
     }
@@ -129,19 +122,18 @@ class InvoiceController extends Controller
             'row' => $invoice,
             'code' => generate_code('INV', 'invoices', false),
             'inv_number' => "PT-" . str_pad($invoice->id, 4, '0', STR_PAD_LEFT),
-            'service' => [],
             'patient' => Patient::orderBy('name_en', 'asc')->get(),
             'doctor' => Doctor::orderBy('id', 'asc')->get(),
             'payment_type' => getParentDataSelection('payment_type'),
             'gender' => getParentDataSelection('gender'),
-            'invoice_detail' => $invoice->detail()->get(),
+            'invoice_detail_service' => $invoice->detail()->where('service_type', 'service')->get(),
             'is_edit' => true
         ];
 
         // Invoice item selection
         $selection = [
-            'service' => [],
             'medicine' => [],
+            'service' => Service::orderBy('name', 'asc')->get(),
             'echography' => Echography::with(['type'])->where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
             'labor' => Laboratory::where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
             'xray' => Xray::with(['type'])->where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
@@ -149,6 +141,7 @@ class InvoiceController extends Controller
         ];
 
         // Invoice item selected
+        $count_check = $invoice->detail()->count();
         $data['invoice_selection'] = [];
         foreach ($selection as $type => $items) {
             $items_selected = $invoice->detail()->where('service_type', $type)->get()->keyBy('service_id');
@@ -161,6 +154,11 @@ class InvoiceController extends Controller
                     $item['total'] = $items_selected[$item['id']]->total;
                     $item['description'] = $items_selected[$item['id']]->description;
                 }
+
+                if ($count_check == 0) {
+                    $item['chk'] = 1;
+                }
+
                 $item_selection[] = $item;
             }
             $data['invoice_selection'][$type] = $item_selection;
@@ -190,18 +188,43 @@ class InvoiceController extends Controller
             'remark' => $request->remark ?: $invoice->remark,
             'total' => array_sum($request->total ?: []),
         ])) {
-            // Invoice items
+            // Invoice items For Para-Clinic + Service + Medicine
             $items = array_merge($request->echography ?: [], $request->ecg ?: [], $request->xray ?: [], $request->labor ?: []);
             $items = array_filter($items, function ($item) {
                 return isset($item['chk']);
             });
             $items = array_map(function ($item) {
                 $item['exchange_rate'] = d_exchange_rate();
+                $item['total'] = ($item['qty'] ?: 0) * ($item['price'] ?: 0);
                 return $item;
             }, $items);
 
             $invoice->detail()->delete();
+            
+            // Para-Clinic
             $invoice->detail()->createMany($items);
+ 
+            // Service + Medicine
+            $services = [];
+            foreach ($request->service_id ?: [] as $index => $id) {
+                $services[] = [
+                    'service_type'  => $request->service_type[$index] ?: '',
+                    'service_name'  => $request->service_name[$index] ?: '',
+                    'service_id'    => $request->service_id[$index] ?: 0,
+                    'qty'           => $request->qty[$index] ?: 0,
+                    'price'         => $request->price[$index] ?: 0,
+                    'total'         => ($request->qty[$index] ?: 0) * ($request->price[$index] ?: 0),
+                    'exchange_rate' => d_exchange_rate(),
+                    'description'   => $request->description[$index] ?: '',
+                ];
+            }
+            if (sizeof($services) > 0) {
+                $invoice->detail()->createMany($services);
+            }
+
+            $invoice->total = $invoice->detail()->sum('total');
+            $invoice->save();
+
 
             return redirect()->route('invoice.index')->with('success', 'Data update success');
         }
@@ -215,55 +238,8 @@ class InvoiceController extends Controller
      */
     public function destroy(Invoice $invoice)
     {
-        $invoice->status = 0;
-        if ($invoice->update()) {
+        if ($invoice->delete()) {
             return redirect()->route('invoice.index')->with('success', 'Data delete success');
         }
-    }
-
-    public function refresh_invoice_detail($request, $parent_id = 0, $is_new = false)
-    {
-        // echography, ecg, ecg, xray, labor
-        // $ecg_selected = array_filter(fn ($v) => $v->chk, $request->ecg);
-        
-        // $invoice_detail = new InvoiceDetail();
-        $items = array_merge($request->echography ?: [], $request->ecg ?: [], $request->xray ?: [], $request->labor ?: []);
-        foreach ($items as $item) {
-            if (isset($item['chk'])) {
-                InvoiceDetail::create($item);
-            }
-        }
-
-        dd(print_r($items, true));
-
-        // $ids = [];
-        // foreach ($request->inv_item_id ?: [] as $index => $id) {
-        //     $item = [
-        //         'invoice_id'     => $parent_id,
-        //         'service_type'     => $request->service_type[$index] ?: '',
-        //         'service_name'  => $request->service_name[$index] ?: '',
-        //         'service_id'     => $request->service_id[$index] ?: 0,
-        //         'qty'             => $request->qty[$index] ?: 0,
-        //         'price'         => $request->price[$index] ?: 0,
-        //         'description'   => $request->description[$index] ?: '',
-        //         'total'         => $request->total[$index] ?: 0,
-        //     ];
-
-        //     if ($id !== '0') {
-        //         $inv = InvoiceDetail::find($id)->update($item);
-        //         $ids[] = $id;
-        //     } else {
-        //         $inv = InvoiceDetail::create($item);
-        //         $ids[] = $inv->id;
-        //     }
-        // }
-
-        // if ($is_new == false) {
-        //     // Clean old data when clicked on icon trast/delete
-        //     if (sizeof($ids) > 0) {
-        //         $detailToDelete = InvoiceDetail::where('invoice_id', $parent_id)->whereNotIn('id', $ids);
-        //         $detailToDelete->delete();
-        //     }
-        // }
     }
 }

@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Service;
-use App\Http\Requests\StoreServiceRequest;
-use App\Http\Requests\UpdateServiceRequest;
+use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
@@ -21,7 +20,7 @@ class ServiceController extends Controller
 		return view('service.create');
 	}
 
-	public function store(StoreServiceRequest $request)
+	public function store(Request $request)
 	{
 		$service = Service::create([
 			'name' => $request->name,
@@ -48,7 +47,7 @@ class ServiceController extends Controller
 		return view('service.edit', $data);
 	}
 
-	public function update(UpdateServiceRequest $request, Service $service)
+	public function update(Request $request, Service $service)
 	{
 		$service->update([
 			'name' => $request->name,

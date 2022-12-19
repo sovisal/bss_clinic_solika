@@ -26,14 +26,17 @@
             </x-slot>
             
             @include('invoice.form_input')
-            <br>
-            @include('invoice.form_input_detail')
-
+            <br />
+            @include('invoice.form_service')
+            <br />
+            @include('invoice.form_para_clinic')
+            <br />
+            @include('invoice.form_footer')
         </x-card>
     </form>
     <div>
-        <table id="sample_result_row" class="hidden">
-            {{-- @include('invoice.form_sample_item') --}}
+        <table id="sample_service_row" class="hidden">
+            @include('invoice.form_service_sample')
         </table>
     </div>
 

@@ -32,7 +32,7 @@
             @foreach($rows as $row)
             <tr>
                 <td>{{ ++$i }}</td>
-                <td>{{ d_text($row->code) }}</td>
+                <td>{!! d_link(d_text($row->code), "javascript:alert('coming soon');") !!}</td>
                 <td>{!! $row->patientLink !!}</td>
                 <td>{{ d_obj($row, 'gender', ['title_en', 'title_kh']) }}</td>
                 <td>{{ d_text($row->age) }}</td>
@@ -41,8 +41,8 @@
                 <td>{!! $row->doctorLink !!}</td>
                 <td>{{ d_number($row->exchange_rate) }}</td>
                 <td>
-                    {{ d_currency($row->total) }} <br />
-                    {{ d_currency($row->total * $row->exchange_rate, 0, 'KHR') }}
+                    {{ d_currency($row->total, 2, '$') }}
+                    {{-- {{ d_currency($row->total * $row->exchange_rate, 0, 'KHR') }} --}}
                 </td>
                 <td>{!! d_paid_status($row->payment_status) !!}</td>
                 <td>{!! d_obj($row, 'user', 'name') !!}</td>
