@@ -120,39 +120,59 @@ class AddressLinkableController extends Controller
         $updateable = [];
         $updateable['type'] = 'general';
 
-        if ($request->pt_province_id && $request->pt_province_id > 0 && $old->province_code != $request->pt_province_id) {
-            $obj = FourLevelAddress::where('_code', $request->pt_province_id)->first();
-            if ($obj) {
-                $updateable['province_en'] = $obj->_name_en;
-                $updateable['province_kh'] = $obj->_name_kh;
-                $updateable['province_code'] =$obj->_code; 
+        if ($old->province_code != $request->pt_province_id) {
+            if ($request->pt_province_id && $request->pt_province_id > 0) {
+                if ($obj = FourLevelAddress::where('_code', $request->pt_province_id)->first()) {
+                    $updateable['province_en'] = $obj->_name_en;
+                    $updateable['province_kh'] = $obj->_name_kh;
+                    $updateable['province_code'] =$obj->_code; 
+                }
+            } else {
+                $updateable['province_en'] = null;
+                $updateable['province_kh'] = null;
+                $updateable['province_code'] =null; 
             }
         }
 
-        if ($request->pt_district_id && $request->pt_district_id > 0 && $old->district_code != $request->pt_district_id) {
-            $obj = FourLevelAddress::where('_code', $request->pt_district_id)->first();
-            if ($obj) {
-                $updateable['district_en'] = $obj->_name_en;
-                $updateable['district_kh'] = $obj->_name_kh;
-                $updateable['district_code'] = $obj->_code; 
+        if ($old->district_code != $request->pt_district_id) {
+            if ($request->pt_district_id && $request->pt_district_id > 0) {
+                if ($obj = FourLevelAddress::where('_code', $request->pt_district_id)->first()) {
+                    $updateable['district_en'] = $obj->_name_en;
+                    $updateable['district_kh'] = $obj->_name_kh;
+                    $updateable['district_code'] = $obj->_code; 
+                }
+            } else {
+                $updateable['district_en'] = null;
+                $updateable['district_kh'] = null;
+                $updateable['district_code'] = null; 
             }
         }
 
-        if ($request->pt_commune_id && $request->pt_commune_id > 0 && $old->commune_code != $request->pt_commune_id) {
-            $obj = FourLevelAddress::where('_code', $request->pt_commune_id)->first();
-            if ($obj) {
-                $updateable['commune_en'] = $obj->_name_en;
-                $updateable['commune_kh'] = $obj->_name_kh;
-                $updateable['commune_code'] = $obj->_code; 
+        if ($old->commune_code != $request->pt_commune_id) {
+            if ($request->pt_commune_id && $request->pt_commune_id > 0) {
+                if ($obj = FourLevelAddress::where('_code', $request->pt_commune_id)->first()) {
+                    $updateable['commune_en'] = $obj->_name_en;
+                    $updateable['commune_kh'] = $obj->_name_kh;
+                    $updateable['commune_code'] = $obj->_code; 
+                }
+            } else {
+                $updateable['commune_en'] = null;
+                $updateable['commune_kh'] = null;
+                $updateable['commune_code'] = null; 
             }
         }
 
-        if ($request->pt_village_id && $request->pt_village_id > 0 && $old->village_code != $request->pt_village_id) {
-            $obj = FourLevelAddress::where('_code', $request->pt_village_id)->first();
-            if ($obj) {
-                $updateable['village_en'] = $obj->_name_en;
-                $updateable['village_kh'] = $obj->_name_kh;
-                $updateable['village_code'] = $obj->_code; 
+        if ($old->village_code != $request->pt_village_id) {
+            if ($request->pt_village_id && $request->pt_village_id > 0) {
+                if ($obj = FourLevelAddress::where('_code', $request->pt_village_id)->first()) {
+                    $updateable['village_en'] = $obj->_name_en;
+                    $updateable['village_kh'] = $obj->_name_kh;
+                    $updateable['village_code'] = $obj->_code; 
+                }
+            } else {
+                $updateable['village_en'] = null;
+                $updateable['village_kh'] = null;
+                $updateable['village_code'] = null; 
             }
         }
 
