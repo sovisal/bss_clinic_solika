@@ -20,7 +20,7 @@
 
                 @include('shared.setting_service.form')
 
-                @includeFirst(['ecg_type.extra_form.' . $row->id, 'ecg_type.extra_form.0'])
+                @includeFirst(['echo_type.extra_form.' . $row->id, 'ecg_type.extra_form.0'])
             </table>
         </x-card>
     </form>
