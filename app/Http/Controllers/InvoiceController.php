@@ -224,6 +224,7 @@ class InvoiceController extends Controller
                 $invoice->detail()->update(['status' => '2']);
 
                 $param_update['payment_status'] = '1';
+                $param_update['paid_date'] = date('Y-m-d');
                 $param_update['status'] = '2';
             }
 
@@ -243,6 +244,67 @@ class InvoiceController extends Controller
     {
         if ($invoice->delete()) {
             return redirect()->route('invoice.index')->with('success', 'Data delete success');
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function getDetail(Request $request)
+    {
+        $row = Invoice::where('id', $request->id)->with(['patient', 'doctor', 'payment', 'detail'])->first();
+        if ($row) {
+            $row->price = $row->total;
+            $body = '';
+            $tbody = '';
+            foreach ($row->detail as $i => $detail) {
+                $tbody .= '<tr>
+                    <td class="text-center">' . str_pad(++$i, 2, '0', STR_PAD_LEFT) . '</td>
+                    <td class="tw-bg-gray-100">' . $detail->service_name . '</td>
+                    <td>' . $detail->description . '</td>
+                    <td style="text-align: center;">' . $detail->qty . '</td>
+                    <td style="text-align: center;">' . $detail->price . '</td>
+                    <th style="text-align: center;">' . number_format($detail->total, 2) . ' USD</th>
+                </tr>';
+            }
+            $body = '<table class="table-form tw-mt-3 table-detail-result">
+                <thead>
+                    <tr class="text-center">
+                        <th class="text-center" style="text-align: center;">N&deg;</th>
+                        <th class="tw-bg-gray-100">Service</th>
+                        <th>Description</th>
+                        <th style="text-align: center;">QTY</th>
+                        <th style="text-align: center;">Price</th>
+                        <th style="text-align: center;">Total</th>
+                    </tr>
+                </thead>
+                <tbody>' . (sizeof($row->detail) == 0 ? '
+                    <tr><th colspan="100%" class="text-center">No result</th></tr>' : $tbody) . '
+                    <tr>
+                        <td colspan="4" class="text-right">Total USD: </td>
+                        <th colspan="2" style="text-align: right;">USD ' . number_format($row->total, 2) . '</th>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="text-right">Echange Rate : </td>
+                        <th colspan="2" style="text-align: right;">KHR/USD ' . number_format($row->exchange_rate, 0) . '</th>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="text-right">Total KHR : </td>
+                        <th colspan="2" style="text-align: right;">KHR ' . number_format($row->total * $row->exchange_rate, 0) . '</th>
+                    </tr>
+                </tbody>
+            </table>';
+            return response()->json([
+                'success' => true,
+                'header' => getParaClinicHeaderDetail($row),
+                'body' => $body,
+                'print_url' => route('invoice.print', $row->id),
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Echography not found!',
+            ], 404);
         }
     }
 }
