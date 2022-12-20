@@ -29,6 +29,7 @@ class CreateInvoicesTable extends Migration
             $table->string('exchange_rate', 10)->default('0');
             $table->unsignedBigInteger('payment_type')->nullable();
             $table->tinyInteger('payment_status')->default(0);
+            $table->date('paid_date')->nullable();
 
             $table->string('total', 10)->default('0');
             $table->text('remark')->nullable();
