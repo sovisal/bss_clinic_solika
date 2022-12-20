@@ -17,7 +17,7 @@
 	@foreach ($labor_detail as $row)
 		@php
 			static $i = 1;
-			$item = $row->item();
+			$item = $row->item;
 		@endphp
 		<tr>
 			<td class="text-center">{{ $i++ }}</td>

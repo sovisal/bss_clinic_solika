@@ -78,7 +78,7 @@
                 <td>{{ d_currency($row->price) }}</td>
                 <td>{!! d_paid_status($row->payment_status) !!}</td>
                 <td>{{ d_obj($row, 'user', 'name') }}</td>
-                <td>{!! d_status($row->status) !!}</td>
+                <td>{!! d_para_status($row->status) !!}</td>
                 <td>
                     <x-table-action-btn
                         module="para_clinic.echography"

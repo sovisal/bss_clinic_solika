@@ -12,22 +12,19 @@
         <x-card bodyClass="pb-0">
             <x-slot name="action">
                 <div>
-                    <x-form.button type="button" class="btn-submit" value="Complete" color="success" icon="bx bx-check" label="Complete"
-                        onclick="$(this).parents('form').find('[name=status]').val(2); $('#labor-form').submit();" />
+                    {{-- <x-form.button type="button" class="btn-submit" value="Complete" color="success" icon="bx bx-check" label="Complete" onclick="$(this).parents('form').find('[name=status]').val(2); $('#labor-form').submit();" /> --}}
                     <x-form.button type="submit" class="btn-submit" value="Progress" icon="bx bx-save" label="Save" />
                 </div>
             </x-slot>
             <x-slot name="footer">
                 <div>
-                    <x-form.button type="button" class="btn-submit" value="Complete" color="success" icon="bx bx-check" label="Complete"
-                        onclick="$(this).parents('form').find('[name=status]').val(2); $('#labor-form').submit();" />
+                    {{-- <x-form.button type="button" class="btn-submit" value="Complete" color="success" icon="bx bx-check" label="Complete" onclick="$(this).parents('form').find('[name=status]').val(2); $('#labor-form').submit();" /> --}}
                     <x-form.button type="submit" class="btn-submit" value="Progress" icon="bx bx-save" label="Save" />
                 </div>
             </x-slot>
 
             @include('labor.form_input')
             <br/>
-            @include('labor.form_input_new')
 
             @include('labor.form_result')
         </x-card>

@@ -177,7 +177,7 @@ function bg_random()
 function getParaClinicHeaderDetail($row = null)
 {
     $row = is_null($row) ? new Collection : $row;
-    $status_html = d_paid_status($row->payment_status) . ' ' . d_status($row->status);
+    $status_html = d_paid_status($row->payment_status) . ' ' . d_para_status($row->status);
     return '<table class="table-form table-header-info">
                 <thead>
                     <tr>
@@ -528,13 +528,22 @@ function d_labor_range($min = '', $max = '')
     return ($min != '' && $max != '') ? $min .'-'. $max  : '';
 }
 
-function d_status($status, $true = 'Active', $false = 'Inactive')
+function d_status($status, $false = 'Inactive', $true = 'Active')
 {
     if ($status) {
         return '<span class="badge badge-success">' . $true . '</span>';
     }
 
     return '<span class="badge badge-danger">' . $false . '</span>';
+}
+
+function d_para_status($status, $false = 'Draft', $true = 'Complete')
+{
+    if ($status==2) {
+        return '<span class="badge badge-success">' . $true . '</span>';
+    }
+
+    return '<span class="badge badge-light">' . $false . '</span>';
 }
 
 function d_paid_status ($status = 0) {

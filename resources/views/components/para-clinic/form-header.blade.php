@@ -7,12 +7,18 @@
 'gender' => [],
 'isEdit' => false,
 'isInvoice' => false,
+'isLabor' => false,
 ])
 <tr>
     @if ($isInvoice)
         <td width="15%" class="text-right"><label>Invoice Date<small class='required'>*</small></label></td>
         <td>
             <x-bss-form.input name='inv_date' value="{{ date('Y-m-d H:i:s') }}" required :disabled="$isEdit && $row->inv_date" />
+        </td>
+    @elseif($isLabor)
+        <td width="15%" class="text-right"></td>
+        <td>
+            
         </td>
     @else
         <td width="15%" class="text-right"><label>Form<small class='required'>*</small></label></td>

@@ -1,17 +1,17 @@
 <div class="row">
-    <div class="col-xl-8 col-lg-7 col-md-12">
+    <div class="col-xl-7 col-lg-7 col-md-12">
         <table class="table-form striped">
             <tr>
-                <th colspan="4" class="text-left tw-bg-gray-100">Labor</th>
+                <th colspan="4" class="text-left tw-bg-gray-100">Labor Code #</th>
             </tr>
             <x-para-clinic.form-header
                 :isEdit="$is_edit"
                 :row="@$row"
-                :type="$type"
                 :patient="$patient"
                 :doctor="$doctor"
                 :paymentType="$payment_type"
                 :gender="$gender"
+                :isLabor="true"
             >
                 <tr>
                     <x-bss-form.textarea-row name="result" :tr="false" label="Result">{{ $row->result ?? '' }}</x-bss-form.textarea-row>
@@ -28,7 +28,7 @@
             </x-para-clinic.form-header>
         </table>
     </div>
-    <div class="col-xl-4 col-lg-5 col-md-12">
+    <div class="col-xl-5 col-lg-5 col-md-12">
         <table class="table-form striped">
             <tr>
                 <th colspan="2" class="text-left tw-bg-gray-100">Address</th>

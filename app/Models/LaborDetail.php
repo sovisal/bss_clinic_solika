@@ -12,6 +12,6 @@ class LaborDetail extends Model
 
     public function item()
     {
-        return $this->belongsTo(LaborItem::class, 'labor_item_id')->first();
+        return $this->belongsTo(LaborItem::class, 'labor_item_id');
     }
 }

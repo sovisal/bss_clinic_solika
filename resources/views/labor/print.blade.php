@@ -1,7 +1,4 @@
 <x-print-layout>
-	{{-- <x-slot name="css">
-		<link rel="stylesheet" href="{{ asset('css/print-style.css') }}">
-	</x-slot> --}}
 
 	<section class="print-preview-a4">
 		<header>
@@ -28,7 +25,7 @@
 							<table width="100%" class="ml-1">
 								@foreach ($row_detail['data'] as $test)
 									@php
-										$item = $test->item();
+										$item = $test->item;
 										// Check if Range is valid for compare
 										$is_range_valid = str_contains($item->other, 'OUT_RANGE_COLOR_RED') && is_numeric($item->min_range) && is_numeric($item->max_range) && $item->min_range > 0 && $item->max_range > 0;
 										// Check if it over / under range
