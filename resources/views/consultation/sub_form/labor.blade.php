@@ -1,5 +1,39 @@
+@php
+    $options = '';
+    $rendered_labor_type = '';
+	foreach ($labor_type as $main_data){
+		foreach (array_merge([$main_data], $main_data->child) as $data){
+            $rendered_items = '';
+            foreach ($data->items as $item){
+                $rendered_items .= '<div class="col-3">
+                                        <label><input type="checkbox" name="labor_item_id[]" value="'. $item->id .'"> '. render_synonyms_name($item->name_en, $item->name_kh) .'</label>
+                                    </div>';
+            }
+            $rendered_labor_type .= '<tr class="labor_row labor_row_'. $data->id .' labor_rows_of_'. $main_data->id .'">
+                                        <td>
+                                            <div style="position: relative; padding: 5px;">
+                                                <u><b>'. $data->name_en .'</b></u>
+                                                <div style="width: 300px; position: absolute; right: 10px; top: 10px; text-align: right;">
+                                                    <label style="cursor: pointer;">
+                                                        <input type="checkbox" class="btnCheckRow">
+                                                        <u><b>All</b></u>
+                                                    </label>
+                                                    &nbsp;&nbsp; &nbsp; &nbsp;
+                                                    <label style="cursor: pointer;" class="btnHideRow">
+                                                        <u class="text-danger"><b>Remove</b></u>
+                                                    </label>
+                                                </div>
+                                                <div class="row">
+                                                    '. $rendered_items .'
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>';
+            $options .= '<option value="'. $data->id .'" data-price="'. $data->price .'">'. $data->name_en .'</option>';
+        }
+    }
+@endphp
 <form action="{{ route('para_clinic.labor.store') }}" method="POST" autocomplete="off" enctype="multipart/form-data">
-    @method('PUT')
     @csrf
     <input type="hidden" name="is_treament_plan" value="1">
     <input type="hidden" name="patient_id" value="{{ $consultation->patient_id }}">
@@ -20,18 +54,32 @@
                     <div class="d-flex">
                         <x-bss-form.select name="type" required id="btnShowRow">
                             <option value="">Please choose</option>
-                            @foreach ($labor_type as $main_data)
+                                {!! $options !!}
+                            {{-- @foreach ($labor_type as $main_data)
                                 @foreach (array_merge([$main_data], $main_data->child) as $index => $data)
                                     <option value="{{ $data->id }}" data-price="{{ $data->price }}">{{ $data->name_en }}</option>
                                 @endforeach
-                            @endforeach
+                            @endforeach --}}
                         </x-bss-form.select>
                     </div>
                 </td>
             </tr>
+            <tr>
+                <td class="text-right"><small class="required">*</small> Analysed by</td>
+                <td>
+                    <x-bss-form.select name="doctor_id" required id="echo_doctor_id">
+                        {{-- <option value="">Please choose</option> --}}
+                        @foreach ($doctors as $data)
+                            <option value="{{ $data->id }}" {{ Auth()->user()->doctor_id == $data->id ? 'selected' : '' }}>{{ d_obj($data, ['name_en', 'name_kh']) }}</option>
+                        @endforeach
+                    </x-bss-form.select>
+                </td>
+                <td colspan="2"></td>
+            </tr>
         </table>
         <table class="table-form table-padding-sm striped">
-            @foreach ($labor_type as $main_data)
+            {!! $rendered_labor_type !!}
+            {{-- @foreach ($labor_type as $main_data)
                 @foreach (array_merge([$main_data], $main_data->child) as $data)
                     <tr class="labor_row labor_row_{{ $data->id }} labor_rows_of_{{ $main_data->id }}">
                         <td>
@@ -58,7 +106,7 @@
                         </td>
                     </tr>
                 @endforeach
-            @endforeach
+            @endforeach --}}
         </table>
         <x-slot name="footer">
             <x-form.button color="danger" data-dismiss="modal" icon="bx bx-x" label="{{ __('button.cancel') }}" />

@@ -27,6 +27,6 @@ Route::prefix('ecg')->middleware(['auth'])->name('para_clinic.ecg.')->controller
     Route::put('/{ecg}/restore', 'restore')->name('restore')->middleware('can:RestoreEcg');
     Route::delete('/{ecg}/force_delete', 'force_delete')->name('force_delete')->middleware('can:ForceDeleteEcg');
     Route::get('/{ecg}/print', 'print')->name('print')->middleware('can:PrintEcg');
-    Route::get('/{ecg}/show', 'show')->name('show')->middleware('can:ViewAnyEcg');
+    // Route::get('/{ecg}/show', 'show')->name('show')->middleware('can:ViewAnyEcg');
     Route::post('/getDetail', 'getDetail')->name('getDetail');
 });

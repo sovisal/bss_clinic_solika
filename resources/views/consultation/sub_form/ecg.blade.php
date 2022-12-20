@@ -1,5 +1,4 @@
 <form action="{{ route('para_clinic.ecg.store') }}" method="POST" autocomplete="off" enctype="multipart/form-data">
-    @method('PUT')
     @csrf
     <input type="hidden" name="is_treament_plan" value="1">
     <input type="hidden" name="patient_id" value="{{ $consultation->patient_id }}">

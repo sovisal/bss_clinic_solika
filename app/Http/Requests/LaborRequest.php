@@ -26,12 +26,11 @@ class LaborRequest extends FormRequest
         return [
             'patient_id' => 'required|numeric',
             'doctor_id' => 'required|numeric',
-            'payment_type' => 'required|numeric',
             'age' => 'nullable|numeric|min:0|max:150',
             'gender_id' => 'nullable|numeric',
-            'type_id' => ( $this->echography ? 'nullable' : 'required' ). '|numeric',
-            'requested_by' => ( $this->echography ? 'nullable' : 'required' ). '|numeric',
-            'requested_at' => ( $this->echography ? 'nullable' : 'required' ). '|date',
+            'payment_type' => ( $this->is_treament_plan ? 'nullable' : 'required' ). '|numeric',
+            'requested_by' => ( $this->labor || $this->is_treament_plan ? 'nullable' : 'required' ). '|numeric',
+            'requested_at' => ( $this->labor ? 'nullable' : 'required' ). '|date',
         ];
     }
 }

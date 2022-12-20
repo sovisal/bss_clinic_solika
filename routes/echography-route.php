@@ -20,13 +20,13 @@ Route::prefix('echo-type')->middleware(['auth'])->name('setting.echo-type.')->co
 Route::prefix('echography')->middleware(['auth'])->name('para_clinic.echography.')->controller(EchographyController::class)->group(function () {
     Route::get('/', 'index')->name('index')->middleware('can:ViewAnyEchography');
     Route::get('/create', 'create')->name('create')->middleware('can:CreateEchography');
-    Route::put('/store', 'store')->name('store')->middleware('can:CreateEchography');
+    Route::post('/store', 'store')->name('store')->middleware('can:CreateEchography');
     Route::get('/{echography}/edit', 'edit')->name('edit')->middleware('can:UpdateEchography');
     Route::put('/{echography}/update', 'update')->name('update')->middleware('can:UpdateEchography');
     Route::delete('/{echography}/delete', 'destroy')->name('delete')->middleware('can:DeleteEchography');
     Route::put('/{echography}/restore', 'restore')->name('restore')->middleware('can:RestoreEchography');
     Route::delete('/{echography}/force_delete', 'force_delete')->name('force_delete')->middleware('can:ForceDeleteEchography');
-    Route::get('/{echography}/show', 'show')->name('show')->middleware('can:ViewAnyEchography');
+    // Route::get('/{echography}/show', 'show')->name('show')->middleware('can:ViewAnyEchography');
     Route::get('/{echography}/print', 'print')->name('print')->middleware('can:PrintEchography');
     Route::post('/getDetail', 'getDetail')->name('getDetail');
 });

@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Doctor;
+use App\Models\Patient;
 use App\Models\LaborType;
 use App\Models\Laboratory;
 use App\Models\LaborDetail;
-use App\Models\Doctor;
-use App\Models\Patient;
 use Illuminate\Http\Request;
+use App\Http\Requests\LaborRequest;
 
 class LaboratoryController extends Controller
 {
@@ -45,7 +46,7 @@ class LaboratoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(LaborRequest $request)
     {
         if (sizeof($request->labor_item_id ?? []) > 0) {
             if ($labor = Laboratory::create([
@@ -92,22 +93,22 @@ class LaboratoryController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Laboratory $labor)
-    {
-        if ($labor ?? false) {
-            $data['row'] = $labor;
-            $data['patient'] = Patient::orderBy('name_en', 'asc')->get();
-            $data['doctor'] = Doctor::orderBy('id', 'asc')->get();
-        }
-        $data['gender'] = getParentDataSelection('gender');
-        $data['payment_type'] = getParentDataSelection('payment_type');
-        $data['labor_detail'] = $labor->details;
-        $data['is_edit'] = true;
-        return view('labor.show', $data);
-    }
+    // /**
+    //  * Display the specified resource.
+    //  */
+    // public function show(Laboratory $labor)
+    // {
+    //     if ($labor ?? false) {
+    //         $data['row'] = $labor;
+    //         $data['patient'] = Patient::orderBy('name_en', 'asc')->get();
+    //         $data['doctor'] = Doctor::orderBy('id', 'asc')->get();
+    //     }
+    //     $data['gender'] = getParentDataSelection('gender');
+    //     $data['payment_type'] = getParentDataSelection('payment_type');
+    //     $data['labor_detail'] = $labor->details;
+    //     $data['is_edit'] = true;
+    //     return view('labor.show', $data);
+    // }
 
     /**
      * Display the specified resource.
@@ -252,7 +253,7 @@ class LaboratoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Laboratory $labor)
+    public function update(LaborRequest $request, Laboratory $labor)
     {
         if ($labor->update($request->all())) {
             // Do update the labor detail
