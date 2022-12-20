@@ -13,14 +13,14 @@
             <x-slot name="action">
                 <div>
                     <x-form.button type="submit" class="btn-submit" value="2" color="success" icon="bx bx-dollar" label="Save Paid" />
-                    <x-form.button type="submit" class="btn-submit" value="1" icon="bx bx-printer" label="Save Print" />
+                    <!-- <x-form.button type="submit" class="btn-submit" value="1" icon="bx bx-printer" label="Save Print" /> -->
                     <x-form.button type="submit" class="btn-submit" value="1" icon="bx bx-save" label="Save" />
                 </div>
             </x-slot>
             <x-slot name="footer">
                 <div>
                     <x-form.button type="submit" class="btn-submit" value="2" color="success" icon="bx bx-dollar" label="Save Paid" />
-                    <x-form.button type="submit" class="btn-submit" value="1" icon="bx bx-printer" label="Save Print" />
+                    <!-- <x-form.button type="submit" class="btn-submit" value="1" icon="bx bx-printer" label="Save Print" /> -->
                     <x-form.button type="submit" class="btn-submit" value="1" icon="bx bx-save" label="Save" />
                 </div>
             </x-slot>

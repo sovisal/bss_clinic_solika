@@ -529,7 +529,11 @@ function d_labor_range($min = '', $max = '')
 }
 
 function d_status($status, $true = 'Active', $false = 'Inactive')
-{
+{   
+    if ($status == '2') { // Status = 2, mean record closed by success paid
+        return '<span class="badge badge-light">Closed</span>';
+    }
+
     if ($status) {
         return '<span class="badge badge-success">' . $true . '</span>';
     }
@@ -539,7 +543,7 @@ function d_status($status, $true = 'Active', $false = 'Inactive')
 
 function d_paid_status ($status = 0) {
     if ($status == '1') {
-        return '<span class="badge badge-success">Paid</span>';
+        return '<span class="badge badge-light">Paid</span>';
     } elseif ($status == '2') {
         return '<span class="badge badge-info">Refunded</span>';
     } else {

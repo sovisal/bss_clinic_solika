@@ -190,7 +190,7 @@ class InvoiceController extends Controller
                 return $item;
             }, $items);
 
-            $invoice->detail()->delete();
+            $invoice->detail()->where('status', '1')->delete();
             
             // Para-Clinic
             $invoice->detail()->createMany($items);
@@ -212,10 +212,22 @@ class InvoiceController extends Controller
             if (sizeof($services) > 0) {
                 $invoice->detail()->createMany($services);
             }
+            
+            // Save & Save paid
+            $param_update['total'] = $invoice->detail()->sum('total');
+            if ($request->status == 2) {
+                foreach ($invoice->detail()->where('status', '1')->get() as $detail) {
+                    if (in_array($detail->service_type, ['echography', 'ecg', 'xray'])) {
+                        $detail->paraClinicItem()->update(['payment_status' => 1, 'status' => 2]);
+                    }
+                }
+                $invoice->detail()->update(['status' => '2']);
 
-            $invoice->total = $invoice->detail()->sum('total');
-            $invoice->save();
+                $param_update['payment_status'] = '1';
+                $param_update['status'] = '2';
+            }
 
+            $invoice->update($param_update);
 
             return redirect()->route('invoice.index')->with('success', 'Data update success');
         }

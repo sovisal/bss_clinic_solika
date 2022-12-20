@@ -11,7 +11,7 @@ class Invoice extends BaseModel
     protected $guarded = ['id'];
 
     public function detail()
-	{
-		return $this->hasMany(InvoiceDetail::class, 'invoice_id');
-	}
+    {
+        return $this->hasMany(InvoiceDetail::class, 'invoice_id');
+    }
 }
