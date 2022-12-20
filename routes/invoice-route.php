@@ -11,4 +11,5 @@ Route::prefix('invoice')->name('invoice.')->group(function () {
 	Route::put('/{invoice}/update', [InvCon::class, 'update'])->name('update')->middleware('can:UpdateInvoice');
 	Route::get('/{invoice}/print', [InvCon::class, 'print'])->name('print');
 	Route::delete('/{invoice}/delete', [InvCon::class, 'destroy'])->name('delete')->middleware('can:DeleteInvoice');
+	Route::post('/{invoice}/getDetail', [InvCon::class, 'getDetail'])->name('getDetail');
 });

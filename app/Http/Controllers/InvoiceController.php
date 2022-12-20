@@ -89,18 +89,9 @@ class InvoiceController extends Controller
 
     public function print($id)
     {
-        $invoice = Invoice::select([
-            'invoices.*',
-            'invoices.pt_age as patient_age',
-            'genders.title_en as patient_gender',
-            'patients.name_en as patient_en', 'patients.name_kh as patient_kh',
-            'doctors.name_en as doctor_en', 'doctors.name_kh as doctor_kh',
-        ])
+        $invoice = Invoice::with(['patient', 'gender', 'doctor', 'detail'])
             ->where('invoices.id', $id)
             ->with('detail')
-            ->leftJoin('patients', 'patients.id', '=', 'invoices.patient_id')
-            ->leftJoin('data_parents AS genders', 'genders.id', '=', 'patients.gender')
-            ->leftJoin('doctors', 'doctors.id', '=', 'invoices.doctor_id')
             ->first();
         if ($invoice) {
             $data['row'] = $invoice;
@@ -133,7 +124,7 @@ class InvoiceController extends Controller
         // Invoice item selection
         $selection = [
             'medicine' => [],
-            'service' => Service::orderBy('name', 'asc')->get(),
+            'service' => Service::where('status', '>=', '1')->orderBy('name', 'asc')->get(),
             'echography' => Echography::with(['type'])->where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
             'labor' => Laboratory::where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
             'xray' => Xray::with(['type'])->where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
@@ -199,7 +190,7 @@ class InvoiceController extends Controller
                 return $item;
             }, $items);
 
-            $invoice->detail()->delete();
+            $invoice->detail()->where('status', '1')->delete();
             
             // Para-Clinic
             $invoice->detail()->createMany($items);
@@ -221,10 +212,23 @@ class InvoiceController extends Controller
             if (sizeof($services) > 0) {
                 $invoice->detail()->createMany($services);
             }
+            
+            // Save & Save paid
+            $param_update['total'] = $invoice->detail()->sum('total');
+            if ($request->status == 2) {
+                foreach ($invoice->detail()->where('status', '1')->get() as $detail) {
+                    if (in_array($detail->service_type, ['echography', 'ecg', 'xray'])) {
+                        $detail->paraClinicItem()->update(['payment_status' => 1, 'status' => 2]);
+                    }
+                }
+                $invoice->detail()->update(['status' => '2']);
 
-            $invoice->total = $invoice->detail()->sum('total');
-            $invoice->save();
+                $param_update['payment_status'] = '1';
+                $param_update['paid_date'] = date('Y-m-d');
+                $param_update['status'] = '2';
+            }
 
+            $invoice->update($param_update);
 
             return redirect()->route('invoice.index')->with('success', 'Data update success');
         }
@@ -240,6 +244,67 @@ class InvoiceController extends Controller
     {
         if ($invoice->delete()) {
             return redirect()->route('invoice.index')->with('success', 'Data delete success');
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function getDetail(Request $request)
+    {
+        $row = Invoice::where('id', $request->id)->with(['patient', 'doctor', 'payment', 'detail'])->first();
+        if ($row) {
+            $row->price = $row->total;
+            $body = '';
+            $tbody = '';
+            foreach ($row->detail as $i => $detail) {
+                $tbody .= '<tr>
+                    <td class="text-center">' . str_pad(++$i, 2, '0', STR_PAD_LEFT) . '</td>
+                    <td class="tw-bg-gray-100">' . $detail->service_name . '</td>
+                    <td>' . $detail->description . '</td>
+                    <td style="text-align: center;">' . $detail->qty . '</td>
+                    <td style="text-align: center;">' . $detail->price . '</td>
+                    <th style="text-align: center;">' . number_format($detail->total, 2) . ' USD</th>
+                </tr>';
+            }
+            $body = '<table class="table-form tw-mt-3 table-detail-result">
+                <thead>
+                    <tr class="text-center">
+                        <th class="text-center" style="text-align: center;">N&deg;</th>
+                        <th class="tw-bg-gray-100">Service</th>
+                        <th>Description</th>
+                        <th style="text-align: center;">QTY</th>
+                        <th style="text-align: center;">Price</th>
+                        <th style="text-align: center;">Total</th>
+                    </tr>
+                </thead>
+                <tbody>' . (sizeof($row->detail) == 0 ? '
+                    <tr><th colspan="100%" class="text-center">No result</th></tr>' : $tbody) . '
+                    <tr>
+                        <td colspan="4" class="text-right">Total USD: </td>
+                        <th colspan="2" style="text-align: right;">USD ' . number_format($row->total, 2) . '</th>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="text-right">Echange Rate : </td>
+                        <th colspan="2" style="text-align: right;">KHR/USD ' . number_format($row->exchange_rate, 0) . '</th>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="text-right">Total KHR : </td>
+                        <th colspan="2" style="text-align: right;">KHR ' . number_format($row->total * $row->exchange_rate, 0) . '</th>
+                    </tr>
+                </tbody>
+            </table>';
+            return response()->json([
+                'success' => true,
+                'header' => getParaClinicHeaderDetail($row),
+                'body' => $body,
+                'print_url' => route('invoice.print', $row->id),
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Echography not found!',
+            ], 404);
         }
     }
 }

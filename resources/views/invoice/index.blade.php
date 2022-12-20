@@ -32,7 +32,7 @@
             @foreach($rows as $row)
             <tr>
                 <td>{{ ++$i }}</td>
-                <td>{!! d_link(d_text($row->code), "javascript:alert('coming soon');") !!}</td>
+                <td>{!! d_link($row->code, "javascript:getDetail(" . $row->id . ", '" . route('invoice.getDetail', 'Invoice Detail') . "')") !!}</td>
                 <td>{!! $row->patientLink !!}</td>
                 <td>{{ d_obj($row, 'gender', ['title_en', 'title_kh']) }}</td>
                 <td>{{ d_text($row->age) }}</td>

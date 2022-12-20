@@ -8,6 +8,7 @@ Route::prefix('service')->name('invoice.service.')->group(function () {
 	Route::get('/create', [InvCon::class, 'create'])->name('create')->middleware('can:CreateService');
 	Route::post('/store', [InvCon::class, 'store'])->name('store')->middleware('can:CreateService');
 	Route::get('/{service}/edit', [InvCon::class, 'edit'])->name('edit')->middleware('can:UpdateService');
-	Route::put('/{service}/update', [InvCon::class, 'update'])->name('update')->middleware('can:UpdateService');
+    Route::put('/{service}/update', [InvCon::class, 'update'])->name('update')->middleware('can:UpdateService');
+    Route::delete('/{service}/delete', [InvCon::class, 'destroy'])->name('delete')->middleware('can:DeleteService');
 
 });
