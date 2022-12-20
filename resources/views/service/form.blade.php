@@ -5,5 +5,5 @@
 
     <x-bss-form.input-row name="name" :value="old('name', @$row->name)" required autofocus label="Name" />
     <x-bss-form.input-row name="price" :value="old('price', @$row->price)" class="is_number" required label="Price" />
-    <x-bss-form.input-row name="description" :value="old('description', @$row->description)" required label="Description" />
+    <x-bss-form.input-row name="description" :value="old('description', @$row->description)" label="Description" />
 </table>

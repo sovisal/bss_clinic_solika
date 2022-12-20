@@ -89,18 +89,9 @@ class InvoiceController extends Controller
 
     public function print($id)
     {
-        $invoice = Invoice::select([
-            'invoices.*',
-            'invoices.pt_age as patient_age',
-            'genders.title_en as patient_gender',
-            'patients.name_en as patient_en', 'patients.name_kh as patient_kh',
-            'doctors.name_en as doctor_en', 'doctors.name_kh as doctor_kh',
-        ])
+        $invoice = Invoice::with(['patient', 'gender', 'doctor', 'detail'])
             ->where('invoices.id', $id)
             ->with('detail')
-            ->leftJoin('patients', 'patients.id', '=', 'invoices.patient_id')
-            ->leftJoin('data_parents AS genders', 'genders.id', '=', 'patients.gender')
-            ->leftJoin('doctors', 'doctors.id', '=', 'invoices.doctor_id')
             ->first();
         if ($invoice) {
             $data['row'] = $invoice;
@@ -133,7 +124,7 @@ class InvoiceController extends Controller
         // Invoice item selection
         $selection = [
             'medicine' => [],
-            'service' => Service::orderBy('name', 'asc')->get(),
+            'service' => Service::where('status', '>=', '1')->orderBy('name', 'asc')->get(),
             'echography' => Echography::with(['type'])->where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
             'labor' => Laboratory::where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
             'xray' => Xray::with(['type'])->where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
