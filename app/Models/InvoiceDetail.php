@@ -19,6 +19,8 @@ class InvoiceDetail extends BaseModel
             return $this->belongsTo(Ecg::class, 'service_id', 'id');
         } elseif ($this->service_type == 'xray') {
             return $this->belongsTo(Xray::class, 'service_id', 'id');
+        } elseif ($this->service_type == 'laboratory') {
+            return $this->belongsTo(Laboratory::class, 'service_id', 'id');
         }
     }
 }

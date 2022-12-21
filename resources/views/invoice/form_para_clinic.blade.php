@@ -16,7 +16,7 @@
             @each ('invoice.form_para_clinic_sample', $invoice_selection['echography'], 'item')
             @each ('invoice.form_para_clinic_sample', $invoice_selection['ecg'], 'item')
             @each ('invoice.form_para_clinic_sample', $invoice_selection['xray'], 'item')
-            @each ('invoice.form_para_clinic_sample', $invoice_selection['labor'], 'item')
+            @each ('invoice.form_para_clinic_sample', $invoice_selection['laboratory'], 'item')
         </tbody>
     </table>
 @endif
