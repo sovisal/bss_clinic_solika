@@ -38,9 +38,14 @@
             
             @include('prescription.form_input')
             <br>
-            @include('prescription.form_result')
+            {{-- @include('prescription.form_result') --}}
+            @include('prescription.form_medicine')
 
         </x-card>
     </form>
-
+    <div>
+        <table id="sample_prescription" class="hidden">
+            @include('prescription.form_medicine_sample')
+        </table>
+    </div>
 </x-app-layout>
