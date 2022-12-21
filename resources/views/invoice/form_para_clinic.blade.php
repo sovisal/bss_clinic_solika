@@ -1,4 +1,4 @@
-@if ($invoice_selection && ($invoice_selection['echography'] || $invoice_selection['ecg'] || $invoice_selection['xray'] || $invoice_selection['labor']))
+@if ($invoice_selection && ($invoice_selection['echography'] || $invoice_selection['ecg'] || $invoice_selection['xray'] || $invoice_selection['laboratory']))
     <table class="table-form table-padding-sm table-striped" id="table_para_clinic_result">
         <thead>
             <tr>

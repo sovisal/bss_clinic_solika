@@ -8,6 +8,7 @@
 'isEdit' => false,
 'isInvoice' => false,
 'isLabor' => false,
+'isPrescript' => false,
 ])
 <tr>
     @if ($isInvoice)
@@ -15,7 +16,7 @@
         <td>
             <x-bss-form.input name='inv_date' value="{{ date('Y-m-d H:i:s') }}" required :disabled="$isEdit && $row->inv_date" />
         </td>
-    @elseif($isLabor)
+    @elseif($isLabor || $isPrescript)
         <td width="15%" class="text-right">
             <label for="price">Price USD <small class="required">*</small></label>
         </td>
@@ -114,7 +115,7 @@
             </x-bss-form.select>
         </td>
     </tr>
-    @if (!$isLabor)
+    @if (!($isLabor || $isPrescript))
         <tr>
             <td class="text-right"><label>Price</label></td>
             <td colspan="3">

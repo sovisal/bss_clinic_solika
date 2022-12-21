@@ -18,10 +18,10 @@
         <x-bss-form.input type="text" name='qty[]' value="{{ @$item ? $item->qty : 1 }}" required class="is_number text-center"/>
     </td>
     <td>
-        <x-bss-form.input type="number" name='price[]' value="{{ @$item ? $item->price : 0 }}" required class="text-center"/>
+        <x-bss-form.input type="text" name='price[]' value="{{ @$item ? $item->price : 0 }}" required class="is_number text-center"/>
     </td>
     <td>
-        <x-bss-form.input type="number" name='total[]' value="{{ @$item ? $item->total : 0 }}" required class="text-center"/>
+        <x-bss-form.input type="text" name='total[]' value="{{ @$item ? $item->total : 0 }}" required class="is_number text-center"/>
     </td>
     <td>
         <x-bss-form.input type="text" name='description[]' value="{{ @$item ? $item->description : '' }}"/>
