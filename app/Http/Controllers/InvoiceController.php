@@ -126,7 +126,7 @@ class InvoiceController extends Controller
             'medicine' => [],
             'service' => Service::where('status', '>=', '1')->orderBy('name', 'asc')->get(),
             'echography' => Echography::with(['type'])->where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
-            'labor' => Laboratory::where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
+            'laboratory' => Laboratory::where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
             'xray' => Xray::with(['type'])->where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
             'ecg' => Ecg::with(['type'])->where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
         ];
@@ -167,20 +167,11 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, Invoice $invoice)
     {
-        if ($invoice->update([
-            'inv_date' => $request->inv_date ?: $invoice->inv_date,
-            'doctor_id' => $request->doctor_id ?: $invoice->doctor_id,
-            'patient_id' => $request->patient_id ?: $invoice->patient_id,
-            'gender_id' => $request->gender_id ?: $invoice->gender_id,
-            'age' => $request->age ?: $invoice->age,
-            'address_id' => update4LevelAddress($request, $invoice->address_id),
-            'exchange_rate' => $request->exchange_rate ?: $invoice->exchange_rate,
-            'payment_type' => $request->payment_type ?: $invoice->payment_type,
-            'remark' => $request->remark ?: $invoice->remark,
-            'total' => array_sum($request->total ?: []),
-        ])) {
+        $request->address_id = update4LevelAddress($request, $invoice->address_id);
+        $request->total = array_sum($request->total ?: []);
+        if ($invoice->update($request->all())) {
             // Invoice items For Para-Clinic + Service + Medicine
-            $items = array_merge($request->echography ?: [], $request->ecg ?: [], $request->xray ?: [], $request->labor ?: []);
+            $items = array_merge($request->echography ?: [], $request->ecg ?: [], $request->xray ?: [], $request->laboratory ?: []);
             $items = array_filter($items, function ($item) {
                 return isset($item['chk']);
             });
@@ -217,7 +208,7 @@ class InvoiceController extends Controller
             $param_update['total'] = $invoice->detail()->sum('total');
             if ($request->status == 2) {
                 foreach ($invoice->detail()->where('status', '1')->get() as $detail) {
-                    if (in_array($detail->service_type, ['echography', 'ecg', 'xray'])) {
+                    if (in_array($detail->service_type, ['echography', 'ecg', 'xray', 'laboratory'])) {
                         $detail->paraClinicItem()->update(['payment_status' => 1, 'status' => 2]);
                     }
                 }
