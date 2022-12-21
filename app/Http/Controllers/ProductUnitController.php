@@ -3,84 +3,96 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inventory\ProductUnit;
-use App\Http\Requests\StoreProductUnitRequest;
-use App\Http\Requests\UpdateProductUnitRequest;
+use App\Http\Requests\ProductUnitRequest;
 
 class ProductUnitController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        $data = [
+            'rows' => ProductUnit::with(['user'])->filterTrashed()->orderBy('name_en')->limit(5000)->get(),
+        ];
+        return view('product_unit.index', $data);
     }
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        //
+        return view('product_unit.create');
     }
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreProductUnitRequest  $request
-     * @return \Illuminate\Http\Response
      */
-    public function store(StoreProductUnitRequest $request)
+    public function store(ProductUnitRequest $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Inventory\ProductUnit  $productUnit
-     * @return \Illuminate\Http\Response
-     */
-    public function show(ProductUnit $productUnit)
-    {
-        //
+        if (ProductUnit::create([
+            'name_en' => $request->name_en,
+            'name_kh' => $request->name_kh,
+            'description' => $request->description,
+        ])) {
+            return redirect()->route('inventory.product_unit.index')->with('success', 'Data created success');
+        }
     }
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Inventory\ProductUnit  $productUnit
-     * @return \Illuminate\Http\Response
      */
     public function edit(ProductUnit $productUnit)
     {
-        //
+        return view('product_unit.edit', [ 'row' => $productUnit ]);
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateProductUnitRequest  $request
-     * @param  \App\Models\Inventory\ProductUnit  $productUnit
-     * @return \Illuminate\Http\Response
      */
-    public function update(UpdateProductUnitRequest $request, ProductUnit $productUnit)
+    public function update(ProductUnitRequest $request, ProductUnit $productUnit)
     {
-        //
+        if ($productUnit->update([
+            'name_en' => $request->name_en,
+            'name_kh' => $request->name_kh,
+            'description' => $request->description,
+        ])) {
+            return redirect()->route('inventory.product_unit.index')->with('success', 'Data created success');
+        }
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Inventory\ProductUnit  $productUnit
-     * @return \Illuminate\Http\Response
+     * Remove the specified resource to trash.
      */
     public function destroy(ProductUnit $productUnit)
     {
-        //
+        if ($productUnit->delete()) {
+            return redirect()->route('inventory.product_unit.index')->with('success', 'Data delete success');
+        }
+    }
+
+    /**
+     * Restore the specified resource from storage.
+     */
+    public function restore($id)
+    {
+        $row = ProductUnit::onlyTrashed()->findOrFail($id);
+        if ($row->restore()) {
+            return back()->with('success', __('alert.message.success.crud.restore'));
+        }
+        return back()->with('error', __('alert.message.error.crud.restore'));
+    }
+
+    /**
+     * Force Delete the specified resource from storage.
+     */
+    public function force_delete($id)
+    {
+        $row = ProductUnit::onlyTrashed()->findOrFail($id);
+        if ($row->forceDelete()) {
+            return back()->with('success', __('alert.message.success.crud.force_detele'));
+        }
+        return back()->with('error', __('alert.message.error.crud.force_detele'));
     }
 }

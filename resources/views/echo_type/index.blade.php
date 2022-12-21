@@ -20,7 +20,7 @@
             @foreach($rows as $row)
             <tr>
                 <td>{{ ++$i }}</td>
-                <td>{{ d_obj($row, ['name_en', 'name_kh']) }}</td>
+                <td>{{ d_obj($row, ['name_kh', 'name_en']) }}</td>
                 <td>{{ d_currency($row->price) }}</td>
                 <td>{{ d_number($row->index) }}</td>
                 <td>{{ d_obj($row, 'user', 'name') }}</td>

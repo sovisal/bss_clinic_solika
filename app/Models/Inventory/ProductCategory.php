@@ -2,10 +2,17 @@
 
 namespace App\Models\Inventory;
 
+use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class ProductCategory extends Model
+class ProductCategory extends BaseModel
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+	protected $guarded = ['id'];
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'category_id');
+    }
 }

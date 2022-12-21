@@ -23,7 +23,7 @@
             @foreach($rows as $row)
             <tr>
                 <td>{{ ++$i }}</td>
-                <td>{{ d_obj($row, ['name_en', 'name_kh']) }}</td>
+                <td>{{ d_obj($row, ['name_kh', 'name_en']) }}</td>
                 <td>{!! d_labor_range($row->min_range, $row->max_range) .' '. apply_markdown_character($row->unit) !!}</td>
                 <td>{!! d_number(Str::after($row->index, '.')) !!}</td>
                 <td>{!! d_obj($row, 'type', ['name_en', 'name_kh']) !!}</td>

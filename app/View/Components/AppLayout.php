@@ -155,32 +155,32 @@ class AppLayout extends Component
                         'label' => '-',
                     ],
                     'product' => [
-                        'can' => 'DeveloperMode', // not yet create abilities
-                        'url' => '',
+                        'can' => 'ViewAnyProduct', // not yet create abilities
+                        'url' => route('inventory.product.index'),
                         'name' => ['index', 'create', 'edit'],
                         'label' => 'Product',
                     ],
-                    'category' => [
-                        'can' => 'DeveloperMode',
-                        'url' => '',
+                    'product_category' => [
+                        'can' => 'ViewAnyProductCategory',
+                        'url' => route('inventory.product_category.index'),
                         'name' => ['index', 'create', 'edit'],
                         'label' => 'Product Category',
                     ],
-                    'type' => [
-                        'can' => 'ViewAnyDoctor',
-                        'url' => '',
+                    'product_type' => [
+                        'can' => 'ViewAnyProductType',
+                        'url' => route('inventory.product_type.index'),
                         'name' => ['index', 'create', 'edit'],
                         'label' => 'Product Type',
                     ],
-                    'package' => [
-                        'can' => 'DeveloperMode',
-                        'url' => '',
+                    'product_package' => [
+                        'can' => 'ViewAnyProductPackage',
+                        'url' => route('inventory.product_package.index'),
                         'name' => ['index', 'create', 'edit'],
                         'label' => 'Product Package',
                     ],
-                    'unit' => [
+                    'product_unit' => [
                         'can' => 'ViewAnyMedicine',
-                        'url' => '',
+                        'url' => route('inventory.product_unit.index'),
                         'name' => ['index', 'create', 'edit'],
                         'label' => 'Product Unit',
                     ],
