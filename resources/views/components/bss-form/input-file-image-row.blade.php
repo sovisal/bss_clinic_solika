@@ -5,6 +5,7 @@
     'value' => null,
     'label' => __('form.image'),
     'tr' => true,
+    'imageClass' => 'text-center',
 ])
 
 @if ($tr)
@@ -13,8 +14,10 @@
     <td width="{{ $labelWidth }}" class="text-right">
         <label for="file-browse-{{ $name }}">{!! $label . ($attributes['required']? ' <small class="required">*</small>' : '') !!}</label>
     </td>
-    <td class="text-center">
-        <x-bss-form.input-file-image :path="$path" :name="$name" :value="$value" {{ $attributes }} />
+    <td>
+        <div style="width: 128px;">
+            <x-bss-form.input-file-image :path="$path" :name="$name" :value="$value" {{ $attributes }} />
+        </div>
     </td>
     
 @if ($tr)

@@ -18,9 +18,9 @@ class CreateProductsTable extends Migration
             $table->string('code')->unique()->nullable();
             $table->string('name_en')->nullable();
             $table->string('name_kh')->nullable();
-            $table->string('cost', 10)->default('0');
-            $table->string('price', 10)->default('0');
-            $table->string('image', 10)->default('0');
+            $table->float('cost')->default(0);
+            $table->float('price')->default(0);
+            $table->string('image')->nullable();
 
             $table->float('qty_begin')->default(0);
             $table->float('qty_alert')->default(0);
