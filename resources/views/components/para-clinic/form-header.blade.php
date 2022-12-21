@@ -16,9 +16,11 @@
             <x-bss-form.input name='inv_date' value="{{ date('Y-m-d H:i:s') }}" required :disabled="$isEdit && $row->inv_date" />
         </td>
     @elseif($isLabor)
-        <td width="15%" class="text-right"></td>
+        <td width="15%" class="text-right">
+            <label for="price">Price USD <small class="required">*</small></label>
+        </td>
         <td>
-            
+            <x-bss-form.input name='price' class="is_number" value="{{ $row->price ?? '' }}" />
         </td>
     @else
         <td width="15%" class="text-right"><label>Form<small class='required'>*</small></label></td>
@@ -112,12 +114,14 @@
             </x-bss-form.select>
         </td>
     </tr>
-    <tr>
-        <td class="text-right"><label>Price</label></td>
-        <td colspan="3">
-            <span id="price_label"> {{ $row->price ?? 0 }} </span> USD
-            <input type="hidden" name="price" value="{{ $row->price ?? 0 }}" :disabled="$isEdit">
-        </td>
-    </tr>
+    @if (!$isLabor)
+        <tr>
+            <td class="text-right"><label>Price</label></td>
+            <td colspan="3">
+                <span id="price_label"> {{ $row->price ?? 0 }} </span> USD
+                <input type="hidden" name="price" value="{{ $row->price ?? 0 }}" :disabled="$isEdit">
+            </td>
+        </tr>
+    @endif
 @endif
 {!! $slot !!}
