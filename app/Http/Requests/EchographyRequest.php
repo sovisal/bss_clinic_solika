@@ -24,7 +24,7 @@ class EchographyRequest extends FormRequest
     public function rules()
     {
         return [
-            'patient_id' => 'required|numeric',
+            'patient_id' => ( $this->echography ? 'nullable' : 'required' ) . '|numeric',
             'doctor_id' => 'required|numeric',
             'age' => 'nullable|numeric|min:0|max:150',
             'gender_id' => 'nullable|numeric',

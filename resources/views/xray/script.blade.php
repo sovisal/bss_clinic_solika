@@ -1,16 +1,13 @@
 <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 <script>
-    $(document).ready(function () {
-        $('[name="type"]').change(function () {
+    $(document).ready(function() {
+        $('[name="type_id"]').change(function() {
             $_this = $(this);
             $_option_selected = $(this).find('option:selected');
-            $_amount = $_option_selected.data('price');
-            
-            $('#amount_label').html($_amount);
-            $('[name="amount"]').val($_amount);
+            $_price = $_option_selected.data('price');
+
+            $('#price_label').html($_price);
+            $('[name="price"]').val($_price);
         });
-    });
-    $('.btn-submit').click( function (){
-        $('[name="status"]').val($(this).val());
     });
 </script>

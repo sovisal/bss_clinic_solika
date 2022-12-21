@@ -3,7 +3,7 @@
         <x-form.button-back href="{{ route('para_clinic.xray.index') }}"/>
     </x-slot>
     <x-slot name="js">
-        @include('echography.script')
+        @include('xray.script')
     </x-slot>
     <form action="{{ route('para_clinic.xray.store') }}" method="POST" autocomplete="off" enctype="multipart/form-data">
         @csrf
