@@ -155,7 +155,7 @@ class AppLayout extends Component
                         'label' => '-',
                     ],
                     'product' => [
-                        'can' => 'ViewAnyProduct', // not yet create abilities
+                        'can' => 'ViewAnyProduct',
                         'url' => route('inventory.product.index'),
                         'name' => ['index', 'create', 'edit'],
                         'label' => 'Product',
@@ -191,8 +191,8 @@ class AppLayout extends Component
                         'label' => '-',
                     ],
                     'supplier' => [
-                        'can' => 'DeveloperMode', // not yet create abilities
-                        'url' => '',
+                        'can' => 'ViewAnySupplier',
+                        'url' => route('inventory.supplier.index'),
                         'name' => ['index', 'create', 'edit'],
                         'label' => 'Supplier',
                     ],

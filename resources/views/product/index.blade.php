@@ -22,7 +22,7 @@
                 <tr>
                     <td>{{ ++$i }}</td>
                     <td>{!! $row->code !!}</td>
-                    <td>{{ d_obj($row, ['name_kh', 'name_en']) }}</td>
+                    <td>{!! d_obj($row, ['name_kh', 'name_en']) !!}</td>
                     <td>{!! d_currency($row->cost) !!}</td>
                     <td>{!! d_currency($row->price) !!}</td>
                     <td>{!! d_obj($row, 'unit', ['name_kh', 'name_en']) !!}</td>
@@ -44,5 +44,6 @@
             @endforeach
         </x-table>
     </x-card>
+
     <x-modal-confirm-delete />
 </x-app-layout>

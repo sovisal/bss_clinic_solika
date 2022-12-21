@@ -22,6 +22,7 @@
 <x-bss-form.input-file-image-row
     name="image"
     path="{{ asset('images/products/') }}"
+    image-container-style="width: 128px;"
     :value="@$row->image"
     label="Image"
 />

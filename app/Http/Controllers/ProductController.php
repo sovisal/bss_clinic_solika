@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Inventory\Product;
 use Illuminate\Support\Facades\File;
 use App\Http\Requests\ProductRequest;
@@ -39,12 +40,11 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         if ($product = Product::create([
-            // 'code' => $request->code,
             'code' => generate_code('PR', 'products'),
             'name_en' => $request->name_en,
             'name_kh' => $request->name_kh,
-            'cost' => $request->cost,
-            'price' => $request->price,
+            'cost' => $request->cost ?? 0,
+            'price' => $request->price ?? 0,
             'unit_id' => $request->unit_id,
             'category_id' => $request->category_id,
         ])) {
@@ -87,8 +87,8 @@ class ProductController extends Controller
                 'code' => $request->code,
                 'name_en' => $request->name_en,
                 'name_kh' => $request->name_kh,
-                'cost' => $request->cost,
-                'price' => $request->price,
+                'cost' => $request->cost ?? 0,
+                'price' => $request->price ?? 0,
                 'unit_id' => $request->unit_id,
                 'category_id' => $request->category_id,
             ]
@@ -97,6 +97,33 @@ class ProductController extends Controller
             return redirect()->route('inventory.product.index')->with('success', 'Data created success');
         }
     }
+
+    // public function getDetail(Request $request)
+    // {
+    //     $row = Product::where('id', $request->id)->with(['category', 'unit', 'user'])->first();
+    //     if ($row) {
+    //         $header = '';
+    //         $body = '<table class="table-form tw-mt-3 table-detail-result">
+    //                     <thead>
+    //                         <tr>
+    //                             <th colspan="4" class="text-left tw-bg-gray-100">'. request()->title ?? 'Detail' .'</th>
+    //                         </tr>
+    //                     </thead>
+    //                     <tbody>' . '' . '</tbody>
+    //                 </table>';
+    //         return response()->json([
+    //             'success' => true,
+    //             'header' => $header,
+    //             'body' => $body,
+    //             'print_url' => route('para_clinic.ecg.print', $row->id),
+    //         ]);
+    //     } else {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'Ecg not found!',
+    //         ], 404);
+    //     }
+    // }
 
     /**
      * Remove the specified resource to trash.

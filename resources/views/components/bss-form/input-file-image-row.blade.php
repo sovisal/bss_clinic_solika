@@ -6,6 +6,7 @@
     'label' => __('form.image'),
     'tr' => true,
     'imageClass' => 'text-center',
+    'imageContainerStyle' => '',
 ])
 
 @if ($tr)
@@ -15,7 +16,7 @@
         <label for="file-browse-{{ $name }}">{!! $label . ($attributes['required']? ' <small class="required">*</small>' : '') !!}</label>
     </td>
     <td>
-        <div style="width: 128px;">
+        <div style="{{ $imageContainerStyle }}">
             <x-bss-form.input-file-image :path="$path" :name="$name" :value="$value" {{ $attributes }} />
         </div>
     </td>
