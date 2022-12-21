@@ -29,13 +29,13 @@ $value_description = old($control_name . '[description]', $item->description);
     <td>{!! d_link(class_basename($item), route($item->route . '.index', ['back' => url()->current()])) !!}</td>
     <td>{!! d_text($service_label) !!}</td>
     <td>
-        <x-bss-form.input type="number" name="{{ $control_name }}[qty]" disabled value="{{ $value_qty }}" required class="text-center"/>
+        <x-bss-form.input type="text" name="{{ $control_name }}[qty]" disabled value="{{ $value_qty }}" required class="is_number text-center"/>
     </td>
     <td>
-        <x-bss-form.input type="number" name="{{ $control_name }}[price]" value="{{ $value_price }}" required class="text-center"/>
+        <x-bss-form.input type="text" name="{{ $control_name }}[price]" value="{{ $value_price }}" required class="is_number text-center"/>
     </td>
     <td>
-        <x-bss-form.input type="number" name="{{ $control_name }}[total]"  value="{{ $value_total }}"  required class="text-center"/>
+        <x-bss-form.input type="text" name="{{ $control_name }}[total]"  value="{{ $value_total }}"  required class="is_number text-center"/>
     </td>
     <td>
         <x-bss-form.input type="text" name="{{ $control_name }}[description]" value="{{ $value_description }}"/>

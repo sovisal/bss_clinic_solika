@@ -255,6 +255,7 @@ class LaboratoryController extends Controller
      */
     public function update(LaborRequest $request, Laboratory $labor)
     {
+        $request['address_id'] = update4LevelAddress($request, $labor->address_id);
         if ($labor->update($request->all())) {
             // Do update the labor detail
             $detail_ids = $request->test_id ?: [];

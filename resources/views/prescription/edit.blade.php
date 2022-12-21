@@ -35,14 +35,11 @@
                     <x-form.button type="submit" class="btn-submit" value="1" icon="bx bx-save" label="Save" />
                 </div>
             </x-slot>
-            <table class="table-form striped">
-                <tr>
-                    <th colspan="4" class="text-left tw-bg-gray-100">Prescription Code #{{ $row->code }}</th>
-                </tr>
-                @include('prescription.form_input')
-            </table>
+            
+            @include('prescription.form_input')
             <br>
             @include('prescription.form_result')
+
         </x-card>
     </form>
 
