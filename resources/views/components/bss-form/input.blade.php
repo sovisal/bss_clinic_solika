@@ -28,13 +28,12 @@
 @if ($hasIcon!='' && $icon!='')
 <div class="position-relative has-icon-{{ $hasIcon }}">
 @endif
-
     <input
         {{ $attributes([
             'type' => 'text',
             'name' => $name,
             'id' => $id ?? $name,
-            'class' => ( $error ?? $errors->first($name) ? 'is-invalid ': '') . ' form-control',
+            'class' => ( ((isset($error) && $error != '') || $errors->first($name)) ? 'is-invalid ': '') . ' form-control',
             'value' => old($name),
         ]) }}
     />

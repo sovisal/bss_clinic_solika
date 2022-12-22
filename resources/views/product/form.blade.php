@@ -8,7 +8,7 @@
 <x-bss-form.input-row name="cost" class="is_number" :value="old('cost', @$row->cost) ?? 0" label="Cost" />
 <x-bss-form.input-row name="price" class="is_number" :value="old('price', @$row->price) ?? 0" label="Price" />
 <x-bss-form.input-row name="qty_begin" class="is_integer" :value="old('qty_begin', @$row->qty_begin) ?? 0" label="QTY Begin" />
-<x-bss-form.input-row name="qty_alert" class="is_integer" :value="old('qty_alert', @$row->qty_alert) ?? 0" label="QTY Alert" />
+<x-bss-form.input-row name="qty_alert" class="is_integer" :value="old('qty_alert', @$row->qty_alert) ?? 10" label="QTY Alert" />
 <x-bss-form.select-row name="category_id" required label="Category">
     <option value="">Please choose</option>
     @foreach ($categories as $category)

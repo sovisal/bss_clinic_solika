@@ -49,6 +49,7 @@ class ProductController extends Controller
             'cost' => $request->cost ?? 0,
             'price' => $request->price ?? 0,
             'unit_id' => $request->unit_id,
+            'type_id' => $request->type_id,
             'category_id' => $request->category_id,
         ])) {
             if ($request->code == generate_code('PR', 'products', false)) { generate_code('PR', 'products'); }
@@ -94,6 +95,7 @@ class ProductController extends Controller
                 'cost' => $request->cost ?? 0,
                 'price' => $request->price ?? 0,
                 'unit_id' => $request->unit_id,
+                'type_id' => $request->type_id,
                 'category_id' => $request->category_id,
             ]
         ))) {
