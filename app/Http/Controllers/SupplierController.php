@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Inventory\Supplier;
 use Illuminate\Support\Facades\File;
+use App\Models\Inventory\ProductType;
 use App\Http\Requests\SupplierRequest;
+use App\Models\Inventory\ProductCategory;
 use App\Http\Requests\StoreSupplierRequest;
 use App\Http\Requests\UpdateSupplierRequest;
 
@@ -27,7 +29,8 @@ class SupplierController extends Controller
     public function create()
     {
         $data = [
-            
+            'categories' => ProductCategory::where('status', 1)->orderBy('name_en', 'asc')->get(),
+            'types' => ProductType::where('status', 1)->orderBy('name_en', 'asc')->get(),
         ];
         return view('supplier.create', $data);
     }
@@ -37,15 +40,18 @@ class SupplierController extends Controller
      */
     public function store(SupplierRequest $request)
     {
+        $address_id = update4LevelAddress($request);
         if ($supplier = Supplier::create([
-            // 'code' => $request->code,
-            'code' => generate_code('PR', 'suppliers'),
             'name_en' => $request->name_en,
             'name_kh' => $request->name_kh,
-            'cost' => $request->cost,
-            'price' => $request->price,
-            'unit_id' => $request->unit_id,
+            'contact_name' => $request->contact_name,
+            'contact_number' => $request->contact_number,
+            'description' => $request->description,
+            'payment_info' => $request->payment_info,
+            'other' => $request->other,
+            'type_id' => $request->type_id,
             'category_id' => $request->category_id,
+            'address_id' => $address_id
         ])) {
 
             // Check if no exist folder/directory then create folder/directory
@@ -65,6 +71,8 @@ class SupplierController extends Controller
     {
         $data = [
             'row' => $supplier,
+            'categories' => ProductCategory::where('status', 1)->orderBy('name_en', 'asc')->get(),
+            'types' => ProductType::where('status', 1)->orderBy('name_en', 'asc')->get(),
         ];
         return view('supplier.edit', $data);
     }
@@ -74,6 +82,7 @@ class SupplierController extends Controller
      */
     public function update(SupplierRequest $request, Supplier $supplier)
     {
+        $address_id = update4LevelAddress($request, $supplier->address_id);
         // Check if no exist folder/directory then create folder/directory
         $path = public_path('/images/suppliers/');
         File::makeDirectory($path, 0777, true, true);
@@ -81,13 +90,16 @@ class SupplierController extends Controller
         if ($supplier->update(array_merge(
             ['logo' => $logo],
             [
-                'code' => $request->code,
                 'name_en' => $request->name_en,
                 'name_kh' => $request->name_kh,
-                'cost' => $request->cost,
-                'price' => $request->price,
-                'unit_id' => $request->unit_id,
+                'contact_name' => $request->contact_name,
+                'contact_number' => $request->contact_number,
+                'description' => $request->description,
+                'payment_info' => $request->payment_info,
+                'other' => $request->other,
+                'type_id' => $request->type_id,
                 'category_id' => $request->category_id,
+                'address_id' => $address_id
             ]
         ))) {
 

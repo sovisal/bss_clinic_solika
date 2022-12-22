@@ -23,9 +23,9 @@ class CreateSuppliersTable extends Migration
             $table->string('contact_name')->nullable();
             $table->string('contact_number')->nullable();
             
-            $table->unsignedBigInteger('category_id')->nullable();
+            $table->unsignedBigInteger('category_id')->nullable()->constrained('product_categories');
             $table->unsignedBigInteger('address_id')->nullable();
-            $table->unsignedBigInteger('type_id')->nullable();
+            $table->unsignedBigInteger('type_id')->nullable()->constrained('product_types');
 
             $table->string('other')->nullable();
             $table->string('payment_info')->nullable();
