@@ -20,7 +20,7 @@
                 <td>{{ ++$i }}</td>
                 <td>{{ d_obj($row, ['name_kh', 'name_en']) }}</td>
                 <td>{!! $row->description !!}</td>
-                <td><x-badge>{{ $row->products->count() }}</x-badge></td>
+                <td><x-badge>{{ $row->products_count }}</x-badge></td>
                 <td>{!! d_obj($row, 'user', 'name') !!}</td>
                 <td>{!! d_status($row->status) !!}</td>
                 <td>

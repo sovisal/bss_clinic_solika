@@ -15,15 +15,15 @@ class CreateProductPackagesTable extends Migration
     {
         Schema::create('product_packages', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id')->nullable();
-            $table->unsignedBigInteger('product_unit_id')->nullable();
+            $table->unsignedBigInteger('product_id')->nullable()->constrained('products');
+            $table->unsignedBigInteger('product_unit_id')->nullable()->constrained('product_units');
             
             $table->float('base_qty')->default(1);
             $table->float('qty')->default(0);
             $table->float('price')->default(0);
             $table->float('code')->default(0);
              
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable()->constrained();
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();

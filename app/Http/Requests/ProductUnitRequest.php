@@ -24,8 +24,8 @@ class ProductUnitRequest extends FormRequest
     public function rules()
     {
         return [
-            'name_kh' => 'required|string|min:2|max:255',
-            'name_en' => 'nullable|string|min:2|max:255',
+            'name_kh' => 'required|string|min:1|max:255',
+            'name_en' => 'nullable|string|min:1|max:255',
             'description' => 'nullable|string|max:555'
         ];
     }

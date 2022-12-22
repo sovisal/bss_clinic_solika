@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProductRequest extends FormRequest
@@ -24,12 +25,16 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         return [
+            'code' => ['required', 'string', 'min:1', 'max:255', Rule::unique('products')->ignore($this->product)->whereNull('deleted_at')],
             'name_kh' => 'required|string|min:2|max:255',
             'name_en' => 'nullable|string|min:2|max:255',
             'category_id' => 'required|numeric',
             'unit_id' => 'required|numeric',
+            'type_id' => 'required|numeric',
             'cost' => 'nullable|numeric',
             'price' => 'nullable|numeric',
+            'qty_begin' => 'nullable|numeric',
+            'qty_alert' => 'nullable|numeric',
         ];
     }
 }
