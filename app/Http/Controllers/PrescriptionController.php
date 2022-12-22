@@ -3,14 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Patient;
+use App\Models\Inventory;
 use App\Models\Medicine;
-use App\Models\DataParent;
 use App\Models\Prescription;
 use App\Models\Doctor;
 use Illuminate\Http\Request;
-use App\Models\PrescriptionDetail;
-use Illuminate\Support\Facades\Validator;
-use App\Http\Requests\PrescriptionRequest;
 
 class PrescriptionController extends Controller
 {
@@ -40,7 +37,7 @@ class PrescriptionController extends Controller
             'gender' => getParentDataSelection('gender'),
             'usages' => getParentDataSelection('comsumption'),
             'time_usage' => getParentDataSelection('time_usage'),
-            'medicine' => Medicine::orderBy('name', 'asc')->get(),
+            'medicine' => Inventory\Product::where('status', '>=', '1')->where('qty_remain', '>', '0')->orderBy('name_en', 'asc')->get(),
             'prescription_detail' => [],
             'is_edit' => false
         ];
@@ -89,13 +86,7 @@ class PrescriptionController extends Controller
             ->with([
                 'patient',
                 'detail' => function ($q) {
-                    $q->select([
-                        'prescription_details.*',
-                        'medicines.name as medicine_name',
-                        'data_parents.title_en as usage_en',
-                    ])
-                        ->leftJoin('medicines', 'medicines.id', '=', 'prescription_details.medicine_id')
-                        ->leftJoin('data_parents', 'data_parents.id', '=', 'prescription_details.usage_id');
+                    $q->with(['product', 'usage']);
                 }
             ])
             ->first();
@@ -118,15 +109,15 @@ class PrescriptionController extends Controller
                 }
                 $tbody .= '<tr>
 						<td class="text-center">' . str_pad(++$i, 2, '0', STR_PAD_LEFT) . '</td>
-						<td>' . $detail->medicine_name . '</td>
-						<td class="text-center">' . $detail->qty . '</td>
-						<td class="text-center">' . $detail->upd . '</td>
-						<td class="text-center">' . $detail->nod . '</td>
-						<th class="text-center"><strong>' . $detail->total . '</strong></th>
-						<td>' . $detail->unit . '</td>
-						<td>' . $usage_time_str . '</td>
-						<td>' . $detail->usage_en . '</td>
-						<td>' . $detail->other . '</td>
+						<td>' . d_obj($detail, 'product', ['name_en', 'name_kh']) . '</td>
+						<td class="text-center">' . d_number($detail->qty) . '</td>
+						<td class="text-center">' . d_number($detail->upd) . '</td>
+						<td class="text-center">' . d_number($detail->nod) . '</td>
+						<th class="text-center"><strong>' . d_number($detail->total) . '</strong></th>
+						<td>' . d_text($detail->unit) . '</td>
+						<td>' . d_text($usage_time_str) . '</td>
+						<td>' . d_obj($detail, 'usage', ['title_en', 'title_kh']) . '</td>
+						<td>' . d_text($detail->other) . '</td>
 					</tr>';
             }
             $body = '<table class="table-form  tw-mt-3 table-detail-result">
@@ -161,32 +152,15 @@ class PrescriptionController extends Controller
 
     public function print($id)
     {
-        $prescription = Prescription::select([
-            'prescriptions.*',
-            'patients.name_en as patient_kh',
-            'patients.age as patient_age',
-            'genders.title_en as patient_gender',
-            'doctors.name_en as doctor_en',
-        ])
-            ->where('prescriptions.id', $id)
-            ->with([
+        $prescription = Prescription::where('prescriptions.id', $id)
+            ->with(['doctor', 'patient', 'gender',
                 'detail' => function ($q) {
-                    $q->select([
-                        'prescription_details.*',
-                        'medicines.name as medicine_name',
-                        'data_parents.title_en as usage_en',
-                    ])
-                        ->leftJoin('medicines', 'medicines.id', '=', 'prescription_details.medicine_id')
-                        ->leftJoin('data_parents', 'data_parents.id', '=', 'prescription_details.usage_id');
+                    $q->with(['product', 'usage']);
                 }
             ])
-            ->leftJoin('patients', 'patients.id', '=', 'prescriptions.patient_id')
-            ->leftJoin('data_parents AS genders', 'genders.id', '=', 'patients.gender')
-            ->leftJoin('doctors', 'doctors.id', '=', 'prescriptions.doctor_id')
             ->first();
         if ($prescription) {
             $data['row'] = $prescription;
-            $data['usages'] = getParentDataSelection('comsumption');
             $data['time_usage'] = getParentDataSelection('time_usage');
             return view('prescription.print', $data);
         } else {
@@ -207,7 +181,7 @@ class PrescriptionController extends Controller
             'gender' => getParentDataSelection('gender'),
             'usages' => getParentDataSelection('comsumption'),
             'time_usage' => getParentDataSelection('time_usage'),
-            'medicine' => Medicine::orderBy('name', 'asc')->get(),
+            'medicine' => Inventory\Product::where('status', '>=', '1')->where('qty_remain', '>', '0')->orderBy('name_en', 'asc')->get(),
             'prescription_detail' => $prescription->detail()->get(),
             'is_edit' => true
         ];
@@ -262,7 +236,7 @@ class PrescriptionController extends Controller
         $detail_values = [];
         $time_usage = getParentDataSelection('time_usage');
 
-        foreach ($detail_ids as $index => $id) {
+        foreach ($detail_ids as $index => $id) {    
             $detail_values[$index] = [
                 'medicine_id'     => $request->medicine_id[$index] ?: 0,
                 'qty'             => $request->qty[$index] ?: 0,

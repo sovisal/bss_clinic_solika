@@ -29,12 +29,12 @@
 				@foreach ($row->detail as $i => $detail)
 					<tr>
 						<td>{{ str_pad(++$i, 2, '0', STR_PAD_LEFT) }}</td>
-						<td>{{ $detail->medicine_name }}</td>
-						<td>{{ $detail->qty }}</td>
-						<td>{{ $detail->upd }}</td>
-						<td>{{ $detail->nod }}</td>
-						<td>{{ $detail->total }}</td>
-						<td>{{ $detail->unit }}</td>
+						<td>{{ d_obj($detail, 'product', ['name_en', 'name_kh']) }}</td>
+						<td>{{ d_number($detail->qty) }}</td>
+						<td>{{ d_number($detail->upd) }}</td>
+						<td>{{ d_number($detail->nod) }}</td>
+						<td>{{ d_number($detail->total) }}</td>
+						<td>{{ d_text($detail->unit) }}</td>
 						<td>
 							@php
 								$j = 0;
@@ -52,8 +52,8 @@
 								@endif
 							@endforeach
 						</td>
-						<td>{{ $detail->usage_en }}</td>
-						<td>{{ $detail->other }}</td>
+						<td>{{ d_obj($detail, 'usage', ['title_en', 'title_kh']) }}</td>
+						<td>{{ d_text($detail->other) }}</td>
 					</tr>
 				@endforeach
 			</table>

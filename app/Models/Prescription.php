@@ -9,6 +9,7 @@ class Prescription extends BaseModel
 {
     use HasFactory, SoftDeletes;
     protected $guarded = ['id'];
+    public $route = 'prescription';
 
     public function detail()
 	{

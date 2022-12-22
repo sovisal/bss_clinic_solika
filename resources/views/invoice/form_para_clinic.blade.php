@@ -13,6 +13,7 @@
         </thead>
         <tbody>
             {{-- labor will add soon --}}
+            @each ('invoice.form_para_clinic_sample', $invoice_selection['prescription'], 'item')
             @each ('invoice.form_para_clinic_sample', $invoice_selection['echography'], 'item')
             @each ('invoice.form_para_clinic_sample', $invoice_selection['ecg'], 'item')
             @each ('invoice.form_para_clinic_sample', $invoice_selection['xray'], 'item')

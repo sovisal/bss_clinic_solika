@@ -106,6 +106,10 @@ class BaseModel extends Model
         return $this->belongsTo(DataParent::class, 'payment_type', 'id')->where('type', 'payment_type');
     }
 
+    public function usage () {
+        return $this->belongsTo(DataParent::class, 'usage_id', 'id');
+    }
+
     public function scopeFilterTrashed($q)
     {
         $q->when(auth()->user()->isWebDev, function ($q) {
