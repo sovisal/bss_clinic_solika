@@ -10,7 +10,7 @@
         'class' => 'form-control ' . ( isset($error) ?? $errors->first($name) ? ' is-invalid ': ''),
         'name' => $name,
         'id' => $id ?? $name,
-        'class' => ( $error ?? $errors->first($name) ? 'is-invalid ': '') . ' form-control',
+        'class' => ( ((isset($error) && $error != '') || $errors->first($name)) ? 'is-invalid ': '') . ' form-control',
     ]) }}
     {{ $charLength != '' ? 'data-length='. $charLength : '' }}
 >{{ old($name, ($slot ?? '')) }}</textarea>

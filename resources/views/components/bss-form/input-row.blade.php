@@ -28,7 +28,7 @@
             :prepend="$prepend"
             :has-icon="$hasIcon"
             :icon="$icon"
-            :error="$error"
+            error="{{ $error }}"
             {{ $attributes }}
         />
     </td>

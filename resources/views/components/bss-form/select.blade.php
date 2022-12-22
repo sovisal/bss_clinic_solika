@@ -11,7 +11,7 @@
 {!! @$prependHtml !!}
 <div class="flex-grow-1">
     <select
-        class="form-control {{ ( $error ?? $errors->first($name) ? ' is-invalid ': '') }} {{ (($select2)? 'custom-select2' : '') }} {{ $attributes['class'] }}"
+        class="form-control {{ ( ((isset($error) && $error != '') || $errors->first($name)) ? ' is-invalid ': '') }} {{ (($select2)? 'custom-select2' : '') }} {{ $attributes['class'] }}"
         {{ $attributes->merge([
             'name' => $name,
             'id' => $id ?? $name,
