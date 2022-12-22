@@ -8,6 +8,7 @@ use App\Models\Doctor;
 use App\Models\Service;
 use App\Models\Echography;
 use App\Models\Laboratory;
+use App\Models\Prescription;
 use App\Models\Xray;
 use App\Models\Ecg;
 
@@ -125,6 +126,8 @@ class InvoiceController extends Controller
         $selection = [
             'medicine' => [],
             'service' => Service::where('status', '>=', '1')->orderBy('name', 'asc')->get(),
+            // 'prescription' => Prescription::where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
+            'prescription' => [],
             'echography' => Echography::with(['type'])->where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
             'laboratory' => Laboratory::where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
             'xray' => Xray::with(['type'])->where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
