@@ -9,10 +9,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class ProductCategory extends BaseModel
 {
     use HasFactory, SoftDeletes;
-	protected $guarded = ['id'];
+    protected $guarded = ['id'];
 
     public function products()
     {
         return $this->hasMany(Product::class, 'category_id');
     }
+
 }

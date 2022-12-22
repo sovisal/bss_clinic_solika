@@ -13,7 +13,7 @@ class ProductUnitController extends Controller
     public function index()
     {
         $data = [
-            'rows' => ProductUnit::with(['user'])->filterTrashed()->orderBy('name_en')->limit(5000)->get(),
+            'rows' => ProductUnit::with(['user'])->withCount('products')->filterTrashed()->orderBy('name_en')->limit(5000)->get(),
         ];
         return view('product_unit.index', $data);
     }

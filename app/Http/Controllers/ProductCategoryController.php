@@ -13,7 +13,7 @@ class ProductCategoryController extends Controller
     public function index()
     {
         $data = [
-            'rows' => ProductCategory::with(['products', 'user'])->filterTrashed()->orderBy('name_en')->limit(5000)->get(),
+            'rows' => ProductCategory::with(['user'])->withCount('products')->filterTrashed()->orderBy('name_en')->limit(5000)->get(),
         ];
         return view('product_category.index', $data);
     }

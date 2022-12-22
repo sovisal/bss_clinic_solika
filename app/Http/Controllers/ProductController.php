@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Inventory\Product;
 use Illuminate\Support\Facades\File;
 use App\Http\Requests\ProductRequest;
+use App\Models\Inventory\ProductType;
 use App\Models\Inventory\ProductUnit;
 use App\Models\Inventory\ProductCategory;
 
@@ -30,6 +31,8 @@ class ProductController extends Controller
         $data = [
             'units' => ProductUnit::where('status', 1)->orderBy('name_en', 'asc')->get(),
             'categories' => ProductCategory::where('status', 1)->orderBy('name_en', 'asc')->get(),
+            'types' => ProductType::where('status', 1)->orderBy('name_en', 'asc')->get(),
+            'code' => generate_code('PR', 'products', false),
         ];
         return view('product.create', $data);
     }
@@ -40,7 +43,7 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         if ($product = Product::create([
-            'code' => generate_code('PR', 'products'),
+            'code' => $request->code,
             'name_en' => $request->name_en,
             'name_kh' => $request->name_kh,
             'cost' => $request->cost ?? 0,
@@ -48,7 +51,7 @@ class ProductController extends Controller
             'unit_id' => $request->unit_id,
             'category_id' => $request->category_id,
         ])) {
-
+            if ($request->code == generate_code('PR', 'products', false)) { generate_code('PR', 'products'); }
             // Check if no exist folder/directory then create folder/directory
             $path = public_path('/images/products/');
             File::makeDirectory($path, 0777, true, true);
@@ -68,6 +71,7 @@ class ProductController extends Controller
             'row' => $product,
             'units' => ProductUnit::where('status', 1)->orderBy('name_en', 'asc')->get(),
             'categories' => ProductCategory::where('status', 1)->orderBy('name_en', 'asc')->get(),
+            'types' => ProductType::where('status', 1)->orderBy('name_en', 'asc')->get(),
         ];
         return view('product.edit', $data);
     }

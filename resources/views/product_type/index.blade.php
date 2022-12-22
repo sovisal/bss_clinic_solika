@@ -9,6 +9,7 @@
                     <th width="8%">No</th>
                     <th>Name</th>
                     <th>Description</th>
+                    <th width="13%">Total Product</th>
                     <th width="15%">User</th>
                     <th width="12%">Status</th>
                     <th width="15%">Action</th>
@@ -19,6 +20,7 @@
                 <td>{{ ++$i }}</td>
                 <td>{{ d_obj($row, ['name_kh', 'name_en']) }}</td>
                 <td>{!! $row->description !!}</td>
+                <td><x-badge>{{ $row->products_count }}</x-badge></td>
                 <td>{!! d_obj($row, 'user', 'name') !!}</td>
                 <td>{!! d_status($row->status) !!}</td>
                 <td>

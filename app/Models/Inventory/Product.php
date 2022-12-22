@@ -21,6 +21,11 @@ class Product extends BaseModel
         return $this->belongsTo(ProductUnit::class, 'unit_id');
     }
 
+    public function type()
+    {
+        return $this->belongsTo(ProductType::class, 'type_id');
+    }
+
     public function packages()
     {
         return $this->hasMany(ProductPackage::class, 'product_id');
