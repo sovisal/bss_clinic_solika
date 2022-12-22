@@ -31,4 +31,13 @@ class Product extends BaseModel
         return $this->hasMany(ProductPackage::class, 'product_id');
     }
 
+    public function suppliers()
+    {
+        return $this->belongsToMany(Supplier::class, 'supplier_id');
+    }
+    
+    // public function assignPackage($packages = [])
+    // {
+    //     $this->packages()->sync($packages);
+    // }
 }
