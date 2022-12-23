@@ -177,4 +177,28 @@ class BaseModel extends Model
             return d_obj($this, 'type', ['name_en', 'name_kh']);
         }
     }
+
+    public function getProductTypeLinkAttribute () {
+        
+        if (($this->type->status ?? 0) > 0) { // will check permission
+            return d_link(
+                d_obj($this, 'type', ['name_en', 'name_kh']),
+                route('inventory.product_type.edit', [d_obj($this, 'type', 'id'), 'back' => url()->current()])
+            );
+        } else {
+            return d_obj($this, 'type', ['name_en', 'name_kh']);
+        }
+    }
+
+    public function getProductCategoryLinkAttribute () {
+        
+        if (($this->category->status ?? 0) > 0) { // will check permission
+            return d_link(
+                d_obj($this, 'category', ['name_en', 'name_kh']),
+                route('inventory.product_category.edit', [d_obj($this, 'category', 'id'), 'back' => url()->current()])
+            );
+        } else {
+            return d_obj($this, 'category', ['name_en', 'name_kh']);
+        }
+    }
 }

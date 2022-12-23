@@ -23,8 +23,8 @@
                     <td>{{ ++$i }}</td>
                     <td>{!! $row->code !!}</td>
                     <td>{!! d_obj($row, ['name_kh', 'name_en']) !!}</td>
-                    <td>{!! d_obj($row, 'type', ['name_kh', 'name_en']) !!}</td>
-                    <td>{!! d_obj($row, 'category', ['name_kh', 'name_en']) !!}</td>
+                    <td>{!! $row->productTypeLink !!}</td>
+                    <td>{!! $row->productCategoryLink !!}</td>
                     <td>{!! d_text($row->contact_name) !!}</td>
                     <td>{{ d_obj($row, 'address', ['village_kh', 'commune_kh', 'district_kh', 'province_kh'] ) }}</td>
                     <td>{!! d_obj($row, 'user', 'name') !!}</td>

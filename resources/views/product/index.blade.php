@@ -27,8 +27,8 @@
                     <td>{!! d_currency($row->cost) !!}</td>
                     <td>{!! d_currency($row->price) !!}</td>
                     <td>{!! d_obj($row, 'unit', ['name_kh', 'name_en']) !!}</td>
-                    <td>{!! d_obj($row, 'type', ['name_kh', 'name_en']) !!}</td>
-                    <td>{!! d_obj($row, 'category', ['name_kh', 'name_en']) !!}</td>
+                    <td>{!! $row->productTypeLink !!}</td>
+                    <td>{!! $row->productCategoryLink !!}</td>
                     <td>{!! d_obj($row, 'user', 'name') !!}</td>
                     <td>{!! d_status($row->status) !!}</td>
                     <td>
