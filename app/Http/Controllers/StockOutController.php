@@ -3,84 +3,84 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inventory\StockOut;
-use App\Http\Requests\StoreStockOutRequest;
-use App\Http\Requests\UpdateStockOutRequest;
+use App\Http\Requests\StockOutRequest;
 
 class StockOutController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        $data = [
+            'rows' => StockOut::with(['user'])->filterTrashed()->orderBy('date')->limit(5000)->get(),
+        ];
+        return view('stock_out.index', $data);
     }
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        //
+        return view('stock_out.create');
     }
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreStockOutRequest  $request
-     * @return \Illuminate\Http\Response
      */
-    public function store(StoreStockOutRequest $request)
+    public function store(StockOutRequest $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Inventory\StockOut  $stockOut
-     * @return \Illuminate\Http\Response
-     */
-    public function show(StockOut $stockOut)
-    {
-        //
+        
     }
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Inventory\StockOut  $stockOut
-     * @return \Illuminate\Http\Response
      */
     public function edit(StockOut $stockOut)
     {
-        //
+        
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateStockOutRequest  $request
-     * @param  \App\Models\Inventory\StockOut  $stockOut
-     * @return \Illuminate\Http\Response
      */
-    public function update(UpdateStockOutRequest $request, StockOut $stockOut)
+    public function update(StockOutRequest $request, StockOut $stockOut)
     {
-        //
+        
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Inventory\StockOut  $stockOut
-     * @return \Illuminate\Http\Response
+     * Remove the specified resource to trash.
      */
     public function destroy(StockOut $stockOut)
     {
-        //
+        if ($stockOut->delete()) {
+            return redirect()->route('inventory.stock_out.index')->with('success', 'Data delete success');
+        }
+    }
+
+    /**
+     * Restore the specified resource from storage.
+     */
+    public function restore($id)
+    {
+        $row = StockOut::onlyTrashed()->findOrFail($id);
+        if ($row->restore()) {
+            return back()->with('success', __('alert.message.success.crud.restore'));
+        }
+        return back()->with('error', __('alert.message.error.crud.restore'));
+    }
+
+    /**
+     * Force Delete the specified resource from storage.
+     */
+    public function force_delete($id)
+    {
+        $row = StockOut::onlyTrashed()->findOrFail($id);
+        if ($row->forceDelete()) {
+            return back()->with('success', __('alert.message.success.crud.force_detele'));
+        }
+        return back()->with('error', __('alert.message.error.crud.force_detele'));
     }
 }

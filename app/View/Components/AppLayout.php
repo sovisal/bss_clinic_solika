@@ -124,27 +124,27 @@ class AppLayout extends Component
                         'name' => ['edit'],
                         'label' => 'Stock Alert',
                     ],
-                    'in' => [
-                        'can' => 'Stoci',
-                        'url' => '',
-                        'name' => ['edit'],
+                    'stock_in' => [
+                        'can' => 'ViewAnyStockIn',
+                        'url' => route('inventory.stock_in.index'),
+                        'name' => ['index', 'create', 'edit'],
                         'label' => 'Stock In',
                     ],
-                    'out' => [
-                        'can' => 'ViewAnyLaborType',
-                        'url' => '',
+                    'stock_out' => [
+                        'can' => 'ViewAnyStockOut',
+                        'url' => route('inventory.stock_out.index'),
                         'name' => ['index', 'create', 'edit'],
                         'label' => 'Stock Out',
                     ],
-                    'balance' => [
-                        'can' => 'DeveloperMode',
+                    'stock_balance' => [
+                        'can' => 'ViewAnyBalance',
                         'url' => '',
                         'name' => ['index', 'create', 'edit'],
                         'label' => 'Stock Balance',
                     ],
-                    'adjustment' => [
-                        'can' => 'DeveloperMode',
-                        'url' => '',
+                    'stock_adjustment' => [
+                        'can' => 'ViewAnyStockAdjustment',
+                        'url' => route('inventory.stock_adjustment.index'),
                         'name' => ['index', 'create', 'edit'],
                         'label' => 'Stock Adjustment',
                     ],

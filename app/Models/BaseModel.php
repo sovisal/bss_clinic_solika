@@ -201,4 +201,24 @@ class BaseModel extends Model
             return d_obj($this, 'category', ['name_en', 'name_kh']);
         }
     }
+
+    public function getProductUnitLinkAttribute () {
+        
+        if (($this->unit->status ?? 0) > 0) { // will check permission
+            return d_link(
+                d_obj($this, 'unit', ['name_en', 'name_kh']),
+                route('inventory.product_unit.edit', [d_obj($this, 'unit', 'id'), 'back' => url()->current()])
+            );
+        } else {
+            return d_obj($this, 'unit', ['name_en', 'name_kh']);
+        }
+    }
+
+    public function getSupplierLinkAttribute () {
+        if ($this->supplier->status > 0) { // will check permission
+            return d_link(d_obj($this, 'supplier', ['name_en', 'name_kh']), route('inventory.supplier.edit', [d_obj($this, 'supplier', 'id'), 'back' => url()->current()]));
+        } else {
+            return d_obj($this, 'supplier', ['name_en', 'name_kh']);
+        }
+    }
 }

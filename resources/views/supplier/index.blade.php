@@ -7,7 +7,6 @@
             <x-slot name="thead">
                 <tr>
                     <th width="5%">No</th>
-                    <th width="8%">Code</th>
                     <th>Name</th>
                     <th width="10%">Type</th>
                     <th width="10%">Category</th>
@@ -21,7 +20,6 @@
             @foreach($rows as $i => $row)
                 <tr>
                     <td>{{ ++$i }}</td>
-                    <td>{!! $row->code !!}</td>
                     <td>{!! d_obj($row, ['name_kh', 'name_en']) !!}</td>
                     <td>{!! $row->productTypeLink !!}</td>
                     <td>{!! $row->productCategoryLink !!}</td>

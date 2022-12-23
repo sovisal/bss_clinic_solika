@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use App\Models\StockAdjustment;
 use App\Models\Inventory\Product;
-use App\Models\Inventory\StockIn;
-use App\Models\Inventory\Supplier;
-use App\Http\Requests\StockInRequest;
-use App\Models\Inventory\ProductUnit;
+use App\Http\Requests\StockAdjustmentRequest;
 
-class StockInController extends Controller
+class StockAdjustmentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +15,9 @@ class StockInController extends Controller
     public function index()
     {
         $data = [
-            'rows' => StockIn::with(['user'])->filterTrashed()->orderBy('date')->limit(5000)->get(),
+            'rows' => StockAdjustment::with(['user'])->filterTrashed()->orderBy('date')->limit(5000)->get(),
         ];
-        return view('stock_in.index', $data);
+        return view('stock_adjustment.index', $data);
     }
 
     /**
@@ -27,19 +26,17 @@ class StockInController extends Controller
     public function create()
     {
         $data = [
-            'units' => ProductUnit::where('status', 1)->orderBy('name_en', 'asc')->get(),
             'products' => Product::where('status', 1)->orderBy('name_en', 'asc')->get(),
-            'suppliers' => Supplier::where('status', 1)->orderBy('name_en', 'asc')->get(),
         ];
-        return view('stock_in.create', $data);
+        return view('stock_adjustment.create', $data);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StockInRequest $request)
+    public function store(StockAdjustmentRequest $request)
     {
-        if (StockIn::create([
+        if (StockAdjustment::create([
             'date' => $request->date,
             'exp_date' => $request->exp_date,
             'reciept_no' => $request->reciept_no,
@@ -49,30 +46,28 @@ class StockInController extends Controller
             'product_id' => $request->product_id,
             'unit_id' => $request->unit_id
         ])) {
-            return redirect()->route('inventory.stock_in.index')->with('success', 'Data created success');
+            return redirect()->route('inventory.stock_adjustment.index')->with('success', 'Data created success');
         }
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(StockIn $stockIn)
+    public function edit(StockAdjustment $stockAdjustment)
     {
         $data = [
-            'units' => ProductUnit::where('status', 1)->orderBy('name_en', 'asc')->get(),
             'products' => Product::where('status', 1)->orderBy('name_en', 'asc')->get(),
-            'suppliers' => Supplier::where('status', 1)->orderBy('name_en', 'asc')->get(),
-            'row' => $stockIn
+            'row' => $stockAdjustment
         ];
-        return view('stock_in.edit', $data);
+        return view('stock_adjustment.edit', $data);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(StockInRequest $request, StockIn $stockIn)
+    public function update(StockAdjustmentRequest $request, StockAdjustment $stockAdjustment)
     {
-        if ($stockIn->update([
+        if ($stockAdjustment->update([
             'date' => $request->date,
             'exp_date' => $request->exp_date,
             'reciept_no' => $request->reciept_no,
@@ -82,17 +77,17 @@ class StockInController extends Controller
             'product_id' => $request->product_id,
             'unit_id' => $request->unit_id
         ])) {
-            return redirect()->route('inventory.stock_in.index')->with('success', 'Data created success');
+            return redirect()->route('inventory.stock_adjustment.index')->with('success', 'Data created success');
         }
     }
 
     /**
      * Remove the specified resource to trash.
      */
-    public function destroy(StockIn $stockIn)
+    public function destroy(StockAdjustment $stockAdjustment)
     {
-        if ($stockIn->delete()) {
-            return redirect()->route('inventory.stock_in.index')->with('success', 'Data delete success');
+        if ($stockAdjustment->delete()) {
+            return redirect()->route('inventory.stock_adjustment.index')->with('success', 'Data delete success');
         }
     }
 
@@ -101,7 +96,7 @@ class StockInController extends Controller
      */
     public function restore($id)
     {
-        $row = StockIn::onlyTrashed()->findOrFail($id);
+        $row = StockAdjustment::onlyTrashed()->findOrFail($id);
         if ($row->restore()) {
             return back()->with('success', __('alert.message.success.crud.restore'));
         }
@@ -113,7 +108,7 @@ class StockInController extends Controller
      */
     public function force_delete($id)
     {
-        $row = StockIn::onlyTrashed()->findOrFail($id);
+        $row = StockAdjustment::onlyTrashed()->findOrFail($id);
         if ($row->forceDelete()) {
             return back()->with('success', __('alert.message.success.crud.force_detele'));
         }
