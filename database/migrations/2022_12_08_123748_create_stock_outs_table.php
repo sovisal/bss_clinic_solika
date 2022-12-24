@@ -18,17 +18,17 @@ class CreateStockOutsTable extends Migration
 
             $table->date('date')->nullable();
             $table->string('document_no')->nullable();
-            
-            $table->unsignedBigInteger('stock_in_id')->nullable();
+
+            $table->foreignID('stock_in_id')->nullable()->constrain()->onUpdate('cascade')->onDelete('cascade');
             $table->string('type')->nullable();
-            
-            $table->unsignedBigInteger('product_id')->nullable();
-            $table->unsignedBigInteger('unit_id')->nullable();
-            
+
+            $table->foreignID('product_id')->nullable()->constrain()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignID('unit_id')->nullable()->constrain()->onUpdate('cascade')->onDelete('cascade');
+
             $table->float('price')->default(0);
             $table->float('qty')->default(0);
 
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreignID('user_id')->nullable()->constrain()->onUpdate('cascade')->onDelete('cascade');
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();

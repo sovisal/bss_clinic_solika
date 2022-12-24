@@ -20,15 +20,15 @@ class CreateStockInsTable extends Migration
             $table->date('exp_date')->nullalbe();
             $table->string('reciept_no')->nullalbe();
 
-            $table->unsignedBigInteger('supplier_id')->nullable();
-            $table->unsignedBigInteger('product_id')->nullable();
-            $table->unsignedBigInteger('unit_id')->nullable();
+            $table->foreignID('supplier_id')->nullable()->constrain()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignID('product_id')->nullable()->constrain()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignID('unit_id')->nullable()->constrain('product_units')->onUpdate('cascade')->onDelete('cascade');
 
             $table->float('remain')->default(0);
             $table->float('price')->default(0);
             $table->float('qty')->default(0);
 
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreignID('user_id')->nullable()->constrain()->onUpdate('cascade')->onDelete('cascade');
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();

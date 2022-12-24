@@ -19,19 +19,19 @@ class CreateSuppliersTable extends Migration
             $table->string('name_kh')->nullable();
             $table->string('description')->nullable();
             $table->string('logo')->nullable();
-            
+
             $table->string('contact_name')->nullable();
             $table->string('contact_number')->nullable();
-            
-            $table->foreignId('category_id')->nullable()->constrained('product_categories');
+
+            $table->foreignId('category_id')->nullable()->constrained('product_categories')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('type_id')->nullable()->constrained('product_types')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('address_id')->nullable()->constrained();
-            $table->foreignId('type_id')->nullable()->constrained('product_types');
 
             $table->text('other')->nullable();
             $table->string('payment_info')->nullable();
             $table->string('ap_amount')->nullable();
 
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreignID('user_id')->nullable()->constrain()->onUpdate('cascade')->onDelete('cascade');
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();

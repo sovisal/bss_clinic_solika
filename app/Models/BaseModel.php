@@ -17,7 +17,7 @@ class BaseModel extends Model
                 $model->status = 1;
             }
         });
-        
+
         parent::boot();
     }
 
@@ -93,7 +93,8 @@ class BaseModel extends Model
         return $this->belongsTo(Patient::class);
     }
 
-    public function gender () {
+    public function gender()
+    {
         return $this->belongsTo(DataParent::class, 'gender_id', 'id')->where('type', 'gender');
     }
 
@@ -102,11 +103,13 @@ class BaseModel extends Model
         return $this->belongsTo(Address_linkable::class);
     }
 
-    public function payment () {
+    public function payment()
+    {
         return $this->belongsTo(DataParent::class, 'payment_type', 'id')->where('type', 'payment_type');
     }
 
-    public function usage () {
+    public function usage()
+    {
         return $this->belongsTo(DataParent::class, 'usage_id', 'id');
     }
 
@@ -133,12 +136,14 @@ class BaseModel extends Model
     }
 
     // Filter Attributes for Para clinic
-    public function getfilterAttrAttribute () {
+    public function getfilterAttrAttribute()
+    {
         return array_except(filter_unit_attr(unserialize($this->attribute) ?: []), ['patient_id', 'gender_id', 'age', 'doctor_id', 'status', 'amount', 'price', 'payment_type', 'address_id', 'pt_province_id', 'pt_district_id', 'pt_commune_id', 'pt_village_id', 'name_kh', 'name_en', 'index', 'requested_by']);
     }
 
     // Module Link
-    public function getPatientLinkAttribute () {
+    public function getPatientLinkAttribute()
+    {
         if ($this->patient->status > 0) { // will check permission
             return d_link(d_obj($this, 'patient', ['name_en', 'name_kh']), route('patient.edit', [d_obj($this, 'patient', 'id'), 'back' => url()->current()]));
         } else {
@@ -146,7 +151,8 @@ class BaseModel extends Model
         }
     }
 
-    public function getDoctorLinkAttribute () {
+    public function getDoctorLinkAttribute()
+    {
         if ($this->doctor->status > 0) { // will check permission
             return d_link(d_obj($this, 'doctor', ['name_en', 'name_kh']), route('setting.doctor.edit', [d_obj($this, 'doctor', 'id'), 'back' => url()->current()]));
         } else {
@@ -154,8 +160,8 @@ class BaseModel extends Model
         }
     }
 
-    public function getTypeLinkAttribute () {
-        
+    public function getTypeLinkAttribute()
+    {
         if ($this->type->status > 0) { // will check permission
             switch ($this->table) {
                 case 'echographies':
@@ -178,8 +184,8 @@ class BaseModel extends Model
         }
     }
 
-    public function getProductTypeLinkAttribute () {
-        
+    public function getProductTypeLinkAttribute()
+    {
         if (($this->type->status ?? 0) > 0) { // will check permission
             return d_link(
                 d_obj($this, 'type', ['name_en', 'name_kh']),
@@ -190,8 +196,8 @@ class BaseModel extends Model
         }
     }
 
-    public function getProductCategoryLinkAttribute () {
-        
+    public function getProductCategoryLinkAttribute()
+    {
         if (($this->category->status ?? 0) > 0) { // will check permission
             return d_link(
                 d_obj($this, 'category', ['name_en', 'name_kh']),
@@ -202,8 +208,8 @@ class BaseModel extends Model
         }
     }
 
-    public function getProductUnitLinkAttribute () {
-        
+    public function getProductUnitLinkAttribute()
+    {
         if (($this->unit->status ?? 0) > 0) { // will check permission
             return d_link(
                 d_obj($this, 'unit', ['name_en', 'name_kh']),
@@ -214,7 +220,8 @@ class BaseModel extends Model
         }
     }
 
-    public function getSupplierLinkAttribute () {
+    public function getSupplierLinkAttribute()
+    {
         if ($this->supplier->status > 0) { // will check permission
             return d_link(d_obj($this, 'supplier', ['name_en', 'name_kh']), route('inventory.supplier.edit', [d_obj($this, 'supplier', 'id'), 'back' => url()->current()]));
         } else {

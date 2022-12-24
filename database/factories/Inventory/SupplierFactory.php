@@ -13,17 +13,17 @@ class SupplierFactory extends Factory
      */
     public function definition()
     {
-        $name = $this->name();
+        $name = $this->faker->name();
         return [
             'name_en' => $name,
             'name_kh' => $name,
-            'contact_name' => $this->name(),
+            'contact_name' => $this->faker->name(),
             'contact_number' => $this->faker->regexify('0[0-9]{11}'),
-            'category_id' => $this->faker->numberBetween(1,3),
-            'type_id' => $this->faker->numberBetween(1,3),
+            'category_id' => $this->faker->numberBetween(1,9),
+            'type_id' => 1,
+            'payment_info' => '',
             'user_id' => 1,
             'status' => 1,
-            'payment_info' => '',
         ];
     }
 }

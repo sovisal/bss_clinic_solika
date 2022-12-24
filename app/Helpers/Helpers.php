@@ -525,53 +525,54 @@ function d_date_time($date, $format = 'Y-m-d H:i:s', $default = '-')
 
 function d_labor_range($min = '', $max = '')
 {
-    return ($min != '' && $max != '') ? $min .'-'. $max  : '';
+    return ($min != '' && $max != '') ? $min . '-' . $max  : '';
 }
 
 function d_status($status, $false = 'Inactive', $true = 'Active')
-{   
-    if ($status == '2') { // Status = 2, mean record closed by success paid
-        return '<span class="badge badge-light">Closed</span>';
-    }
+{
     if ($status) {
-        return '<span class="badge badge-success">' . $true . '</span>';
+        return '<span class="badge badge-primary">' . $true . '</span>';
     }
 
     return '<span class="badge badge-danger">' . $false . '</span>';
 }
 
-function d_para_status($status, $false = 'Draft', $true = 'Complete')
+function d_para_status($status, $false = 'Active', $true = 'Closed')
 {
-    if ($status==2) {
-        return '<span class="badge badge-success">' . $true . '</span>';
+    if ($status == 2) {
+        return '<span class="badge badge-light">' . $true . '</span>';
     }
 
-    return '<span class="badge badge-light">' . $false . '</span>';
+    return '<span class="badge badge-parimary">' . $false . '</span>';
 }
 
-function d_paid_status ($status = 0) {
+function d_paid_status($status = 0)
+{
     if ($status == '1') {
-        return '<span class="badge badge-light">Paid</span>';
+        return '<span class="badge badge-success">Paid</span>';
     } elseif ($status == '2') {
-        return '<span class="badge badge-info">Refunded</span>';
+        return '<span class="badge badge-danger">Refunded</span>';
     } else {
-        return '<span class="badge badge-secondary">Unpaid</span>';
+        return '<span class="badge badge-dark">Unpaid</span>';
     }
 }
 
-function d_exchange_rate () {
+function d_exchange_rate()
+{
     return 4100;
 }
 
 // Param : (File Name, Main Path)
-function remove_file($file_name, $path){
+function remove_file($file_name, $path)
+{
     if ($file_name && File::exists($path . $file_name)) {
         File::delete($path . $file_name);
     }
 }
 
 // Param : (Request->image, Main Path, New Image name)
-function create_image($image, $path, $image_name = null){
+function create_image($image, $path, $image_name = null)
+{
     if ($image && $image != '/images/browse-image.jpg') {
         // Get image Data
         $data = $image;
@@ -588,7 +589,8 @@ function create_image($image, $path, $image_name = null){
 }
 
 // Param : (Request->image, Main Path, New Image name, Old image name)
-function update_image($image, $path, $image_name = null, $old_image = null){
+function update_image($image, $path, $image_name = null, $old_image = null)
+{
     if ($image) {
         // set image name and path
         $image_name = $image_name ?: time() . '_image_' . rand(111, 999) . '.png';

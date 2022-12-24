@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Database\Seeders\ProductSeeder;
+use Database\Seeders\SupplierSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -30,6 +32,8 @@ class DatabaseSeeder extends Seeder
             ProductCategorySeeder::class,
             ProductTypeSeeder::class,
             ProductUnitSeeder::class,
+            ProductSeeder::class,
+            SupplierSeeder::class,
             AddressLinkableSeeder::class,
         ]);
     }
