@@ -21,7 +21,8 @@ class CreateProductPackagesTable extends Migration
             $table->float('base_qty')->default(1);
             $table->float('qty')->default(0);
             $table->float('price')->default(0);
-            $table->float('code')->default(0);
+            
+            $table->string('code')->nullable();
              
             $table->unsignedBigInteger('user_id')->nullable()->constrained();
             $table->tinyInteger('status')->default('0');

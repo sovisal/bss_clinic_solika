@@ -33,6 +33,7 @@ class ProductController extends Controller
             'categories' => ProductCategory::where('status', 1)->orderBy('name_en', 'asc')->get(),
             'types' => ProductType::where('status', 1)->orderBy('name_en', 'asc')->get(),
             'code' => generate_code('PR', 'products', false),
+            'is_edit' => false,
         ];
         return view('product.create', $data);
     }
@@ -46,13 +47,22 @@ class ProductController extends Controller
             'code' => $request->code,
             'name_en' => $request->name_en,
             'name_kh' => $request->name_kh,
-            'cost' => $request->cost ?? 0,
-            'price' => $request->price ?? 0,
             'unit_id' => $request->unit_id,
             'type_id' => $request->type_id,
             'category_id' => $request->category_id,
+            
+            'cost' => $request->cost ?? 0,
+            'price' => $request->price ?? 0,
+            'qty_begin' => $request->qty_begin ?: 0,
+            'qty_alert' => $request->qty_alert ?: 0,
+            'qty_in' => $request->qty_begin ?: 0,
+            'qty_remain' => $request->qty_begin ?: 0,
         ])) {
-            if ($request->code == generate_code('PR', 'products', false)) { generate_code('PR', 'products'); }
+            $this->update_package($request, $product);
+
+            if ($request->code == generate_code('PR', 'products', false)) {
+                generate_code('PR', 'products');
+            }
             // Check if no exist folder/directory then create folder/directory
             $path = public_path('/images/products/');
             File::makeDirectory($path, 0777, true, true);
@@ -73,6 +83,7 @@ class ProductController extends Controller
             'units' => ProductUnit::where('status', 1)->orderBy('name_en', 'asc')->get(),
             'categories' => ProductCategory::where('status', 1)->orderBy('name_en', 'asc')->get(),
             'types' => ProductType::where('status', 1)->orderBy('name_en', 'asc')->get(),
+            'is_edit' => true,
         ];
         return view('product.edit', $data);
     }
@@ -99,6 +110,7 @@ class ProductController extends Controller
                 'category_id' => $request->category_id,
             ]
         ))) {
+            $this->update_package($request, $product);
 
             return redirect()->route('inventory.product.index')->with('success', 'Data created success');
         }
@@ -163,5 +175,21 @@ class ProductController extends Controller
             return back()->with('success', __('alert.message.success.crud.force_detele'));
         }
         return back()->with('error', __('alert.message.error.crud.force_detele'));
+    }
+
+    public function update_package ($request, $product = null) {
+        $package = [];
+        foreach ($request->package_product_unit_id ?: [] as $index => $product_unit_id) {
+            $package[] = [
+                'product_unit_id' => $product_unit_id,
+                'base_qty' => 1,
+                'qty' => $request->package_qty[$index] ?: 0,
+                'price' => $request->package_price[$index] ?: 0,
+                'code' => $request->package_code[$index] ?: 0,
+            ];
+        }
+        
+        $product->packages()->where('status', '1')->delete();
+        $product->packages()->createMany($package);
     }
 }

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ProductPackage extends BaseModel
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory; // no need soft delete
     protected $guarded = ['id'];
     
     public function unit()
