@@ -37,6 +37,7 @@ class StockInController extends Controller
      */
     public function store(StockInRequest $request)
     {
+        dd($request->all());
         if (StockIn::create([
             'date' => $request->date,
             'exp_date' => $request->exp_date,

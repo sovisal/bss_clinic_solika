@@ -192,4 +192,19 @@ class ProductController extends Controller
         $product->packages()->where('status', '1')->delete();
         $product->packages()->createMany($package);
     }
+    
+    public function getUnit(Request $request)
+    {
+        $product = Product::with(['packages'])->findOrFail($request->id);
+        $options = '<option value="">---- None ----</option>';
+        foreach ($product->packages ?? [] as $package) {
+            $options .= '<option value="'. $package->id .'" >'. d_obj($package, ['name_kh', 'name_en']) .'</option>';
+        }
+
+        return response()->json([
+            'success' => true,
+            'product' => $product,
+            'options' => $options,
+        ]);
+    }
 }

@@ -2,18 +2,17 @@
 
 namespace Database\Factories\Inventory;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductFactory extends Factory
 {
     /**
      * Define the model's default state.
-     *
-     * @return array
      */
     public function definition()
     {
-        $name = $this->faker->name();
+        $name = $this->faker->word();
         $cost = $this->faker->numberBetween(1,50);
         return [
             'code' => generate_code('PR', 'products'),

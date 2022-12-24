@@ -21,10 +21,10 @@ class Supplier extends BaseModel
         return $this->belongsTo(ProductType::class, 'type_id');
     }
 
-    public function products()
-    {
-        return $this->belongsToMany(Products::class, 'supplier_id')->withTimestamps();
-    }
+    // public function products()
+    // {
+    //     return $this->belongsToMany(Product::class, 'supplier_id')->withTimestamps();
+    // }
     
     public function assignProduct($products = [])
     {

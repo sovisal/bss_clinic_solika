@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Inventory\Supplier;
 use Illuminate\Support\Facades\File;
 use App\Models\Inventory\ProductType;
 use App\Http\Requests\SupplierRequest;
 use App\Models\Inventory\ProductCategory;
-use App\Http\Requests\StoreSupplierRequest;
-use App\Http\Requests\UpdateSupplierRequest;
 
 class SupplierController extends Controller
 {
@@ -139,5 +138,20 @@ class SupplierController extends Controller
             return back()->with('success', __('alert.message.success.crud.force_detele'));
         }
         return back()->with('error', __('alert.message.error.crud.force_detele'));
+    }
+
+    public function getProduct(Request $request)
+    {
+        $supplier = Supplier::with(['category.products'])->findOrFail($request->id);
+        $options = '<option value="">---- None ----</option>';
+        foreach ($supplier->category->products ?? [] as $product) {
+            $options .= '<option value="'. $product->id .'" >'. d_obj($product, ['name_kh', 'name_en']) .'</option>';
+        }
+
+        return response()->json([
+            'success' => true,
+            'supplier' => $supplier,
+            'options' => $options,
+        ]);
     }
 }
