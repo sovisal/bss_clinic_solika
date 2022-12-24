@@ -16,22 +16,9 @@ class ProductTypeSeeder extends Seeder
     {
 		ProductType::insert([
 			[
-				'name_kh' => 'Type 1',
-				'name_en' => 'Type 1',
-				'description' => '',
-				'status' => 1,
-				'user_id' => 1,
-			],
-			[
-				'name_kh' => 'Type 2',
-				'name_en' => 'Type 2',
-				'description' => '',
-				'status' => 1,
-				'user_id' => 1,
-			],
-			[
-				'name_kh' => 'Type 3',
-				'name_en' => 'Type 3',
+				'id' => 1,
+				'name_kh' => 'Medicine',
+				'name_en' => 'Medicine',
 				'description' => '',
 				'status' => 1,
 				'user_id' => 1,
