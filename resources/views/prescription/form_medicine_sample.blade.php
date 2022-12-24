@@ -9,16 +9,16 @@
         </x-bss-form.select>
     </td>
     <td>
-        <x-bss-form.input type="text" name='qty[]' value="{{ @$row->qty ?: 0 }}" class="text-center" />
+        <x-bss-form.input type="text" name='qty[]' value="{{ @$row->qty ?: 0 }}" class="text-center is_number" />
     </td>
     <td>
-        <x-bss-form.input type="number" name='upd[]' value="{{ @$row->upd ?: 0 }}" class="text-center" />
+        <x-bss-form.input type="number" name='upd[]' value="{{ @$row->upd ?: 0 }}" class="text-center is_number" />
     </td>
     <td>
-        <x-bss-form.input type="number" name='nod[]' value="{{ @$row->nod ?: 0 }}" class="text-center" />
+        <x-bss-form.input type="number" name='nod[]' value="{{ @$row->nod ?: 0 }}" class="text-center is_number" />
     </td>
     <td>
-        <x-bss-form.input type="number" name='total[]' value="{{ @$row->total ?: 0 }}" class="text-center" readonly />
+        <x-bss-form.input type="number" name='total[]' value="{{ @$row->total ?: 0 }}" class="text-center is_number" readonly />
     </td>
     <td>
         <x-bss-form.input type="text" name='unit[]' value="{{ @$row->unit ?: '' }}" class="text-center" />

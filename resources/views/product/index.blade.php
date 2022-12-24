@@ -14,6 +14,7 @@
                     <th width="10%">Unit</th>
                     <th width="10%">Type</th>
                     <th width="10%">Category</th>
+                    <th width="10%">Remain</th>
                     <th width="10%">User</th>
                     <th width="8%">Status</th>
                     <th width="8%">Action</th>
@@ -29,6 +30,7 @@
                     <td>{!! d_obj($row, 'unit', ['name_kh', 'name_en']) !!}</td>
                     <td>{!! $row->productTypeLink !!}</td>
                     <td>{!! $row->productCategoryLink !!}</td>
+                    <td>{!! d_number($row->qty_remain) !!}</td>
                     <td>{!! d_obj($row, 'user', 'name') !!}</td>
                     <td>{!! d_status($row->status) !!}</td>
                     <td>

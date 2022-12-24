@@ -57,6 +57,41 @@ class ProductUnitSeeder extends Seeder
 				'status' => 1,
 				'user_id' => 1,
 			],
+			[
+				'name_kh' => 'kg',
+				'name_en' => 'kg',
+				'description' => '',
+				'status' => 1,
+				'user_id' => 1,
+			],
+			[
+				'name_kh' => 'g',
+				'name_en' => 'g',
+				'description' => '',
+				'status' => 1,
+				'user_id' => 1,
+			],
+			[
+				'name_kh' => 'កំប៉ុង',
+				'name_en' => 'can',
+				'description' => '',
+				'status' => 1,
+				'user_id' => 1,
+			],
+			[
+				'name_kh' => 'ប្រអប់តូច',
+				'name_en' => 'SM Box',
+				'description' => '',
+				'status' => 1,
+				'user_id' => 1,
+			],
+			[
+				'name_kh' => 'ប្រអប់ធំ',
+				'name_en' => 'XL Box',
+				'description' => '',
+				'status' => 1,
+				'user_id' => 1,
+			],
 		]);
     }
 }
