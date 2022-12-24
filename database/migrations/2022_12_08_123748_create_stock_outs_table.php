@@ -20,7 +20,7 @@ class CreateStockOutsTable extends Migration
             $table->string('document_no')->nullable();
             
             $table->unsignedBigInteger('stock_in_id')->nullable();
-            $table->unsignedBigInteger('type_id')->nullable();
+            $table->string('type')->nullable();
             
             $table->unsignedBigInteger('product_id')->nullable();
             $table->unsignedBigInteger('unit_id')->nullable();

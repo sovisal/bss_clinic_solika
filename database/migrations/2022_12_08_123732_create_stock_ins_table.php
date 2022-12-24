@@ -24,6 +24,7 @@ class CreateStockInsTable extends Migration
             $table->unsignedBigInteger('product_id')->nullable();
             $table->unsignedBigInteger('unit_id')->nullable();
 
+            $table->float('remain')->default(0);
             $table->float('price')->default(0);
             $table->float('qty')->default(0);
 

@@ -27,8 +27,6 @@ class StockInController extends Controller
     public function create()
     {
         $data = [
-            'units' => ProductUnit::where('status', 1)->orderBy('name_en', 'asc')->get(),
-            'products' => Product::where('status', 1)->orderBy('name_en', 'asc')->get(),
             'suppliers' => Supplier::where('status', 1)->orderBy('name_en', 'asc')->get(),
         ];
         return view('stock_in.create', $data);
@@ -59,8 +57,6 @@ class StockInController extends Controller
     public function edit(StockIn $stockIn)
     {
         $data = [
-            'units' => ProductUnit::where('status', 1)->orderBy('name_en', 'asc')->get(),
-            'products' => Product::where('status', 1)->orderBy('name_en', 'asc')->get(),
             'suppliers' => Supplier::where('status', 1)->orderBy('name_en', 'asc')->get(),
             'row' => $stockIn
         ];
