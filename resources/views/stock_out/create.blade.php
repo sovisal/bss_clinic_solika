@@ -22,7 +22,7 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>Stock Out</div>
                                 <div>
-                                    <x-form.button href="javascript:void(0)" color="dark" id="btn-add-stock-in" icon="bx bx-plus" label="Add Stock In"/>
+                                    <x-form.button href="javascript:void(0)" color="dark" id="btn-add-stock-in" icon="bx bx-plus" label="Add Stock Out"/>
                                 </div>
                             </div>
                         </th>

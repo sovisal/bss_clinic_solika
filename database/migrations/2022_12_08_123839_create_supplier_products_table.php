@@ -15,10 +15,10 @@ class CreateSupplierProductsTable extends Migration
     {
         Schema::create('supplier_products', function (Blueprint $table) {
             $table->id();
-            $table->foreignID('supplier_id')->nullable()->constrain()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignID('product_id')->nullable()->constrain()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignID('supplier_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignID('product_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
 
-            $table->foreignID('user_id')->nullable()->constrain()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignID('user_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();

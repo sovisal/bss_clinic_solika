@@ -19,7 +19,7 @@ class CreateProductUnitsTable extends Migration
             $table->string('name_kh')->nullable();
             $table->string('description')->nullable();
 
-            $table->foreignID('user_id')->nullable()->constrain()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignID('user_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();

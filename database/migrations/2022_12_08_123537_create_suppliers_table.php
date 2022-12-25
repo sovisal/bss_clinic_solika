@@ -31,7 +31,7 @@ class CreateSuppliersTable extends Migration
             $table->string('payment_info')->nullable();
             $table->string('ap_amount')->nullable();
 
-            $table->foreignID('user_id')->nullable()->constrain()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignID('user_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();

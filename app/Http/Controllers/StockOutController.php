@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Inventory\Product;
 use App\Models\Inventory\StockIn;
 use App\Models\Inventory\StockOut;
+use App\Models\Inventory\ProductUnit;
 use App\Http\Requests\StockOutRequest;
 use App\Models\Inventory\ProductPackage;
+use Illuminate\Support\Facades\Validator;
 
 class StockOutController extends Controller
 {
@@ -37,9 +39,9 @@ class StockOutController extends Controller
      */
     public function store(StockOutRequest $request)
     {
-        dd($request->all());
-        if ($this->createStockOut($request)) {
-            return redirect()->route('inventory.stock_in.index')->with('success', 'Data created success');
+        $result = $this->createStockOut($request);
+        if ($result->success) {
+            return redirect()->route('inventory.stock_out.index')->with('success', ($result->errors ? '' : 'Data created success'))->with('errors', $result->errors);
         }
         return back()->with('error', 'Not data was created');
     }
@@ -49,7 +51,6 @@ class StockOutController extends Controller
      */
     public function edit(StockOut $stockOut)
     {
-        
     }
 
     /**
@@ -57,7 +58,6 @@ class StockOutController extends Controller
      */
     public function update(StockOutRequest $request, StockOut $stockOut)
     {
-        
     }
 
     /**
@@ -96,6 +96,9 @@ class StockOutController extends Controller
 
     public function createStockOut($request)
     {
+        $result = collect();
+        $result->errors = [];
+        $validator = Validator::make([],[]);
         if (count($request->date) > 0) {
             // Get all related Packages
             $packages = ProductPackage::whereIn('product_id', $request->product_id)->whereIn('product_unit_id', $request->unit_id)->get();
@@ -103,25 +106,46 @@ class StockOutController extends Controller
                 // Get specific Package for each product
                 $package = $packages->where('product_id', $request->product_id[$index])->where('product_unit_id', $request->unit_id[$index])->first();
                 // Calculate Total Qty for stock remain
-                $total_qty = $request->qty[$index] * ($package->qty ?? 0);
+                $total_qty_out = $request->qty[$index] * ($package->qty ?? 1);
                 $stock_in_ids = [];
-
-                $stock_ins = StockIn::where('remain', '>', 0)->get()->pluck('id');
-
-                // Create new Stock in row in database
-                StockOut::create([
-                    'date' => $request->date[$index] ?? date('Y-m-d'),
-                    'reciept_no' => $request->reciept_no[$index] ?? '',
-                    'price' => $request->price[$index] ?? 0,
-                    'qty' => $request->qty[$index] ?? 0,
-                    'product_id' => $request->product_id[$index] ?? null,
-                    'unit_id' => $request->unit_id[$index] ?? null,
-                    'stock_in_id' => $stock_in_ids,
-                    'type' => $request->type,
-                ]);
+                // Get all StockIn available
+                $stock_ins = StockIn::where('remain', '>', 0)->where('product_id', $request->product_id[$index])->orderBy('exp_date', 'asc')->orderBy('date', 'asc')->get();
+                if ($stock_ins->sum('remain') >= $total_qty_out) {
+                    foreach ($stock_ins as $stock_in) {
+                        $stock_in_ids[] = $stock_in->id;
+                        if ($stock_in->remain >= $total_qty_out) {
+                            $stock_in->update([
+                                'remain' => $stock_in->remain - $total_qty_out
+                            ]);
+                            break;
+                        } else {
+                            $total_qty_out -= $stock_in->remain;
+                            $stock_in->update([
+                                'remain' => 0
+                            ]);
+                        }
+                    }
+                    // Create new Stock in row in database
+                    StockOut::create([
+                        'date' => $request->date[$index] ?? date('Y-m-d'),
+                        'document_no' => $request->reciept_no[$index] ?? '',
+                        'price' => $request->price[$index] ?? 0,
+                        'qty' => $request->qty[$index] ?? 0,
+                        'product_id' => $request->product_id[$index] ?? null,
+                        'unit_id' => $request->unit_id[$index] ?? null,
+                        'stock_in_id' => implode(',', $stock_in_ids),
+                        'type' => $request->type,
+                    ]);
+                } else {
+                    $product = Product::find($request->product_id[$index]);
+                    $validator->errors()->add('stock_out', 'Insufficient stock on product: ' . d_obj($product, ['name_kh', 'name_en']) . '! total requested stock is ' . d_number($total_qty_out) . ' but total stock available is ' . d_number($stock_ins->sum('remain')));
+                }
             }
-            return true;
+            $result->errors = $validator->errors();
+            $result->success = true;
+            return $result;
         }
-        return false;
+        $result->success = false;
+        return $result;
     }
 }

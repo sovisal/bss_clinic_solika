@@ -20,15 +20,15 @@ class CreateStockInsTable extends Migration
             $table->date('exp_date')->nullable();
             $table->string('reciept_no')->nullable();
 
-            $table->foreignID('supplier_id')->nullable()->constrain()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignID('product_id')->nullable()->constrain()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignID('unit_id')->nullable()->constrain('product_units')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignID('supplier_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignID('product_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignID('unit_id')->nullable()->constrained('product_units')->onUpdate('cascade')->onDelete('cascade');
 
             $table->float('remain')->default(0);
             $table->float('price')->default(0);
             $table->float('qty')->default(0);
 
-            $table->foreignID('user_id')->nullable()->constrain()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignID('user_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();

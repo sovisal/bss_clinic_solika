@@ -33,6 +33,8 @@ class DatabaseSeeder extends Seeder
             ProductTypeSeeder::class,
             ProductUnitSeeder::class,
             ProductSeeder::class,
+            ProductPackageSeeder::class,
+            StockInSeeder::class,
             SupplierSeeder::class,
             AddressLinkableSeeder::class,
         ]);

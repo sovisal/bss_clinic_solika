@@ -32,7 +32,7 @@ class CreateProductsTable extends Migration
             $table->foreignID('unit_id')->nullable()->constrained('product_units')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignID('category_id')->nullable()->constrained('product_categories')->onUpdate('cascade')->onDelete('cascade');
 
-            $table->foreignID('user_id')->nullable()->constrain()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignID('user_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();

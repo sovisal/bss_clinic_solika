@@ -20,7 +20,7 @@ class CreateProductCategoriesTable extends Migration
             $table->string('description')->nullable();
             $table->float('total_product')->default(0);
 
-            $table->foreignID('user_id')->nullable()->constrain()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignID('user_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();

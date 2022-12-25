@@ -23,7 +23,7 @@ class CreateProductPackagesTable extends Migration
             $table->float('price')->default(0);
             $table->string('code')->nullable();
 
-            $table->foreignID('user_id')->nullable()->constrain()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignID('user_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();

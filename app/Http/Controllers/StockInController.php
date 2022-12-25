@@ -45,7 +45,7 @@ class StockInController extends Controller
                 // Get specific Package for each product
                 $package = $packages->where('product_id', $request->product_id[$index])->where('product_unit_id', $request->unit_id[$index])->first();
                 // Calculate Total Qty for stock remain
-                $total_qty = $request->qty[$index] * ($package->qty ?? 0);
+                $total_qty = $request->qty[$index] * ($package->qty ?? 1);
                 // Create new Stock in row in database
                 StockIn::create([
                     'date' => $request->date[$index] ?? date('Y-m-d'),
@@ -82,7 +82,7 @@ class StockInController extends Controller
     public function update(StockInRequest $request, StockIn $stockIn)
     {
         $package = ProductPackage::where('product_id', $request->product_id)->where('product_unit_id', $request->unit_id)->first();
-        $total_qty = $request->qty * ($package->qty ?? 0);
+        $total_qty = $request->qty * ($package->qty ?? 1);
         if ($stockIn->update([
             'date' => $request->date,
             'exp_date' => $request->exp_date,
