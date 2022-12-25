@@ -16,9 +16,9 @@ class CreateStockInsTable extends Migration
         Schema::create('stock_ins', function (Blueprint $table) {
             $table->id();
 
-            $table->date('date')->nullalbe();
-            $table->date('exp_date')->nullalbe();
-            $table->string('reciept_no')->nullalbe();
+            $table->date('date')->nullable();
+            $table->date('exp_date')->nullable();
+            $table->string('reciept_no')->nullable();
 
             $table->foreignID('supplier_id')->nullable()->constrain()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignID('product_id')->nullable()->constrain()->onUpdate('cascade')->onDelete('cascade');

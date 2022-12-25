@@ -24,14 +24,14 @@ class StockInRequest extends FormRequest
     public function rules()
     {
         return [
-            'date' => 'required|date',
-            'exp_date' => 'required|date',
-            'reciept_no' => 'nullable|string|max:255',
-            'price' => 'required|numeric',
-            'qty' => 'required|numeric',
-            'supplier_id' => 'required|numeric',
-            'product_id' => 'required|numeric',
-            'unit_id' => 'required|numeric'
+            // 'date.*' => 'required|date',
+            // 'exp_date.*' => 'required|date',
+            // 'reciept_no.*' => 'nullable|string|max:255',
+            // 'price.*' => 'required|numeric',
+            // 'qty.*' => 'required|numeric',
+            // 'supplier_id.*' => 'required|numeric',
+            // 'product_id.*' => 'required|numeric',
+            // 'unit_id.*' => 'nullable|numeric'
         ];
     }
 }

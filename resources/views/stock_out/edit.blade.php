@@ -1,11 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-form.button-back href="{{ route('inventory.stock_in.index') }}" />
+        <x-form.button-back href="{{ route('inventory.stock_out.index') }}" />
     </x-slot>
     <x-slot name="js">
-        @include('stock_in.script')
+        @include('stock_out.script')
     </x-slot>
-    <form action="{{ route('inventory.stock_in.update', $row->id) }}" method="POST" autocomplete="off">
+    <form action="{{ route('inventory.stock_out.update', $row->id) }}" method="POST" autocomplete="off">
         @method('PUT')
         @csrf
         <x-card bodyClass="pb-0">

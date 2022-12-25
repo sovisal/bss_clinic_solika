@@ -13,7 +13,7 @@ class ProductPackage extends BaseModel
     
     public function unit()
     {
-        return $this->belongsTo(ProductUit::class, 'product_unit_id');
+        return $this->belongsTo(ProductUnit::class, 'product_unit_id');
     }
 
     public function product()

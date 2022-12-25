@@ -19,7 +19,7 @@ class CreateStockOutsTable extends Migration
             $table->date('date')->nullable();
             $table->string('document_no')->nullable();
 
-            $table->foreignID('stock_in_id')->nullable()->constrain()->onUpdate('cascade')->onDelete('cascade');
+            $table->text('stock_in_id')->nullable();
             $table->string('type')->nullable();
 
             $table->foreignID('product_id')->nullable()->constrain()->onUpdate('cascade')->onDelete('cascade');

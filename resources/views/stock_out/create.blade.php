@@ -1,11 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-form.button-back href="{{ route('inventory.stock_in.index') }}" />
+        <x-form.button-back href="{{ route('inventory.stock_out.index') }}" />
     </x-slot>
     <x-slot name="js">
-        @include('stock_in.script')
+        @include('stock_out.script')
     </x-slot>
-    <form action="{{ route('inventory.stock_in.store') }}" method="POST" autocomplete="off" enctype="multipart/form-data">
+    <form action="{{ route('inventory.stock_out.store') }}" method="POST" autocomplete="off" enctype="multipart/form-data">
         @csrf
         <x-card bodyClass="pb-0">
             <x-slot name="action">
@@ -20,7 +20,7 @@
                     <tr>
                         <th class="tw-bg-gray-100">
                             <div class="d-flex justify-content-between align-items-center">
-                                <div>Stock In</div>
+                                <div>Stock Out</div>
                                 <div>
                                     <x-form.button href="javascript:void(0)" color="dark" id="btn-add-stock-in" icon="bx bx-plus" label="Add Stock In"/>
                                 </div>
@@ -34,6 +34,6 @@
         </x-card>
     </form>
 
-    @include('stock_in.form_stock_in_sample')
+    @include('stock_out.form_stock_out_sample')
     <x-modal-image-crop />
 </x-app-layout>

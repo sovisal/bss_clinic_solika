@@ -9,18 +9,12 @@
             </th>
         </tr>
         <tr>
-            <x-bss-form.input-row name="date[]" id="" labelWidth="15%" :tr="false" class="date-picker" hasIcon="right" icon="bx bx-calendar" required label="Date" />
-            <x-bss-form.select-row name="supplier_id[]" id="" labelWidth="15%" :tr="false" :select2="false" required label="Supplier">
-                <option value="">---- None ----</option>
-                @foreach ($suppliers as $supplier)
-                <option value="{{ $supplier->id }}">{{ d_obj($supplier, ['name_en', 'name_kh']) }}</option>
-                @endforeach
-            </x-bss-form.select-row>
-        </tr>
-        <tr>
-            <x-bss-form.input-row name="exp_date[]" id="" labelWidth="15%" :tr="false" class="date-picker" hasIcon="right" icon="bx bx-calendar" label="Expire Date" />
+            <x-bss-form.input-row name="date[]" id="" labelWidth="15%" :tr="false" class="date-picker" required hasIcon="right" icon="bx bx-calendar" label="Date" />
             <x-bss-form.select-row name="product_id[]" id="" labelWidth="15%" :tr="false" :select2="false" required label="Product">
                 <option value="">---- None ----</option>
+                @foreach ($products as $product)
+                <option value="{{ $product->id }}">{{ d_obj($product, ['name_en', 'name_kh']) }}</option>
+                @endforeach
             </x-bss-form.select-row>
         </tr>
         <tr>

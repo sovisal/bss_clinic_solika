@@ -198,7 +198,7 @@ class ProductController extends Controller
         $product = Product::with(['packages'])->findOrFail($request->id);
         $options = '<option value="">---- None ----</option>';
         foreach ($product->packages ?? [] as $package) {
-            $options .= '<option value="'. $package->id .'" >'. d_obj($package, ['name_kh', 'name_en']) .'</option>';
+            $options .= '<option value="'. $package->product_unit_id .'" >'. d_obj($package, 'unit', ['name_kh', 'name_en']) .'</option>';
         }
 
         return response()->json([

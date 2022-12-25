@@ -220,6 +220,18 @@ class BaseModel extends Model
         }
     }
 
+    public function getProductLinkAttribute()
+    {
+        if (($this->product->status ?? 0) > 0) { // will check permission
+            return d_link(
+                d_obj($this, 'product', ['name_en', 'name_kh']),
+                route('inventory.product.edit', [d_obj($this, 'product', 'id'), 'back' => url()->current()])
+            );
+        } else {
+            return d_obj($this, 'product', ['name_en', 'name_kh']);
+        }
+    }
+
     public function getSupplierLinkAttribute()
     {
         if ($this->supplier->status > 0) { // will check permission

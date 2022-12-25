@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Inventory\Product;
+use App\Models\Inventory\StockIn;
 use App\Models\Inventory\StockOut;
 use App\Http\Requests\StockOutRequest;
+use App\Models\Inventory\ProductPackage;
 
 class StockOutController extends Controller
 {
@@ -23,7 +26,10 @@ class StockOutController extends Controller
      */
     public function create()
     {
-        return view('stock_out.create');
+        $data = [
+            'products' => Product::where('status', 1)->orderBy('name_en', 'asc')->get(),
+        ];
+        return view('stock_out.create', $data);
     }
 
     /**
@@ -31,7 +37,11 @@ class StockOutController extends Controller
      */
     public function store(StockOutRequest $request)
     {
-        
+        dd($request->all());
+        if ($this->createStockOut($request)) {
+            return redirect()->route('inventory.stock_in.index')->with('success', 'Data created success');
+        }
+        return back()->with('error', 'Not data was created');
     }
 
     /**
@@ -82,5 +92,36 @@ class StockOutController extends Controller
             return back()->with('success', __('alert.message.success.crud.force_detele'));
         }
         return back()->with('error', __('alert.message.error.crud.force_detele'));
+    }
+
+    public function createStockOut($request)
+    {
+        if (count($request->date) > 0) {
+            // Get all related Packages
+            $packages = ProductPackage::whereIn('product_id', $request->product_id)->whereIn('product_unit_id', $request->unit_id)->get();
+            foreach ($request->date as $index => $value) {
+                // Get specific Package for each product
+                $package = $packages->where('product_id', $request->product_id[$index])->where('product_unit_id', $request->unit_id[$index])->first();
+                // Calculate Total Qty for stock remain
+                $total_qty = $request->qty[$index] * ($package->qty ?? 0);
+                $stock_in_ids = [];
+
+                $stock_ins = StockIn::where('remain', '>', 0)->get()->pluck('id');
+
+                // Create new Stock in row in database
+                StockOut::create([
+                    'date' => $request->date[$index] ?? date('Y-m-d'),
+                    'reciept_no' => $request->reciept_no[$index] ?? '',
+                    'price' => $request->price[$index] ?? 0,
+                    'qty' => $request->qty[$index] ?? 0,
+                    'product_id' => $request->product_id[$index] ?? null,
+                    'unit_id' => $request->unit_id[$index] ?? null,
+                    'stock_in_id' => $stock_in_ids,
+                    'type' => $request->type,
+                ]);
+            }
+            return true;
+        }
+        return false;
     }
 }
