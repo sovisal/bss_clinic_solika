@@ -25,13 +25,17 @@
         </tr>
         <tr>
             <x-bss-form.input-row name="reciept_no[]" id="" labelWidth="15%" :tr="false" required label="Reciept Number" />
-            <x-bss-form.select-row name="unit_id[]" id="" labelWidth="15%" :tr="false" :select2="false" label="Unit">
+            <x-bss-form.select-row name="unit_id[]" id="" labelWidth="15%" :tr="false" class="unit_id" :select2="false" data-qty="0" label="Unit">
                 <option value="">---- None ----</option>
             </x-bss-form.select-row>
         </tr>
         <tr>
-            <x-bss-form.input-row name="qty[]" id="" labelWidth="15%" :tr="false" class="is_number" required label="QTY" />
-            <x-bss-form.input-row name="price[]" id="" labelWidth="15%" :tr="false" class="is_number" required label="Price" />
+            <x-bss-form.input-row name="qty_based[]" id="" labelWidth="15%" :tr="false" class="is_number" value="0" readonly label="Base Qty" />
+            <x-bss-form.input-row name="qty[]" id="" labelWidth="15%" :tr="false" class="is_number qty" required label="QTY" />
+        </tr>
+        <tr>
+            <x-bss-form.input-row name="total[]" id="" labelWidth="15%" :tr="false" class="is_number" value="0" readonly label="Total" />
+            <x-bss-form.input-row name="price[]" id="" labelWidth="15%" :tr="false" class="is_number price" required label="Price" />
         </tr>
     </table>
 </div>

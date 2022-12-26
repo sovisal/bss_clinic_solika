@@ -39,24 +39,20 @@ class StockInController extends Controller
     public function store(StockInRequest $request)
     {
         if (count($request->date) > 0) {
-            // Get all related Packages
-            $packages = ProductPackage::whereIn('product_id', $request->product_id)->whereIn('product_unit_id', $request->unit_id)->get();
             foreach ($request->date as $index => $value) {
-                // Get specific Package for each product
-                $package = $packages->where('product_id', $request->product_id[$index])->where('product_unit_id', $request->unit_id[$index])->first();
-                // Calculate Total Qty for stock remain
-                $total_qty = $request->qty[$index] * ($package->qty ?? 1);
-                // Create new Stock in row in database
                 StockIn::create([
                     'date' => $request->date[$index] ?? date('Y-m-d'),
                     'exp_date' => $request->exp_date[$index] ?? null,
                     'reciept_no' => $request->reciept_no[$index] ?? '',
                     'price' => $request->price[$index] ?? 0,
                     'qty' => $request->qty[$index] ?? 0,
-                    'remain' => $total_qty,
+                    'remain' => $request->qty_based[$index] ?? 0,
+                    'qty_based' => $request->qty_based[$index] ?? 0,
+                    'total' => $request->total[$index] ?? 0,
                     'supplier_id' => $request->supplier_id[$index] ?? null,
                     'product_id' => $request->product_id[$index] ?? null,
                     'unit_id' => $request->unit_id[$index] ?? null,
+                    'type' => 'stockin',
                 ]);
             }
             return redirect()->route('inventory.stock_in.index')->with('success', 'Data created success');
@@ -81,15 +77,15 @@ class StockInController extends Controller
      */
     public function update(StockInRequest $request, StockIn $stockIn)
     {
-        $package = ProductPackage::where('product_id', $request->product_id)->where('product_unit_id', $request->unit_id)->first();
-        $total_qty = $request->qty * ($package->qty ?? 1);
         if ($stockIn->update([
             'date' => $request->date,
             'exp_date' => $request->exp_date,
             'reciept_no' => $request->reciept_no,
             'price' => $request->price,
             'qty' => $request->qty,
-            'remain' => $total_qty,
+            'remain' => $request->qty_based,
+            'qty_based' => $request->qty_based,
+            'total' => $request->total,
             'supplier_id' => $request->supplier_id,
             'product_id' => $request->product_id,
             'unit_id' => $request->unit_id

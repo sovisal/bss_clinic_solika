@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Inventory\ProductUnit;
 use App\Http\Requests\ProductUnitRequest;
 
@@ -95,4 +96,9 @@ class ProductUnitController extends Controller
         }
         return back()->with('error', __('alert.message.error.crud.force_detele'));
     }
+
+    // public function getPackage(Request $request)
+    // {
+    //     # code...
+    // }
 }

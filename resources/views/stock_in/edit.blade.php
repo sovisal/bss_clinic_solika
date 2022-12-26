@@ -42,7 +42,7 @@
                 </tr>
                 <tr>
                     <x-bss-form.input-row name="reciept_no" id="" labelWidth="15%" :tr="false" :value="old('reciept_no', $row->reciept_no)" required label="Reciept Number" />
-                    <x-bss-form.select-row name="unit_id" id="" labelWidth="15%" :tr="false" label="Unit">
+                    <x-bss-form.select-row name="unit_id" id="" labelWidth="15%" :tr="false" class="unit_id" label="Unit">
                         <option value="">---- None ----</option>
                         @if ($row->unit_id)
                             <option value="{{ $row->unit_id }}" selected>{{ d_obj($row, 'unit', ['name_en', 'name_kh']) }}</option>
@@ -50,8 +50,12 @@
                     </x-bss-form.select-row>
                 </tr>
                 <tr>
-                    <x-bss-form.input-row name="qty" id="" labelWidth="15%" :tr="false" class="is_number" :value="old('qty', $row->qty)" required label="QTY" />
+                    <x-bss-form.input-row name="qty_based" id="" labelWidth="15%" :tr="false" class="is_number" :value="old('qty', $row->qty_based)" readonly label="Base Qty" />
                     <x-bss-form.input-row name="price" id="" labelWidth="15%" :tr="false" class="is_number" :value="old('price', $row->price) ?? 0" required label="Price" />
+                </tr>
+                <tr>
+                    <x-bss-form.input-row name="total" id="" labelWidth="15%" :tr="false" class="is_number qty" :value="old('qty', $row->total)" readonly label="Total" />
+                    <x-bss-form.input-row name="price" id="" labelWidth="15%" :tr="false" class="is_number price" :value="old('price', $row->price) ?? 0" required label="Price" />
                 </tr>
             </table>
         </x-card>

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\File;
 use App\Http\Requests\ProductRequest;
 use App\Models\Inventory\ProductType;
 use App\Models\Inventory\ProductUnit;
+use App\Models\Inventory\ProductPackage;
 use App\Models\Inventory\ProductCategory;
 
 class ProductController extends Controller
@@ -198,7 +199,7 @@ class ProductController extends Controller
         $product = Product::with(['packages'])->findOrFail($request->id);
         $options = '<option value="">---- None ----</option>';
         foreach ($product->packages ?? [] as $package) {
-            $options .= '<option value="'. $package->product_unit_id .'" >'. d_obj($package, 'unit', ['name_kh', 'name_en']) .'</option>';
+            $options .= '<option value="'. $package->product_unit_id .'" data-qty="'. $package->qty .'">'. d_obj($package, 'unit', ['name_kh', 'name_en']) .'</option>';
         }
 
         return response()->json([

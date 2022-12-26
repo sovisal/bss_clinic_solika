@@ -64,6 +64,7 @@ Route::middleware(['auth'])->name('inventory.')->group(function () {
         Route::delete('/{productUnit}/delete', 'destroy')->name('delete')->middleware('can:DeleteProductUnit');
         Route::put('/{productUnit}/restore', 'restore')->name('restore')->middleware('can:RestoreProductUnit');
         Route::delete('/{productUnit}/force_delete', 'force_delete')->name('force_delete')->middleware('can:ForceDeleteProductUnit');
+        Route::post('/getPackage', 'getPackage')->name('getPackage');
     });
 
     Route::prefix('supplier')->name('supplier.')->controller(SupplierController::class)->group(function () {

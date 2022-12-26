@@ -537,13 +537,13 @@ function d_status($status, $false = 'Inactive', $true = 'Active')
     return '<span class="badge badge-danger">' . $false . '</span>';
 }
 
-function d_para_status($status, $false = 'Active', $true = 'Closed')
+function d_para_status($status, $active = 'Active', $closed = 'Closed')
 {
     if ($status == 2) {
-        return '<span class="badge badge-light">' . $true . '</span>';
+        return '<span class="badge badge-light">' . $closed . '</span>';
     }
 
-    return '<span class="badge badge-parimary">' . $false . '</span>';
+    return '<span class="badge badge-parimary">' . $active . '</span>';
 }
 
 function d_paid_status($status = 0)
