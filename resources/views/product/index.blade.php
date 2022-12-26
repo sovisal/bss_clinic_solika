@@ -21,7 +21,10 @@
                 </tr>
             </x-slot>
             @foreach($rows as $i => $row)
-                <tr>
+                @php
+                    $is_remain = d_number($row->qty_remain) > 0;
+                @endphp
+                <tr {!! !$is_remain ? 'style="background-color: #ccc;" title="Product remain 0, please stockin to active."' : '' !!}>
                     <td>{{ ++$i }}</td>
                     <td>{!! $row->code !!}</td>
                     <td>{!! d_obj($row, ['name_kh', 'name_en']) !!}</td>
@@ -30,9 +33,11 @@
                     <td>{!! $row->productUnitLink !!}</td>
                     <td>{!! $row->productTypeLink !!}</td>
                     <td>{!! $row->productCategoryLink !!}</td>
-                    <td>{!! d_number($row->qty_remain) !!}</td>
+                    <td><span {!! !$is_remain ? 'style="color: red;"' : '' !!}>
+                        {!! d_number($row->qty_remain) !!}
+                    </span></td>
                     <td>{!! d_obj($row, 'user', 'name') !!}</td>
-                    <td>{!! d_status($row->status) !!}</td>
+                    <td>{!! d_status($is_remain) !!}</td>
                     <td>
                         <x-table-action-btn
                             module="inventory.product"

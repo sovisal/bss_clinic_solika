@@ -40,10 +40,10 @@
                     <label>Price and Quantity</label>
                 </th>
             </tr>
-            <x-bss-form.input-row name="cost" class="is_number" :value="old('cost', @$row->cost) ?? 0" label="Cost" />
-            <x-bss-form.input-row name="price" class="is_number" :value="old('price', @$row->price) ?? 0" label="Price" />
-            <x-bss-form.input-row name="qty_begin" class="is_integer" :value="old('qty_begin', @$row->qty_begin) ?? 0" label="QTY Begin" />
-            <x-bss-form.input-row name="qty_alert" class="is_integer" :value="old('qty_alert', @$row->qty_alert) ?? 10" label="QTY Alert" />
+            <x-bss-form.input-row name="cost" class="is_number" :value="old('cost', @$row->cost) ?? 0" required label="Cost" />
+            <x-bss-form.input-row name="price" class="is_number" :value="old('price', @$row->price) ?? 0" required label="Price" />
+            <x-bss-form.input-row name="qty_begin" class="is_integer" :value="old('qty_begin', @$row->qty_begin) ?? 0" required label="QTY Begin" :disabled="true"/>
+            <x-bss-form.input-row name="qty_alert" class="is_integer" :value="old('qty_alert', @$row->qty_alert) ?? 10" required label="QTY Alert" />
         </table>
     </div>
 </div>
