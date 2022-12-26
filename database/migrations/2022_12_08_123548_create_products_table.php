@@ -26,7 +26,7 @@ class CreateProductsTable extends Migration
             $table->float('qty_alert')->default(0);
             $table->float('qty_in')->default(0);
             $table->float('qty_out')->default(0);
-            $table->float('qty_remain')->default(0);
+            $table->float('qty_remain')->default(0); // The remaining QTY = the sum of table stock_ins > qty_remain
 
             $table->foreignID('type_id')->nullable()->constrained('product_types')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignID('unit_id')->nullable()->constrained('product_units')->onUpdate('cascade')->onDelete('cascade');

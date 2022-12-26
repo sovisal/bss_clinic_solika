@@ -8,13 +8,18 @@
                 <tr>
                     <th width="5%">No</th>
                     <th width="10%">Date</th>
-                    <th width="10%">Expire Date</th>
-                    <th>Reciept no</th>
-                    <th>Qty</th>
-                    <th width="8%">Price</th>
-                    <th width="10%">Unit</th>
                     <th width="10%">Product</th>
                     <th width="10%">Supplier</th>
+                    <th width="8%">Qty In</th>
+                    <th width="8%">Unit</th>
+                    <th width="8%">Price</th>
+                    <th width="8%">Total</th>
+                    <th width="8%">Base Qty</th>
+                    <th width="8%">Unit</th>
+                    <th width="8%">Used</th>
+                    <th width="8%">Remain</th>
+                    <th width="10%">Expire Date</th>
+                    <th>Reciept no</th>
                     <th width="10%">User</th>
                     <th width="8%">Status</th>
                     <th width="8%">Action</th>
@@ -24,15 +29,20 @@
             <tr>
                 <td>{{ ++$i }}</td>
                 <td>{{ d_date($row->date, 'Y-m-d') }}</td>
-                <td>{{ d_date($row->exp_date, 'Y-m-d') }}</td>
-                <td>{{ $row->reciept_no }}</td>
-                <td>{!! d_number($row->qty) !!}</td>
-                <td>{!! d_currency($row->price) !!}</td>
-                <td>{!! $row->ProductUnitLink !!}</td>
                 <td>{!! $row->productLink !!}</td>
                 <td>{!! $row->supplierLink !!}</td>
+                <td>{!! d_number($row->qty) !!}</td>
+                <td>{!! $row->ProductUnitLink !!}</td>
+                <td>{!! d_currency($row->price) !!}</td>
+                <td>--</td>
+                <td>--</td>
+                <td>--</td>
+                <td>--</td>
+                <td>--</td>
+                <td>{{ d_date($row->exp_date, 'Y-m-d') }}</td>
+                <td>{{ $row->reciept_no }}</td>
                 <td>{!! d_obj($row, 'user', 'name') !!}</td>
-                <td>{!! d_status($row->status) !!}</td>
+                <td>{!! d_status(d_number($row->qty_remain) > 0, 'Stock Closed', 'Stock Active') !!}</td>
                 <td>
                     <x-table-action-btn
                         module="inventory.stock_in"

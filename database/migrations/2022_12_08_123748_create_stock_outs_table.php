@@ -15,18 +15,16 @@ class CreateStockOutsTable extends Migration
     {
         Schema::create('stock_outs', function (Blueprint $table) {
             $table->id();
+            $table->string('type')->nullable(); // type can be : Invoice, Prescription, Stockout
 
             $table->date('date')->nullable();
             $table->string('document_no')->nullable();
 
-            $table->text('stock_in_id')->nullable();
-            $table->string('type')->nullable();
-
             $table->foreignID('product_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignID('unit_id')->nullable()->constrained('product_units')->onUpdate('cascade')->onDelete('cascade');
-
             $table->float('price')->default(0);
-            $table->float('qty')->default(0);
+            $table->float('qty')->default(0); // QTY = the sum of stock_out_details > qty
+            $table->float('total')->default(0);
 
             $table->foreignID('user_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->tinyInteger('status')->default('0');

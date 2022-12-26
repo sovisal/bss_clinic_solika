@@ -11,7 +11,7 @@
                     <th>Name</th>
                     <th width="8%">Cost</th>
                     <th width="8%">Price</th>
-                    <th width="10%">Unit</th>
+                    <th width="10%">Base Unit</th>
                     <th width="10%">Type</th>
                     <th width="10%">Category</th>
                     <th width="8%">Remain</th>
@@ -21,10 +21,7 @@
                 </tr>
             </x-slot>
             @foreach($rows as $i => $row)
-                @php
-                    $is_remain = d_number($row->qty_remain) > 0;
-                @endphp
-                <tr {!! !$is_remain ? 'style="background-color: #ccc;" title="Product remain 0, please stockin to active."' : '' !!}>
+                <tr>
                     <td>{{ ++$i }}</td>
                     <td>{!! $row->code !!}</td>
                     <td>{!! d_obj($row, ['name_kh', 'name_en']) !!}</td>
@@ -33,11 +30,11 @@
                     <td>{!! $row->productUnitLink !!}</td>
                     <td>{!! $row->productTypeLink !!}</td>
                     <td>{!! $row->productCategoryLink !!}</td>
-                    <td><span {!! !$is_remain ? 'style="color: red;"' : '' !!}>
+                    <td><span {!! d_number($row->qty_remain) == 0 ? 'style="color: red;"' : '' !!}>
                         {!! d_number($row->qty_remain) !!}
                     </span></td>
                     <td>{!! d_obj($row, 'user', 'name') !!}</td>
-                    <td>{!! d_status($is_remain) !!}</td>
+                    <td>{!! d_status(d_number($row->qty_remain) > 0, 'Out of Stock') !!}</td>
                     <td>
                         <x-table-action-btn
                             module="inventory.product"

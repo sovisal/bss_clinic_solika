@@ -35,7 +35,12 @@ class Product extends BaseModel
     {
         return $this->belongsToMany(Supplier::class, 'supplier_id');
     }
-    
+
+    public function stockins ()
+    {
+        return $this->hasMany(StockIn::class, 'product_id');
+    }
+
     // public function assignPackage($packages = [])
     // {
     //     $this->packages()->sync($packages);
