@@ -208,26 +208,26 @@ class DataParentSeeder extends Seeder
 
             [
                 'status' => 1,
-                'title_en' => 'Morning',
-                'title_kh' => 'Morning',
+                'title_en' => 'ព្រឹក',
+                'title_kh' => 'ព្រឹក',
                 'type' => 'time_usage',
             ],
             [
                 'status' => 1,
-                'title_en' => 'Noon',
-                'title_kh' => 'Noon',
+                'title_en' => 'ថ្ងៃ',
+                'title_kh' => 'ថ្ងៃ',
                 'type' => 'time_usage',
             ],
             [
                 'status' => 1,
-                'title_en' => 'Evening',
-                'title_kh' => 'Evening',
+                'title_en' => 'ល្ងាច',
+                'title_kh' => 'ល្ងាច',
                 'type' => 'time_usage',
             ],
             [
                 'status' => 1,
-                'title_en' => 'Night',
-                'title_kh' => 'Night',
+                'title_en' => 'យប់',
+                'title_kh' => 'យប់',
                 'type' => 'time_usage',
             ],
 

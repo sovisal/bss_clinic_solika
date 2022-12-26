@@ -46,12 +46,6 @@ class CreatePrescriptionDetailsTable extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
-            $table->foreign('medicine_id')
-                ->references('id')
-                ->on('medicines')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-
             $table->foreign('usage_id')
                 ->references('id')
                 ->on('data_parents')

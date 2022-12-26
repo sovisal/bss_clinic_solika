@@ -30,7 +30,7 @@
                     <td>{!! $row->productUnitLink !!}</td>
                     <td>{!! $row->productTypeLink !!}</td>
                     <td>{!! $row->productCategoryLink !!}</td>
-                    <td><span {!! d_number($row->qty_remain) == 0 ? 'style="color: red;"' : '' !!}>
+                    <td><span style="color: {{ d_number($row->qty_remain) == 0 ? 'red' : 'green' }};">
                         {!! d_number($row->qty_remain) !!}
                     </span></td>
                     <td>{!! d_obj($row, 'user', 'name') !!}</td>
