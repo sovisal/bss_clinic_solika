@@ -18,6 +18,7 @@ class StockOutController extends Controller
      */
     public function index()
     {
+        // Product::find(1)->updateQty();
         $data = [
             'rows' => StockOut::with(['product.unit', 'unit', 'user'])->filterTrashed()->orderBy('date')->limit(5000)->get(),
         ];
@@ -76,7 +77,9 @@ class StockOutController extends Controller
      */
     public function destroy(StockOut $stockOut)
     {
+        $product =  $stockOut->product;
         if ($this->deleteStockOut($stockOut)) {
+            $product->updateQty();
             return redirect()->route('inventory.stock_out.index')->with('success', 'Data delete success');
         }
     }
@@ -169,8 +172,13 @@ class StockOutController extends Controller
 
     public function deleteStockOut($stockOut)
     {
-        dd($stockOut);
-        $result = collect();
-        return $result;
+        foreach ($stockOut->stock_ins as $stockIn) {
+            $stockIn->update([
+                'qty_used' => $stockIn->qty_used - ($stockIn->pivot->qty ?? 0),
+                'qty_remain' => $stockIn->qty_remain + ($stockIn->pivot->qty ?? 0),
+            ]);
+        }
+        $stockOut->stock_ins()->sync([]);
+        return $stockOut->delete();
     }
 }

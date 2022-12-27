@@ -41,6 +41,7 @@
                         :is-trashed="$row->trashed()"
                         :disable-edit="$row->trashed()"
                         :show-btn-show="false"
+                        :show-btn-restore="false"
                         :show-btn-force-delete="true"
                     />
                 </td>
