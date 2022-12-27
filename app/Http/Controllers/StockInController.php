@@ -17,9 +17,7 @@ class StockInController extends Controller
     public function index()
     {
         $data = [
-            'rows' => StockIn::with(['user', 'unit', 'supplier', 'product' => function ($q) {
-                $q->with(['unit']);
-            }])->filterTrashed()->orderBy('date', 'desc')->limit(5000)->get(),
+            'rows' => StockIn::with(['user', 'unit', 'supplier', 'product.unit'])->filterTrashed()->orderBy('date', 'desc')->limit(5000)->get(),
         ];
         return view('stock_in.index', $data);
     }
@@ -69,71 +67,65 @@ class StockInController extends Controller
         return redirect()->route('inventory.stock_in.index')->with('success', 'Data created success');
     }
 
-    // /**
-    //  * Show the form for editing the specified resource.
-    //  */
-    // public function edit(StockIn $stockIn)
-    // {
-    //     $data = [
-    //         'suppliers' => Supplier::where('status', 1)->orderBy('name_en', 'asc')->get(),
-    //         'row' => $stockIn
-    //     ];
-    //     return view('stock_in.edit', $data);
-    // }
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(StockIn $stockIn)
+    {
+        $data = [
+            'row' => $stockIn
+        ];
+        return view('stock_in.edit', $data);
+    }
 
-    // /**
-    //  * Update the specified resource in storage.
-    //  */
-    // public function update(StockInRequest $request, StockIn $stockIn)
-    // {
-    //     if ($stockIn->update([
-    //         'date' => $request->date,
-    //         'exp_date' => $request->exp_date,
-    //         'reciept_no' => $request->reciept_no,
-    //         'price' => $request->price,
-    //         'qty' => $request->qty,
-    //         'qty_remain' => $request->qty_based,
-    //         'qty_based' => $request->qty_based,
-    //         'total' => $request->total,
-    //         'supplier_id' => $request->supplier_id,
-    //         'product_id' => $request->product_id,
-    //         'unit_id' => $request->unit_id
-    //     ])) {
-    //         return redirect()->route('inventory.stock_in.index')->with('success', 'Data created success');
-    //     }
-    // }
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(StockInRequest $request, StockIn $stockIn)
+    {
+        if ($stockIn->update([
+            'date' => $request->date,
+            'exp_date' => $request->exp_date,
+            'reciept_no' => $request->reciept_no,
+            'price' => $request->price,
+            'total' => ($stockIn->qty * $request->price),
+        ])) {
+            $stockIn->product()->first()->updateQtyRamain();
+            return redirect()->route('inventory.stock_in.index')->with('success', 'Data created success');
+        }
+    }
 
-    // /**
-    //  * Remove the specified resource to trash.
-    //  */
-    // public function destroy(StockIn $stockIn)
-    // {
-    //     if ($stockIn->delete()) {
-    //         return redirect()->route('inventory.stock_in.index')->with('success', 'Data delete success');
-    //     }
-    // }
+    /**
+     * Remove the specified resource to trash.
+     */
+    public function destroy(StockIn $stockIn)
+    {
+        if ($stockIn->delete()) {
+            return redirect()->route('inventory.stock_in.index')->with('success', 'Data delete success');
+        }
+    }
 
-    // /**
-    //  * Restore the specified resource from storage.
-    //  */
-    // public function restore($id)
-    // {
-    //     $row = StockIn::onlyTrashed()->findOrFail($id);
-    //     if ($row->restore()) {
-    //         return back()->with('success', __('alert.message.success.crud.restore'));
-    //     }
-    //     return back()->with('error', __('alert.message.error.crud.restore'));
-    // }
+    /**
+     * Restore the specified resource from storage.
+     */
+    public function restore($id)
+    {
+        $row = StockIn::onlyTrashed()->findOrFail($id);
+        if ($row->restore()) {
+            return back()->with('success', __('alert.message.success.crud.restore'));
+        }
+        return back()->with('error', __('alert.message.error.crud.restore'));
+    }
 
-    // /**
-    //  * Force Delete the specified resource from storage.
-    //  */
-    // public function force_delete($id)
-    // {
-    //     $row = StockIn::onlyTrashed()->findOrFail($id);
-    //     if ($row->forceDelete()) {
-    //         return back()->with('success', __('alert.message.success.crud.force_detele'));
-    //     }
-    //     return back()->with('error', __('alert.message.error.crud.force_detele'));
-    // }
+    /**
+     * Force Delete the specified resource from storage.
+     */
+    public function force_delete($id)
+    {
+        $row = StockIn::onlyTrashed()->findOrFail($id);
+        if ($row->forceDelete()) {
+            return back()->with('success', __('alert.message.success.crud.force_detele'));
+        }
+        return back()->with('error', __('alert.message.error.crud.force_detele'));
+    }
 }

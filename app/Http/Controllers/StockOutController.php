@@ -19,7 +19,7 @@ class StockOutController extends Controller
     public function index()
     {
         $data = [
-            'rows' => StockOut::with(['user'])->filterTrashed()->orderBy('date')->limit(5000)->get(),
+            'rows' => StockOut::with(['product.unit', 'unit', 'user'])->filterTrashed()->orderBy('date')->limit(5000)->get(),
         ];
         return view('stock_out.index', $data);
     }
@@ -49,6 +49,10 @@ class StockOutController extends Controller
      */
     public function edit(StockOut $stockOut)
     {
+        $data = [
+            'row' => $stockOut
+        ];
+        return view('stock_out.edit', $data);
     }
 
     /**
@@ -56,6 +60,15 @@ class StockOutController extends Controller
      */
     public function update(StockOutRequest $request, StockOut $stockOut)
     {
+        
+        if ($stockOut->update([
+            'date' => $request->date,
+            'document_no' => $request->reciept_no,
+            'price' => $request->price,
+            'total' => ($stockOut->qty * $request->price),
+        ])) {
+            return redirect()->route('inventory.stock_out.index')->with('success', 'Data created success');
+        }
     }
 
     /**
@@ -63,7 +76,7 @@ class StockOutController extends Controller
      */
     public function destroy(StockOut $stockOut)
     {
-        if ($stockOut->delete()) {
+        if ($this->deleteStockOut($stockOut)) {
             return redirect()->route('inventory.stock_out.index')->with('success', 'Data delete success');
         }
     }
@@ -151,6 +164,13 @@ class StockOutController extends Controller
             }
         }
         $result->errors = $validator->errors();
+        return $result;
+    }
+
+    public function deleteStockOut($stockOut)
+    {
+        dd($stockOut);
+        $result = collect();
         return $result;
     }
 }

@@ -210,7 +210,7 @@ class BaseModel extends Model
 
     public function getProductUnitLinkAttribute()
     {
-        if (($this->unit->status ?? 0) > 0) { // will check permission
+        if (($this->product->unit->status ?? 0) > 0) { // will check permission
             return d_link(
                 d_obj($this, 'product', 'unit', ['name_en', 'name_kh']),
                 route('inventory.product_unit.edit', [d_obj($this, 'unit', 'id'), 'back' => url()->current()])

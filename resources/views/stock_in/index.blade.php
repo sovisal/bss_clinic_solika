@@ -22,7 +22,7 @@
                     <th>Reciept no</th>
                     <th width="8%">User</th>
                     <th width="5%">Status</th>
-                    {{-- <th width="8%">Action</th> --}}
+                    <th width="8%">Action</th>
                 </tr>
             </x-slot>
             @foreach($rows as $i => $row)
@@ -53,7 +53,7 @@
                 @else
                     <td>{!! d_status(false, 'Stock Closed', '', 'badge-light') !!}</td>
                 @endif
-                {{-- <td>
+                <td>
                     <x-table-action-btn
                         module="inventory.stock_in"
                         module-ability="StockIn"
@@ -62,7 +62,7 @@
                         :disable-edit="$row->trashed()"
                         :show-btn-show="false"
                     />
-                </td> --}}
+                </td>
             </tr>
             @endforeach
         </x-table>

@@ -6,16 +6,18 @@
         <x-table class="table-hover table-striped" id="datatables">
             <x-slot name="thead">
                 <tr>
-                    <th width="8%">No</th>
-                    <th width="13%">Date</th>
+                    <th width="3%">No</th>
+                    <th width="8%">Date</th>
                     <th>Document no</th>
-                    <th width="10%">Price</th>
-                    <th width="12%">Product</th>
-                    <th width="12%">Unit</th>
-                    <th width="12%">Type</th>
-                    <th width="12%">User</th>
-                    <th width="10%">Status</th>
-                    <th width="15%">Action</th>
+                    <th>Product</th>
+                    <th width="8%">QTY Out</th>
+                    <th width="10%">Unit</th>
+                    <th width="8%">Price</th>
+                    <th width="8%">Pr.Unit</th>
+                    <th width="8%">Type</th>
+                    <th width="8%">User</th>
+                    {{-- <th width="10%">Status</th> --}}
+                    <th width="8%">Action</th>
                 </tr>
             </x-slot>
             @foreach($rows as $i => $row)
@@ -23,14 +25,16 @@
                 <td>{{ ++$i }}</td>
                 <td>{{ d_date($row->date, 'Y-m-d') }}</td>
                 <td>{{ d_text($row->document_no) }}</td>
-                <td>{!! d_currency($row->price) !!}</td>
                 <td>{!! $row->productLink !!}</td>
+                <td>{!! d_number($row->qty) !!}</td>
+                <td>{!! $row->unitLink !!}</td>
+                <td>{!! d_currency($row->price) !!}</td>
                 <td>{!! $row->productUnitLink !!}</td>
                 <td>{!! d_text($row->type) !!}</td>
                 <td>{!! d_obj($row, 'user', 'name') !!}</td>
-                <td>{!! d_status($row->status) !!}</td>
+                {{-- <td>{!! d_status($row->status) !!}</td> --}}
                 <td>
-                    {{-- <x-table-action-btn
+                    <x-table-action-btn
                         module="inventory.stock_out"
                         module-ability="StockOut"
                         :id="$row->id"
@@ -38,7 +42,7 @@
                         :disable-edit="$row->trashed()"
                         :show-btn-show="false"
                         :show-btn-force-delete="true"
-                    /> --}}
+                    />
                 </td>
             </tr>
             @endforeach

@@ -33,4 +33,5 @@ class StockIn extends BaseModel
                     ->withPivot('qty')
                     ->withTimestamps();
     }
+
 }
