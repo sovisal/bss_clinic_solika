@@ -16,7 +16,7 @@
                 <x-form.button type="submit" icon="bx bx-save" label="Save" />
             </x-slot>
 
-            <table class="table-stock-in-item table-form striped">
+            <table class="table-stock-out-item table-form striped">
                 <tr>
                     <th colspan="6" class="tw-bg-gray-100">Stock Out Information</th>
                 </tr>

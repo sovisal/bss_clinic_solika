@@ -44,15 +44,16 @@ return [
 
 	'message' => [
 		'success' => [
-			'delete_attachment' => 'Attachment has been deteled successfully.',
 			'crud' => [
 				'create' => 'Data has been created successfully.',
 				'update' => 'Data has been updated successfully.',
 				'delete' => 'Data has been deleted successfully.',
 				'restore' => 'Data has been restored successfully.',
 				'force_detele' => 'Data has been deleted frome database successfully.',
-				'import' => 'Data has been Imported successfully.',
+				'import' => 'Data has been imported successfully.',
 			],
+			'sort' => 'Data has been sorted successfully.',
+			'delete_attachment' => 'Attachment has been deteled successfully.',
 			'backup' => 'Database has been Backup successfully.',
 		],
 		'warning' => [

@@ -37,7 +37,6 @@ class StockAdjustmentController extends Controller
     public function store(StockAdjustmentRequest $request)
     {
         $allProducts = Product::whereIn('id', $request->input('product_id', []))->get();
-
         foreach ($request->input('product_id', []) as $index => $value) {
             if ($allProducts->where('id', $request->product_id[$index])->first()) {
                 StockAdjustment::create([

@@ -1,10 +1,10 @@
-<div id="stock-in-new-item" class="sr-only">
-    <table class="table-stock-in-item table-form striped">
+<div id="stock-out-new-item" class="sr-only">
+    <table class="table-stock-out-item table-form striped">
         <tr>
             <th colspan="6" class="tw-bg-gray-100">
                 <div class="d-flex justify-content-between align-items-center">
                     <div><i class='bx bx-grid-vertical mr-25 font-medium-4 cursor-move'></i> Information</div>
-                    <x-form.button href="javascript:void(0)" color="danger" class="btn-remove-stock-in" icon="bx bx-trash" onclick="$(this).closest('tr.stock-in-item').remove();" label="Remove"/>
+                    <x-form.button href="javascript:void(0)" color="danger" class="btn-remove-stock-out" icon="bx bx-trash" onclick="$(this).closest('tr.stock-out-item').remove();" label="Remove"/>
                 </div>
             </th>
         </tr>
