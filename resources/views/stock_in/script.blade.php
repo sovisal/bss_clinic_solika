@@ -71,7 +71,7 @@
     $(document).on('change', '[name="product_id[]"],[name="product_id"]', function () {
         const $this_row = $(this).closest('table.table-stock-in-item');
         $this_row.find('[name="unit_id[]"],[name="unit_id"]').html('<option value="">---- None ----</option>');
-        $this_row.find('[name="price[]"],[name="price"]').val('0');
+        // $this_row.find('[name="price[]"],[name="price"]').val('0');
         if ($(this).val() != '') {
             $.ajax({
                 url: "{{ route('inventory.product.getUnit') }}",
@@ -82,7 +82,7 @@
                 success: function (rs) {
                     if (rs.success) {
                         $this_row.find('[name="unit_id[]"],[name="unit_id"]').html(rs.options);
-                        $this_row.find('[name="price[]"],[name="price"]').val(rs.product.price);
+                        // $this_row.find('[name="price[]"],[name="price"]').val(rs.product.price);
                     }
                 },
                 error: function (rs) {

@@ -14,6 +14,7 @@
                     <th width="10%">Base Unit</th>
                     <th width="10%">Type</th>
                     <th width="10%">Category</th>
+                    <th width="8%">Alert</th>
                     <th width="8%">Remain</th>
                     <th width="8%">User</th>
                     <th width="8%">Status</th>
@@ -27,14 +28,23 @@
                     <td>{!! d_obj($row, ['name_kh', 'name_en']) !!}</td>
                     <td>{!! d_currency($row->cost) !!}</td>
                     <td>{!! d_currency($row->price) !!}</td>
-                    <td>{!! $row->productUnitLink !!}</td>
+                    <td>{!! $row->unitLink !!}</td>
                     <td>{!! $row->productTypeLink !!}</td>
                     <td>{!! $row->productCategoryLink !!}</td>
+                    <td>{{ d_number($row->qty_alert) }}</td>
                     <td><span style="color: {{ d_number($row->qty_remain) == 0 ? 'red' : 'green' }};">
                         {!! d_number($row->qty_remain) !!}
                     </span></td>
-                    <td>{!! d_obj($row, 'user', 'name') !!}</td>
-                    <td>{!! d_status(d_number($row->qty_remain) > 0, 'Out of Stock') !!}</td>
+                    <td>{{ d_obj($row, 'user', 'name') }}</td>
+
+                    @if ($row->qty_remain == 0)
+                        <td>{!! d_status(false, 'Out of Stock') !!}</td>
+                    @elseif ($row->qty_remain > 0 && $row->qty_remain < $row->qty_alert) 
+                        <td>{!! d_status(false, 'Almost Out of Stock', '', 'badge-warning') !!}</td>
+                    @else
+                        <td>{!! d_status(true) !!}</td>
+                    @endif
+
                     <td>
                         <x-table-action-btn
                             module="inventory.product"
