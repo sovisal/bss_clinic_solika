@@ -118,7 +118,8 @@ class StockOutController extends Controller
                         'qty' => $requested_qty,
                         'total' => $request->total[$index]
                     ]);
-                    foreach ($product->stockins as $key => $stockIn) {
+                    $stockIns = $product->stockins->where('qty_remain', '>', 0);
+                    foreach ($stockIns as $key => $stockIn) {
                         if ($stockIn->qty_remain >= $requested_qty) {
                             $qty_used = $stockIn->qty_used + $requested_qty;
                             $qty_remain = $stockIn->qty_based - $qty_used;
