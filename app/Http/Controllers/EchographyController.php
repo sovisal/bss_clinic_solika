@@ -179,7 +179,7 @@ class EchographyController extends Controller
 
         $request['price'] = $request->price ?: ($echo_type ? $echo_type->price : 0);
         $request['address_id'] = update4LevelAddress($request, $echography->address_id);
-        
+
         // Check if no exist folder/directory then create folder/directory
         $path = public_path('/images/echographies/');
         File::makeDirectory($path, 0777, true, true);

@@ -8,6 +8,7 @@ use App\Models\EcgType;
 use App\Models\Patient;
 use Illuminate\Http\Request;
 use App\Http\Requests\EcgRequest;
+use Illuminate\Support\Facades\File;
 
 class EcgController extends Controller
 {
@@ -65,6 +66,14 @@ class EcgController extends Controller
             'attribute' => $ecg_type ? $ecg_type->attribite : null,
         ])) {
             $ecg->update(['address_id' => update4LevelAddress($request)]);
+
+            // Check if no exist folder/directory then create folder/directory
+            $path = public_path('/images/ecgs/');
+            File::makeDirectory($path, 0777, true, true);
+            $image_1 =  create_image($request->img_1, $path, (time() . '_image_1_' . rand(111, 999) . '.png'));
+            $image_2 =  create_image($request->img_2, $path, (time() . '_image_2_' . rand(111, 999) . '.png'));
+            $ecg->update(['image_1' => $image_1, 'image_2' => $image_2]);
+
             if ($request->is_treament_plan) {
                 return redirect()->route('patient.consultation.edit', $request->consultation_id)->with('success', 'Data created success');
             } else {
@@ -168,6 +177,12 @@ class EcgController extends Controller
         $request['price'] = $request->price ?: ($ecg_type ? $ecg_type->price : 0);
         $request['address_id'] = update4LevelAddress($request, $ecg->address_id);
 
+        // Check if no exist folder/directory then create folder/directory
+        $path = public_path('/images/ecgs/');
+        File::makeDirectory($path, 0777, true, true);
+        $request['image_1'] = update_image($request->img_1, $path, (time() . '_image_1_' . rand(111, 999) . '.png'), $ecg->image_1);
+        $request['image_2'] = update_image($request->img_2, $path, (time() . '_image_2_' . rand(111, 999) . '.png'), $ecg->image_2);
+
         if ($ecg->update($request->all())) {
             return redirect()->route('para_clinic.ecg.index')->with('success', 'Data update success');
         }
@@ -201,10 +216,15 @@ class EcgController extends Controller
     public function force_delete($id)
     {
         $ecg = Ecg::onlyTrashed()->findOrFail($id);
+        $image_1 = $ecg->image_1;
+        $image_2 = $ecg->image_2;
         if ($ecg->forceDelete()) {
+            $path = public_path('/images/ecgs/');
+            remove_file($image_1, $path);
+            remove_file($image_2, $path);
+            return back()->with('success', __('alert.message.success.crud.force_detele'));
             return back()->with('success', __('alert.message.success.crud.force_detele'));
         }
         return back()->with('error', __('alert.message.error.crud.force_detele'));
     }
-
 }

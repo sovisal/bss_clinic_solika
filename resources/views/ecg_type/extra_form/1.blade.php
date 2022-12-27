@@ -1,6 +1,6 @@
 <x-bss-form.textarea-row
-    name="default_form"
+    name="result"
     class="my-simple-editor"
-    label="Detail"
+    label="Result"
     rows="3"
->{{ old('default_form', !empty($row) && $row->default_form ? $row->default_form : '') }}</x-bss-form.textarea-row>
+>{{ old('result', !empty($row) && $row->result ? $row->result : '') }}</x-bss-form.textarea-row>

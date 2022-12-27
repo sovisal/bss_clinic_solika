@@ -8,6 +8,7 @@ use App\Models\Patient;
 use App\Models\XrayType;
 use Illuminate\Http\Request;
 use App\Http\Requests\XrayRequest;
+use Illuminate\Support\Facades\File;
 
 class XrayController extends Controller
 {
@@ -65,6 +66,14 @@ class XrayController extends Controller
             'attribute' => $xray_type ? $xray_type->attribite : null,
         ])) {
             $xray->update(['address_id' => update4LevelAddress($request)]);
+
+            // Check if no exist folder/directory then create folder/directory
+            $path = public_path('/images/xrays/');
+            File::makeDirectory($path, 0777, true, true);
+            $image_1 =  create_image($request->img_1, $path, (time() . '_image_1_' . rand(111, 999) . '.png'));
+            $image_2 =  create_image($request->img_2, $path, (time() . '_image_2_' . rand(111, 999) . '.png'));
+            $xray->update(['image_1' => $image_1, 'image_2' => $image_2]);
+
             if ($request->is_treament_plan) {
                 return redirect()->route('patient.consultation.edit', $request->consultation_id)->with('success', 'Data created success');
             } else {
@@ -168,6 +177,12 @@ class XrayController extends Controller
 
         $request['price'] = $request->price ?: ($xray_type ? $xray_type->price : 0);
         $request['address_id'] = update4LevelAddress($request, $xray->address_id);
+        
+        // Check if no exist folder/directory then create folder/directory
+        $path = public_path('/images/xrays/');
+        File::makeDirectory($path, 0777, true, true);
+        $request['image_1'] = update_image($request->img_1, $path, (time() . '_image_1_' . rand(111, 999) . '.png'), $xray->image_1);
+        $request['image_2'] = update_image($request->img_2, $path, (time() . '_image_2_' . rand(111, 999) . '.png'), $xray->image_2);
 
         if ($xray->update($request->all())) {
             return redirect()->route('para_clinic.xray.index')->with('success', 'Data update success');
@@ -202,7 +217,12 @@ class XrayController extends Controller
     public function force_delete($id)
     {
         $xray = Xray::onlyTrashed()->findOrFail($id);
+        $image_1 = $xray->image_1;
+        $image_2 = $xray->image_2;
         if ($xray->forceDelete()) {
+            $path = public_path('/images/xrays/');
+            remove_file($image_1, $path);
+            remove_file($image_2, $path);
             return back()->with('success', __('alert.message.success.crud.force_detele'));
         }
         return back()->with('error', __('alert.message.error.crud.force_detele'));
