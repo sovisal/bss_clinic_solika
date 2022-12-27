@@ -8,13 +8,14 @@
                 <tr>
                     <th width="3%">No</th>
                     <th width="8%">Date</th>
+                    <th width="10%">Code</th>
                     <th width="10%">Product</th>
                     <th width="10%">Supplier</th>
-                    <th width="5%">Qty In</th>
+                    <th width="5%">Qty_In</th>
                     <th width="5%">Unit</th>
                     <th width="8%">Price</th>
                     <th width="8%">Total</th>
-                    <th width="5%">Base Qty</th>
+                    <th width="5%">Base_Qty</th>
                     <th width="5%">Unit</th>
                     <th width="5%">Used</th>
                     <th width="5%">Remain</th>
@@ -29,14 +30,15 @@
             <tr>
                 <td>{{ ++$i }}</td>
                 <td>{{ d_date($row->date, 'Y-m-d') }}</td>
-                <td>{!! $row->productLink !!}</td>
-                <td>{!! $row->supplierLink !!}</td>
+                <td>{!! d_obj($row, 'product', 'code') !!}</td>
+                <td>{!! d_obj($row, 'product', 'link') !!}</td>
+                <td>{!! d_obj($row, 'supplier', 'link') !!}</td>
                 <td>{{ d_number($row->qty) }}</td>
-                <td>{!! $row->unitLink !!}</td>
+                <td>{!! d_obj($row, 'unit', 'link') !!}</td>
                 <td>{{ d_currency($row->price) }}</td>
                 <td>{{ d_currency($row->total) }}</td>
                 <td>{{ d_number($row->qty_based) }}</td>
-                <td>{!! $row->productUnitLink !!}</td>
+                <td>{!! d_obj($row, 'product', 'unit', 'link') !!}</td>
                 <td>{{ d_number($row->qty_used) }}</td>
                 <td>{{ d_number($row->qty_remain) }}</td>
 

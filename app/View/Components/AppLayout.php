@@ -137,8 +137,8 @@ class AppLayout extends Component
                         'label' => 'Stock Out',
                     ],
                     'stock_balance' => [
-                        'can' => 'ViewAnyBalance',
-                        'url' => '',
+                        'can' => 'ViewStockBalance',
+                        'url' => route('inventory.stock_balance.index'),
                         'name' => ['index', 'create', 'edit'],
                         'label' => 'Stock Balance',
                     ],

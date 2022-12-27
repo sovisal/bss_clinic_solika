@@ -6,8 +6,6 @@ use App\Models\Inventory\Product;
 use App\Models\Inventory\StockIn;
 use App\Models\Inventory\Supplier;
 use App\Http\Requests\StockInRequest;
-use App\Models\Inventory\ProductUnit;
-use App\Models\Inventory\ProductPackage;
 
 class StockInController extends Controller
 {

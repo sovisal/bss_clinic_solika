@@ -61,4 +61,16 @@ class Product extends BaseModel
         ]);
         return $this;
     }
+
+    public function getLinkAttribute()
+    {
+        if (($this->status ?? 0) > 0) { // will check permission
+            return d_link(
+                d_obj($this, ['name_en', 'name_kh']),
+                route('inventory.product.edit', [d_obj($this, 'id'), 'back' => url()->current()])
+            );
+        } else {
+            return d_obj($this, ['name_en', 'name_kh']);
+        }
+    }
 }

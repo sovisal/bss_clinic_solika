@@ -17,7 +17,7 @@ class SupplierController extends Controller
     public function index()
     {
         $data = [
-            'rows' => Supplier::with(['user'])->filterTrashed()->orderBy('name_en')->limit(5000)->get(),
+            'rows' => Supplier::with(['user', 'type', 'category'])->filterTrashed()->orderBy('name_en')->limit(5000)->get(),
         ];
         return view('supplier.index', $data);
     }
