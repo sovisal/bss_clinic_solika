@@ -17,7 +17,9 @@ class StockInController extends Controller
     public function index()
     {
         $data = [
-            'rows' => StockIn::with(['user'])->filterTrashed()->orderBy('date', 'desc')->limit(5000)->get(),
+            'rows' => StockIn::with(['user', 'unit', 'supplier', 'product' => function ($q) {
+                $q->with(['unit']);
+            }])->filterTrashed()->orderBy('date', 'desc')->limit(5000)->get(),
         ];
         return view('stock_in.index', $data);
     }
@@ -46,8 +48,8 @@ class StockInController extends Controller
                     'reciept_no' => $request->reciept_no[$index] ?? '',
                     'price' => $request->price[$index] ?? 0,
                     'qty' => $request->qty[$index] ?? 0,
-                    'remain' => $request->qty_based[$index] ?? 0,
                     'qty_based' => $request->qty_based[$index] ?? 0,
+                    'qty_remain' => $request->qty_based[$index] ?? 0,
                     'total' => $request->total[$index] ?? 0,
                     'supplier_id' => $request->supplier_id[$index] ?? null,
                     'product_id' => $request->product_id[$index] ?? null,

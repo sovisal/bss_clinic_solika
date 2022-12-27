@@ -16,7 +16,6 @@
                 @endforeach
             </x-bss-form.select-row>
             <x-bss-form.select-row name="type_id" required label="Type">
-                <option value="">Please choose</option>
                 @foreach ($types as $type)
                 <option value="{{ $type->id }}" {{ old('type_id', @$row->type_id) == $type->id ? 'selected' : '' }}>{{ d_obj($type, ['name_en', 'name_kh']) }}</option>
                 @endforeach
