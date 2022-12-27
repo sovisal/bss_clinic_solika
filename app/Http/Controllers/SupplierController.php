@@ -142,10 +142,14 @@ class SupplierController extends Controller
 
     public function getProduct(Request $request)
     {
-        $supplier = Supplier::with(['category.products'])->findOrFail($request->id);
+        $supplier = Supplier::with([
+            'category.products' => function($q) {
+                $q->orderBy('name_en');
+            }
+        ])->findOrFail($request->id);
         $options = '<option value="">---- None ----</option>';
         foreach ($supplier->category->products ?? [] as $product) {
-            $options .= '<option value="'. $product->id .'" >'. d_obj($product, ['name_kh', 'name_en']) .'</option>';
+            $options .= '<option value="'. $product->id .'" data-remain="'. $product->qty_remain .'">'. d_obj($product, ['name_kh', 'name_en']) .'</option>';
         }
 
         return response()->json([

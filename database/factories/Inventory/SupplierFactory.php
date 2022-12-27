@@ -19,7 +19,7 @@ class SupplierFactory extends Factory
             'name_kh' => $name,
             'contact_name' => $this->faker->name(),
             'contact_number' => $this->faker->regexify('0[0-9]{11}'),
-            'category_id' => $this->faker->numberBetween(1,9),
+            'category_id' => $this->faker->numberBetween(2,3),
             'type_id' => 1,
             'payment_info' => '',
             'user_id' => 1,

@@ -40,9 +40,4 @@ class Product extends BaseModel
     {
         return $this->hasMany(StockIn::class, 'product_id');
     }
-
-    // public function assignPackage($packages = [])
-    // {
-    //     $this->packages()->sync($packages);
-    // }
 }
