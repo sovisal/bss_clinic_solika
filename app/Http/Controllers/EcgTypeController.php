@@ -47,7 +47,7 @@ class EcgTypeController extends Controller
             'index' => $request->index ?: 999,
             'default_form' => $request->default_form,
         ])) {
-            return redirect()->route('setting.ecg-type.index')->with('success', 'Data created success');
+            return redirect()->route('setting.ecg-type.index')->with('success', __('alert.message.success.crud.create'));
         }
     }
 
@@ -78,7 +78,7 @@ class EcgTypeController extends Controller
             'index' => $request->index ?: 999,
             'default_form' => $request->default_form,
         ])) {
-            return redirect()->route('setting.ecg-type.index')->with('success', 'Data update success');
+            return redirect()->route('setting.ecg-type.index')->with('success', __('alert.message.success.crud.update'));
         }
     }
 
@@ -93,7 +93,7 @@ class EcgTypeController extends Controller
     public function update_order(Request $request)
     {
         EcgType::saveOrder($request);
-        return redirect(route('setting.ecg-type.index', request()->only(['parent'])))->with('success', 'Data sort successful');
+        return redirect(route('setting.ecg-type.index', request()->only(['parent'])))->with('success', __('alert.message.success.sort'));
     }
 
     /**

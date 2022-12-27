@@ -75,9 +75,9 @@ class XrayController extends Controller
             $xray->update(['image_1' => $image_1, 'image_2' => $image_2]);
 
             if ($request->is_treament_plan) {
-                return redirect()->route('patient.consultation.edit', $request->consultation_id)->with('success', 'Data created success');
+                return redirect()->route('patient.consultation.edit', $request->consultation_id)->with('success', __('alert.message.success.crud.create'));
             } else {
-                return redirect()->route('para_clinic.xray.edit', $xray->id)->with('success', 'Data created success');
+                return redirect()->route('para_clinic.xray.edit', $xray->id)->with('success', __('alert.message.success.crud.create'));
             }
         }
     }
@@ -185,7 +185,7 @@ class XrayController extends Controller
         $request['image_2'] = update_image($request->img_2, $path, (time() . '_image_2_' . rand(111, 999) . '.png'), $xray->image_2);
 
         if ($xray->update($request->all())) {
-            return redirect()->route('para_clinic.xray.index')->with('success', 'Data update success');
+            return redirect()->route('para_clinic.xray.index')->with('success', __('alert.message.success.crud.update'));
         }
     }
 
@@ -195,7 +195,7 @@ class XrayController extends Controller
     public function destroy(Xray $xray)
     {
         if ($xray->delete()) {
-            return redirect()->route('para_clinic.xray.index')->with('success', 'Data delete success');
+            return redirect()->route('para_clinic.xray.index')->with('success', __('alert.message.success.crud.delete'));
         }
     }
 

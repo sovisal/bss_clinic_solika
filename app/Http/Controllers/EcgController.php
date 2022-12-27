@@ -75,9 +75,9 @@ class EcgController extends Controller
             $ecg->update(['image_1' => $image_1, 'image_2' => $image_2]);
 
             if ($request->is_treament_plan) {
-                return redirect()->route('patient.consultation.edit', $request->consultation_id)->with('success', 'Data created success');
+                return redirect()->route('patient.consultation.edit', $request->consultation_id)->with('success', __('alert.message.success.crud.create'));
             } else {
-                return redirect()->route('para_clinic.ecg.edit', $ecg->id)->with('success', 'Data created success');
+                return redirect()->route('para_clinic.ecg.edit', $ecg->id)->with('success', __('alert.message.success.crud.create'));
             }
         }
     }
@@ -184,7 +184,7 @@ class EcgController extends Controller
         $request['image_2'] = update_image($request->img_2, $path, (time() . '_image_2_' . rand(111, 999) . '.png'), $ecg->image_2);
 
         if ($ecg->update($request->all())) {
-            return redirect()->route('para_clinic.ecg.index')->with('success', 'Data update success');
+            return redirect()->route('para_clinic.ecg.index')->with('success', __('alert.message.success.crud.update'));
         }
     }
 
@@ -194,7 +194,7 @@ class EcgController extends Controller
     public function destroy(Ecg $ecg)
     {
         if ($ecg->delete()) {
-            return redirect()->route('para_clinic.ecg.index')->with('success', 'Data delete success');
+            return redirect()->route('para_clinic.ecg.index')->with('success', __('alert.message.success.crud.delete'));
         }
     }
 

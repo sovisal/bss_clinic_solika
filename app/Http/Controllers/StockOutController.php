@@ -18,7 +18,6 @@ class StockOutController extends Controller
      */
     public function index()
     {
-        // Product::find(1)->updateQty();
         $data = [
             'rows' => StockOut::with(['product.unit', 'unit', 'user'])->filterTrashed()->orderBy('date')->limit(5000)->get(),
         ];
@@ -42,7 +41,7 @@ class StockOutController extends Controller
     public function store(StockOutRequest $request)
     {
         $result = $this->createStockOut($request);
-        return redirect()->route('inventory.stock_out.index')->with('success', ($result->errors ? '' : 'Data created success'))->with('errors', $result->errors);
+        return redirect()->route('inventory.stock_out.index')->with('success', ($result->errors ? '' : __('alert.message.success.crud.create')))->with('errors', $result->errors);
     }
 
     /**
@@ -68,7 +67,7 @@ class StockOutController extends Controller
             'price' => $request->price,
             'total' => ($stockOut->qty * $request->price),
         ])) {
-            return redirect()->route('inventory.stock_out.index')->with('success', 'Data created success');
+            return redirect()->route('inventory.stock_out.index')->with('success', __('alert.message.success.crud.update'));
         }
     }
 
@@ -80,7 +79,7 @@ class StockOutController extends Controller
         $product =  $stockOut->product;
         if ($this->deleteStockOut($stockOut)) {
             $product->updateQty();
-            return redirect()->route('inventory.stock_out.index')->with('success', 'Data delete success');
+            return redirect()->route('inventory.stock_out.index')->with('success', __('alert.message.success.crud.delete'));
         }
     }
 

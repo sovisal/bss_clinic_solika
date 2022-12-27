@@ -79,9 +79,9 @@ class LaboratoryController extends Controller
                     ]);
                 }
                 if ($request->is_treament_plan) {
-                    return redirect()->route('patient.consultation.edit', $request->consultation_id)->with('success', 'Data created success');
+                    return redirect()->route('patient.consultation.edit', $request->consultation_id)->with('success', __('alert.message.success.crud.create'));
                 } else {
-                    return redirect()->route('para_clinic.labor.edit', $labor->id)->with('success', 'Data created success');
+                    return redirect()->route('para_clinic.labor.edit', $labor->id)->with('success', __('alert.message.success.crud.create'));
                 }
             }
         } else {
@@ -269,7 +269,7 @@ class LaboratoryController extends Controller
                 $detailToDelete->delete();
             }
 
-            return redirect()->route('para_clinic.labor.index')->with('success', 'Data update success');
+            return redirect()->route('para_clinic.labor.index')->with('success', __('alert.message.success.crud.update'));
         }
     }
 
@@ -279,7 +279,7 @@ class LaboratoryController extends Controller
     public function destroy(Laboratory $labor)
     {
         if ($labor->delete()) {
-            return redirect()->route('para_clinic.labor.index')->with('success', 'Data delete success');
+            return redirect()->route('para_clinic.labor.index')->with('success', __('alert.message.success.crud.delete'));
         }
     }
 

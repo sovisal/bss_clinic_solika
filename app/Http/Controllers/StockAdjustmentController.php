@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\StockAdjustment;
 use App\Models\Inventory\Product;
+use App\Models\Inventory\StockAdjustment;
 use App\Http\Requests\StockAdjustmentRequest;
 
 class StockAdjustmentController extends Controller
@@ -15,7 +15,7 @@ class StockAdjustmentController extends Controller
     public function index()
     {
         $data = [
-            'rows' => StockAdjustment::with(['user'])->filterTrashed()->orderBy('date')->limit(5000)->get(),
+            'rows' => StockAdjustment::with(['user', 'product'])->filterTrashed()->orderBy('date')->limit(5000)->get(),
         ];
         return view('stock_adjustment.index', $data);
     }
@@ -36,18 +36,20 @@ class StockAdjustmentController extends Controller
      */
     public function store(StockAdjustmentRequest $request)
     {
-        if (StockAdjustment::create([
-            'date' => $request->date,
-            'exp_date' => $request->exp_date,
-            'reciept_no' => $request->reciept_no,
-            'price' => $request->price,
-            'qty' => $request->qty,
-            'supplier_id' => $request->supplier_id,
-            'product_id' => $request->product_id,
-            'unit_id' => $request->unit_id
-        ])) {
-            return redirect()->route('inventory.stock_adjustment.index')->with('success', 'Data created success');
+        $allProducts = Product::whereIn('id', $request->input('product_id', []))->get();
+
+        foreach ($request->input('product_id', []) as $index => $value) {
+            if ($allProducts->where('id', $request->product_id[$index])->first()) {
+                StockAdjustment::create([
+                    'date' => $request->date[$index] ?? date('Y-m-d'),
+                    'qty' => $request->qty[$index] ?? 0,
+                    'reason' => $request->reason[$index] ?? 0,
+                    'product_id' => $request->product_id[$index] ?? null,
+                ]);
+            }
         }
+
+        return redirect()->route('inventory.stock_adjustment.index')->with('success', __('alert.message.success.crud.create'));
     }
 
     /**
@@ -69,15 +71,11 @@ class StockAdjustmentController extends Controller
     {
         if ($stockAdjustment->update([
             'date' => $request->date,
-            'exp_date' => $request->exp_date,
-            'reciept_no' => $request->reciept_no,
-            'price' => $request->price,
             'qty' => $request->qty,
-            'supplier_id' => $request->supplier_id,
+            'reason' => $request->reason,
             'product_id' => $request->product_id,
-            'unit_id' => $request->unit_id
         ])) {
-            return redirect()->route('inventory.stock_adjustment.index')->with('success', 'Data created success');
+            return redirect()->route('inventory.stock_adjustment.index')->with('success', __('alert.message.success.crud.update'));
         }
     }
 
@@ -87,7 +85,7 @@ class StockAdjustmentController extends Controller
     public function destroy(StockAdjustment $stockAdjustment)
     {
         if ($stockAdjustment->delete()) {
-            return redirect()->route('inventory.stock_adjustment.index')->with('success', 'Data delete success');
+            return redirect()->route('inventory.stock_adjustment.index')->with('success', __('alert.message.success.crud.delete'));
         }
     }
 

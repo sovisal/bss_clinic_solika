@@ -37,7 +37,7 @@ class ProductUnitController extends Controller
             'name_kh' => $request->name_kh,
             'description' => $request->description,
         ])) {
-            return redirect()->route('inventory.product_unit.index')->with('success', 'Data created success');
+            return redirect()->route('inventory.product_unit.index')->with('success', __('alert.message.success.crud.create'));
         }
     }
 
@@ -59,7 +59,7 @@ class ProductUnitController extends Controller
             'name_kh' => $request->name_kh,
             'description' => $request->description,
         ])) {
-            return redirect()->route('inventory.product_unit.index')->with('success', 'Data created success');
+            return redirect()->route('inventory.product_unit.index')->with('success', __('alert.message.success.crud.update'));
         }
     }
 
@@ -69,7 +69,7 @@ class ProductUnitController extends Controller
     public function destroy(ProductUnit $productUnit)
     {
         if ($productUnit->delete()) {
-            return redirect()->route('inventory.product_unit.index')->with('success', 'Data delete success');
+            return redirect()->route('inventory.product_unit.index')->with('success', __('alert.message.success.crud.delete'));
         }
     }
 
@@ -97,8 +97,4 @@ class ProductUnitController extends Controller
         return back()->with('error', __('alert.message.error.crud.force_detele'));
     }
 
-    // public function getPackage(Request $request)
-    // {
-    //     # code...
-    // }
 }

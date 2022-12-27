@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\DataParent;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreDataParentRequest;
-use App\Http\Requests\UpdateDataParentRequest;
 
 class DataParentController extends Controller
 {
@@ -66,7 +64,7 @@ class DataParentController extends Controller
             'parent_id' => $request->parent_id ?: 0,
             'type' => $type,
         ])) {
-            return redirect()->route('setting.data-parent.index')->with('success', 'Data created success');
+            return redirect()->route('setting.data-parent.index')->with('success', __('alert.message.success.crud.create'));
         }
     }
 
@@ -113,7 +111,7 @@ class DataParentController extends Controller
         $type = session('data_parent_type') ?? 'other';
         $request['status'] = 1;
         if ($dataParent->update($request->all())) {
-            return redirect()->route('setting.data-parent.index')->with('success', 'Data update success');
+            return redirect()->route('setting.data-parent.index')->with('success', __('alert.message.success.crud.update'));
         }
     }
 
@@ -126,7 +124,7 @@ class DataParentController extends Controller
     public function destroy(DataParent $dataParent)
     {
         if ($dataParent->delete()) {
-            return redirect()->route('setting.data-parent.index')->with('success', 'Data delete success');
+            return redirect()->route('setting.data-parent.index')->with('success', __('alert.message.success.crud.delete'));
         }
     }
 

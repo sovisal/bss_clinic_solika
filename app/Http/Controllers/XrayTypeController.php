@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\XrayType;
-use App\Http\Requests\StoreXrayTypeRequest;
-use App\Http\Requests\UpdateXrayTypeRequest;
 use Illuminate\Http\Request;
 
 class XrayTypeController extends Controller
@@ -47,7 +45,7 @@ class XrayTypeController extends Controller
             'index' => $request->index ?: 999,
             'default_form' => $request->default_form,
         ])) {
-            return redirect()->route('setting.xray-type.index')->with('success', 'Data created success');
+            return redirect()->route('setting.xray-type.index')->with('success', __('alert.message.success.crud.create'));
         }
     }
 
@@ -78,7 +76,7 @@ class XrayTypeController extends Controller
             'index' => $request->index ?: 999,
             'default_form' => $request->default_form,
         ])) {
-            return redirect()->route('setting.xray-type.index')->with('success', 'Data update success');
+            return redirect()->route('setting.xray-type.index')->with('success', __('alert.message.success.crud.update'));
         }
     }
 
@@ -93,7 +91,7 @@ class XrayTypeController extends Controller
     public function update_order(Request $request)
     {
         XrayType::saveOrder($request);
-        return redirect(route('setting.xray-type.index'))->with('success', 'Data sort successful');
+        return redirect(route('setting.xray-type.index'))->with('success', __('alert.message.success.sort'));
     }
 
     /**
@@ -102,7 +100,7 @@ class XrayTypeController extends Controller
     public function destroy(XrayType $xrayType)
     {
         if ($xrayType->delete()) {
-            return redirect()->route('setting.xray-type.index')->with('success', 'Data delete success');
+            return redirect()->route('setting.xray-type.index')->with('success', __('alert.message.success.crud.delete'));
         }
     }
 

@@ -32,7 +32,7 @@ class LaborTypeController extends Controller
         $data['parents'] = LaborType::select(['id', 'name_en', 'name_kh'])
             ->where('parent_id', null)
             ->orderBy('index', 'asc')->get()
-            ->map(function($parent) {
+            ->map(function ($parent) {
                 $parent->rendered_name = d_obj($parent, ['name_en', 'name_kh']);
                 return $parent;
             })
@@ -64,7 +64,7 @@ class LaborTypeController extends Controller
             ->where('parent_id', null)
             ->where('id', '!=', $laborType->id)
             ->orderBy('index', 'asc')->get()
-            ->map(function($parent) {
+            ->map(function ($parent) {
                 $parent->rendered_name = d_obj($parent, ['name_en', 'name_kh']);
                 return $parent;
             })
@@ -97,7 +97,7 @@ class LaborTypeController extends Controller
     public function update_order(Request $request)
     {
         LaborType::saveOrder($request);
-        return redirect(route('setting.labor-type.index'))->with('success', 'Data sort successful');
+        return redirect(route('setting.labor-type.index'))->with('success', __('alert.message.success.sort'));
     }
 
     /**

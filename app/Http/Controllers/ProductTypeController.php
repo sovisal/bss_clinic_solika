@@ -34,10 +34,9 @@ class ProductTypeController extends Controller
         if (ProductType::create([
             'name_en' => $request->name_en,
             'name_kh' => $request->name_kh,
-            // 'total_product' => $request->total_product,
             'description' => $request->description,
         ])) {
-            return redirect()->route('inventory.product_type.index')->with('success', 'Data created success');
+            return redirect()->route('inventory.product_type.index')->with('success', __('alert.message.success.crud.create'));
         }
     }
 
@@ -57,10 +56,9 @@ class ProductTypeController extends Controller
         if ($productType->update([
             'name_en' => $request->name_en,
             'name_kh' => $request->name_kh,
-            // 'total_product' => $request->total_product,
             'description' => $request->description,
         ])) {
-            return redirect()->route('inventory.product_type.index')->with('success', 'Data created success');
+            return redirect()->route('inventory.product_type.index')->with('success', __('alert.message.success.crud.update'));
         }
     }
 
@@ -70,7 +68,7 @@ class ProductTypeController extends Controller
     public function destroy(ProductType $productType)
     {
         if ($productType->delete()) {
-            return redirect()->route('inventory.product_type.index')->with('success', 'Data delete success');
+            return redirect()->route('inventory.product_type.index')->with('success', __('alert.message.success.crud.delete'));
         }
     }
 

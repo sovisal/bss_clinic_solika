@@ -37,7 +37,7 @@ class ProductCategoryController extends Controller
             // 'total_product' => $request->total_product,
             'description' => $request->description,
         ])) {
-            return redirect()->route('inventory.product_category.index')->with('success', 'Data created success');
+            return redirect()->route('inventory.product_category.index')->with('success', __('alert.message.success.crud.create'));
         }
     }
 
@@ -60,7 +60,7 @@ class ProductCategoryController extends Controller
             // 'total_product' => $request->total_product,
             'description' => $request->description,
         ])) {
-            return redirect()->route('inventory.product_category.index')->with('success', 'Data created success');
+            return redirect()->route('inventory.product_category.index')->with('success', __('alert.message.success.crud.update'));
         }
     }
 
@@ -70,7 +70,7 @@ class ProductCategoryController extends Controller
     public function destroy(ProductCategory $productCategory)
     {
         if ($productCategory->delete()) {
-            return redirect()->route('inventory.product_category.index')->with('success', 'Data delete success');
+            return redirect()->route('inventory.product_category.index')->with('success', __('alert.message.success.crud.delete'));
         }
     }
 

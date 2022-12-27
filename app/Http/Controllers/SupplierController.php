@@ -59,7 +59,7 @@ class SupplierController extends Controller
             $logo =  create_image($request->logo, $path, (time() . '_logo_' . rand(111, 999) . '.png'));
             $supplier->update(['logo' => $logo]);
 
-            return redirect()->route('inventory.supplier.index')->with('success', 'Data created success');
+            return redirect()->route('inventory.supplier.index')->with('success', __('alert.message.success.crud.create'));
         }
     }
 
@@ -102,7 +102,7 @@ class SupplierController extends Controller
             ]
         ))) {
 
-            return redirect()->route('inventory.supplier.index')->with('success', 'Data created success');
+            return redirect()->route('inventory.supplier.index')->with('success', __('alert.message.success.crud.update'));
         }
     }
 
@@ -112,7 +112,7 @@ class SupplierController extends Controller
     public function destroy(Supplier $supplier)
     {
         if ($supplier->delete()) {
-            return redirect()->route('inventory.supplier.index')->with('success', 'Data delete success');
+            return redirect()->route('inventory.supplier.index')->with('success', __('alert.message.success.crud.delete'));
         }
     }
 

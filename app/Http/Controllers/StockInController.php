@@ -64,7 +64,7 @@ class StockInController extends Controller
                 $stockIn->product()->first()->updateQtyRamain();
             }
         }
-        return redirect()->route('inventory.stock_in.index')->with('success', 'Data created success');
+        return redirect()->route('inventory.stock_in.index')->with('success', __('alert.message.success.crud.create'));
     }
 
     /**
@@ -91,7 +91,7 @@ class StockInController extends Controller
             'total' => ($stockIn->qty * $request->price),
         ])) {
             $stockIn->product()->first()->updateQtyRamain();
-            return redirect()->route('inventory.stock_in.index')->with('success', 'Data created success');
+            return redirect()->route('inventory.stock_in.index')->with('success', __('alert.message.success.crud.update'));
         }
     }
 
@@ -101,7 +101,7 @@ class StockInController extends Controller
     public function destroy(StockIn $stockIn)
     {
         if ($stockIn->delete()) {
-            return redirect()->route('inventory.stock_in.index')->with('success', 'Data delete success');
+            return redirect()->route('inventory.stock_in.index')->with('success', __('alert.message.success.crud.delete'));
         }
     }
 

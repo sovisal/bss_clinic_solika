@@ -72,7 +72,7 @@ class ProductController extends Controller
             $image =  create_image($request->image, $path, (time() . '_image_' . rand(111, 999) . '.png'));
             $product->update(['image' => $image]);
 
-            return redirect()->route('inventory.product.index')->with('success', 'Data created success');
+            return redirect()->route('inventory.product.index')->with('success', __('alert.message.success.crud.create'));
         }
     }
 
@@ -116,7 +116,7 @@ class ProductController extends Controller
             $this->update_package($request, $product);
             $product->updateQtyRamain();
 
-            return redirect()->route('inventory.product.index')->with('success', 'Data created success');
+            return redirect()->route('inventory.product.index')->with('success', __('alert.message.success.crud.update'));
         }
     }
 
@@ -153,7 +153,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         if ($product->delete()) {
-            return redirect()->route('inventory.product.index')->with('success', 'Data delete success');
+            return redirect()->route('inventory.product.index')->with('success', __('alert.message.success.crud.delete'));
         }
     }
 

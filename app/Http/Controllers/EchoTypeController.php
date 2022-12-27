@@ -48,7 +48,7 @@ class EchoTypeController extends Controller
             'index' => $request->index ?: 999,
             'default_form' => $request->default_form,
         ])) {
-            return redirect()->route('setting.echo-type.index')->with('success', 'Data created success');
+            return redirect()->route('setting.echo-type.index')->with('success', __('alert.message.success.crud.create'));
         }
     }
 
@@ -72,7 +72,7 @@ class EchoTypeController extends Controller
         $request['attribite'] = serialize($serialize);
 
         if ($echoType->update($request->all())) {
-            return redirect()->route('setting.echo-type.index')->with('success', 'Data update success');
+            return redirect()->route('setting.echo-type.index')->with('success', __('alert.message.success.crud.update'));
         }
     }
 
@@ -87,7 +87,7 @@ class EchoTypeController extends Controller
     public function update_order(Request $request)
     {
         EchoType::saveOrder($request);
-        return redirect(route('setting.echo-type.index'))->with('success', 'Data sort successful');
+        return redirect(route('setting.echo-type.index'))->with('success', __('alert.message.success.sort'));
     }
 
     /**
@@ -96,7 +96,7 @@ class EchoTypeController extends Controller
     public function destroy(EchoType $echoType)
     {
         if ($echoType->delete()) {
-            return redirect()->route('setting.echo-type.index')->with('success', 'Data delete success');
+            return redirect()->route('setting.echo-type.index')->with('success', __('alert.message.success.crud.delete'));
         }
     }
 

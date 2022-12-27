@@ -62,7 +62,6 @@
                         :disable-edit="$row->trashed()"
                         :disable-delete="$row->stock_outs_count > 0"
                         :show-btn-show="false"
-                        :show-btn-restore="false"
                     />
                 </td>
             </tr>

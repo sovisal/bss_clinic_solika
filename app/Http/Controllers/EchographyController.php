@@ -78,9 +78,9 @@ class EchographyController extends Controller
             $echo->update(['image_1' => $image_1, 'image_2' => $image_2]);
 
             if ($request->is_treament_plan) {
-                return redirect()->route('patient.consultation.edit', $request->consultation_id)->with('success', 'Data created success');
+                return redirect()->route('patient.consultation.edit', $request->consultation_id)->with('success', __('alert.message.success.crud.create'));
             } else {
-                return redirect()->route('para_clinic.echography.edit', $echo->id)->with('success', 'Data created success');
+                return redirect()->route('para_clinic.echography.edit', $echo->id)->with('success', __('alert.message.success.crud.create'));
             }
         }
     }
@@ -187,7 +187,7 @@ class EchographyController extends Controller
         $request['image_2'] = update_image($request->img_2, $path, (time() . '_image_2_' . rand(111, 999) . '.png'), $echography->image_2);
 
         if ($echography->update($request->all())) {
-            return redirect()->route('para_clinic.echography.index')->with('success', 'Data update success');
+            return redirect()->route('para_clinic.echography.index')->with('success', __('alert.message.success.crud.update'));
         }
     }
 
@@ -197,7 +197,7 @@ class EchographyController extends Controller
     public function destroy(Echography $echography)
     {
         if ($echography->delete()) {
-            return redirect()->route('para_clinic.echography.index')->with('success', 'Data delete success');
+            return redirect()->route('para_clinic.echography.index')->with('success', __('alert.message.success.crud.delete'));
         }
     }
 
