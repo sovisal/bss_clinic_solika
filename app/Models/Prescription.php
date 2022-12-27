@@ -12,7 +12,7 @@ class Prescription extends BaseModel
     public $route = 'prescription';
 
     public function detail()
-	{
-		return $this->hasMany(PrescriptionDetail::class, 'prescription_id');
-	}
+    {
+        return $this->hasMany(PrescriptionDetail::class, 'prescription_id');
+    }
 }

@@ -34,7 +34,7 @@
 						<td>{{ d_number($detail->upd) }}</td>
 						<td>{{ d_number($detail->nod) }}</td>
 						<td>{{ d_number($detail->total) }}</td>
-						<td>{{ d_text($detail->unit) }}</td>
+						<td>{{ d_obj($detail, 'unit', ['name_en', 'name_kh']) }}</td>
 						<td>
 							@php
 								$j = 0;
