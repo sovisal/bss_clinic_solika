@@ -88,6 +88,7 @@
                         :disable-edit="$row->trashed() || !($row->status=='1' && $row->payment_status == 0)"
                         :disable-delete="!($row->status=='1' && $row->payment_status == 0)"
                         :show-btn-show="false"
+                        :show-btn-force-delete="true"
                     >
                         <x-form.button color="warning" class="btn-sm" onclick="getImage('{{ $row->image_1 }}', '{{ $row->image_2 }}')" icon="bx bx-image" />
                         <x-form.button color="dark" class="btn-sm" onclick="printPopup('{{ route('para_clinic.xray.print', $row->id) }}')" icon="bx bx-printer" />
