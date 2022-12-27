@@ -17,7 +17,7 @@ class StockInController extends Controller
     public function index()
     {
         $data = [
-            'rows' => StockIn::with(['user', 'unit', 'supplier', 'product.unit'])->filterTrashed()->orderBy('date', 'desc')->limit(5000)->get(),
+            'rows' => StockIn::with(['user', 'unit', 'supplier', 'product.unit'])->withCount('stock_outs')->filterTrashed()->orderBy('date', 'desc')->limit(5000)->get(),
         ];
         return view('stock_in.index', $data);
     }
