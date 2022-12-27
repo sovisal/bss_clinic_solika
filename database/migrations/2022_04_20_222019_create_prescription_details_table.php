@@ -23,7 +23,7 @@ class CreatePrescriptionDetailsTable extends Migration
             $table->string('upd', 10)->default(0);
             $table->string('nod', 10)->default(0);
             $table->string('total', 10)->default(0);
-            $table->string('unit', 10)->default(0);
+            $table->foreignID('unit_id')->nullable();
             $table->string('usage_times')->default('');
 
             $table->unsignedBigInteger('usage_id')->nullable();

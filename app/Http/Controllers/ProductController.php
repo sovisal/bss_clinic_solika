@@ -196,8 +196,9 @@ class ProductController extends Controller
     
     public function getUnit(Request $request)
     {
-        $product = Product::with(['packages'])->findOrFail($request->id);
-        $options = '<option value="">---- None ----</option>';
+        $product = Product::with(['packages', 'unit'])->findOrFail($request->id);
+        // $options = '<option value="">---- None ----</option>';
+        $options = '<option value="' . $product->unit_id . '" data-qty="1">' . d_obj($product, 'unit', ['name_kh', 'name_en']) . '</option>';
         foreach ($product->packages ?? [] as $package) {
             $options .= '<option value="'. $package->product_unit_id .'" data-qty="'. $package->qty .'">'. d_obj($package, 'unit', ['name_kh', 'name_en']) .'</option>';
         }
