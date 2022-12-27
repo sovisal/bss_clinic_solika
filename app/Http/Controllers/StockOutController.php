@@ -127,7 +127,10 @@ class StockOutController extends Controller
                                 'qty_used' => $qty_used,
                                 'qty_remain' => $qty_remain,
                             ]);
+                            $requested_qty = 0;
+                            break;
                         }else{
+                            $requested_qty -= $stockIn->qty_remain;
                             $qty_used = $stockIn->qty_used + $stockIn->qty_remain; // OR $qty_used = $stockIn->qty_based;
                             $qty_remain = $stockIn->qty_based - $qty_used; // OR $qty_remain = 0;
                             $stockOutCreated->stock_ins()->attach([$stockIn->id => ['qty' => $stockIn->qty_remain]]);
@@ -135,17 +138,16 @@ class StockOutController extends Controller
                                 'qty_used' => $qty_used,
                                 'qty_remain' => $qty_remain,
                             ]);
-                            $requested_qty -= $stockIn->qty_remain;
                         }
                     }
+                    $product->qty_out += $request->qty_based[$index];
+                    $product->qty_remain -= $request->qty_based[$index];
+                    $product->save();
                 }else{
                     // If requested stock is larger then stock available add error for msg
                     $validator->errors()->add($index, 'Insufficient stock on product: ' . d_obj($product, ['name_kh', 'name_en']) . '! total requested stock is ' . d_number($request->qty_based[$index]) . ' but total stock available is ' . d_number($product->stockins->sum('qty_remain')));
                 }
             }
-            $product->qty_in += $stockIn->qty_based;
-            $product->qty_remain += $stockIn->qty_remain;
-            $product->save();
         }
         $result->errors = $validator->errors();
         return $result;

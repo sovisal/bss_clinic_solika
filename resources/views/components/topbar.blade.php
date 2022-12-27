@@ -3,7 +3,7 @@
 	'data' => [],
 ])
 
-{{-- <nav class="navbar navbar-top navbar-expand-lg header-navbar custom-top-bar navbar-dark shadow-sm">
+<nav class="navbar navbar-top navbar-expand-lg header-navbar custom-top-bar navbar-dark shadow-sm">
 	<a class="navbar-brand" href="#">
 		<div class="avatar tw-mr-1 avatar-sm">
 			<img src="{{ asset('images/site/logo.png') }}" alt="avtar img holder">
@@ -47,4 +47,4 @@
 			</li>
 		</ul>
 	</div>
-</nav> --}}
+</nav>
