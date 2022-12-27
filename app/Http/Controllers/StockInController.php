@@ -62,6 +62,8 @@ class StockInController extends Controller
                 $product->qty_in += $stockIn->qty_based;
                 $product->qty_remain += $stockIn->qty_remain;
                 $product->save();
+
+                $stockIn->product()->first()->updateQtyRamain();
             }
         }
         return redirect()->route('inventory.stock_in.index')->with('success', 'Data created success');

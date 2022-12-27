@@ -40,4 +40,10 @@ class Product extends BaseModel
     {
         return $this->hasMany(StockIn::class, 'product_id');
     }
+
+    public function updateQtyRamain()
+    {
+        $this->update(['qty_remain' => $this->stockins()->sum('qty_remain')]);
+        return $this;
+    }
 }
