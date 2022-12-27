@@ -40,93 +40,98 @@ class StockInController extends Controller
      */
     public function store(StockInRequest $request)
     {
-        if (count($request->date) > 0) {
-            foreach ($request->date as $index => $value) {
-                StockIn::create([
+        $allProducts = Product::whereIn('id', $request->input('product_id', []))->get();
+
+        foreach ($request->input('product_id', []) as $index => $value) {
+            if ($product = $allProducts->where('id', $request->product_id[$index])->first()) {
+                $stockIn = StockIn::create([
+                    'type' => 'StockIn',
                     'date' => $request->date[$index] ?? date('Y-m-d'),
                     'exp_date' => $request->exp_date[$index] ?? null,
                     'reciept_no' => $request->reciept_no[$index] ?? '',
                     'price' => $request->price[$index] ?? 0,
                     'qty' => $request->qty[$index] ?? 0,
+                    'qty_remain' => $request->qty_based[$index] ?? 0,
                     'qty_based' => $request->qty_based[$index] ?? 0,
                     'qty_remain' => $request->qty_based[$index] ?? 0,
                     'total' => $request->total[$index] ?? 0,
                     'supplier_id' => $request->supplier_id[$index] ?? null,
                     'product_id' => $request->product_id[$index] ?? null,
                     'unit_id' => $request->unit_id[$index] ?? null,
-                    'type' => 'stockin',
                 ]);
+                $product->qty_in += $stockIn->qty_based;
+                $product->qty_remain += $stockIn->qty_remain;
+                $product->save();
             }
-            return redirect()->route('inventory.stock_in.index')->with('success', 'Data created success');
         }
-        return back()->with('error', 'Not data was created');
+        return redirect()->route('inventory.stock_in.index')->with('success', 'Data created success');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(StockIn $stockIn)
-    {
-        $data = [
-            'suppliers' => Supplier::where('status', 1)->orderBy('name_en', 'asc')->get(),
-            'row' => $stockIn
-        ];
-        return view('stock_in.edit', $data);
-    }
+    // /**
+    //  * Show the form for editing the specified resource.
+    //  */
+    // public function edit(StockIn $stockIn)
+    // {
+    //     $data = [
+    //         'suppliers' => Supplier::where('status', 1)->orderBy('name_en', 'asc')->get(),
+    //         'row' => $stockIn
+    //     ];
+    //     return view('stock_in.edit', $data);
+    // }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(StockInRequest $request, StockIn $stockIn)
-    {
-        if ($stockIn->update([
-            'date' => $request->date,
-            'exp_date' => $request->exp_date,
-            'reciept_no' => $request->reciept_no,
-            'price' => $request->price,
-            'qty' => $request->qty,
-            'remain' => $request->qty_based,
-            'qty_based' => $request->qty_based,
-            'total' => $request->total,
-            'supplier_id' => $request->supplier_id,
-            'product_id' => $request->product_id,
-            'unit_id' => $request->unit_id
-        ])) {
-            return redirect()->route('inventory.stock_in.index')->with('success', 'Data created success');
-        }
-    }
+    // /**
+    //  * Update the specified resource in storage.
+    //  */
+    // public function update(StockInRequest $request, StockIn $stockIn)
+    // {
+    //     if ($stockIn->update([
+    //         'date' => $request->date,
+    //         'exp_date' => $request->exp_date,
+    //         'reciept_no' => $request->reciept_no,
+    //         'price' => $request->price,
+    //         'qty' => $request->qty,
+    //         'qty_remain' => $request->qty_based,
+    //         'qty_based' => $request->qty_based,
+    //         'total' => $request->total,
+    //         'supplier_id' => $request->supplier_id,
+    //         'product_id' => $request->product_id,
+    //         'unit_id' => $request->unit_id
+    //     ])) {
+    //         return redirect()->route('inventory.stock_in.index')->with('success', 'Data created success');
+    //     }
+    // }
 
-    /**
-     * Remove the specified resource to trash.
-     */
-    public function destroy(StockIn $stockIn)
-    {
-        if ($stockIn->delete()) {
-            return redirect()->route('inventory.stock_in.index')->with('success', 'Data delete success');
-        }
-    }
+    // /**
+    //  * Remove the specified resource to trash.
+    //  */
+    // public function destroy(StockIn $stockIn)
+    // {
+    //     if ($stockIn->delete()) {
+    //         return redirect()->route('inventory.stock_in.index')->with('success', 'Data delete success');
+    //     }
+    // }
 
-    /**
-     * Restore the specified resource from storage.
-     */
-    public function restore($id)
-    {
-        $row = StockIn::onlyTrashed()->findOrFail($id);
-        if ($row->restore()) {
-            return back()->with('success', __('alert.message.success.crud.restore'));
-        }
-        return back()->with('error', __('alert.message.error.crud.restore'));
-    }
+    // /**
+    //  * Restore the specified resource from storage.
+    //  */
+    // public function restore($id)
+    // {
+    //     $row = StockIn::onlyTrashed()->findOrFail($id);
+    //     if ($row->restore()) {
+    //         return back()->with('success', __('alert.message.success.crud.restore'));
+    //     }
+    //     return back()->with('error', __('alert.message.error.crud.restore'));
+    // }
 
-    /**
-     * Force Delete the specified resource from storage.
-     */
-    public function force_delete($id)
-    {
-        $row = StockIn::onlyTrashed()->findOrFail($id);
-        if ($row->forceDelete()) {
-            return back()->with('success', __('alert.message.success.crud.force_detele'));
-        }
-        return back()->with('error', __('alert.message.error.crud.force_detele'));
-    }
+    // /**
+    //  * Force Delete the specified resource from storage.
+    //  */
+    // public function force_delete($id)
+    // {
+    //     $row = StockIn::onlyTrashed()->findOrFail($id);
+    //     if ($row->forceDelete()) {
+    //         return back()->with('success', __('alert.message.success.crud.force_detele'));
+    //     }
+    //     return back()->with('error', __('alert.message.error.crud.force_detele'));
+    // }
 }

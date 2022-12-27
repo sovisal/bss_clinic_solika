@@ -39,7 +39,6 @@
         let price = bss_number($this_row.find('.price').val());
         let qty = bss_number($this_row.find('.qty').val());
         let pk_qty = bss_number($this_row.find('select.unit_id option:selected').data('qty'));
-
         $this_row.find('[name="qty_based[]"],[name="qty_based"]').val(qty * (pk_qty==0 ? 1 : pk_qty));
         $this_row.find('[name="total[]"],[name="total"]').val(qty * price);
     }
