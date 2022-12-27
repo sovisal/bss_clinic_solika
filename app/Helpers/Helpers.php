@@ -462,6 +462,8 @@ function d_obj($obj = null, $param1 = null, $param2 = null, $param3 = null)
     } else {
         return d_text($result);
     }
+
+    return $result;
 }
 
 function d_array($array = null, $param1 = null, $param2 = null, $param3 = null)
@@ -528,13 +530,13 @@ function d_labor_range($min = '', $max = '')
     return ($min != '' && $max != '') ? $min . '-' . $max  : '';
 }
 
-function d_status($status, $false = 'Inactive', $true = 'Active')
+function d_status($status, $false = 'Inactive', $true = 'Active', $false_badge = 'badge-danger', $true_badge = 'badge-primary')
 {
     if ($status) {
-        return '<span class="badge badge-primary">' . $true . '</span>';
+        return '<span class="badge ' . $true_badge . '">' . $true . '</span>';
     }
 
-    return '<span class="badge badge-danger">' . $false . '</span>';
+    return '<span class="badge ' . $false_badge . '">' . $false . '</span>';
 }
 
 function d_para_status($status, $active = 'Active', $closed = 'Closed')

@@ -14,7 +14,8 @@ class CreateStockOutDetailsTable extends Migration
     public function up()
     {
         Schema::create('stock_out_details', function (Blueprint $table) {
-            $table->id();
+            // $table->id();
+			$table->primary(['stock_out_id', 'stock_in_id']);
 
             $table->foreignID('stock_out_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignID('stock_in_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');

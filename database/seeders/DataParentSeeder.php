@@ -195,8 +195,8 @@ class DataParentSeeder extends Seeder
             ],
             [
                 'status' => 1,
-                'title_en' => 'ព្យួរសេរូ៉ម',
-                'title_kh' => 'ព្យួរសេរូ៉ម',
+                'title_en' => 'ព្យួរសេរ៉ូម',
+                'title_kh' => 'ព្យួរសេរ៉ូម',
                 'type' => 'comsumption',
             ],
             [
@@ -214,8 +214,8 @@ class DataParentSeeder extends Seeder
             ],
             [
                 'status' => 1,
-                'title_en' => 'ថ្ងៃត្រង់',
-                'title_kh' => 'ថ្ងៃត្រង់',
+                'title_en' => 'ថ្ងៃ',
+                'title_kh' => 'ថ្ងៃ',
                 'type' => 'time_usage',
             ],
             [

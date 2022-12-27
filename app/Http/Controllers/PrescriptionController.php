@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DataParent;
 use App\Models\Patient;
 use App\Models\Inventory;
 use App\Models\Medicine;
@@ -36,7 +37,7 @@ class PrescriptionController extends Controller
             'payment_type' => getParentDataSelection('payment_type'),
             'gender' => getParentDataSelection('gender'),
             'usages' => getParentDataSelection('comsumption'),
-            'time_usage' => getParentDataSelection('time_usage'),
+            'time_usage' => DataParent::where('type', 'time_usage')->get(),
             'medicine' => Inventory\Product::where('status', '>=', '1')->where('qty_remain', '>', '0')->orderBy('name_en', 'asc')->get(),
             'prescription_detail' => [],
             'is_edit' => false
@@ -86,7 +87,7 @@ class PrescriptionController extends Controller
             ->with([
                 'patient',
                 'detail' => function ($q) {
-                    $q->with(['product', 'usage']);
+                    $q->with(['product', 'usage', 'unit']);
                 }
             ])
             ->first();
@@ -114,7 +115,7 @@ class PrescriptionController extends Controller
 						<td class="text-center">' . d_number($detail->upd) . '</td>
 						<td class="text-center">' . d_number($detail->nod) . '</td>
 						<th class="text-center"><strong>' . d_number($detail->total) . '</strong></th>
-						<td>' . d_text($detail->unit) . '</td>
+						<td>' . d_obj($detail, 'unit', ['name_en', 'name_kh']) . '</td>
 						<td>' . d_text($usage_time_str) . '</td>
 						<td>' . d_obj($detail, 'usage', ['title_en', 'title_kh']) . '</td>
 						<td>' . d_text($detail->other) . '</td>
@@ -155,7 +156,7 @@ class PrescriptionController extends Controller
         $prescription = Prescription::where('prescriptions.id', $id)
             ->with(['doctor', 'patient', 'gender',
                 'detail' => function ($q) {
-                    $q->with(['product', 'usage']);
+                    $q->with(['product', 'usage', 'unit']);
                 }
             ])
             ->first();
@@ -180,9 +181,11 @@ class PrescriptionController extends Controller
             'payment_type' => getParentDataSelection('payment_type'),
             'gender' => getParentDataSelection('gender'),
             'usages' => getParentDataSelection('comsumption'),
-            'time_usage' => getParentDataSelection('time_usage'),
+            'time_usage' => DataParent::where('type', 'time_usage')->get(),
             'medicine' => Inventory\Product::where('status', '>=', '1')->where('qty_remain', '>', '0')->orderBy('name_en', 'asc')->get(),
-            'prescription_detail' => $prescription->detail()->get(),
+            'prescription_detail' => $prescription->detail()->with(['product' => function ($q) {
+                $q->with(['packages' => function ($q1) { $q1->with(['unit']); }, 'unit']);
+            }])->get(),
             'is_edit' => true
         ];
 
@@ -243,7 +246,7 @@ class PrescriptionController extends Controller
                 'upd'             => $request->upd[$index] ?: 0,
                 'nod'             => $request->nod[$index] ?: 0,
                 'total'           => $request->total[$index] ?: 0,
-                'unit'            => $request->unit[$index] ?: '',
+                'unit_id'            => $request->unit_id[$index] ?: '',
                 'usage_id'        => $request->usage_id[$index] ?: 0,
                 'other'           => $request->other[$index] ?: '',
             ];

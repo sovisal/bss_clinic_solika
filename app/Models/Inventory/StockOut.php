@@ -22,4 +22,11 @@ class StockOut extends BaseModel
         return $this->belongsTo(ProductUnit::class, 'unit_id');
     }
 
+    public function stock_ins()
+    {
+        return $this->belongsToMany(StockIn::class, 'stock_out_details', 'stock_out_id', 'stock_in_id')
+                    ->withPivot('qty')
+                    ->withTimestamps();
+    }
+
 }

@@ -17,7 +17,7 @@ class StockInController extends Controller
     public function index()
     {
         $data = [
-            'rows' => StockIn::with(['user'])->filterTrashed()->orderBy('date', 'desc')->limit(5000)->get(),
+            'rows' => StockIn::with(['user', 'unit', 'supplier', 'product.unit'])->withCount('stock_outs')->filterTrashed()->orderBy('date', 'desc')->limit(5000)->get(),
         ];
         return view('stock_in.index', $data);
     }
@@ -38,26 +38,33 @@ class StockInController extends Controller
      */
     public function store(StockInRequest $request)
     {
-        if (count($request->date) > 0) {
-            foreach ($request->date as $index => $value) {
-                StockIn::create([
+        $allProducts = Product::whereIn('id', $request->input('product_id', []))->get();
+
+        foreach ($request->input('product_id', []) as $index => $value) {
+            if ($product = $allProducts->where('id', $request->product_id[$index])->first()) {
+                $stockIn = StockIn::create([
+                    'type' => 'StockIn',
                     'date' => $request->date[$index] ?? date('Y-m-d'),
                     'exp_date' => $request->exp_date[$index] ?? null,
                     'reciept_no' => $request->reciept_no[$index] ?? '',
                     'price' => $request->price[$index] ?? 0,
                     'qty' => $request->qty[$index] ?? 0,
-                    'remain' => $request->qty_based[$index] ?? 0,
+                    'qty_remain' => $request->qty_based[$index] ?? 0,
                     'qty_based' => $request->qty_based[$index] ?? 0,
+                    'qty_remain' => $request->qty_based[$index] ?? 0,
                     'total' => $request->total[$index] ?? 0,
                     'supplier_id' => $request->supplier_id[$index] ?? null,
                     'product_id' => $request->product_id[$index] ?? null,
                     'unit_id' => $request->unit_id[$index] ?? null,
-                    'type' => 'stockin',
                 ]);
+                $product->qty_in += $stockIn->qty_based;
+                $product->qty_remain += $stockIn->qty_remain;
+                $product->save();
+
+                $stockIn->product()->first()->updateQtyRamain();
             }
-            return redirect()->route('inventory.stock_in.index')->with('success', 'Data created success');
         }
-        return back()->with('error', 'Not data was created');
+        return redirect()->route('inventory.stock_in.index')->with('success', 'Data created success');
     }
 
     /**
@@ -66,7 +73,6 @@ class StockInController extends Controller
     public function edit(StockIn $stockIn)
     {
         $data = [
-            'suppliers' => Supplier::where('status', 1)->orderBy('name_en', 'asc')->get(),
             'row' => $stockIn
         ];
         return view('stock_in.edit', $data);
@@ -82,14 +88,9 @@ class StockInController extends Controller
             'exp_date' => $request->exp_date,
             'reciept_no' => $request->reciept_no,
             'price' => $request->price,
-            'qty' => $request->qty,
-            'remain' => $request->qty_based,
-            'qty_based' => $request->qty_based,
-            'total' => $request->total,
-            'supplier_id' => $request->supplier_id,
-            'product_id' => $request->product_id,
-            'unit_id' => $request->unit_id
+            'total' => ($stockIn->qty * $request->price),
         ])) {
+            $stockIn->product()->first()->updateQtyRamain();
             return redirect()->route('inventory.stock_in.index')->with('success', 'Data created success');
         }
     }

@@ -41,8 +41,24 @@ class Product extends BaseModel
         return $this->hasMany(StockIn::class, 'product_id');
     }
 
-    // public function assignPackage($packages = [])
-    // {
-    //     $this->packages()->sync($packages);
-    // }
+    public function stock_outs ()
+    {
+        return $this->hasMany(StockOut::class, 'product_id');
+    }
+
+    public function updateQtyRamain()
+    {
+        $this->update(['qty_remain' => $this->stockins()->sum('qty_remain')]);
+        return $this;
+    }
+
+    public function updateQty()
+    {
+        $this->update([
+            'qty_in' => $this->stockins->sum('qty_based'),
+            'qty_out' => $this->stock_outs->sum('qty'),
+            'qty_remain' => $this->stockins->sum('qty_remain'),
+        ]);
+        return $this;
+    }
 }

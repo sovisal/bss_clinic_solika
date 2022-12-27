@@ -23,7 +23,7 @@ class CreatePrescriptionDetailsTable extends Migration
             $table->string('upd', 10)->default(0);
             $table->string('nod', 10)->default(0);
             $table->string('total', 10)->default(0);
-            $table->string('unit', 10)->default(0);
+            $table->foreignID('unit_id')->nullable();
             $table->string('usage_times')->default('');
 
             $table->unsignedBigInteger('usage_id')->nullable();
@@ -43,12 +43,6 @@ class CreatePrescriptionDetailsTable extends Migration
             $table->foreign('prescription_id')
                 ->references('id')
                 ->on('prescriptions')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-
-            $table->foreign('medicine_id')
-                ->references('id')
-                ->on('medicines')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 

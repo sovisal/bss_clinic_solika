@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Inventory\Product;
 use Illuminate\Support\Facades\File;
 use App\Http\Requests\ProductRequest;
+use App\Http\Requests\ProductUpdateRequest;
 use App\Models\Inventory\ProductType;
 use App\Models\Inventory\ProductUnit;
 use App\Models\Inventory\ProductPackage;
@@ -60,6 +61,7 @@ class ProductController extends Controller
             'qty_remain' => $request->qty_begin ?: 0,
         ])) {
             $this->update_package($request, $product);
+            $this->update_begin_balance($product);
 
             if ($request->code == generate_code('PR', 'products', false)) {
                 generate_code('PR', 'products');
@@ -92,7 +94,7 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ProductRequest $request, Product $product)
+    public function update(ProductUpdateRequest $request, Product $product)
     {
         // Check if no exist folder/directory then create folder/directory
         $path = public_path('/images/products/');
@@ -106,12 +108,13 @@ class ProductController extends Controller
                 'name_kh' => $request->name_kh,
                 'cost' => $request->cost ?? 0,
                 'price' => $request->price ?? 0,
-                'unit_id' => $request->unit_id,
+                'unit_id' => $request->unit_id ?: $product->unit_id,
                 'type_id' => $request->type_id,
                 'category_id' => $request->category_id,
             ]
         ))) {
             $this->update_package($request, $product);
+            $product->updateQtyRamain();
 
             return redirect()->route('inventory.product.index')->with('success', 'Data created success');
         }
@@ -193,11 +196,25 @@ class ProductController extends Controller
         $product->packages()->where('status', '1')->delete();
         $product->packages()->createMany($package);
     }
+
+    public function update_begin_balance($product) {
+        if ($product->qty_begin > 0) {
+            $product->stockins()->create([
+                'date' => date('Y-m-d'),
+                'qty' => $product->qty_begin,
+                'qty_based' => $product->qty_begin,
+                'qty_remain' => $product->qty_begin,
+                'unit_id' => $product->unit_id,
+                'type' => 'begin',
+            ]);
+        }
+    }
     
     public function getUnit(Request $request)
     {
-        $product = Product::with(['packages'])->findOrFail($request->id);
-        $options = '<option value="">---- None ----</option>';
+        $product = Product::with(['packages', 'unit'])->findOrFail($request->id);
+        // $options = '<option value="">---- None ----</option>';
+        $options = '<option value="' . $product->unit_id . '" data-qty="1">' . d_obj($product, 'unit', ['name_kh', 'name_en']) . '</option>';
         foreach ($product->packages ?? [] as $package) {
             $options .= '<option value="'. $package->product_unit_id .'" data-qty="'. $package->qty .'">'. d_obj($package, 'unit', ['name_kh', 'name_en']) .'</option>';
         }
