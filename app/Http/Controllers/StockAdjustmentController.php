@@ -15,7 +15,7 @@ class StockAdjustmentController extends Controller
     public function index()
     {
         $data = [
-            'rows' => StockAdjustment::with(['user', 'product'])->filterTrashed()->orderBy('date')->limit(5000)->get(),
+            'rows' => StockAdjustment::with(['user', 'product', 'product.unit'])->filterTrashed()->orderBy('date')->limit(5000)->get(),
         ];
         return view('stock_adjustment.index', $data);
     }

@@ -55,11 +55,8 @@ class StockInController extends Controller
                     'product_id' => $request->product_id[$index] ?? null,
                     'unit_id' => $request->unit_id[$index] ?? null,
                 ]);
-                $product->qty_in += $stockIn->qty_based;
-                $product->qty_remain += $stockIn->qty_remain;
-                $product->save();
 
-                $stockIn->product()->first()->updateQtyRamain();
+                $stockIn->product()->first()->updateQty();
             }
         }
         return redirect()->route('inventory.stock_in.index')->with('success', __('alert.message.success.crud.create'));
@@ -88,7 +85,8 @@ class StockInController extends Controller
             'price' => $request->price,
             'total' => ($stockIn->qty * $request->price),
         ])) {
-            $stockIn->product()->first()->updateQtyRamain();
+            
+            $stockIn->product()->first()->updateQty();
             return redirect()->route('inventory.stock_in.index')->with('success', __('alert.message.success.crud.update'));
         }
     }

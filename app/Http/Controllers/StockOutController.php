@@ -156,9 +156,8 @@ class StockOutController extends Controller
                             ]);
                         }
                     }
-                    $product->qty_out += $request->qty_based[$index];
-                    $product->qty_remain -= $request->qty_based[$index];
-                    $product->save();
+
+                    $product->updateQty();
                 }else{
                     // If requested stock is larger then stock available add error for msg
                     $validator->errors()->add($index, 'Insufficient stock on product: ' . d_obj($product, ['name_kh', 'name_en']) . '! total requested stock is ' . d_number($request->qty_based[$index]) . ' but total stock available is ' . d_number($product->stockins->sum('qty_remain')));

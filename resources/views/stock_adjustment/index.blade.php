@@ -8,8 +8,10 @@
                 <tr>
                     <th width="3%">No</th>
                     <th width="8%">Date</th>
+                    <th>Code</th>
                     <th>Product</th>
                     <th width="8%">QTY Remove</th>
+                    <th width="8%">Unit</th>
                     <th>Reason</th>
                     <th width="8%">User</th>
                     <th width="10%">Status</th>
@@ -20,8 +22,10 @@
             <tr>
                 <td>{{ ++$i }}</td>
                 <td>{{ d_date($row->date, 'Y-m-d') }}</td>
-                <td>{!! $row->productLink !!}</td>
+                <td>{!! d_obj($row, 'product', 'code') !!}</td>
+                <td>{!! d_obj($row, 'product', 'link') !!}</td>
                 <td>{!! d_number($row->qty) !!}</td>
+                <td>{!! d_obj($row, 'product', 'unit', 'link') !!}</td>
                 <td>{!! $row->reason !!}</td>
                 <td>{!! d_obj($row, 'user', 'name') !!}</td>
                 <td>{!! d_status($row->status) !!}</td>

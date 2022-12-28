@@ -114,7 +114,6 @@ class ProductController extends Controller
             ]
         ))) {
             $this->update_package($request, $product);
-            $product->updateQtyRamain();
 
             return redirect()->route('inventory.product.index')->with('success', __('alert.message.success.crud.update'));
         }

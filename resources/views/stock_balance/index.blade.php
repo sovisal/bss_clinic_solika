@@ -14,7 +14,8 @@
                     <th width="10%">Category</th>
                     <th width="8%">QTY IN</th>
                     <th width="8%">QTY OUT</th>
-                    <th width="8%">Remain</th>
+                    <th width="8%">QTY Alert</th>
+                    <th width="8%">QTY Remain</th>
                     <th width="8%">Status</th>
                 </tr>
             </x-slot>
@@ -28,6 +29,7 @@
                     <td>{!! d_obj($row, 'category', 'link') !!}</td>
                     <td>{!! d_link(d_number($row->qty_in), "javascript:alert('stockin history coming soon')") !!}</td>
                     <td>{!! d_link(d_number($row->qty_out), "javascript:alert('stockout history coming soon')") !!}</td>
+                    <td>{!! d_number($row->qty_alert) !!}</td>
                     <td><span style="color: {{ d_number($row->qty_remain) == 0 ? 'red' : 'green' }};">
                         {!! d_number($row->qty_remain) !!}
                     </span></td>
