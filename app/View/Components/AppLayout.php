@@ -4,6 +4,8 @@ namespace App\View\Components;
 
 use App\Models\Setting;
 use Illuminate\View\Component;
+use App\Models\Inventory\Product;
+use App\Models\Inventory\StockIn;
 
 class AppLayout extends Component
 {
@@ -14,6 +16,10 @@ class AppLayout extends Component
      */
     public function render()
     {
+        $_POST['nb_stock_expired'] = StockIn::Expired()->count();
+        $_POST['nb_out_of_stock'] = Product::OutOfStock()->count();
+        $nb_alerted = $_POST['nb_stock_expired'] + $_POST['nb_out_of_stock'];
+        $stock_alert_badge   = $nb_alerted > 0 ? '<span class="text-danger"> (<em>' . $nb_alerted . '</em> )</span>' : '';
 
         $menu = [
             // 'home' => [
@@ -114,15 +120,15 @@ class AppLayout extends Component
 
             'inventory' => [
                 'can' => 'ViewAnyDoctor',
-                'url' => route('inventory.doctor.index'),
-                'label' => 'Inventory',
+                'url' => route('inventory.stock_alert.index'),
+                'label' => $nb_alerted > 0 ? '<span class="text-danger">Inventory</span>' : 'Inventory',
 
                 'sub' => [
-                    'alert' => [
-                        'can' => 'Stoci',
-                        'url' => '',
-                        'name' => ['edit'],
-                        'label' => 'Stock Alert',
+                    'stock_alert' => [
+                        'can' => 'ViewStockAlert',
+                        'url' => route('inventory.stock_alert.index'),
+                        'name' => ['index'],
+                        'label' => 'Stock Alert ' . $stock_alert_badge,
                     ],
                     'stock_in' => [
                         'can' => 'ViewAnyStockIn',
@@ -139,7 +145,7 @@ class AppLayout extends Component
                     'stock_balance' => [
                         'can' => 'ViewStockBalance',
                         'url' => route('inventory.stock_balance.index'),
-                        'name' => ['index', 'create', 'edit'],
+                        'name' => ['index'],
                         'label' => 'Stock Balance',
                     ],
                     'stock_adjustment' => [
@@ -172,12 +178,6 @@ class AppLayout extends Component
                         'name' => ['index', 'create', 'edit'],
                         'label' => 'Product Type',
                     ],
-                    // 'product_package' => [
-                    //     'can' => 'ViewAnyProductPackage',
-                    //     'url' => route('inventory.product_package.index'),
-                    //     'name' => ['index', 'create', 'edit'],
-                    //     'label' => 'Product Package',
-                    // ],
                     'product_unit' => [
                         'can' => 'ViewAnyMedicine',
                         'url' => route('inventory.product_unit.index'),

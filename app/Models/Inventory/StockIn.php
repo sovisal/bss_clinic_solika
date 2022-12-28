@@ -34,4 +34,8 @@ class StockIn extends BaseModel
                     ->withTimestamps();
     }
 
+    public function scopeExpired($query)
+    {
+        return $query->where('exp_date', '<=', date('Y-m-d'))->where('qty_remain', '>', 0);
+    }
 }

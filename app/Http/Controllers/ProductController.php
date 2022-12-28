@@ -111,6 +111,7 @@ class ProductController extends Controller
                 'unit_id' => $request->unit_id ?: $product->unit_id,
                 'type_id' => $request->type_id,
                 'category_id' => $request->category_id,
+                'qty_alert' => $request->qty_alert,
             ]
         ))) {
             $this->update_package($request, $product);
