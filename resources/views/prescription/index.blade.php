@@ -39,7 +39,7 @@
                 <td>{{ d_currency($row->price) }}</td>
                 <td>{!! d_paid_status($row->payment_status) !!}</td>
                 <td>{{ d_obj($row, 'user', 'name') }}</td>
-                <td>{!! d_para_status($row->status) !!}</td>
+                <td>{!! d_para_status($row->status, 'Active', 'Complete') !!}</td>
                 <td>
                     <x-form.button color="dark" class="btn-sm" onclick="printPopup('{{ route('prescription.print', $row->id) }}')" icon="bx bx-printer" />
                     @if ($row->status == 1)
