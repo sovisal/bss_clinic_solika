@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Setting;
 use Illuminate\Support\Str;
 use App\Models\Address_linkable;
 use Illuminate\Support\Collection;
@@ -153,10 +154,12 @@ function zipFile($zip_file, $path, $destination_path, $sub_folder = true)
     return $output_path;
 }
 
-// function setting(){
-// 	return Setting::first();
-// }
-
+function setting($duration = 60 * 60)
+{
+    return cache()->remember('bss_stock_clinic.setting', $duration, function () {
+        return Setting::first();
+    });
+}
 
 function bg_random()
 {

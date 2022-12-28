@@ -26,10 +26,23 @@
             <x-bss-form.input-row name="price[]" id="" labelWidth="15%" :tr="false" class="is_number price" required label="Price" />
         </tr>
         <tr>
-            <td colspan="4">
-                <input type="hidden" name="qty_based[]" readonly/>
-            </td>
+            @if (isset($module) && $module == 'inventory.stock_adjustment')
+                <td class="text-right">
+                    <label for="note">Reason <small class="required">*</small></label>
+                </td>
+                <td colspan="3">
+                    <x-bss-form.textarea name="note[]" rows="1" required/>
+                </td>
+            @else
+                <td class="text-right">
+                    <label for="note">Reason</label>
+                </td>
+                <td colspan="3">
+                    <x-bss-form.textarea name="note[]" rows="1"/>
+                </td>
+            @endif
             <x-bss-form.input-row name="total[]" id="" labelWidth="15%" :tr="false" class="is_number total" readonly label="Total" />
+            <input type="hidden" name="qty_based[]" readonly/>
         </tr>
     </table>
 </div>

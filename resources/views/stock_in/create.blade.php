@@ -35,5 +35,4 @@
     </form>
 
     @include('stock_in.form_stock_in_sample')
-    <x-modal-image-crop />
 </x-app-layout>

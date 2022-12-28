@@ -34,5 +34,4 @@
         </x-card>
     </form>
 
-    <x-modal-image-crop />
 </x-app-layout>

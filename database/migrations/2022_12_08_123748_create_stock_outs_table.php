@@ -23,8 +23,11 @@ class CreateStockOutsTable extends Migration
             $table->foreignID('product_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignID('unit_id')->nullable()->constrained('product_units')->onUpdate('cascade')->onDelete('cascade');
             $table->float('price')->default(0);
-            $table->float('qty')->default(0); // QTY = the sum of stock_out_details > qty
+            $table->float('qty_based')->default(0); // Based QTY = qty caculate with product package =the sum of stock_out_details > qty
+            $table->float('qty')->default(0); // QTY of package
             $table->float('total')->default(0);
+            $table->text('note')->nullable();
+            $table->unsignedBigInteger('parent_id')->nullable();
 
             $table->foreignID('user_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->tinyInteger('status')->default('0');

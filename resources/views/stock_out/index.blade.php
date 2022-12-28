@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-form.button href="{{ route('inventory.stock_out.create') }}" icon="bx bx-plus" label="Create" />
+        <x-form.button href="{{ route(($module ?? 'inventory.stock_out') . '.create') }}" icon="bx bx-plus" label="Create" />
     </x-slot>
     <x-card :foot="false" :head="false">
         <x-table class="table-hover table-striped" id="datatables">
@@ -37,8 +37,8 @@
                 {{-- <td>{!! d_status($row->status) !!}</td> --}}
                 <td>
                     <x-table-action-btn
-                        module="inventory.stock_out"
-                        module-ability="StockOut"
+                        module="{{ $module ?? 'inventory.stock_out' }}"
+                        module-ability="{{ $module_ability ?? 'StockOut' }}"
                         :id="$row->id"
                         :is-trashed="$row->trashed()"
                         :disable-edit="$row->trashed()"

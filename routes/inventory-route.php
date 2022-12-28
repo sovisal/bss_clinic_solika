@@ -42,11 +42,11 @@ Route::middleware(['auth'])->name('inventory.')->group(function () {
         Route::get('/', 'index')->name('index')->middleware('can:ViewAnyStockAdjustment');
         Route::get('/create', 'create')->name('create')->middleware('can:CreateStockAdjustment');
         Route::post('/store', 'store')->name('store')->middleware('can:CreateStockAdjustment');
-        Route::get('/{stockAdjustment}/edit', 'edit')->name('edit')->middleware('can:UpdateStockAdjustment');
-        Route::put('/{stockAdjustment}/update', 'update')->name('update')->middleware('can:UpdateStockAdjustment');
-        Route::delete('/{stockAdjustment}/delete', 'destroy')->name('delete')->middleware('can:DeleteStockAdjustment');
-        Route::put('/{stockAdjustment}/restore', 'restore')->name('restore')->middleware('can:RestoreStockAdjustment');
-        Route::delete('/{stockAdjustment}/force_delete', 'force_delete')->name('force_delete')->middleware('can:ForceDeleteStockAdjustment');
+        Route::get('/{stockOut}/edit', 'edit')->name('edit')->middleware('can:UpdateStockAdjustment');
+        Route::put('/{stockOut}/update', 'update')->name('update')->middleware('can:UpdateStockAdjustment');
+        Route::delete('/{stockOut}/delete', 'destroy')->name('delete')->middleware('can:DeleteStockAdjustment');
+        Route::put('/{stockOut}/restore', 'restore')->name('restore')->middleware('can:RestoreStockAdjustment');
+        Route::delete('/{stockOut}/force_delete', 'force_delete')->name('force_delete')->middleware('can:ForceDeleteStockAdjustment');
     });
 
     Route::prefix('stock_balance')->name('stock_balance.')->controller(StockBalanceController::class)->group(function () {

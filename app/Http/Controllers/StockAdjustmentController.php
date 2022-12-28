@@ -4,20 +4,37 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Inventory\Product;
-use App\Models\Inventory\StockAdjustment;
-use App\Http\Requests\StockAdjustmentRequest;
+use App\Models\Inventory\StockOut;
+use App\Http\Requests\StockOutRequest;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\StockOutController;
 
 class StockAdjustmentController extends Controller
 {
+    protected $stockOut;
+    public function __construct(StockOutController $stockOut)
+    {
+        $this->stockOut = $stockOut;
+        $this->data = [
+            'title' => 'Stock Adjustment',
+            'module' => 'inventory.stock_adjustment',
+            'module_ability' => 'StockAdjustment'
+        ];
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data = [
-            'rows' => StockAdjustment::with(['user', 'product', 'product.unit'])->filterTrashed()->orderBy('date')->limit(5000)->get(),
+        $this->data += [
+            'rows' => StockOut::with(['user', 'product', 'product.unit'])
+                ->where('type', 'StockAdjustment')
+                ->filterTrashed()
+                ->orderBy('date')
+                ->limit(5000)
+                ->get(),
         ];
-        return view('stock_adjustment.index', $data);
+        return view('stock_out.index', $this->data);
     }
 
     /**
@@ -25,55 +42,67 @@ class StockAdjustmentController extends Controller
      */
     public function create()
     {
-        $data = [
+        $this->data += [
             'products' => Product::where('status', 1)->orderBy('name_en', 'asc')->get(),
         ];
-        return view('stock_adjustment.create', $data);
+        return view('stock_out.create', $this->data);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StockAdjustmentRequest $request)
+    public function store(StockOutRequest $request)
     {
-        $allProducts = Product::whereIn('id', $request->input('product_id', []))->get();
+        $validator = Validator::make([],[]);
+        $allProducts = Product::with([
+            'stockins' => function ($q) { $q->where('qty_remain', '>', 0)->orderBy('date'); }
+        ])->whereIn('id', $request->input('product_id', []))->get();
+
         foreach ($request->input('product_id', []) as $index => $value) {
-            if ($allProducts->where('id', $request->product_id[$index])->first()) {
-                StockAdjustment::create([
-                    'date' => $request->date[$index] ?? date('Y-m-d'),
-                    'qty' => $request->qty[$index] ?? 0,
-                    'reason' => $request->reason[$index] ?? 0,
-                    'product_id' => $request->product_id[$index] ?? null,
-                ]);
+            if ($product = $allProducts->where('id', $request->product_id[$index] ?? '')->first()) {
+                if ($product->stockins->sum('qty_remain') >= $request->qty_based[$index]) {
+                    $req = (object)[
+                            'type' => 'StockAdjustment',
+                            'date' => $request->date[$index],
+                            'document_no' => $request->reciept_no[$index],
+                            'product_id' => $request->product_id[$index],
+                            'unit_id' => $request->unit_id[$index],
+                            'price' => $request->price[$index],
+                            'qty_based' => $request->qty_based[$index],
+                            'qty' => $request->qty[$index],
+                            'note' => $request->note[$index],
+                            'total' => $request->total[$index]
+                        ];
+                    $this->stockOut->createStockOut($product, $req);
+                }else{
+                    // If requested stock is larger then stock available add error for msg
+                    $validator->errors()->add($index, 'Insufficient stock on product: ' . d_obj($product, ['name_kh', 'name_en']) . '! total requested stock is ' . d_number($request->qty_based[$index]) . ' but total stock available is ' . d_number($product->stockins->sum('qty_remain')));
+                }
             }
         }
+        $product->updateQty();
 
-        return redirect()->route('inventory.stock_adjustment.index')->with('success', __('alert.message.success.crud.create'));
+        return redirect()->route('inventory.stock_adjustment.index')->with('success', ($validator->errors() ? '' : __('alert.message.success.crud.create')))->with('errors', $validator->errors());
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(StockAdjustment $stockAdjustment)
+    public function edit(StockOut $stockOut)
     {
-        $data = [
+        $this->data += [
             'products' => Product::where('status', 1)->orderBy('name_en', 'asc')->get(),
-            'row' => $stockAdjustment
+            'row' => $stockOut
         ];
-        return view('stock_adjustment.edit', $data);
+        return view('stock_out.edit', $this->data);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(StockAdjustmentRequest $request, StockAdjustment $stockAdjustment)
+    public function update(StockOutRequest $request, StockOut $stockOut)
     {
-        if ($stockAdjustment->update([
-            'date' => $request->date,
-            'qty' => $request->qty,
-            'reason' => $request->reason,
-            'product_id' => $request->product_id,
-        ])) {
+        if ($this->stockOut->updateStockOut($stockOut, $request)) {
             return redirect()->route('inventory.stock_adjustment.index')->with('success', __('alert.message.success.crud.update'));
         }
     }
@@ -81,9 +110,9 @@ class StockAdjustmentController extends Controller
     /**
      * Remove the specified resource to trash.
      */
-    public function destroy(StockAdjustment $stockAdjustment)
+    public function destroy(StockOut $stockOut)
     {
-        if ($stockAdjustment->delete()) {
+        if ($stockOut->delete()) {
             return redirect()->route('inventory.stock_adjustment.index')->with('success', __('alert.message.success.crud.delete'));
         }
     }
@@ -93,7 +122,7 @@ class StockAdjustmentController extends Controller
      */
     public function restore($id)
     {
-        $row = StockAdjustment::onlyTrashed()->findOrFail($id);
+        $row = StockOut::onlyTrashed()->findOrFail($id);
         if ($row->restore()) {
             return back()->with('success', __('alert.message.success.crud.restore'));
         }
@@ -105,7 +134,7 @@ class StockAdjustmentController extends Controller
      */
     public function force_delete($id)
     {
-        $row = StockAdjustment::onlyTrashed()->findOrFail($id);
+        $row = StockOut::onlyTrashed()->findOrFail($id);
         if ($row->forceDelete()) {
             return back()->with('success', __('alert.message.success.crud.force_detele'));
         }
