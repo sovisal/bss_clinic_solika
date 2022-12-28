@@ -4,7 +4,7 @@
         <x-bss-form.select name="medicine_id[]" id="" required :select2="false">
             <option value="">Please choose</option>
             @foreach ($medicine as $data)
-            <option value="{{ $data->id }}" {{ $data->id == @$row->medicine_id ? 'selected' : '' }}>{{ d_obj($data, ['name_en', 'name_kh']) }}</option>
+            <option value="{{ $data->id }}" {{ $data->id == @$row->medicine_id ? 'selected' : '' }}>{{ d_obj($data, 'code') }}-{{ d_obj($data, ['name_en', 'name_kh']) }}</option>
             @endforeach
         </x-bss-form.select>
     </td>
