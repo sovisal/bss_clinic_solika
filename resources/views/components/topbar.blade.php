@@ -20,7 +20,7 @@
 				@foreach ($data as $key => $item)
 					@can($item['can'])
 						<li class="nav-item {{ ((mainMenuActive($key))? 'active' : '') }}">
-							<a class="nav-link" href="{{ $item['url'] }}">{{ $item['label'] }}</a>
+							<a class="nav-link" href="{{ $item['url'] }}">{!! $item['label'] !!}</a>
 						</li>
 					@endcan
 				@endforeach

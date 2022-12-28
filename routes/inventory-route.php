@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\StockInController;
 use App\Http\Controllers\StockOutController;
+use App\Http\Controllers\StockAlertController;
 use App\Http\Controllers\StockBalanceController;
 use App\Http\Controllers\StockAdjustmentController;
 
@@ -49,8 +50,6 @@ Route::middleware(['auth'])->name('inventory.')->group(function () {
         Route::delete('/{stockOut}/force_delete', 'force_delete')->name('force_delete')->middleware('can:ForceDeleteStockAdjustment');
     });
 
-    Route::prefix('stock_balance')->name('stock_balance.')->controller(StockBalanceController::class)->group(function () {
-        Route::get('/', 'index')->name('index')->middleware('can:ViewStockBalance');
-    });
-
+    Route::get('stock_balance/', [StockBalanceController::class, 'index'])->name('stock_balance.index')->middleware('can:ViewStockBalance');
+    Route::get('stock_alert', [StockAlertController::class, 'index'])->name('stock_alert.index')->middleware('can:ViewStockAlert');
 });

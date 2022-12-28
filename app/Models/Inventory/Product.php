@@ -67,4 +67,9 @@ class Product extends BaseModel
             return d_obj($this, ['name_en', 'name_kh']);
         }
     }
+
+    public function scopeOutOfStock($query)
+    {
+        return $query->whereRaw('qty_remain <= qty_alert');
+    }
 }
