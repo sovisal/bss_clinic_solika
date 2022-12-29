@@ -148,7 +148,8 @@ class StockOutController extends Controller
             'qty_based' => $request->qty_based,
             'qty' => $request->qty,
             'note' => $request->note,
-            'total' => $request->total
+            'total' => $request->total,
+            'parent_id' => @$request->parent_id ?: null,
         ]);
         $stockIns = $product->stockins->where('qty_remain', '>', 0);
         foreach ($stockIns as $key => $stockIn) {

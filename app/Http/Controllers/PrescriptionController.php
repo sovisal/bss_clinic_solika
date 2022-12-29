@@ -9,6 +9,7 @@ use App\Models\Medicine;
 use App\Models\Prescription;
 use App\Models\Doctor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PrescriptionController extends Controller
 {
@@ -214,36 +215,55 @@ class PrescriptionController extends Controller
     {   
         $request['address_id'] = update4LevelAddress($request, $prescription->address_id);
 
-        if ($prescription->update($request->except(['total', 'other']))) {
+        if ($prescription->update($request->except(['total', 'other', 'submit_option']))) {
             $this->refresh_prescriotion_detail($request, $prescription);
-
-            // When button complete clicked
-            // if ($request->submit_option == '2') {
-            //     foreach ($prescription->detail() as $detail) {
-            //         if ($product = $detail->product) {
-            //             if ($product->stockins->sum('qty_remain') >= $request->qty_based[$index]) {
-            //                 $req = (object)[
-            //                         'type' => 'Prescription',
-            //                         'date' => date('Y-m-d'),
-            //                         'document_no' => $prescription->code,
-            //                         'product_id' => $detail->id,
-            //                         'unit_id' => $detail->unit_id,
-            //                         'price' => $request->price[$index],
-            //                         'qty_based' => $request->qty_based[$index],
-            //                         'qty' => $request->qty[$index],
-            //                         'note' => $request->note[$index],
-            //                         'total' => $request->total[$index],
-            //                     ];
-            //                 $this->createStockOut($product, $req);
-            //             }else{
-            //                 // If requested stock is larger then stock available add error for msg
-            //                 $validator->errors()->add($index, 'Insufficient stock on product: ' . d_obj($product, ['name_kh', 'name_en']) . '! total requested stock is ' . d_number($request->qty_based[$index]) . ' but total stock available is ' . d_number($product->stockins->sum('qty_remain')));
-            //             }
-            //         }
-            //     }
-            // }
+            $validator = Validator::make([],[]);
             
-            return redirect()->route('prescription.index')->with('success', 'Data update success');
+            // When button complete clicked
+            if ($request->submit_option == '2') {
+                $stock_out_param = [];
+                foreach ($prescription->detail()->get() as $index => $detail) {
+                    if ($product = $detail->product) {
+                        $type = 'Prescription';
+                        $date = date('Y-m-d');
+                        $parent_id = $detail->id;
+                        $note = $detail->other;
+                        $document_no = $prescription->code;
+                        
+                        $product_id = $product->id;
+                        $qty = $qty_based = $detail->qty;
+                        $unit_id = $detail->unit_id;
+                        $price = $detail->price ?: $product->price;
+                        
+                        if ($product->unit_id != $detail->unit_id) {
+                            $package = $product->packages()->where('product_unit_id', $unit_id)->first();
+                            if ($package->qty) $qty_based = $qty * $package->qty;
+                            if ($package->price) $price = $package->price;
+                        }
+
+                        $total = $qty * $price;
+                        $stock_out_param[] = [
+                            'product' => $product,
+                            'param' => compact('type', 'parent_id', 'note', 'document_no', 'product_id', 'qty', 'unit_id', 'price', 'total', 'qty_based', 'date')
+                        ];
+
+                        if ($product->stockins->sum('qty_remain') < $qty_based) {
+                            // If requested stock is larger then stock available add error for msg
+                            $validator->errors()->add($index, 'Insufficient stock on product: ' . d_obj($product, ['name_kh', 'name_en']) . '! total requested stock is ' . d_number($qty_based) . ' but total stock available is ' . d_number($product->stockins->sum('qty_remain')));
+                        }
+                    }
+                }
+
+                if ($errors = $validator->errors()->all()) { 
+                    return redirect()->route('prescription.index')->with('errors', $validator->errors());  
+                } else {
+                    foreach ($stock_out_param as $stock_out) {
+                        app('App\Http\Controllers\StockOutController')->createStockOut($stock_out['product'], (object) $stock_out['param']);
+                    }
+                    $prescription->update(['status' => '2']);
+                }
+            }
+            return redirect()->route('prescription.index')->with('success', __('alert.message.success.crud.update'));
         }
     }
 
