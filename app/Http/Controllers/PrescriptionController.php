@@ -216,31 +216,33 @@ class PrescriptionController extends Controller
 
         if ($prescription->update($request->except(['total', 'other']))) {
             $this->refresh_prescriotion_detail($request, $prescription);
-            
+
             // When button complete clicked
-            if ($request->submit_option == '2') {
-                // loop
-                // if ($product = $allProducts->where('id', $request->product_id[$index] ?? '')->first()) {
-                //     if ($product->stockins->sum('qty_remain') >= $request->qty_based[$index]) {
-                //         $req = (object)[
-                //                 'type' => 'StockOut',
-                //                 'date' => $request->date[$index],
-                //                 'document_no' => $request->reciept_no[$index],
-                //                 'product_id' => $request->product_id[$index],
-                //                 'unit_id' => $request->unit_id[$index],
-                //                 'price' => $request->price[$index],
-                //                 'qty_based' => $request->qty_based[$index],
-                //                 'qty' => $request->qty[$index],
-                //                 'note' => $request->note[$index],
-                //                 'total' => $request->total[$index],
-                //             ];
-                //         $this->createStockOut($product, $req);
-                //     }else{
-                //         // If requested stock is larger then stock available add error for msg
-                //         $validator->errors()->add($index, 'Insufficient stock on product: ' . d_obj($product, ['name_kh', 'name_en']) . '! total requested stock is ' . d_number($request->qty_based[$index]) . ' but total stock available is ' . d_number($product->stockins->sum('qty_remain')));
-                //     }
-                // }
-            }
+            // if ($request->submit_option == '2') {
+            //     foreach ($prescription->detail() as $detail) {
+            //         if ($product = $detail->product) {
+            //             if ($product->stockins->sum('qty_remain') >= $request->qty_based[$index]) {
+            //                 $req = (object)[
+            //                         'type' => 'Prescription',
+            //                         'date' => date('Y-m-d'),
+            //                         'document_no' => $prescription->code,
+            //                         'product_id' => $detail->id,
+            //                         'unit_id' => $detail->unit_id,
+            //                         'price' => $request->price[$index],
+            //                         'qty_based' => $request->qty_based[$index],
+            //                         'qty' => $request->qty[$index],
+            //                         'note' => $request->note[$index],
+            //                         'total' => $request->total[$index],
+            //                     ];
+            //                 $this->createStockOut($product, $req);
+            //             }else{
+            //                 // If requested stock is larger then stock available add error for msg
+            //                 $validator->errors()->add($index, 'Insufficient stock on product: ' . d_obj($product, ['name_kh', 'name_en']) . '! total requested stock is ' . d_number($request->qty_based[$index]) . ' but total stock available is ' . d_number($product->stockins->sum('qty_remain')));
+            //             }
+            //         }
+            //     }
+            // }
+            
             return redirect()->route('prescription.index')->with('success', 'Data update success');
         }
     }
