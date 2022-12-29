@@ -192,7 +192,7 @@ class ProductController extends Controller
                 'code' => $request->package_code[$index] ?: 0,
             ];
         }
-        
+
         $product->packages()->where('status', '1')->delete();
         $product->packages()->createMany($package);
     }
@@ -214,9 +214,9 @@ class ProductController extends Controller
     {
         $product = Product::with(['packages', 'unit'])->findOrFail($request->id);
         // $options = '<option value="">---- None ----</option>';
-        $options = '<option value="' . $product->unit_id . '" data-qty="1">' . d_obj($product, 'unit', ['name_kh', 'name_en']) . '</option>';
+        $options = '<option value="' . $product->unit_id . '" data-qty="1" data-price="'. $product->price .'">' . d_obj($product, 'unit', ['name_kh', 'name_en']) . '</option>';
         foreach ($product->packages ?? [] as $package) {
-            $options .= '<option value="'. $package->product_unit_id .'" data-qty="'. $package->qty .'">'. d_obj($package, 'unit', ['name_kh', 'name_en']) .'</option>';
+            $options .= '<option value="'. $package->product_unit_id .'" data-qty="'. $package->qty .'" data-price="'. $package->price .'">'. d_obj($package, 'unit', ['name_kh', 'name_en']) .'</option>';
         }
 
         return response()->json([

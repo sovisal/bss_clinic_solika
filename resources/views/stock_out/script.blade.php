@@ -72,6 +72,7 @@
     $(document).on('change', '[name="product_id[]"],[name="product_id"]', function () {
         const $this_row = $(this).closest('table.table-stock-out-item');
         $this_row.find('[name="unit_id[]"],[name="unit_id"]').html('<option value="">---- None ----</option>').prop('disabled', true);
+        const $this = $(this);
         if ($(this).val() != '') {
             $.ajax({
                 url: "{{ route('inventory.product.getUnit') }}",
@@ -82,6 +83,7 @@
                 success: function (rs) {
                     if (rs.success) {
                         $this_row.find('[name="unit_id[]"],[name="unit_id"]').html(rs.options).prop('disabled', false);
+                        $this_row.find('[name="price[]"],[name="price"]').val(bss_number($this.find('option:selected').data('price')));
                     }
                 },
                 error: function (rs) {
@@ -95,6 +97,9 @@
     $(document).on('change', '[name="unit_id[]"],[name="unit_id"]', function () {
         const $this_row = $(this).closest('table.table-stock-out-item');
         calculateBaseQtyAndTotal($this_row);
+        if ($(this).val() != '') {
+            $this_row.find('[name="price[]"],[name="price"]').val(bss_number($(this).find('option:selected').data('price')));
+        }
     });
 
     $(document).on('keyup', '[name="qty[]"],[name="qty"]', function () {
