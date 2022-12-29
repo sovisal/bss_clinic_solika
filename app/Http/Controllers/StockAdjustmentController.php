@@ -80,7 +80,6 @@ class StockAdjustmentController extends Controller
                 }
             }
         }
-        $product->updateQty();
 
         return redirect()->route('inventory.stock_adjustment.index')->with('success', ($validator->errors() ? '' : __('alert.message.success.crud.create')))->with('errors', $validator->errors());
     }

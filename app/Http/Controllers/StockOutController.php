@@ -64,7 +64,6 @@ class StockOutController extends Controller
                 }
             }
         }
-        $product->updateQty();
 
         return redirect()->route('inventory.stock_out.index')->with('success', ($validator->errors() ? '' : __('alert.message.success.crud.create')))->with('errors', $validator->errors());
     }
@@ -174,6 +173,7 @@ class StockOutController extends Controller
                 ]);
             }
         }
+        $product->updateQty();
 
         return true;
     }

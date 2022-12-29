@@ -15,6 +15,8 @@
                     <th width="10%">Unit</th>
                     <th width="8%">Price</th>
                     <th width="8%">Total</th>
+                    <th width="8%">Base QTY</th>
+                    <th width="8%">Unit</th>
                     <th width="8%">Type</th>
                     <th width="8%">User</th>
                     {{-- <th width="10%">Status</th> --}}
@@ -29,9 +31,11 @@
                 <td>{!! d_obj($row, 'product', 'code') !!}</td>
                 <td>{!! d_obj($row, 'product', 'link') !!}</td>
                 <td>{!! d_number($row->qty) !!}</td>
-                <td>{!! d_obj($row, 'product', 'unit', 'link') !!}</td>
+                <td>{!! d_obj($row, 'unit', 'link') !!}</td>
                 <td>{!! d_currency($row->price) !!}</td>
                 <td>{!! d_currency($row->total) !!}</td>
+                <td>{!! d_number($row->qty_based) !!}</td>
+                <td>{!! d_obj($row, 'product', 'unit', 'link') !!}</td>
                 <td>{!! d_text($row->type) !!}</td>
                 <td>{!! d_obj($row, 'user', 'name') !!}</td>
                 {{-- <td>{!! d_status($row->status) !!}</td> --}}

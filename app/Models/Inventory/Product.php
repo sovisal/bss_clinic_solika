@@ -50,7 +50,7 @@ class Product extends BaseModel
     {
         $this->update([
             'qty_in' => $this->stockins->sum('qty_based'),
-            'qty_out' => $this->stock_outs->sum('qty'),
+            'qty_out' => $this->stockins->sum('qty_used'),
             'qty_remain' => $this->stockins->sum('qty_remain'),
         ]);
         return $this;
