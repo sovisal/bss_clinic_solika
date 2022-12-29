@@ -20,7 +20,7 @@ class ProductSeeder extends Seeder
                 'name_kh' => 'Paracetamol 500mg',
                 'name_en' => 'Paracetamol 500mg',
                 'cost' => 2,
-                'price' => 5,
+                'price' => 1,
                 'type_id' => 1,
                 'unit_id' => 3,
                 'category_id' => 2,

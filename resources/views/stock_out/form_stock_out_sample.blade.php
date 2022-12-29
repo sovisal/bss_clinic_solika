@@ -13,7 +13,7 @@
             <x-bss-form.select-row name="product_id[]" id="" labelWidth="15%" :tr="false" :select2="false" required label="Product">
                 <option value="">---- None ----</option>
                 @foreach ($products as $product)
-                <option value="{{ $product->id }}">{{ d_obj($product, ['name_en', 'name_kh']) }}</option>
+                <option value="{{ $product->id }}" data-price="{{ $product->price }}">{{ d_obj($product, ['name_en', 'name_kh']) }}</option>
                 @endforeach
             </x-bss-form.select-row>
             <x-bss-form.input-row name="qty[]" id="" labelWidth="15%" :tr="false" class="is_number qty" required label="QTY Out" />
