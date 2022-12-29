@@ -186,6 +186,30 @@
                     $('[href="' + target + '"]').tab('show');
                 }
             });
+
+            // Treatment plan, when medicine changed, ajax to get unit list
+            $(document).on('change', '[name="medicine_id[]"]', function () {
+                const $this_row = $(this).closest('tr');
+                $this_row.find('[name="unit_id[]"]').html('<option value="">---- None ----</option>');
+                if ($(this).val() != '') {
+                    $.ajax({
+                        url: "{{ route('inventory.product.getUnit') }}",
+                        type: "post",
+                        data: {
+                            id: bss_number($(this).val()),
+                        },
+                        success: function (rs) {
+                            console.log(rs);
+                            if (rs.success) {
+                                $this_row.find('[name="unit_id[]"]').html(rs.options);
+                            }
+                        },
+                        error: function (rs) {
+                            flashMsg("danger", 'Error', rs.message)
+                        },
+                    })
+                }
+            });
         </script>
     </x-slot>
     <form id="consultation-form" action="{{ route('patient.consultation.update', $consultation->id) }}" method="post">

@@ -141,25 +141,6 @@ class BaseModel extends Model
         return array_except(filter_unit_attr(unserialize($this->attribute) ?: []), ['patient_id', 'gender_id', 'age', 'doctor_id', 'status', 'amount', 'price', 'payment_type', 'address_id', 'pt_province_id', 'pt_district_id', 'pt_commune_id', 'pt_village_id', 'name_kh', 'name_en', 'index', 'requested_by']);
     }
 
-    // Module Link
-    public function getPatientLinkAttribute()
-    {
-        if ($this->patient->status > 0) { // will check permission
-            return d_link(d_obj($this, 'patient', ['name_en', 'name_kh']), route('patient.edit', [d_obj($this, 'patient', 'id'), 'back' => url()->current()]));
-        } else {
-            return d_obj($this, 'patient', ['name_en', 'name_kh']);
-        }
-    }
-
-    public function getDoctorLinkAttribute()
-    {
-        if ($this->doctor->status > 0) { // will check permission
-            return d_link(d_obj($this, 'doctor', ['name_en', 'name_kh']), route('setting.doctor.edit', [d_obj($this, 'doctor', 'id'), 'back' => url()->current()]));
-        } else {
-            return d_obj($this, 'doctor', ['name_en', 'name_kh']);
-        }
-    }
-
     public function getTypeLinkAttribute()
     {
         if ($this->type->status > 0) { // will check permission

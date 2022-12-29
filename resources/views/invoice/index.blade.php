@@ -33,12 +33,12 @@
             <tr>
                 <td>{{ ++$i }}</td>
                 <td>{!! d_link($row->code, "javascript:getDetail(" . $row->id . ", '" . route('invoice.getDetail', 'Invoice Detail') . "')") !!}</td>
-                <td>{!! $row->patientLink !!}</td>
+                <td>{!! d_obj($row, 'patient', 'link') !!}</td>
                 <td>{{ d_obj($row, 'gender', ['title_en', 'title_kh']) }}</td>
                 <td>{{ d_text($row->age) }}</td>
                 <td>{{ d_obj($row, 'address', ['village_kh', 'commune_kh', 'district_kh', 'province_kh']) }}</td>
                 <td>{{ render_readable_date($row->inv_date) }}</td>
-                <td>{!! $row->doctorLink !!}</td>
+                <td>{!! d_obj($row, 'doctor', 'link') !!}</td>
                 <td>{{ d_number($row->exchange_rate) }}</td>
                 <td>
                     {{ d_currency($row->total, 2, '$') }}

@@ -72,4 +72,9 @@ class Product extends BaseModel
     {
         return $query->whereRaw('qty_remain <= qty_alert');
     }
+
+    public function scopeAvaiableStock($query)
+    {
+        return $query->where('status', '>=', '1')->where('qty_remain', '>', '0');
+    }
 }

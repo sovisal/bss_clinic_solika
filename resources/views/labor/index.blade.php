@@ -29,12 +29,12 @@
             <tr>
                 <td>{{ ++$i }}</td>
                 <td>{!! d_link($row->code, "javascript:getDetail(" . $row->id . ", '" . route('para_clinic.labor.getDetail', 'ECG Detail') . "')") !!}</td>
-                <td>{!! $row->patientLink !!}</td>
+                <td>{!! d_obj($row, 'patient', 'link') !!}</td>
                 <td>{{ d_obj($row, 'gender', ['title_en', 'title_kh']) }}</td>
                 <td>{{ d_obj($row, 'age') }}</td>
                 <td>{{ d_obj($row, 'address', ['village_kh', 'commune_kh', 'district_kh', 'province_kh']) }}</td>
                 <td>{{ render_readable_date($row->requested_at) }}</td>
-                <td>{!! $row->doctorLink !!}</td>
+                <td>{!! d_obj($row, 'doctor', 'link') !!}</td>
                 <td>{{ d_currency($row->price) }}</td>
                 <td>{!! d_paid_status($row->payment_status) !!}</td>
                 <td>{{ d_obj($row, 'user', 'name') }}</td>

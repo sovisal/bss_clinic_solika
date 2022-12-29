@@ -4,8 +4,18 @@
     </x-slot>
     <x-slot name="js">
         @include('prescription.script')
+        <script>
+            $('.btn-submit, .btn-success').click(function (){
+                var value = $(this).val();
+                $('[name="submit_option"]').val(value);
+                if (formValidate('#form_prescription')) {
+                    $('#form_prescription').submit();
+                }
+            });
+        </script>
     </x-slot>
     <form action="{{ route('prescription.update', $row) }}" method="POST" id="form_prescription" autocomplete="off" enctype="multipart/form-data">
+        <input type="hidden" name="submit_option" value="1" />
         @method('PUT')
         @csrf
         <x-card bodyClass="pb-0">
