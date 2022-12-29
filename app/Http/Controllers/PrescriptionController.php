@@ -263,6 +263,7 @@ class PrescriptionController extends Controller
                     $prescription->update(['status' => '2']);
                 }
             }
+            
             return redirect()->route('prescription.index')->with('success', __('alert.message.success.crud.update'));
         }
     }
