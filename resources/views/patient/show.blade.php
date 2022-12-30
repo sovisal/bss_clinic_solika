@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-form.button-back href="{{ route('patiente.index') }}"/>
+        <x-form.button-back href="{{ route('patient.index') }}"/>
     </x-slot>
 
     <x-card :head="false" :foot="false">
@@ -9,30 +9,30 @@
                 <td width="150px" rowspan="4" style="vertical-align: top; padding-left: 1.2rem !important; padding-right: 1.2rem !important;" class="text-center">
                     <img src="{{ (($patient->photo)? asset('images/patients/'. $patient->photo) : asset('images/browse-image.jpg') ) }}" alt="..." class="m-auto">
                 </td>
-                <th width="150px">Patient Code <span class="float-right">:</span></th>
+                <th width="150px"><label>Patient Code</label> <span class="float-right">:</span></th>
                 <td width="20%">PT-{{ str_pad($patient->id, 6, '0', STR_PAD_LEFT) }}</td>
-                <th width="150px">Registered <span class="float-right">:</span></th>
+                <th width="150px"><label>Registered</label> <span class="float-right">:</span></th>
                 <td>{{ date('d-M-Y H:m', strtotime($patient->registered_at)) }}</td>
                 <td width="150px" class="text-center" rowspan="4" style="vertical-align: top;">
                     <x-form.button href="{{ route('patient.edit', $patient->id) }}" class="btn-block" icon="bx bx-edit-alt" label="Edit" />
                 </td>
             </tr>
             <tr>
-                <th>Name KH <span class="float-right">:</span></th>
+                <th><label>Name KH</label> <span class="float-right">:</span></th>
                 <td>{{ $patient->name_kh }}</td>
-                <th>Name EN <span class="float-right">:</span></th>
+                <th><label>Name EN</label> <span class="float-right">:</span></th>
                 <td>{{ $patient->name_en }}</td>
             </tr>
             <tr>
-                <th>Gender <span class="float-right">:</span></th>
+                <th><label>Gender</label> <span class="float-right">:</span></th>
                 <td>{{ d_obj($patient, 'gender', ['title_kh', 'title_en']) }}</td>
-                <th>Phone <span class="float-right">:</span></th>
+                <th><label>Phone</label> <span class="float-right">:</span></th>
                 <td>{{ $patient->phone }}</td>
             </tr>
             <tr>
-                <th>Age <span class="float-right">:</span></th>
+                <th><label>Age</label> <span class="float-right">:</span></th>
                 <td>{{ $patient->age }}</td>
-                <th>E-mail <span class="float-right">:</span></th>
+                <th><label>E-mail</label> <span class="float-right">:</span></th>
                 <td>{{ $patient->email }}</td>
             </tr>
         </table>
@@ -56,61 +56,61 @@
             <div class="tab-pane active" id="detail" aria-labelledby="detail-tab" role="tabpanel">
                 <table class="table-form">
                     <tr>
-                        <th colspan="4" class="text-center tw-bg-gray-100">Patient Information</th>
+                        <th colspan="4" class="text-center tw-bg-gray-100"><label>Patient Information</label></th>
                     </tr>
                     <tr>
-                        <th width="200px">ID Card Number <span class="float-right">:</span></th>
+                        <th width="200px"><label>ID Card Number</label> <span class="float-right">:</span></th>
                         <td>{{ $patient->id_card_no }}</td>
-                        <th width="200px">Nationality <span class="float-right">:</span></th>
+                        <th width="200px"><label>Nationality</label> <span class="float-right">:</span></th>
                         <td>{{ d_obj($patient, 'nationality', ['title_kh', 'title_en']) }}</td>
                     </tr>
                     <tr>
-                        <th>Date of birth <span class="float-right">:</span></th>
+                        <th><label>Date of birth</label> <span class="float-right">:</span></th>
                         <td>{{ $patient->date_of_birth ? date('d-M-Y', strtotime($patient->date_of_birth)) : '' }}</td>
-                        <th>Position <span class="float-right">:</span></th>
+                        <th><label>Position</label> <span class="float-right">:</span></th>
                         <td>{{ $patient->position }}</td>
                     </tr>
                     <tr>
-                        <th>Education <span class="float-right">:</span></th>
+                        <th><label>Education</label> <span class="float-right">:</span></th>
                         <td>{{ $patient->education }}</td>
-                        <th>Marital Status <span class="float-right">:</span></th>
+                        <th><label>Marital Status</label> <span class="float-right">:</span></th>
                         <td>{{ d_obj($patient, 'marital_status', ['title_kh', 'title_en']) }}</td>
                     </tr>
                     <tr>
-                        <th>Position <span class="float-right">:</span></th>
+                        <th><label>Position</label> <span class="float-right">:</span></th>
                         <td>{{ $patient->position }}</td>
-                        <th>Enterprise <span class="float-right">:</span></th>
+                        <th><label>Enterprise</label> <span class="float-right">:</span></th>
                         <td>{{ d_obj($patient, 'enterprise', ['title_kh', 'title_en']) }}</td>
                     </tr>
                     <tr>
-                        <th>Blood Type <span class="float-right">:</span></th>
+                        <th><label>Blood Type</label> <span class="float-right">:</span></th>
                         <td>{{ d_obj($patient, 'blood_type', ['title_kh', 'title_en']) }}</td>
                         <td colspan="2"></td>
                     </tr>
 
                     <tr>
-                        <th colspan="4" class="text-center tw-bg-gray-100">Patient Address</th>
+                        <th colspan="4" class="text-center tw-bg-gray-100"><label>Patient Address</label></th>
                     </tr>
                     <tr>
-                        <th>House <span class="float-right">:</span></th>
+                        <th><label>House</label> <span class="float-right">:</span></th>
                         <td>{{ $patient->house_no }}</td>
-                        <th>Street <span class="float-right">:</span></th>
+                        <th><label>Street</label> <span class="float-right">:</span></th>
                         <td>{{ $patient->street_no }}</td>
                     </tr>
                     <tr>
-                        <th>Villsage <span class="float-right">:</span></th>
+                        <th><label>Villsage</label> <span class="float-right">:</span></th>
                         <td>{{ $patient->address ? render_synonyms_name($patient->address->village_en, $patient->address->village_kh) : 'N/A' }}</td>
-                        <th>Commune <span class="float-right">:</span></th>
+                        <th><label>Commune</label> <span class="float-right">:</span></th>
                         <td>{{ $patient->address ? render_synonyms_name($patient->address->commune_en, $patient->address->commune_kh) : 'N/A' }}</td>
                     </tr>
                     <tr>
-                        <th>District <span class="float-right">:</span></th>
+                        <th><label>District</label> <span class="float-right">:</span></th>
                         <td>{{ $patient->address ? render_synonyms_name($patient->address->district_en, $patient->address->district_kh) : 'N/A' }}</td>
-                        <th>Province <span class="float-right">:</span></th>
+                        <th><label>Province</label> <span class="float-right">:</span></th>
                         <td>{{ $patient->address ? render_synonyms_name($patient->address->province_en, $patient->address->province_kh) : 'N/A' }}</td>
                     </tr>
                     <tr>
-                        <th>Zip Code <span class="float-right">:</span></th>
+                        <th><label>Zip Code</label> <span class="float-right">:</span></th>
                         <td>{{ $patient->postal_code }}</td>
                         <td colspan="2"></td>
                     </tr>
@@ -126,26 +126,28 @@
                             <th>Requested By</th>
                             <th>Requested Date</th>
                             <th>Analysis By</th>
-                            <th>Analysis Date</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th>Price</th>
+                            <th>Payment</th>
+                        <th>User</th>
+                        <th>Status</th>
                         </tr>
                     </x-slot>
                     @foreach($patient->history() as $key => $row)
                         <tr>
-                            <td class="text-center">{{ ++$key }}</td>
-                            <td>{{ $row->code }}</td>
-                            <td>{{ render_synonyms_name($row->patient_en, $row->patient_kh) }}</td>
-                            <td>{{ render_synonyms_name($row->requester_en, $row->requester_kh) }}</td>
-                            <td class="text-center">{{ render_readable_date($row->requested_at) }}</td>
-                            <td>{{ render_synonyms_name($row->doctor_en, $row->doctor_kh) }}</td>
-                            <td class="text-center">{{ render_readable_date($row->analysis_at) }}</td>
-                            <td class="text-center">{!! render_record_status($row->status) !!}</td>
-                            <td class="text-center">
+                            <td>{{ ++$key }}</td>
+                            <td>
                                 <a href="javascript:void(0);" onclick="previewPopup('{{ $row->url }}')">
-                                    {{ Str::upper($row->row_type) }}
+                                    {{ Str::upper($row->row_type) }} / {{ $row->code }}
                                 </a>
                             </td>
+                            <td>PT-{!! str_pad($patient->id, 6, '0', STR_PAD_LEFT) !!} / {!! $patient->link !!}</td>
+                            <td>{!! d_obj($row, 'doctor_requested', 'link') !!}</td>
+                            <td>{{ render_readable_date($row->requested_at) }}</td>
+                            <td>{!! d_obj($row, 'doctor', 'link') !!}</td>
+                            <td>{!! d_currency($row->price) !!}</td>
+                            <td>{!! d_paid_status($row->payment_status) !!}</td>
+                            <td>{{ d_obj($row, 'user', 'name') }}</td>
+                            <td>{!! d_para_status($row->status) !!}</td>
                         </tr>
                     @endforeach
                 </x-table>
