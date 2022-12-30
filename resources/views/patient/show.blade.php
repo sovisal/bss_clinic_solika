@@ -126,10 +126,11 @@
                             <th>Requested By</th>
                             <th>Requested Date</th>
                             <th>Analysis By</th>
+                            <th>Analysis Date</th>
                             <th>Price</th>
                             <th>Payment</th>
-                        <th>User</th>
-                        <th>Status</th>
+                            <th>User</th>
+                            <th>Status</th>
                         </tr>
                     </x-slot>
                     @foreach($patient->history() as $key => $row)
@@ -144,6 +145,7 @@
                             <td>{!! d_obj($row, 'doctor_requested', 'link') !!}</td>
                             <td>{{ render_readable_date($row->requested_at) }}</td>
                             <td>{!! d_obj($row, 'doctor', 'link') !!}</td>
+                            <td>{{ render_readable_date($row->analysis_at) }}</td>
                             <td>{!! d_currency($row->price) !!}</td>
                             <td>{!! d_paid_status($row->payment_status) !!}</td>
                             <td>{{ d_obj($row, 'user', 'name') }}</td>

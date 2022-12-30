@@ -213,7 +213,7 @@ class PrescriptionController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, Prescription $prescription)
-    {   
+    {
         $request['address_id'] = update4LevelAddress($request, $prescription->address_id);
 
         if ($prescription->update($request->except(['total', 'other', 'submit_option']))) {
@@ -256,7 +256,7 @@ class PrescriptionController extends Controller
                     foreach ($stock_out_param as $stock_out) {
                         app('App\Http\Controllers\StockOutController')->createStockOut($stock_out['product'], (object) $stock_out['param']);
                     }
-                    $prescription->update(['status' => '2']);
+                    $prescription->update(['status' => '2', 'analysis_at' => now()]);
                 }
             }
             
