@@ -308,6 +308,6 @@ class PrescriptionController extends Controller
         }
 
         $prescription->detail()->createMany($detail_values);
-        $prescription->update(['price' => $prescription->detail()->sum(\DB::raw('price * qty'))]);
+        $prescription->updateQty();
     }
 }

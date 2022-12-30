@@ -15,4 +15,11 @@ class Prescription extends BaseModel
     {
         return $this->hasMany(PrescriptionDetail::class, 'prescription_id');
     }
+
+    public function updateQty()
+    {
+        $this->update([
+            'price' => $this->detail()->sum(\DB::raw('price * qty'))
+        ]);
+    }
 }
