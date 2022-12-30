@@ -126,8 +126,7 @@ class InvoiceController extends Controller
         $selection = [
             'medicine' => [],
             'service' => Service::where('status', '>=', '1')->orderBy('name', 'asc')->get(),
-            // 'prescription' => Prescription::where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
-            'prescription' => [],
+            'prescription' => Prescription::where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 2)->get(),
             'echography' => Echography::with(['type'])->where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
             'laboratory' => Laboratory::where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
             'xray' => Xray::with(['type'])->where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 1)->get(),
@@ -174,7 +173,7 @@ class InvoiceController extends Controller
         $request->total = array_sum($request->total ?: []);
         if ($invoice->update($request->all())) {
             // Invoice items For Para-Clinic + Service + Medicine
-            $items = array_merge($request->echography ?: [], $request->ecg ?: [], $request->xray ?: [], $request->laboratory ?: []);
+            $items = array_merge($request->echography ?: [], $request->ecg ?: [], $request->xray ?: [], $request->laboratory ?: [], $request->prescription ?: []);
             $items = array_filter($items, function ($item) {
                 return isset($item['chk']);
             });
@@ -211,7 +210,7 @@ class InvoiceController extends Controller
             $param_update['total'] = $invoice->detail()->sum('total');
             if ($request->status == 2) {
                 foreach ($invoice->detail()->where('status', '1')->get() as $detail) {
-                    if (in_array($detail->service_type, ['echography', 'ecg', 'xray', 'laboratory'])) {
+                    if (in_array($detail->service_type, ['echography', 'ecg', 'xray', 'laboratory', 'prescription'])) {
                         $detail->paraClinicItem()->update(['payment_status' => 1, 'status' => 2]);
                     }
                 }

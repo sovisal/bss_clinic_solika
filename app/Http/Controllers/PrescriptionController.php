@@ -7,6 +7,7 @@ use App\Models\Patient;
 use App\Models\Inventory;
 use App\Models\Medicine;
 use App\Models\Prescription;
+use App\Models\Inventory\Product;
 use App\Models\Doctor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -147,7 +148,7 @@ class PrescriptionController extends Controller
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'X-Ray not found!',
+                'message' => 'Prescription not found!',
             ], 404);
         }
     }
@@ -232,16 +233,11 @@ class PrescriptionController extends Controller
                         
                         $product_id = $product->id;
                         $qty = $qty_based = $detail->qty;
+                        $qty_based = $qty * $product->getCalculationQty($detail->unit_id);
                         $unit_id = $detail->unit_id;
-                        $price = $detail->price ?: $product->price;
-                        
-                        if ($product->unit_id != $detail->unit_id) {
-                            $package = $product->packages()->where('product_unit_id', $unit_id)->first();
-                            if ($package->qty) $qty_based = $qty * $package->qty;
-                            if ($package->price) $price = $package->price;
-                        }
-
+                        $price = $detail->price ?: $product->getAccuratePrice($detail->unit_id);
                         $total = $qty * $price;
+
                         $stock_out_param[] = [
                             'product' => $product,
                             'param' => compact('type', 'parent_id', 'note', 'document_no', 'product_id', 'qty', 'unit_id', 'price', 'total', 'qty_based', 'date')
@@ -287,27 +283,31 @@ class PrescriptionController extends Controller
         $detail_values = [];
         $time_usage = getParentDataSelection('time_usage');
 
-        foreach ($detail_ids as $index => $id) {    
-            $detail_values[$index] = [
-                'medicine_id'     => $request->medicine_id[$index] ?: 0,
-                'qty'             => $request->qty[$index] ?: 0,
-                'upd'             => $request->upd[$index] ?: 0,
-                'nod'             => $request->nod[$index] ?: 0,
-                'total'           => $request->total[$index] ?: 0,
-                'unit_id'            => $request->unit_id[$index] ?: '',
-                'usage_id'        => $request->usage_id[$index] ?: 0,
-                'other'           => $request->other[$index] ?: '',
-            ];
-
-            $tmp_usage_time = [];
-            foreach ($time_usage as $tm_id => $tm_name) {
-                if (isset($request->{'time_usage_' . $tm_id}[$index]) && $request->{'time_usage_' . $tm_id}[$index] != "OFF") {
-                    $tmp_usage_time[] = $tm_id;
+        foreach ($detail_ids as $index => $id) {
+            if ($product = Product::where('id', $request->medicine_id[$index])->first()) {
+                $detail_values[$index] = [
+                    'medicine_id'     => $product->id,
+                    'unit_id'         => $request->unit_id[$index] ?: '',
+                    'price'           => $product->getAccuratePrice($request->unit_id[$index]),
+                    'qty'             => $request->qty[$index] ?: 0,
+                    'upd'             => $request->upd[$index] ?: 0,
+                    'nod'             => $request->nod[$index] ?: 0,
+                    'total'           => $request->total[$index] ?: 0,
+                    'usage_id'        => $request->usage_id[$index] ?: 0,
+                    'other'           => $request->other[$index] ?: '',
+                ];
+    
+                $tmp_usage_time = [];
+                foreach ($time_usage as $tm_id => $tm_name) {
+                    if (isset($request->{'time_usage_' . $tm_id}[$index]) && $request->{'time_usage_' . $tm_id}[$index] != "OFF") {
+                        $tmp_usage_time[] = $tm_id;
+                    }
                 }
+                $detail_values[$index]['usage_times'] = implode(',', $tmp_usage_time ?: []);
             }
-            $detail_values[$index]['usage_times'] = implode(',', $tmp_usage_time ?: []);
         }
 
         $prescription->detail()->createMany($detail_values);
+        $prescription->update(['price' => $prescription->detail()->sum(\DB::raw('price * qty'))]);
     }
 }
