@@ -5,6 +5,11 @@
     <x-slot name="js">
         <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
         @include('echography.script')
+        <script>
+            $('.btn-submit, .btn-success').click(function (){
+                $('[name="status"]').val($(this).val());
+            });
+        </script>
     </x-slot>
     <form action="{{ route('para_clinic.echography.update', $row) }}" id="echography-form" method="POST" autocomplete="off" enctype="multipart/form-data">
         @csrf
@@ -13,11 +18,13 @@
         <x-card bodyClass="pb-0">
             <x-slot name="action">
                 <div>
+                    <x-form.button type="submit" class="btn-success" value="2" icon="bx bx-check" label="Complete" />
                     <x-form.button type="submit" class="btn-submit" value="1" icon="bx bx-save" label="Save" />
                 </div>
             </x-slot>
             <x-slot name="footer">
                 <div>
+                    <x-form.button type="submit" class="btn-success" value="2" icon="bx bx-check" label="Complete" />
                     <x-form.button type="submit" class="btn-submit" value="1" icon="bx bx-save" label="Save" />
                 </div>
             </x-slot>

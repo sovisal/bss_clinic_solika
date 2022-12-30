@@ -4,6 +4,12 @@
     </x-slot>
     <x-slot name="js">
         @include('ecg.script')
+        <script>
+            $('.btn-submit, .btn-success').click(function (){
+                $('[name="status"]').val($(this).val());
+                if (formValidate('#form_submit')) { $('#form_submit').submit(); }
+            });
+        </script>
     </x-slot>
 
     <form action="{{ route('para_clinic.ecg.update', $row) }}" method="POST" autocomplete="off" enctype="multipart/form-data">
@@ -13,11 +19,13 @@
         <x-card bodyClass="pb-0">
             <x-slot name="action">
                 <div>
+                    <x-form.button type="submit" class="btn-success" value="2" icon="bx bx-check" label="Complete" />
                     <x-form.button type="submit" class="btn-submit" value="1" icon="bx bx-save" label="Save" />
                 </div>
             </x-slot>
             <x-slot name="footer">
                 <div>
+                    <x-form.button type="submit" class="btn-success" value="2" icon="bx bx-check" label="Complete" />
                     <x-form.button type="submit" class="btn-submit" value="1" icon="bx bx-save" label="Save" />
                 </div>
             </x-slot>

@@ -6,11 +6,7 @@
         @include('prescription.script')
         <script>
             $('.btn-submit, .btn-success').click(function (){
-                var value = $(this).val();
-                $('[name="submit_option"]').val(value);
-                if (formValidate('#form_prescription')) {
-                    $('#form_prescription').submit();
-                }
+                $('[name="submit_option"]').val($(this).val());
             });
         </script>
     </x-slot>
