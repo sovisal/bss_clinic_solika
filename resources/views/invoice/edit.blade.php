@@ -29,6 +29,8 @@
             <br />
             @include('invoice.form_service')
             <br />
+            @include('invoice.form_medicine')
+            <br />
             @include('invoice.form_para_clinic')
             <br />
             @include('invoice.form_footer')
@@ -37,6 +39,9 @@
     <div>
         <table id="sample_service_row" class="hidden">
             @include('invoice.form_service_sample')
+        </table>
+        <table id="sample_medicine_row" class="hidden">
+            @include('invoice.form_medicine_sample')
         </table>
     </div>
 

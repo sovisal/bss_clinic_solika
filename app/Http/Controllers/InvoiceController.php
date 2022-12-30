@@ -11,6 +11,7 @@ use App\Models\Laboratory;
 use App\Models\Prescription;
 use App\Models\Xray;
 use App\Models\Ecg;
+use App\Models\Inventory\Product;
 
 use Illuminate\Http\Request;
 
@@ -124,7 +125,7 @@ class InvoiceController extends Controller
 
         // Invoice item selection
         $selection = [
-            'medicine' => [],
+            'medicine' => Product::where('status', '>=', '1')->get(),
             'service' => Service::where('status', '>=', '1')->orderBy('name', 'asc')->get(),
             'prescription' => Prescription::where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 2)->get(),
             'echography' => Echography::with(['type'])->where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 2)->get(),
