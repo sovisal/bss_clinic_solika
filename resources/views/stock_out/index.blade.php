@@ -1,6 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <x-form.button href="{{ route(($module ?? 'inventory.stock_out') . '.create') }}" icon="bx bx-plus" label="Create" />
+        <x-stock-filter url="{{ route($module ?? 'inventory.stock_out.index') }}"/>
     </x-slot>
     <x-card :foot="false" :head="false">
         <x-table class="table-hover table-striped" id="datatables">
@@ -8,18 +9,17 @@
                 <tr>
                     <th width="3%">No</th>
                     <th width="8%">Date</th>
-                    <th>Document no</th>
+                    <th>Doc.no</th>
                     <th>Code</th>
                     <th>Product</th>
-                    <th width="8%">QTY Out</th>
+                    <th width="8%">QTY_Out</th>
                     <th width="10%">Unit</th>
                     <th width="8%">Price</th>
                     <th width="8%">Total</th>
-                    <th width="8%">Base QTY</th>
+                    <th width="8%">Base_QTY</th>
                     <th width="8%">Unit</th>
                     <th width="8%">Type</th>
                     <th width="8%">User</th>
-                    {{-- <th width="10%">Status</th> --}}
                     <th width="8%">Action</th>
                 </tr>
             </x-slot>
@@ -38,7 +38,6 @@
                 <td>{!! d_obj($row, 'product', 'unit', 'link') !!}</td>
                 <td>{!! d_text($row->type) !!}</td>
                 <td>{!! d_obj($row, 'user', 'name') !!}</td>
-                {{-- <td>{!! d_status($row->status) !!}</td> --}}
                 <td>
                     <x-table-action-btn
                         module="{{ $module ?? 'inventory.stock_out' }}"

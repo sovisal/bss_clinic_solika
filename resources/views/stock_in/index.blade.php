@@ -1,6 +1,16 @@
 <x-app-layout>
     <x-slot name="header">
         <x-form.button href="{{ route('inventory.stock_in.create') }}" icon="bx bx-plus" label="Create" />
+        <x-stock-filter url="{{ route('inventory.stock_in.index') }}">
+            <div class="col-sm-3 col-md-2">
+                <x-form.select name="ft_supplier_id" label="{{ __('form.stock.supplier') }}">
+                <option value="">{{ __('form.please_choose') }}</option>
+                    @foreach ($suppliers as $supplier)
+                    <option value="{{ $supplier->id }}" @selected($supplier->id == request()->ft_supplier_id)>{{ d_obj($supplier, ['name_en', 'name_kh']) }}</option>
+                    @endforeach
+                </x-form.select>
+            </div>
+        </x-stock-filter>
     </x-slot>
     <x-card :foot="false" :head="false">
         <x-table class="table-hover table-striped" id="datatables">

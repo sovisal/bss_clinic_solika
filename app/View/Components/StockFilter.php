@@ -2,12 +2,11 @@
 
 namespace App\View\Components;
 
-use App\Models\Patient;
 use Illuminate\View\Component;
+use App\Models\Inventory\Product;
 
-class ReportFilter extends Component
+class StockFilter extends Component
 {
-
     public $url;
 
     /**
@@ -23,7 +22,7 @@ class ReportFilter extends Component
      */
     public function render()
     {
-        $data['patient'] = Patient::orderBy('name_en', 'asc')->get();
-        return view('components.para-clinic.report-filter', $data);
+        $data['products'] = Product::where('status', 1)->orderBy('name_en', 'asc')->get();
+        return view('components.stock-filter', $data);
     }
 }
