@@ -222,42 +222,33 @@ class PrescriptionController extends Controller
             
             // When button complete clicked
             if ($request->submit_option == '2') {
-                $stock_out_param = [];
+
+                // Start stock exist validatin
                 foreach ($prescription->detail()->get() as $index => $detail) {
                     if ($product = $detail->product) {
-                        $type = 'Prescription';
-                        $date = date('Y-m-d');
-                        $parent_id = $detail->id;
-                        $note = $detail->other;
-                        $document_no = $prescription->code;
-                        
-                        $product_id = $product->id;
-                        $qty = $qty_based = $detail->qty;
-                        $qty_based = $qty * $product->getCalculationQty($detail->unit_id);
-                        $unit_id = $detail->unit_id;
-                        $price = $detail->price ?: $product->getAccuratePrice($detail->unit_id);
-                        $total = $qty * $price;
-
-                        $stock_out_param[] = [
-                            'product' => $product,
-                            'param' => compact('type', 'parent_id', 'note', 'document_no', 'product_id', 'qty', 'unit_id', 'price', 'total', 'qty_based', 'date')
-                        ];
-
-                        if ($product->stockins->sum('qty_remain') < $qty_based) {
-                            // If requested stock is larger then stock available add error for msg
-                            $validator->errors()->add($index, 'Insufficient stock on product: ' . d_obj($product, ['name_kh', 'name_en']) . '! total requested stock is ' . d_number($qty_based) . ' but total stock available is ' . d_number($product->stockins->sum('qty_remain')));
+                        $validated = $product->validateStockExist($detail->qty, $detail->unit_id);
+                        if ($validated['status'] != true) {
+                            $validator->errors()->add($index, $validated['errMsg']);
                         }
                     }
                 }
 
+                // Return back with error message
                 if ($errors = $validator->errors()->all()) { 
                     return redirect()->route('prescription.index')->with('errors', $validator->errors());  
-                } else {
-                    foreach ($stock_out_param as $stock_out) {
-                        app('App\Http\Controllers\StockOutController')->createStockOut($stock_out['product'], (object) $stock_out['param']);
-                    }
-                    $prescription->update(['status' => '2', 'analysis_at' => now()]);
                 }
+
+                // Stock calculation
+                foreach ($prescription->detail()->get() as $detail) {
+                    if ($product = $detail->product) {
+                        $detail['type'] = 'Prescription';
+                        $detail['parent_id'] = $detail->id;
+                        $detail['document_no'] = $prescription->code;
+                        $product->deductStock($detail->qty, $detail->unit_id, $detail);
+                    }
+                }
+
+                $prescription->update(['status' => '2', 'analysis_at' => now()]);
             }
             
             return redirect()->route('prescription.index')->with('success', __('alert.message.success.crud.update'));

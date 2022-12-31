@@ -101,4 +101,57 @@ class Product extends BaseModel
         }
         return 1;
     }
+
+    public function validateStockExist ($qty = 0, $unit_id = null) {
+        $qty_requested = $qty * $this->getCalculationQty($unit_id);
+        
+        return [
+            'status' => $qty_requested < $this->qty_remain,
+            'errMsg' => 'Insufficient stock on product: ' . d_obj($this, ['name_kh', 'name_en']) . '! requested [' . d_number($qty_requested) . '] but available only [' . $this->qty_remain . ']',
+            'sccMsg' => 'The quantity requested is avaiable.',
+        ];
+    }
+
+    public function deductStock ($qty = 0, $unit_id = null, $params) {
+
+        // Prepare params for stockout creation
+        $param_values = [];
+        foreach (['type', 'date', 'document_no', 'product_id', 'price', 'note', 'total', 'parent_id'] as $field) {
+            if ($params) {
+                if (is_array($params) && !empty($params[$field])) {
+                    $param_values[$field] = $params[$field];
+                } elseif (is_object($params) && !empty($params->$field)) {
+                    $param_values[$field] = $params->$field;
+                } else {
+                    $param_values[$field] = null;
+                }
+            }
+        }
+        
+        $param_values['product_id'] = $this->id;
+        $param_values['date'] = $param_values['date'] ?: date('Y-m-d');
+        $param_values['price'] = $param_values['price'] ?: $this->getAccuratePrice($unit_id);
+        $param_values['qty'] = $qty;
+        $param_values['total'] = $param_values['qty'] * $param_values['price'];
+        $param_values['qty_based'] = $requested_qty = $qty * $this->getCalculationQty($unit_id);;
+        $param_values['unit_id'] = $unit_id ?: $this->unit_id;
+        $stockOutCreated = StockOut::create($param_values);
+
+        // Prepare for stockout detail
+        foreach ($this->stockins()->where('qty_remain', '>', 0)->orderBy('date', 'ASC')->get() as $stockIn) {
+            if ($stockIn->qty_remain >= $requested_qty) {
+                // Case stock unit
+                $stockOutCreated->stock_ins()->attach([$stockIn->id => ['qty' => $requested_qty]]);
+                $stockIn->updateQty();
+                break;
+            }else{
+                // Case stock separate
+                $stockOutCreated->stock_ins()->attach([$stockIn->id => ['qty' => $stockIn->qty_remain]]);
+                $requested_qty -= $stockIn->qty_remain;
+                $stockIn->updateQty();
+            }
+        }
+
+        $this->updateQty();
+    }
 }

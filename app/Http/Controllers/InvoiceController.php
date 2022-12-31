@@ -12,6 +12,7 @@ use App\Models\Prescription;
 use App\Models\Xray;
 use App\Models\Ecg;
 use App\Models\Inventory\Product;
+use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Http\Request;
 
@@ -126,7 +127,7 @@ class InvoiceController extends Controller
 
         // Invoice item selection
         $selection = [
-            'medicine' => Product::where('status', '>=', '1')->get(),
+            'medicine' => Product::avaiableStock()->where('status', '>=', '1')->get(),
             'service' => Service::where('status', '>=', '1')->orderBy('name', 'asc')->get(),
             'prescription' => Prescription::where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 2)->get(),
             'echography' => Echography::with(['type'])->where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 2)->get(),
@@ -172,18 +173,19 @@ class InvoiceController extends Controller
     public function update(Request $request, Invoice $invoice)
     {
         $request->address_id = update4LevelAddress($request, $invoice->address_id);
-        if ($invoice->update($request->except(['total']))) {
+        if ($invoice->update($request->except(['total', 'status']))) {
+            $validator = Validator::make([],[]);
+
             // Invoice items For Para-Clinic + Service + Medicine
             $items = array_merge($request->echography ?: [], $request->ecg ?: [], $request->xray ?: [], $request->laboratory ?: [], $request->prescription ?: []);
-            $items = array_filter($items, function ($item) {
-                return isset($item['chk']);
-            });
+            $items = array_filter($items, function ($item) { return isset($item['chk']); });
             $items = array_map(function ($item) {
                 $item['exchange_rate'] = d_exchange_rate();
                 $item['total'] = ($item['qty'] ?: 0) * ($item['price'] ?: 0);
                 return $item;
             }, $items);
 
+            // Delete all old details
             $invoice->detail()->where('status', '1')->delete();
             
             // Para-Clinic
@@ -204,6 +206,8 @@ class InvoiceController extends Controller
                     'description'   => $request->description[$index] ?: '',
                 ];
             }
+
+            // Insert into database
             if (sizeof($services) > 0) {
                 $invoice->detail()->createMany($services);
             }
@@ -211,6 +215,30 @@ class InvoiceController extends Controller
             // Save & Save paid
             $param_update['total'] = $invoice->detail()->sum('total');
             if ($request->status == 2) {
+                foreach ($invoice->detail()->where('service_type', 'medicine')->get() as $detail) {
+                    if ($product = $detail->product) {
+                        $validated = $product->validateStockExist($detail->qty, $detail->unit_id);
+                        if ($validated['status'] != true) {
+                            $validator->errors()->add($index, $validated['errMsg']);
+                        }
+                    }
+                }
+
+                // Return back with error message
+                if ($errors = $validator->errors()->all()) { 
+                    return redirect()->route('invoice.index')->with('errors', $validator->errors());  
+                }
+
+                // Stock calculation
+                foreach ($invoice->detail()->where('service_type', 'medicine')->get() as $detail) {
+                    if ($product = $detail->product) {
+                        $detail['type'] = 'Invoice';
+                        $detail['parent_id'] = $detail->id;
+                        $detail['document_no'] = $invoice->code;
+                        $product->deductStock($detail->qty, $detail->unit_id, $detail);
+                    }
+                }
+
                 foreach ($invoice->detail()->where('status', '1')->get() as $detail) {
                     if (in_array($detail->service_type, ['echography', 'ecg', 'xray', 'laboratory', 'prescription'])) {
                         $detail->paraClinicItem()->update(['payment_status' => 1, 'status' => 2]);

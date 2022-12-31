@@ -34,8 +34,21 @@ class StockIn extends BaseModel
                     ->withTimestamps();
     }
 
+    public function stock_out_details () {
+        return $this->hasMany(StockOutDetail::class, 'stock_in_id');
+    }
+
     public function scopeExpired($query)
     {
         return $query->where('exp_date', '<=', date('Y-m-d'))->where('qty_remain', '>', 0);
+    }
+
+    public function updateQty()
+    {
+        $this->update([
+            'qty_used' => $this->stock_out_details->sum('qty'),
+            'qty_remain' => \DB::raw('qty_based - qty_used'),
+        ]);
+        return $this;
     }
 }
