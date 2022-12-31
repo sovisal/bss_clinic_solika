@@ -2,6 +2,7 @@
     $(document).ready(function () {
         calculate_total_table();
         $(document).on('click', '#btn_add_service', append_render_service);
+        $(document).on('click', '#btn_add_medicine', append_render_medicine);
         $(document).on('change', '[name*="qty"], [name*="price"]', calculate_total_row);
         $(document).on('change', 'input[name$="[chk]"]', calculate_total_table);
         $(document).on('click', '.btn_delete_row', item_delete_row);
@@ -26,6 +27,16 @@
 
         function append_render_service() {
             $('#table_service_result').append($('#sample_service_row').html()).find('select').each((_i, e) => {
+                $(e).select2({
+                    dropdownAutoWidth: !0,
+                    width: "100%",
+                    dropdownParent: $(e).parent()
+                });
+            });
+        }
+
+        function append_render_medicine() {
+            $('#table_medicine_result').append($('#sample_medicine_row').html()).find('select').each((_i, e) => {
                 $(e).select2({
                     dropdownAutoWidth: !0,
                     width: "100%",
@@ -91,6 +102,30 @@
         function item_delete_row () {
             $(this).parents('tr').remove();
             calculate_total_table();
+        }
+    });
+
+    $(document).on('change', '.medicine_selector', function () {
+        const $this_row = $(this).closest('tr');
+        $this_row.find('[name="unit_id[]"]').html('<option value="">---- None ----</option>');
+        if ($(this).val() != '') {
+            $this_row.find('[name="price[]"]').val($('option:selected', this).data('price'));
+
+            $.ajax({
+                url: "{{ route('inventory.product.getUnit') }}",
+                type: "post",
+                data: {
+                    id: bss_number($(this).val()),
+                },
+                success: function (rs) {
+                    if (rs.success) {
+                        $this_row.find('[name="unit_id[]"]').html(rs.options);
+                    }
+                },
+                error: function (rs) {
+                    flashMsg("danger", 'Error', rs.message)
+                },
+            })
         }
     });
 

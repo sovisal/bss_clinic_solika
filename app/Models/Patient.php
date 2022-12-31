@@ -21,6 +21,11 @@ class Patient extends BaseModel
         return $this->hasMany(Consultation::class, 'patient_id')->orderBy('status', 'asc')->first();
     }
 
+    public function hasOneConsultation()
+    {
+        return $this->hasOne(Consultation::class, 'patient_id')->latest();
+    }
+
     public function gender()
     {
         return $this->belongsTo(DataParent::class, 'gender_id');

@@ -77,4 +77,28 @@ class Product extends BaseModel
     {
         return $query->where('status', '>=', '1')->where('qty_remain', '>', '0');
     }
+
+    public function getAccuratePrice ($unit_id = null) {
+        if ($unit_id) {
+            if ($unit_id != $this->unit_id) {
+                $matched_package = $this->packages()->where('product_unit_id', $unit_id)->first();
+                if ($matched_package && $matched_package->price) {
+                    return $matched_package->price;
+                }
+            }
+        }
+        return $this->price;
+    }
+
+    public function getCalculationQty ($unit_id = null) {
+        if ($unit_id) {
+            if ($unit_id != $this->unit_id) {
+                $matched_package = $this->packages()->where('product_unit_id', $unit_id)->first();
+                if ($matched_package && $matched_package->qty) {
+                    return $matched_package->qty;
+                }
+            }
+        }
+        return 1;
+    }
 }

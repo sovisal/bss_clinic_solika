@@ -7,8 +7,10 @@ use App\Models\Patient;
 use App\Models\Inventory;
 use App\Models\Medicine;
 use App\Models\Prescription;
+use App\Models\Inventory\Product;
 use App\Models\Doctor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PrescriptionController extends Controller
 {
@@ -146,7 +148,7 @@ class PrescriptionController extends Controller
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'X-Ray not found!',
+                'message' => 'Prescription not found!',
             ], 404);
         }
     }
@@ -211,39 +213,54 @@ class PrescriptionController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, Prescription $prescription)
-    {   
+    {
         $request['address_id'] = update4LevelAddress($request, $prescription->address_id);
 
-        if ($prescription->update($request->except(['total', 'other']))) {
+        if ($prescription->update($request->except(['total', 'other', 'submit_option']))) {
             $this->refresh_prescriotion_detail($request, $prescription);
-
-            // When button complete clicked
-            // if ($request->submit_option == '2') {
-            //     foreach ($prescription->detail() as $detail) {
-            //         if ($product = $detail->product) {
-            //             if ($product->stockins->sum('qty_remain') >= $request->qty_based[$index]) {
-            //                 $req = (object)[
-            //                         'type' => 'Prescription',
-            //                         'date' => date('Y-m-d'),
-            //                         'document_no' => $prescription->code,
-            //                         'product_id' => $detail->id,
-            //                         'unit_id' => $detail->unit_id,
-            //                         'price' => $request->price[$index],
-            //                         'qty_based' => $request->qty_based[$index],
-            //                         'qty' => $request->qty[$index],
-            //                         'note' => $request->note[$index],
-            //                         'total' => $request->total[$index],
-            //                     ];
-            //                 $this->createStockOut($product, $req);
-            //             }else{
-            //                 // If requested stock is larger then stock available add error for msg
-            //                 $validator->errors()->add($index, 'Insufficient stock on product: ' . d_obj($product, ['name_kh', 'name_en']) . '! total requested stock is ' . d_number($request->qty_based[$index]) . ' but total stock available is ' . d_number($product->stockins->sum('qty_remain')));
-            //             }
-            //         }
-            //     }
-            // }
+            $validator = Validator::make([],[]);
             
-            return redirect()->route('prescription.index')->with('success', 'Data update success');
+            // When button complete clicked
+            if ($request->submit_option == '2') {
+                $stock_out_param = [];
+                foreach ($prescription->detail()->get() as $index => $detail) {
+                    if ($product = $detail->product) {
+                        $type = 'Prescription';
+                        $date = date('Y-m-d');
+                        $parent_id = $detail->id;
+                        $note = $detail->other;
+                        $document_no = $prescription->code;
+                        
+                        $product_id = $product->id;
+                        $qty = $qty_based = $detail->qty;
+                        $qty_based = $qty * $product->getCalculationQty($detail->unit_id);
+                        $unit_id = $detail->unit_id;
+                        $price = $detail->price ?: $product->getAccuratePrice($detail->unit_id);
+                        $total = $qty * $price;
+
+                        $stock_out_param[] = [
+                            'product' => $product,
+                            'param' => compact('type', 'parent_id', 'note', 'document_no', 'product_id', 'qty', 'unit_id', 'price', 'total', 'qty_based', 'date')
+                        ];
+
+                        if ($product->stockins->sum('qty_remain') < $qty_based) {
+                            // If requested stock is larger then stock available add error for msg
+                            $validator->errors()->add($index, 'Insufficient stock on product: ' . d_obj($product, ['name_kh', 'name_en']) . '! total requested stock is ' . d_number($qty_based) . ' but total stock available is ' . d_number($product->stockins->sum('qty_remain')));
+                        }
+                    }
+                }
+
+                if ($errors = $validator->errors()->all()) { 
+                    return redirect()->route('prescription.index')->with('errors', $validator->errors());  
+                } else {
+                    foreach ($stock_out_param as $stock_out) {
+                        app('App\Http\Controllers\StockOutController')->createStockOut($stock_out['product'], (object) $stock_out['param']);
+                    }
+                    $prescription->update(['status' => '2', 'analysis_at' => now()]);
+                }
+            }
+            
+            return redirect()->route('prescription.index')->with('success', __('alert.message.success.crud.update'));
         }
     }
 
@@ -266,27 +283,31 @@ class PrescriptionController extends Controller
         $detail_values = [];
         $time_usage = getParentDataSelection('time_usage');
 
-        foreach ($detail_ids as $index => $id) {    
-            $detail_values[$index] = [
-                'medicine_id'     => $request->medicine_id[$index] ?: 0,
-                'qty'             => $request->qty[$index] ?: 0,
-                'upd'             => $request->upd[$index] ?: 0,
-                'nod'             => $request->nod[$index] ?: 0,
-                'total'           => $request->total[$index] ?: 0,
-                'unit_id'            => $request->unit_id[$index] ?: '',
-                'usage_id'        => $request->usage_id[$index] ?: 0,
-                'other'           => $request->other[$index] ?: '',
-            ];
-
-            $tmp_usage_time = [];
-            foreach ($time_usage as $tm_id => $tm_name) {
-                if (isset($request->{'time_usage_' . $tm_id}[$index]) && $request->{'time_usage_' . $tm_id}[$index] != "OFF") {
-                    $tmp_usage_time[] = $tm_id;
+        foreach ($detail_ids as $index => $id) {
+            if ($product = Product::where('id', $request->medicine_id[$index])->first()) {
+                $detail_values[$index] = [
+                    'medicine_id'     => $product->id,
+                    'unit_id'         => $request->unit_id[$index] ?: '',
+                    'price'           => $product->getAccuratePrice($request->unit_id[$index]),
+                    'qty'             => $request->qty[$index] ?: 0,
+                    'upd'             => $request->upd[$index] ?: 0,
+                    'nod'             => $request->nod[$index] ?: 0,
+                    'total'           => $request->total[$index] ?: 0,
+                    'usage_id'        => $request->usage_id[$index] ?: 0,
+                    'other'           => $request->other[$index] ?: '',
+                ];
+    
+                $tmp_usage_time = [];
+                foreach ($time_usage as $tm_id => $tm_name) {
+                    if (isset($request->{'time_usage_' . $tm_id}[$index]) && $request->{'time_usage_' . $tm_id}[$index] != "OFF") {
+                        $tmp_usage_time[] = $tm_id;
+                    }
                 }
+                $detail_values[$index]['usage_times'] = implode(',', $tmp_usage_time ?: []);
             }
-            $detail_values[$index]['usage_times'] = implode(',', $tmp_usage_time ?: []);
         }
 
         $prescription->detail()->createMany($detail_values);
+        $prescription->updateQty();
     }
 }

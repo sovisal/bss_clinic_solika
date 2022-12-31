@@ -20,7 +20,7 @@ class PatientController extends Controller
     {
         $data = [
             'patients' => Patient::filterTrashed()
-                ->with(['address', 'user', 'consultations', 'gender'])
+                ->with(['address', 'user', 'gender', 'hasOneConsultation'])
                 ->orderBy('id', 'desc')->get()
         ];
         return view('patient.index', $data);
@@ -49,7 +49,7 @@ class PatientController extends Controller
         $address_id = update4LevelAddress($request);
         $patient = Patient::create($this->compileRequestColumns($request, $address_id));
         if ($patient) {
-            Consultation::create([
+            $saved_consultation = Consultation::create([
                 'patient_id' => $patient->id,
                 'doctor_id' => 1,
                 'payment_type' => null,
@@ -71,7 +71,7 @@ class PatientController extends Controller
             $patient->update(['photo' => $photo_name]);
         }
 
-        return redirect()->route('patient.show', $patient->id)->with('success', __('alert.message.success.crud.create'));
+        return redirect()->route('patient.consultation.edit', $saved_consultation->id)->with('success', __('alert.message.success.crud.create'));
     }
 
     /**
@@ -81,71 +81,13 @@ class PatientController extends Controller
     {
         $patient->load([
             'address',
-            'prescriptions' => function ($q) {
-                $q->select([
-                    'prescriptions.*',
-                    'patients.name_en as patient_en', 'patients.name_kh as patient_kh',
-                    'requesters.name_en as requester_en', 'requesters.name_kh as requester_kh',
-                    'doctors.name_en as doctor_en', 'doctors.name_kh as doctor_kh',
-                ])
-                    ->leftJoin('patients', 'patients.id', '=', 'prescriptions.patient_id')
-                    ->leftJoin('doctors as requesters', 'requesters.id', '=', 'prescriptions.requested_by')
-                    ->leftJoin('doctors', 'doctors.id', '=', 'prescriptions.doctor_id');
-            },
-            'labors' => function ($q) {
-                $q->select([
-                    'laboratories.*',
-                    'patients.name_en as patient_en', 'patients.name_kh as patient_kh',
-                    'requesters.name_en as requester_en', 'requesters.name_kh as requester_kh',
-                    'doctors.name_en as doctor_en', 'doctors.name_kh as doctor_kh',
-                ])
-                    ->leftJoin('patients', 'patients.id', '=', 'laboratories.patient_id')
-                    ->leftJoin('doctors as requesters', 'requesters.id', '=', 'laboratories.requested_by')
-                    ->leftJoin('doctors', 'doctors.id', '=', 'laboratories.doctor_id');
-            },
-            'xrays' => function ($q) {
-                $q->select([
-                    'xrays.*',
-                    'patients.name_en as patient_en', 'patients.name_kh as patient_kh',
-                    'requesters.name_en as requester_en', 'requesters.name_kh as requester_kh',
-                    'doctors.name_en as doctor_en', 'doctors.name_kh as doctor_kh',
-                ])
-                    ->leftJoin('patients', 'patients.id', '=', 'xrays.patient_id')
-                    ->leftJoin('doctors as requesters', 'requesters.id', '=', 'xrays.requested_by')
-                    ->leftJoin('doctors', 'doctors.id', '=', 'xrays.doctor_id');
-            },
-            'echos' => function ($q) {
-                $q->select([
-                    'echographies.*',
-                    'patients.name_en as patient_en', 'patients.name_kh as patient_kh',
-                    'requesters.name_en as requester_en', 'requesters.name_kh as requester_kh',
-                    'doctors.name_en as doctor_en', 'doctors.name_kh as doctor_kh',
-                ])
-                    ->leftJoin('patients', 'patients.id', '=', 'echographies.patient_id')
-                    ->leftJoin('doctors as requesters', 'requesters.id', '=', 'echographies.requested_by')
-                    ->leftJoin('doctors', 'doctors.id', '=', 'echographies.doctor_id');
-            },
-            'ecgs' => function ($q) {
-                $q->select([
-                    'ecgs.*',
-                    'patients.name_en as patient_en', 'patients.name_kh as patient_kh',
-                    'requesters.name_en as requester_en', 'requesters.name_kh as requester_kh',
-                    'doctors.name_en as doctor_en', 'doctors.name_kh as doctor_kh',
-                ])
-                    ->leftJoin('patients', 'patients.id', '=', 'ecgs.patient_id')
-                    ->leftJoin('doctors as requesters', 'requesters.id', '=', 'ecgs.requested_by')
-                    ->leftJoin('doctors', 'doctors.id', '=', 'ecgs.doctor_id');
-            },
+            'prescriptions' => function ($q) { $q->with(['user', 'doctor', 'doctor_requested']); },
+            'labors' => function ($q) { $q->with(['user', 'doctor', 'doctor_requested']); },
+            'xrays' => function ($q) { $q->with(['user', 'doctor', 'doctor_requested', 'type']); },
+            'echos' => function ($q) { $q->with(['user', 'doctor', 'doctor_requested', 'type']); },
+            'ecgs' => function ($q) { $q->with(['user', 'doctor', 'doctor_requested', 'type']); },
         ]);
-        $consultation = Consultation::where('patient_id', $patient->id)->get();
-        $save_consultation = $consultation->where('status', 1)->first();
-        $exist_consultation = $consultation->first();
-        if ($save_consultation) {
-            return redirect()->route('patient.consultation.edit', $save_consultation->id);
-        } else if (!$exist_consultation) {
-            return redirect()->route('patient.consultation.create', ['patient' => $patient->id]);
-        }
-
+        
         $history = new Collection;
         $history = $history->concat($patient->prescriptions->map(function ($row) {
             $row->row_type = 'prescription';

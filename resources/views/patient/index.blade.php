@@ -26,7 +26,11 @@
             @foreach ($patients as $key => $patient)
                 <tr>
                     <td class="text-center">
-                        {!! d_link('PT-' . str_pad($patient->id, 6, '0', STR_PAD_LEFT), route('patient.show', $patient->id)) !!}
+                        @if($patient->hasOneConsultation)
+                            {!! d_link('PT-' . str_pad($patient->id, 6, '0', STR_PAD_LEFT), route('patient.consultation.edit', $patient->hasOneConsultation->id)) !!}
+                        @else 
+                            {!! 'PT-' . str_pad($patient->id, 6, '0', STR_PAD_LEFT) !!}
+                        @endif
                     </td>
                     <td>{{ d_obj($patient, ['name_en', 'name_kh']) }}</td>
                     <td>{{ d_obj($patient, 'gender', ['title_en', 'title_kh']) }}</td>
@@ -42,8 +46,8 @@
                             :id="$patient->id"
                             :is-trashed="$patient->trashed()"
                             :disable-show="$patient->trashed()"
-                            :disable-edit="$patient->trashed() || ($patient->lastedConsultation()->status ?? 1) != 1"
-                            :disable-delete="($patient->lastedConsultation()->status ?? 1) != 1"
+                            :disable-edit="$patient->trashed()"
+                            :disable-delete="$patient->hasOneConsultation"
                         />
                     </td>
                 </tr>

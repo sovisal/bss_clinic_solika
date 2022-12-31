@@ -183,6 +183,9 @@ class EcgController extends Controller
         $request['image_1'] = update_image($request->img_1, $path, (time() . '_image_1_' . rand(111, 999) . '.png'), $ecg->image_1);
         $request['image_2'] = update_image($request->img_2, $path, (time() . '_image_2_' . rand(111, 999) . '.png'), $ecg->image_2);
 
+        if ($request->status == '2') {
+            $request['analysis_at'] = now();
+        }
         if ($ecg->update($request->all())) {
             return redirect()->route('para_clinic.ecg.index')->with('success', __('alert.message.success.crud.update'));
         }

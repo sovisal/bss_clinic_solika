@@ -162,25 +162,27 @@ class BaseModel extends Model
 
     public function getTypeLinkAttribute()
     {
-        if ($this->type->status > 0) { // will check permission
-            switch ($this->table) {
-                case 'echographies':
-                    $rout_name = 'setting.echo-type.edit';
-                    break;
-                case 'ecgs':
-                    $rout_name = 'setting.ecg-type.edit';
-                    break;
-                case 'xrays':
-                    $rout_name = 'setting.xray-type.edit';
-                    break;
-                default:
-                    $rout_name = null;
-                    break;
+        if ($this->type) {
+            if ($this->type->status > 0) { // will check permission
+                switch ($this->table) {
+                    case 'echographies':
+                        $rout_name = 'setting.echo-type.edit';
+                        break;
+                    case 'ecgs':
+                        $rout_name = 'setting.ecg-type.edit';
+                        break;
+                    case 'xrays':
+                        $rout_name = 'setting.xray-type.edit';
+                        break;
+                    default:
+                        $rout_name = null;
+                        break;
+                }
+                $url = $rout_name ? route($rout_name, [d_obj($this, 'type', 'id'), 'back' => url()->current()]) : '#';
+                return d_link(d_obj($this, 'type', ['name_en', 'name_kh']), $url);
+            } else {
+                return d_obj($this, 'type', ['name_en', 'name_kh']);
             }
-            $url = $rout_name ? route($rout_name, [d_obj($this, 'type', 'id'), 'back' => url()->current()]) : '#';
-            return d_link(d_obj($this, 'type', ['name_en', 'name_kh']), $url);
-        } else {
-            return d_obj($this, 'type', ['name_en', 'name_kh']);
         }
     }
 }

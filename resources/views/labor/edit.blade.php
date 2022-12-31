@@ -4,6 +4,11 @@
     </x-slot>
     <x-slot name="js">
         @include('labor.script')
+        <script>
+            $('.btn-submit, .btn-success').click(function (){
+                $('[name="status"]').val($(this).val());
+            });
+        </script>
     </x-slot>
     <form id="labor-form" action="{{ route('para_clinic.labor.update', $row) }}" method="POST" autocomplete="off" enctype="multipart/form-data">
         @method('PUT')
@@ -12,14 +17,14 @@
         <x-card bodyClass="pb-0">
             <x-slot name="action">
                 <div>
-                    {{-- <x-form.button type="button" class="btn-submit" value="Complete" color="success" icon="bx bx-check" label="Complete" onclick="$(this).parents('form').find('[name=status]').val(2); $('#labor-form').submit();" /> --}}
-                    <x-form.button type="submit" class="btn-submit" value="Progress" icon="bx bx-save" label="Save" />
+                    <x-form.button type="submit" class="btn-success" value="2" icon="bx bx-check" label="Complete" />
+                    <x-form.button type="submit" class="btn-submit" value="1" icon="bx bx-save" label="Save" />
                 </div>
             </x-slot>
             <x-slot name="footer">
                 <div>
-                    {{-- <x-form.button type="button" class="btn-submit" value="Complete" color="success" icon="bx bx-check" label="Complete" onclick="$(this).parents('form').find('[name=status]').val(2); $('#labor-form').submit();" /> --}}
-                    <x-form.button type="submit" class="btn-submit" value="Progress" icon="bx bx-save" label="Save" />
+                    <x-form.button type="submit" class="btn-success" value="2" icon="bx bx-check" label="Complete" />
+                    <x-form.button type="submit" class="btn-submit" value="1" icon="bx bx-save" label="Save" />
                 </div>
             </x-slot>
 

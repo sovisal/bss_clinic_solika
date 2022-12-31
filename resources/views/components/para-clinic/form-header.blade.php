@@ -16,7 +16,10 @@
         <td>
             <x-bss-form.input name='inv_date' value="{{ date('Y-m-d H:i:s') }}" required :disabled="$isEdit && $row->inv_date" />
         </td>
-    @elseif($isLabor || $isPrescript)
+    @elseif($isPrescript)
+        <td></td>
+        <td></td>
+    @elseif($isLabor)
         <td width="15%" class="text-right">
             <label for="price">Price USD <small class="required">*</small></label>
         </td>
