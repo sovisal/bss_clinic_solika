@@ -12,7 +12,7 @@
         </tr>
         <tr>
             <th width="35%"><label>Medicine <small class="required">*</small></label></th>
-            <th width="100px"><label>Unit <small class="required">*</small></label></th>
+            <th width="150px"><label>Unit <small class="required">*</small></label></th>
             <th width="100px"><label>Qty <small class="required">*</small></label></th>
             <th width="100px"><label>Price <small class="required">*</small></label></th>
             <th width="100px"><label>Total <small class="required">*</small></label></th>
@@ -22,8 +22,8 @@
     </thead>
     <tbody>
         <!-- JS dynamic & preload in Edit screen-->
-        @if(@$invoice_detail_service)
-            @foreach ($invoice_detail_service as $item)
+        @if(@$invoice_detail_medicine)
+            @foreach ($invoice_detail_medicine as $item)
                 @include('invoice.form_medicine_sample')
             @endforeach
         @endif

@@ -9,7 +9,7 @@ class InvoiceDetail extends BaseModel
     use HasFactory;  // no need soft delete
     protected $guarded = ['id'];
     protected $table = 'invoice_items';
-    protected $fillable = ['service_id', 'service_name', 'service_type', 'price', 'qty', 'total', 'description', 'exchange_rate'];
+    protected $fillable = ['service_id', 'unit_id', 'service_name', 'service_type', 'price', 'qty', 'total', 'description', 'exchange_rate'];
 
     public function paraClinicItem()
     {
@@ -24,5 +24,14 @@ class InvoiceDetail extends BaseModel
         } elseif ($this->service_type == 'prescription') {
             return $this->belongsTo(Prescription::class, 'service_id', 'id');
         }
+    }
+
+    public function product () {
+        return $this->belongsTo(Inventory\Product::class, 'service_id');
+    }
+
+    public function unit()
+    {
+        return $this->belongsTo(Inventory\ProductUnit::class, 'unit_id');
     }
 }

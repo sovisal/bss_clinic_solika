@@ -11,14 +11,11 @@
             let selected = $(this).find(":selected");
             $(this).parents('tr').find('[name="service_name[]"]').val(selected.data('name'));
             $(this).parents('tr').find('[name="price[]"]').val(bss_number(selected.data('price'))).trigger('change');
-            $(this).parents('tr').find('[name="description[]"]').val(selected.data('description'));
         });
 
-        $(document).on('change', '[name="patient_id"]', function () {
+        $(document).on('change', '[name="unit_id[]"]', function () {
             let selected = $(this).find(":selected");
-            $('[name="pt_code"]').val(selected.data('pt_code'));
-            $('[name="pt_gender"]').val(selected.data('gender')).trigger('change');
-            $('[name="pt_age"]').val(selected.data('age'));
+            $(this).parents('tr').find('[name="price[]"]').val(bss_number(selected.data('price'))).trigger('change');
         });
 
         $('.btn-submit').click(function (){
@@ -109,8 +106,6 @@
         const $this_row = $(this).closest('tr');
         $this_row.find('[name="unit_id[]"]').html('<option value="">---- None ----</option>');
         if ($(this).val() != '') {
-            $this_row.find('[name="price[]"]').val($('option:selected', this).data('price'));
-
             $.ajax({
                 url: "{{ route('inventory.product.getUnit') }}",
                 type: "post",

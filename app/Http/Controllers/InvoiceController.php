@@ -120,6 +120,7 @@ class InvoiceController extends Controller
             'payment_type' => getParentDataSelection('payment_type'),
             'gender' => getParentDataSelection('gender'),
             'invoice_detail_service' => $invoice->detail()->where('service_type', 'service')->get(),
+            'invoice_detail_medicine' => $invoice->detail()->where('service_type', 'medicine')->get(),
             'is_edit' => true
         ];
 
@@ -171,8 +172,7 @@ class InvoiceController extends Controller
     public function update(Request $request, Invoice $invoice)
     {
         $request->address_id = update4LevelAddress($request, $invoice->address_id);
-        $request->total = array_sum($request->total ?: []);
-        if ($invoice->update($request->all())) {
+        if ($invoice->update($request->except(['total']))) {
             // Invoice items For Para-Clinic + Service + Medicine
             $items = array_merge($request->echography ?: [], $request->ecg ?: [], $request->xray ?: [], $request->laboratory ?: [], $request->prescription ?: []);
             $items = array_filter($items, function ($item) {
@@ -196,6 +196,7 @@ class InvoiceController extends Controller
                     'service_type'  => $request->service_type[$index] ?: '',
                     'service_name'  => $request->service_name[$index] ?: '',
                     'service_id'    => $request->service_id[$index] ?: 0,
+                    'unit_id'       => $request->unit_id[$index] ?: null,
                     'qty'           => $request->qty[$index] ?: 0,
                     'price'         => $request->price[$index] ?: 0,
                     'total'         => ($request->qty[$index] ?: 0) * ($request->price[$index] ?: 0),
