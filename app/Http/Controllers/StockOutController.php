@@ -16,7 +16,11 @@ class StockOutController extends Controller
     public function index()
     {
         $data = [
-            'rows' => StockOut::with(['product.unit', 'unit', 'user'])->filterTrashed()->orderBy('date')->limit(5000)->get(),
+            'rows' => StockOut::with(['product.unit', 'unit', 'user'])
+                ->stockFilter()
+                ->filterTrashed()
+                ->orderBy('date')
+                ->limit(5000)->get(),
         ];
         return view('stock_out.index', $data);
     }
@@ -65,7 +69,7 @@ class StockOutController extends Controller
             }
         }
 
-        return redirect()->route('inventory.stock_out.index')->with('success', ($validator->errors() ? '' : __('alert.message.success.crud.create')))->with('errors', $validator->errors());
+        return redirect()->route('inventory.stock_out.index')->with('success', ($validator->errors()->first() ? '' : __('alert.message.success.crud.create')))->with('errors', $validator->errors());
     }
 
     /**

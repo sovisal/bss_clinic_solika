@@ -14,8 +14,18 @@ class StockInController extends Controller
      */
     public function index()
     {
+        request()->merge([
+            'ft_daterangepicker_drp_start' => request()->ft_daterangepicker_drp_start ?? date('Y-m-01'),
+            'ft_daterangepicker_drp_end' => request()->ft_daterangepicker_drp_end ?? date('Y-m-t'),
+        ]);
         $data = [
-            'rows' => StockIn::with(['user', 'unit', 'supplier', 'product.unit'])->withCount('stock_outs')->filterTrashed()->orderBy('date', 'desc')->limit(5000)->get(),
+            'rows' => StockIn::with(['user', 'unit', 'supplier', 'product.unit'])
+                ->withCount('stock_outs')
+                ->filterTrashed()
+                ->stockFilter()
+                ->orderBy('date', 'desc')
+                ->limit(5000)->get(),
+            'suppliers' => Supplier::where('status', 1)->orderBy('name_en', 'asc')->get()
         ];
         return view('stock_in.index', $data);
     }

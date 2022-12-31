@@ -34,6 +34,25 @@ class BaseModel extends Model
         });
     }
 
+    public function scopeStockFilter($query)
+    {
+        $query->when(request()->ft_daterangepicker_drp_start, function ($query, $daterangepicker_drp_start) {
+            $query->where('date', '>=', ($daterangepicker_drp_start));
+        });
+        $query->when(request()->ft_daterangepicker_drp_end, function ($query, $daterangepicker_drp_end) {
+            $query->where('date', '<=', ($daterangepicker_drp_end));
+        });
+        $query->when(request()->ft_product_id, function ($query, $product_id) {
+            $query->where('product_id', '=', $product_id);
+        });
+        $query->when(request()->ft_supplier_id, function ($query, $supplier_id) {
+            $query->where('supplier_id', '=', $supplier_id);
+        });
+        $query->when(request()->ft_status, function ($query, $status) {
+            // $query->where('status', (($status=='')? 1 : 0));
+        });
+    }
+
     public function scopeExclude($query, $value = [])
     {
         return $query->select(array_diff($this->columns, (array) $value));
