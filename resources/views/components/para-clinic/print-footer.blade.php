@@ -3,6 +3,6 @@
 ])
 
 <footer>
-	<div>អាសយដ្ឋានៈ ភូមិអ្នកតាស្ទឹង ឃុំបឹងណាយ ស្រុកព្រៃឈរ ខេត្តកំពង់ចាម</div>
-	<div>ទូរស័ព្ទទំនាក់ទំនង៖ <span class="text-red">012 35 29 60 / 012 48 43 91 / 071 999 62 45</span></div>
+	<div>អាសយដ្ឋានៈ {!! $_POST['setting']->address !!}</div>
+	<div>ទូរស័ព្ទទំនាក់ទំនង៖ <span class="text-red">{!! $_POST['setting']->phone !!}</span></div>
 </footer>
