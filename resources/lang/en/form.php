@@ -121,6 +121,7 @@ return [
     ],
 
     'stock' => [
+        'type' => 'Type',
         'product' => 'Product',
         'supplier' => 'Supplier',
         'exp_date' => 'Expire Date',

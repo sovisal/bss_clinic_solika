@@ -1,7 +1,21 @@
 <x-app-layout>
     <x-slot name="header">
         <x-form.button href="{{ route(($module ?? 'inventory.stock_out') . '.create') }}" icon="bx bx-plus" label="Create" />
-        <x-stock-filter url="{{ route(($module ?? 'inventory.stock_out') . '.index') }}"/>
+        <x-stock-filter url="{{ route(($module ?? 'inventory.stock_out') . '.index') }}">
+            <div class="col-sm-3 col-md-2">
+                <x-form.select name="ft_type" label="{{ __('form.stock.type') }}">
+                    <option value="">{{ __('form.all') }}</option>
+                    @foreach ([
+                        'StockOut' => 'Stock Out',
+                        'StockAdjustment' => 'Stock Adjustment',
+                        'Prescription' => 'Prescription',
+                        'Invoice' => 'Invoice',
+                    ] as $key => $name)
+                        <option value="{{ $key }}" @selected($key == request()->ft_type)>{{ d_text($name) }}</option>
+                    @endforeach
+                </x-form.select>
+            </div>
+        </x-stock-filter>
     </x-slot>
     <x-card :foot="false" :head="false">
         <x-table class="table-hover table-striped" id="datatables">
