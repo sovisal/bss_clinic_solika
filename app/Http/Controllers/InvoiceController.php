@@ -74,6 +74,7 @@ class InvoiceController extends Controller
             'exchange_rate' => d_exchange_rate(),
             'total' => array_sum($request->total ?: []),
         ])) {
+            update4LevelAddress($request, $inv->patient()->first()->address_id);
             $inv->update(['address_id' => update4LevelAddress($request)]);
             return redirect()->route('invoice.edit', $inv->id)->with('success', 'Data created success');
         }
@@ -174,6 +175,7 @@ class InvoiceController extends Controller
     {
         $request->address_id = update4LevelAddress($request, $invoice->address_id);
         if ($invoice->update($request->except(['total', 'status']))) {
+            update4LevelAddress($request, $invoice->patient()->first()->address_id);
             $validator = Validator::make([],[]);
 
             // Invoice items For Para-Clinic + Service + Medicine

@@ -69,6 +69,7 @@ class LaboratoryController extends Controller
                 'sample' => $request->sample,
                 'diagnosis' => $request->diagnosis,
             ])) {
+                update4LevelAddress($request, $labor->patient()->first()->address_id);
                 $labor->update(['address_id' => update4LevelAddress($request)]);
                 foreach ($request->labor_item_id as $labor_item_id) {
                     $detail = new LaborDetail;
@@ -261,6 +262,8 @@ class LaboratoryController extends Controller
             $request['analysis_at'] = now();
         }
         if ($labor->update($request->all())) {
+            update4LevelAddress($request, $labor->patient()->first()->address_id);
+
             // Do update the labor detail
             $detail_ids = $request->test_id ?: [];
             $detail_values = $request->test_value ?: [];

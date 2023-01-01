@@ -143,4 +143,9 @@ class User extends Authenticatable
     {
         $q->when(auth()->user()->isWebDev, fn($q) => $q->withTrashed());
     }
+
+    public function setting ()
+    {
+        return Setting::first();
+    }
 }

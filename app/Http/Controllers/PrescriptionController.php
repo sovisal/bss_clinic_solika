@@ -70,6 +70,7 @@ class PrescriptionController extends Controller
             'exchange_rate' => d_exchange_rate(),
             'attribite' => $request->attribite,
         ])) {
+            update4LevelAddress($request, $pre->patient()->first()->address_id);
             $pre->update(['address_id' => update4LevelAddress($request)]);
             $this->refresh_prescriotion_detail($request, $pre);
             if ($request->is_treament_plan) {
@@ -217,6 +218,7 @@ class PrescriptionController extends Controller
         $request['address_id'] = update4LevelAddress($request, $prescription->address_id);
 
         if ($prescription->update($request->except(['total', 'other', 'submit_option']))) {
+            update4LevelAddress($request, $prescription->patient()->first()->address_id);
             $this->refresh_prescriotion_detail($request, $prescription);
             $validator = Validator::make([],[]);
             
