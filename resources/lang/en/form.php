@@ -16,6 +16,7 @@ return [
     'thumbnail' => 'Thumbnail',
     'please_select' => 'Please choose',
     'please_choose' => 'Please choose',
+    'all' => '--- All ---',
     'none' => '--- None ---',
     'description' => 'Description',
     'save_create' => 'Save and crate new',
@@ -130,6 +131,8 @@ return [
         'qty_out' => 'Supplier',
         'price' => 'Supplier',
         'total' => 'Supplier',
+        'status' => 'Status',
+        'exp_status' => 'Exp Status',
     ],
     'ability' => [
         'crud' => 'Crud',

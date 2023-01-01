@@ -49,7 +49,20 @@ class BaseModel extends Model
             $query->where('supplier_id', '=', $supplier_id);
         });
         $query->when(request()->ft_status, function ($query, $status) {
-            // $query->where('status', (($status=='')? 1 : 0));
+            if ($this->table=='stock_ins') {
+                $query->where('qty_remain', (($status=='active')? '>' : '<='), 0);
+            }
+        });
+        $query->when(request()->ft_exp_status, function ($query, $status) {
+            if ($this->table=='stock_ins') {
+                if ($status=='active') {
+                    $query->where(function ($query) {
+                        $query->whereDate('exp_date', '>', date('Y-m-d'))->orWhereNull('exp_date');
+                    });
+                }else{
+                    $query->whereDate('exp_date', '<=', date('Y-m-d'));
+                }
+            }
         });
     }
 

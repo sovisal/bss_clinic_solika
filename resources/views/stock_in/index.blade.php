@@ -4,11 +4,37 @@
         <x-stock-filter url="{{ route('inventory.stock_in.index') }}">
             <div class="col-sm-3 col-md-2">
                 <x-form.select name="ft_supplier_id" label="{{ __('form.stock.supplier') }}">
-                <option value="">{{ __('form.please_choose') }}</option>
+                    <option value="">{{ __('form.all') }}</option>
                     @foreach ($suppliers as $supplier)
                     <option value="{{ $supplier->id }}" @selected($supplier->id == request()->ft_supplier_id)>{{ d_obj($supplier, ['name_en', 'name_kh']) }}</option>
                     @endforeach
                 </x-form.select>
+            </div>
+            <div class="col-sm-4 col-md-3">
+                <div class="row">
+                    <div class="col-md-6">
+                        <x-form.select name="ft_status" label="{{ __('form.stock.status') }}" data-no_search="true">
+                            <option value="">{{ __('form.all') }}</option>
+                            @foreach ([
+                                'active' => 'Active',
+                                'closed' => 'Closed'
+                            ] as $key => $name)
+                                <option value="{{ $key }}" @selected($key == request()->ft_status)>{{ d_text($name) }}</option>
+                            @endforeach
+                        </x-form.select>
+                    </div>
+                    <div class="col-md-6">
+                        <x-form.select name="ft_exp_status" label="{{ __('form.stock.exp_status') }}" data-no_search="true">
+                            <option value="">{{ __('form.all') }}</option>
+                            @foreach ([
+                                'active' => 'Active',
+                                'expired' => 'Expired',
+                            ] as $key => $name)
+                                <option value="{{ $key }}" @selected($key == request()->ft_exp_status)>{{ d_text($name) }}</option>
+                            @endforeach
+                        </x-form.select>
+                    </div>
+                </div>
             </div>
         </x-stock-filter>
     </x-slot>

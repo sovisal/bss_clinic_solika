@@ -11,6 +11,7 @@ class StockIn extends BaseModel
 {
     use HasFactory, SoftDeletes;
     protected $guarded = ['id'];
+    protected $table = 'stock_ins';
 
     public function product()
     {
