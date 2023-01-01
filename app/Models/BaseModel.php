@@ -45,6 +45,9 @@ class BaseModel extends Model
         $query->when(request()->ft_product_id, function ($query, $product_id) {
             $query->where('product_id', '=', $product_id);
         });
+        $query->when(request()->ft_type, function ($query, $type) {
+            $query->where('type', '=', $type);
+        });
         $query->when(request()->ft_supplier_id, function ($query, $supplier_id) {
             $query->where('supplier_id', '=', $supplier_id);
         });
