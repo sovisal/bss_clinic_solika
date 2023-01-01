@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <x-form.button href="{{ route(($module ?? 'inventory.stock_out') . '.create') }}" icon="bx bx-plus" label="Create" />
-        <x-stock-filter url="{{ route($module ?? 'inventory.stock_out.index') }}"/>
+        <x-stock-filter url="{{ route(($module ?? 'inventory.stock_out') . '.index') }}"/>
     </x-slot>
     <x-card :foot="false" :head="false">
         <x-table class="table-hover table-striped" id="datatables">

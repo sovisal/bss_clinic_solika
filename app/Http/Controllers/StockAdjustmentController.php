@@ -73,7 +73,7 @@ class StockAdjustmentController extends Controller
                             'note' => $request->note[$index],
                             'total' => $request->total[$index]
                         ];
-                    $this->stockOut->createStockOut($product, $req);
+                    $product->deductStock($request->qty[$index], $request->unit_id[$index], $req);
                 }else{
                     // If requested stock is larger then stock available add error for msg
                     $validator->errors()->add($index, 'Insufficient stock on product: ' . d_obj($product, ['name_kh', 'name_en']) . '! total requested stock is ' . d_number($request->qty_based[$index]) . ' but total stock available is ' . d_number($product->stockins->sum('qty_remain')));
@@ -81,7 +81,10 @@ class StockAdjustmentController extends Controller
             }
         }
 
-        return redirect()->route('inventory.stock_adjustment.index')->with('success', ($validator->errors() ? '' : __('alert.message.success.crud.create')))->with('errors', $validator->errors());
+        if ($validator->errors()) {
+            return redirect()->route('inventory.stock_adjustment.index')->withErrors($validator);
+        }
+        return redirect()->route('inventory.stock_adjustment.index')->with('success', __('alert.message.success.crud.create'));
     }
 
     /**

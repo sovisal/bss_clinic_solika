@@ -61,15 +61,17 @@ class StockOutController extends Controller
                             'note' => $request->note[$index],
                             'total' => $request->total[$index],
                         ];
-                    $this->createStockOut($product, $req);
+                    $product->deductStock($request->qty[$index], $request->unit_id[$index], $req);
                 }else{
                     // If requested stock is larger then stock available add error for msg
                     $validator->errors()->add($index, 'Insufficient stock on product: ' . d_obj($product, ['name_kh', 'name_en']) . '! total requested stock is ' . d_number($request->qty_based[$index]) . ' but total stock available is ' . d_number($product->stockins->sum('qty_remain')));
                 }
             }
         }
-
-        return redirect()->route('inventory.stock_out.index')->with('success', ($validator->errors()->first() ? '' : __('alert.message.success.crud.create')))->with('errors', $validator->errors());
+        if ($validator->errors()) {
+            return redirect()->route('inventory.stock_out.index')->withErrors($validator);
+        }
+        return redirect()->route('inventory.stock_out.index')->with('success', __('alert.message.success.crud.create'));
     }
 
     /**
@@ -100,6 +102,7 @@ class StockOutController extends Controller
             'document_no' => $request->reciept_no,
             'price' => $request->price,
             'total' => ($stockOut->qty * $request->price),
+            'note' => $request->note,
         ]);
     }
 
@@ -137,50 +140,6 @@ class StockOutController extends Controller
             return back()->with('success', __('alert.message.success.crud.force_detele'));
         }
         return back()->with('error', __('alert.message.error.crud.force_detele'));
-    }
-
-    public function createStockOut($product, $request)
-    {
-        $requested_qty = $request->qty_based;
-        $stockOutCreated = StockOut::create([
-            'type' => $request->type,
-            'date' => $request->date,
-            'document_no' => $request->document_no,
-            'product_id' => $request->product_id,
-            'unit_id' => $request->unit_id,
-            'price' => $request->price,
-            'qty_based' => $request->qty_based,
-            'qty' => $request->qty,
-            'note' => $request->note,
-            'total' => $request->total,
-            'parent_id' => @$request->parent_id ?: null,
-        ]);
-        $stockIns = $product->stockins->where('qty_remain', '>', 0);
-        foreach ($stockIns as $key => $stockIn) {
-            if ($stockIn->qty_remain >= $requested_qty) {
-                $qty_used = $stockIn->qty_used + $requested_qty;
-                $qty_remain = $stockIn->qty_based - $qty_used;
-                $stockOutCreated->stock_ins()->attach([$stockIn->id => ['qty' => $requested_qty]]);
-                $stockIn->update([
-                    'qty_used' => $qty_used,
-                    'qty_remain' => $qty_remain,
-                ]);
-                $requested_qty = 0;
-                break;
-            }else{
-                $requested_qty -= $stockIn->qty_remain;
-                $qty_used = $stockIn->qty_used + $stockIn->qty_remain; // OR $qty_used = $stockIn->qty_based;
-                $qty_remain = $stockIn->qty_based - $qty_used; // OR $qty_remain = 0;
-                $stockOutCreated->stock_ins()->attach([$stockIn->id => ['qty' => $stockIn->qty_remain]]);
-                $stockIn->update([
-                    'qty_used' => $qty_used,
-                    'qty_remain' => $qty_remain,
-                ]);
-            }
-        }
-        $product->updateQty();
-
-        return true;
     }
 
     public function deleteStockOut($stockOut)
