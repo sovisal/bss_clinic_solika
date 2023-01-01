@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Ability extends BaseModel
 {
 	use HasFactory;
-	
 	protected $guarded = ['id'];
 	
 	/**
@@ -18,6 +17,7 @@ class Ability extends BaseModel
 	{
 		return $this->belongsToMany(Role::class)->withTimestamps();
 	}
+
 	public function users()
 	{
 		return $this->belongsToMany(User::class)->withTimestamps();
