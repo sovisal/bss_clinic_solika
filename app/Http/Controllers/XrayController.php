@@ -65,6 +65,7 @@ class XrayController extends Controller
             'exchange_rate' => d_exchange_rate(),
             'attribute' => $xray_type ? $xray_type->attribite : null,
         ])) {
+            update4LevelAddress($request, $xray->patient()->first()->address_id);
             $xray->update(['address_id' => update4LevelAddress($request)]);
 
             // Check if no exist folder/directory then create folder/directory
@@ -188,6 +189,7 @@ class XrayController extends Controller
             $request['analysis_at'] = now();
         }
         if ($xray->update($request->all())) {
+            update4LevelAddress($request, $xray->patient()->first()->address_id);
             return redirect()->route('para_clinic.xray.index')->with('success', __('alert.message.success.crud.update'));
         }
     }

@@ -68,6 +68,7 @@ class EchographyController extends Controller
             'exchange_rate' => d_exchange_rate(),
             'attribute' => $echo_type ? $echo_type->attribite : null,
         ])) {
+            update4LevelAddress($request, $echo->patient()->first()->address_id);
             $echo->update(['address_id' => update4LevelAddress($request)]);
 
             // Check if no exist folder/directory then create folder/directory
@@ -190,6 +191,7 @@ class EchographyController extends Controller
             $request['analysis_at'] = now();
         }
         if ($echography->update($request->all())) {
+            update4LevelAddress($request, $echography->patient()->first()->address_id);
             return redirect()->route('para_clinic.echography.index')->with('success', __('alert.message.success.crud.update'));
         }
     }

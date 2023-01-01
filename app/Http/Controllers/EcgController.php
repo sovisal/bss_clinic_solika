@@ -65,6 +65,7 @@ class EcgController extends Controller
             'exchange_rate' => d_exchange_rate(),
             'attribute' => $ecg_type ? $ecg_type->attribite : null,
         ])) {
+            update4LevelAddress($request, $ecg->patient()->first()->address_id);
             $ecg->update(['address_id' => update4LevelAddress($request)]);
 
             // Check if no exist folder/directory then create folder/directory
@@ -187,6 +188,7 @@ class EcgController extends Controller
             $request['analysis_at'] = now();
         }
         if ($ecg->update($request->all())) {
+            update4LevelAddress($request, $ecg->patient()->first()->address_id);
             return redirect()->route('para_clinic.ecg.index')->with('success', __('alert.message.success.crud.update'));
         }
     }
