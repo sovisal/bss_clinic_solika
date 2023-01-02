@@ -6,13 +6,14 @@ use App\Models\Inventory\Product;
 use App\Models\Inventory\StockIn;
 use App\Models\Inventory\Supplier;
 use App\Http\Requests\StockInRequest;
+use Illuminate\Http\Request;
 
 class StockInController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         request()->merge([
             'ft_daterangepicker_drp_start' => request()->ft_daterangepicker_drp_start ?? date('Y-m-01'),
@@ -27,6 +28,11 @@ class StockInController extends Controller
                 ->limit(5000)->get(),
             'suppliers' => Supplier::where('status', 1)->orderBy('name_en', 'asc')->get()
         ];
+
+        if ($request->ajax()) {
+            return $data['rows'];
+        }
+
         return view('stock_in.index', $data);
     }
 

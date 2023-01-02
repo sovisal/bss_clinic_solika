@@ -48,10 +48,12 @@ class Product extends BaseModel
 
     public function updateQty()
     {
+        $stockins = $this->stockins()->get();
+
         $this->update([
-            'qty_in' => $this->stockins->sum('qty_based'),
-            'qty_out' => $this->stockins->sum('qty_used'),
-            'qty_remain' => $this->stockins->sum('qty_remain'),
+            'qty_in' => $stockins->sum('qty_based'),
+            'qty_out' => $stockins->sum('qty_used'),
+            'qty_remain' => $stockins->sum('qty_remain'),
         ]);
         return $this;
     }

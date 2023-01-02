@@ -2,6 +2,93 @@
     <x-slot name="header">
         
     </x-slot>
+    <x-slot name="js">
+        <script>
+            function get_stockin_history (product_id) {
+                if (product_id != '') {
+                    $.ajax({
+                        url: "{{ route('inventory.stock_in.index') }}?ft_product_id=" + product_id,
+                        type: "get",
+                        success: function (rs) {
+                            if (rs) {
+                                var total_qty = 0;
+                                var build_rows = '';
+                                rs.forEach(function (r, i) {
+                                    build_rows += `<tr>
+                                        <td>${ i + 1 }</td>
+                                        <td>${ r.date }</td>
+                                        <td>${ r.product.code }</td>
+                                        <td>${ r.product.name_en ?? r.product.name_kh }</td>
+                                        <td>${ r.supplier.name_en ?? r.supplier.name_kh }</td>
+                                        <td>${ r.qty }</td>
+                                        <td>${ r.unit.name_en ?? r.unit.name_kh }</td>
+                                        <td>${ r.qty_based }</td>
+                                        <td>${ r.product.unit.name_en ?? r.product.unit.name_kh }</td>
+                                    </tr>`;
+
+                                    total_qty += r.qty_based;
+                                });
+
+                                var build_footer = `<tr>
+                                    <td colspan="7" class="text-right">Total : </td>
+                                    <th colspan="2" class="tw-bg-gray-100">${ total_qty }</th>
+                                </tr>`;
+
+                                $("#detail-stockin-history .modal-body .body table tbody").html(build_rows);
+                                $("#detail-stockin-history .modal-body .body table tfoot").html(build_footer);
+                                $("#detail-stockin-history").modal();
+                            }
+                        },
+                        error: function (rs) {
+                            flashMsg("danger", 'Error', rs.message)
+                        },
+                    })
+                }
+            }
+
+            function get_stockout_history (product_id) {
+                if (product_id != '') {
+                    $.ajax({
+                        url: "{{ route('inventory.stock_out.index') }}?ft_product_id=" + product_id,
+                        type: "get",
+                        success: function (rs) {
+                            if (rs) {
+                                var total_qty = 0;
+                                var build_rows = '';
+                                rs.forEach(function (r, i) {
+                                    build_rows += `<tr>
+                                        <td>${ i + 1 }</td>
+                                        <td>${ r.date }</td>
+                                        <td>${ r.product.code }</td>
+                                        <td>${ r.product.name_en ?? r.product.name_kh }</td>
+                                        <td>${ r.qty }</td>
+                                        <td>${ r.unit.name_en ?? r.unit.name_kh }</td>
+                                        <td>${ r.qty_based }</td>
+                                        <td>${ r.product.unit.name_en ?? r.product.unit.name_kh }</td>
+                                        <td>${ r.type }</td>
+                                    </tr>`;
+
+                                    total_qty += r.qty_based;
+                                });
+
+                                var build_footer = `<tr>
+                                    <td colspan="6" class="text-right">Total : </td>
+                                    <th colspan="3" class="tw-bg-gray-100">${ total_qty }</th>
+                                </tr>`;
+
+                                $("#detail-stockout-history .modal-body .body table tbody").html(build_rows);
+                                $("#detail-stockout-history .modal-body .body table tfoot").html(build_footer);
+                                $("#detail-stockout-history").modal();
+                            }
+                        },
+                        error: function (rs) {
+                            flashMsg("danger", 'Error', rs.message)
+                        },
+                    })
+                }
+            }
+        </script>
+    </x-slot>
     <x-card :foot="false" :head="false">
         <x-table class="table-hover table-striped" id="datatables">
             <x-slot name="thead">
@@ -27,8 +114,8 @@
                     <td>{!! d_obj($row, 'unit', 'link') !!}</td>
                     <td>{!! d_obj($row, 'type', 'link') !!}</td>
                     <td>{!! d_obj($row, 'category', 'link') !!}</td>
-                    <td>{!! d_link(d_number($row->qty_in), "javascript:alert('stockin history coming soon')") !!}</td>
-                    <td>{!! d_link(d_number($row->qty_out), "javascript:alert('stockout history coming soon')") !!}</td>
+                    <td>{!! d_link(d_number($row->qty_in), "javascript:get_stockin_history(" . $row->id . ")") !!}</td>
+                    <td>{!! d_link(d_number($row->qty_out), "javascript:get_stockout_history(" . $row->id . ")") !!}</td>
                     <td>{!! d_number($row->qty_alert) !!}</td>
                     <td><span style="color: {{ d_number($row->qty_remain) == 0 ? 'red' : 'green' }};">
                         {!! d_number($row->qty_remain) !!}
@@ -45,4 +132,49 @@
             @endforeach
         </x-table>
     </x-card>
+
+    <x-modal id="detail-stockin-history" dialogClass="modal-xl">
+        <x-slot name="header">Total Stockin History</x-slot>
+        <div class="body">
+            <table class="table-hover table-bordered" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th class="tw-bg-gray-100" width="3%">No</th>
+                        <th class="tw-bg-gray-100" width="8%">Date</th>
+                        <th class="tw-bg-gray-100" width="10%">Code</th>
+                        <th class="tw-bg-gray-100" width="10%">Product</th>
+                        <th class="tw-bg-gray-100" width="10%">Supplier</th>
+                        <th class="tw-bg-gray-100" width="5%">Qty_In</th>
+                        <th class="tw-bg-gray-100" width="5%">Unit</th>
+                        <th class="tw-bg-gray-100" width="5%">Base_Qty</th>
+                        <th class="tw-bg-gray-100" width="5%">Unit</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot></tfoot>
+            </table>
+        </div>
+    </x-modal>
+    <x-modal id="detail-stockout-history" dialogClass="modal-xl">
+        <x-slot name="header">Total Stockout History</x-slot>
+        <div class="body">
+            <table class="table-hover table-bordered" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th class="tw-bg-gray-100" width="3%">No</th>
+                        <th class="tw-bg-gray-100" width="8%">Date</th>
+                        <th class="tw-bg-gray-100">Code</th>
+                        <th class="tw-bg-gray-100">Product</th>
+                        <th class="tw-bg-gray-100" width="8%">QTY_Out</th>
+                        <th class="tw-bg-gray-100" width="10%">Unit</th>
+                        <th class="tw-bg-gray-100" width="8%">Base_QTY</th>
+                        <th class="tw-bg-gray-100" width="8%">Unit</th>
+                        <th class="tw-bg-gray-100" width="8%">Type</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot></tfoot>
+            </table>
+        </div>
+    </x-modal>
 </x-app-layout>

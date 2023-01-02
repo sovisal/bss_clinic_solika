@@ -13,7 +13,7 @@ class StockOutController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $data = [
             'rows' => StockOut::with(['product.unit', 'unit', 'user'])
@@ -22,6 +22,11 @@ class StockOutController extends Controller
                 ->orderBy('date')
                 ->limit(5000)->get(),
         ];
+
+        if ($request->ajax()) {
+            return $data['rows'];
+        }
+
         return view('stock_out.index', $data);
     }
 
@@ -31,7 +36,7 @@ class StockOutController extends Controller
     public function create()
     {
         $data = [
-            'products' => Product::where('status', 1)->orderBy('name_en', 'asc')->get(),
+            'products' => Product::where('status', 1)->where('qty_remain', '>', '0')->orderBy('name_en', 'asc')->get(),
         ];
         return view('stock_out.create', $data);
     }

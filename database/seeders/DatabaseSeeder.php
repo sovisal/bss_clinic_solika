@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
             SettingSeeder::class,
             DoctorSeeder::class,
             MedicineSeeder::class,
-            PatientSeeder::class,
+            // PatientSeeder::class,
             ProductCategorySeeder::class,
             ProductTypeSeeder::class,
             ProductUnitSeeder::class,

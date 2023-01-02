@@ -43,7 +43,7 @@ class StockAdjustmentController extends Controller
     public function create()
     {
         $this->data += [
-            'products' => Product::where('status', 1)->orderBy('name_en', 'asc')->get(),
+            'products' => Product::where('status', 1)->where('qty_remain', '>', '0')->orderBy('name_en', 'asc')->get(),
         ];
         return view('stock_out.create', $this->data);
     }
@@ -93,7 +93,7 @@ class StockAdjustmentController extends Controller
     public function edit(StockOut $stockOut)
     {
         $this->data += [
-            'products' => Product::where('status', 1)->orderBy('name_en', 'asc')->get(),
+            'products' => Product::where('status', 1)->where('qty_remain', '>', '0')->orderBy('name_en', 'asc')->get(),
             'row' => $stockOut
         ];
         return view('stock_out.edit', $this->data);
