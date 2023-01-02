@@ -9,6 +9,18 @@
 					<b>{!! __('form.ecg.'. $label) !!}</b> : {!! $attr !!}
 				</div>
 			@endforeach
+            <div style="display: flex;">
+                @if ($ecg->image_1)
+                    <div style="width: 50%; padding: 0 10px;">
+                        <img src="{{ asset('images/ecgs/'. $ecg->image_1) }}" alt="...">
+                    </div>
+                @endif
+                @if ($ecg->image_2)
+                    <div style="width: 50%; padding: 0 10px;">
+                        <img src="{{ asset('images/ecgs/'. $ecg->image_2) }}" alt="...">
+                    </div>
+                @endif
+            </div>
 		</section>
 		<div class="signature">
 			<div class="text-center">ថ្ងៃទី {{ date('d/m/Y', strtotime($ecg->requested_at)) }}</div>

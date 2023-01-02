@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Ability;
 use App\Models\AbilityModule;
 use Illuminate\Database\Seeder;
 
@@ -34,8 +33,8 @@ class AbilitySeeder extends Seeder
             'XRay' => [
                 ['category' => 'Other', 'name' => 'PrintXRay', 'label' => 'XRay Print']
             ],
-            'ECG' => [
-                ['category' => 'Other', 'name' => 'PrintECG', 'label' => 'ECG Print']
+            'Ecg' => [
+                ['category' => 'Other', 'name' => 'PrintEcg', 'label' => 'Ecg Print']
             ],
             'Prescription' => [
                 ['category' => 'Other', 'name' => 'PrintPrescription', 'label' => 'Prescription Print']
@@ -52,10 +51,10 @@ class AbilitySeeder extends Seeder
             'LaborType' => [],
             'LaborItem' => [],
             'EchoType' => [],
-            'ECGType' => [],
+            'EcgType' => [],
             'XRayType' => [],
             'Address' => [],
-            'DataSection' => [],
+            'DataParent' => [],
             'ProductCategory' => [],
             'ProductType' => [],
             'ProductUnit' => [],

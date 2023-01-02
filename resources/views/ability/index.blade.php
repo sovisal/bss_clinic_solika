@@ -1,6 +1,8 @@
 <x-app-layout>
 	<x-slot name="header">
+        @can('CreateAbility')
 		<x-form.button href="{{ route('user.ability.create') }}" icon="bx bx-plus" label="Create" />
+        @endcan
 	</x-slot>
 
 	<x-slot name="js">

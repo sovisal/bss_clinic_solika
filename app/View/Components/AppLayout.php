@@ -101,7 +101,7 @@ class AppLayout extends Component
                         'label' => 'Echography',
                     ],
                     'ecg' => [
-                        'can' => 'ViewAnyECG',
+                        'can' => 'ViewAnyEcg',
                         'url' => route('para_clinic.ecg.index'),
                         'name' => ['index', 'create', 'edit', 'show'],
                         'label' => 'ECG',

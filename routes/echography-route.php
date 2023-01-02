@@ -26,7 +26,6 @@ Route::prefix('echography')->middleware(['auth'])->name('para_clinic.echography.
     Route::delete('/{echography}/delete', 'destroy')->name('delete')->middleware('can:DeleteEchography');
     Route::put('/{echography}/restore', 'restore')->name('restore')->middleware('can:RestoreEchography');
     Route::delete('/{echography}/force_delete', 'force_delete')->name('force_delete')->middleware('can:ForceDeleteEchography');
-    // Route::get('/{echography}/show', 'show')->name('show')->middleware('can:ViewAnyEchography');
     Route::get('/{echography}/print', 'print')->name('print')->middleware('can:PrintEchography');
     Route::post('/getDetail', 'getDetail')->name('getDetail');
 });

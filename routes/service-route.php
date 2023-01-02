@@ -1,14 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ServiceController as InvCon;
+use App\Http\Controllers\ServiceController;
 
-Route::prefix('service')->name('invoice.service.')->group(function () {
-	Route::get('/', [InvCon::class, 'index'])->name('index');
-	Route::get('/create', [InvCon::class, 'create'])->name('create')->middleware('can:CreateService');
-	Route::post('/store', [InvCon::class, 'store'])->name('store')->middleware('can:CreateService');
-	Route::get('/{service}/edit', [InvCon::class, 'edit'])->name('edit')->middleware('can:UpdateService');
-    Route::put('/{service}/update', [InvCon::class, 'update'])->name('update')->middleware('can:UpdateService');
-    Route::delete('/{service}/delete', [InvCon::class, 'destroy'])->name('delete')->middleware('can:DeleteService');
+Route::prefix('service')->name('invoice.service.')->controller(ServiceController::class)->group(function () {
+	Route::get('/', 'index')->name('index')->middleware('can:ViewAnyService');
+	Route::get('/create', 'create')->name('create')->middleware('can:CreateService');
+	Route::post('/store', 'store')->name('store')->middleware('can:CreateService');
+	Route::get('/{service}/edit', 'edit')->name('edit')->middleware('can:UpdateService');
+    Route::put('/{service}/update', 'update')->name('update')->middleware('can:UpdateService');
+    Route::delete('/{service}/delete', 'destroy')->name('delete')->middleware('can:DeleteService');
+    Route::put('/{service}/restore', 'restore')->name('restore')->middleware('can:RestoreService');
+    Route::delete('/{service}/force_delete', 'force_delete')->name('force_delete')->middleware('can:ForceDeleteService');
 
 });
