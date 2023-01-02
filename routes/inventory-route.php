@@ -50,6 +50,6 @@ Route::middleware(['auth'])->name('inventory.')->group(function () {
         Route::delete('/{stockOut}/force_delete', 'force_delete')->name('force_delete')->middleware('can:ForceDeleteStockAdjustment');
     });
 
-    Route::get('stock_balance/', [StockBalanceController::class, 'index'])->name('stock_balance.index')->middleware('can:ViewStockBalance');
-    Route::get('stock_alert', [StockAlertController::class, 'index'])->name('stock_alert.index')->middleware('can:ViewStockAlert');
+    Route::get('stock_balance/', [StockBalanceController::class, 'index'])->name('stock_balance.index')->middleware('can:ViewAnyStockBalance');
+    Route::get('stock_alert', [StockAlertController::class, 'index'])->name('stock_alert.index')->middleware('can:ViewAnyStockAlert');
 });

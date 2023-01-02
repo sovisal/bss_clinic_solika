@@ -13,7 +13,6 @@ class AbilitySeeder extends Seeder
     {
 
         $crud = [ 'ViewAny', 'Create', 'Update', 'Delete', 'Restore', 'ForceDelete' ];
-
         $data = [
             'Role' => [
                 ['category' => 'Other', 'name' => 'AssignRoleAbility', 'label' => 'Role Assign Ability']
@@ -26,7 +25,7 @@ class AbilitySeeder extends Seeder
             'Patient' => [
                 ['category' => 'Other', 'name' => 'PrintPatient', 'label' => 'Patient Print']
             ],
-            'Labor' => [
+            'Laboratory' => [
                 ['category' => 'Other', 'name' => 'PrintLaboratory', 'label' => 'Laboratory Print']
             ],
             'Echography' => [
@@ -45,7 +44,7 @@ class AbilitySeeder extends Seeder
                 ['category' => 'Other', 'name' => 'PrintInvoice', 'label' => 'Invoice Print']
             ],
             'Product' => [
-                ['category' => 'Other', 'name' => 'PrintInvoice', 'label' => 'Invoice Print']
+                ['category' => 'Other', 'name' => 'PrintProduct', 'label' => 'Product Print']
             ],
             'Consultation' => [],
             'Doctor' => [],
@@ -67,10 +66,13 @@ class AbilitySeeder extends Seeder
             'StockIn' => [],
             'StockAlert' => [],
         ];
-
         $index = 0;
         foreach ($data as $module => $abilities) {
-            // AbilityModule::create
+            foreach ($crud as $category) {
+                $abilities[] = ['category' => $category, 'name' => $category . $module, 'label' => $module .' '. $category];
+            }
+            $module = AbilityModule::create(['module' => $module]);
+            $module->abilities()->createMany($abilities);
         }
     }
 }

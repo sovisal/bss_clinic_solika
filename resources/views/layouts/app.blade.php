@@ -25,7 +25,7 @@
 				<x-sidebar :data="$menu[mainActive()]['sub']" />
 			@endif
 
-			<div class="flex-fill wrap-content">
+			<div class="flex-fill wrap-content container-fluid">
 				{{-- Header: Start --}}
 				{!! isset($header) && $header!='' ? '<div class="content-header tw-mb-2">'. $header .'</div>' : '' !!}
 				{{-- Header: End --}}
@@ -38,10 +38,7 @@
 			</div>
 		</div>
 
-
-
 		<x-loading/>
-
 		<!-- Scripts: Start -->
 		<script src="{{ asset('js/app.js') }}"></script>
 		<script src="{{ asset('js/unison.js') }}"></script>
