@@ -169,12 +169,12 @@ class AppLayout extends Component
                         'name' => ['index', 'create', 'edit'],
                         'label' => 'Product Unit',
                     ],
-                    // 'product_type' => [
-                    //     'can' => 'ViewAnyProductType',
-                    //     'url' => route('inventory.product_type.index'),
-                    //     'name' => ['index', 'create', 'edit'],
-                    //     'label' => 'Product Type',
-                    // ],
+                    'product_type' => [
+                        'can' => 'ViewAnyProductType',
+                        'url' => route('inventory.product_type.index'),
+                        'name' => ['index', 'create', 'edit'],
+                        'label' => 'Product Type',
+                    ],
                     'separator2' => [
                         'can' => 'DeveloperMode', // not yet create abilities
                         'url' => '',
