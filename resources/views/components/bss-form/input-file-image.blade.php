@@ -13,7 +13,7 @@
     <img src="{{ old($name, (($value)? $path .'/'. $value : asset('images/browse-image.jpg'))) }}" alt="" class="image-preview" id="image-preview-{{ $name }}" data-id="{{ $name }}" />
 @endif
 
-<div class="tw-mt-1 delete-image-container-{{ $name }}">
+<div class="tw-mt-1 text-center delete-image-container-{{ $name }}">
     @if (($value || old($name)) && (old($name)!='/images/browse-image.jpg'))
         <a href="javascript:void(0)" class="text-danger btn-delete-image" id="btn-delete-image-{{ $name }}" data-id="{{ $name }}">
             <small>{{ __('button.delete_image') }}</small>
