@@ -20,17 +20,11 @@ class AppLayout extends Component
         $_POST['nb_out_of_stock'] = Product::OutOfStock()->count();
         $nb_alerted = $_POST['nb_stock_expired'] + $_POST['nb_out_of_stock'];
         $stock_alert_badge   = $nb_alerted > 0 ? '<span class="text-danger"> (<em>' . $nb_alerted . '</em> )</span>' : '';
-
+        
         $menu = [
-            // 'home' => [
-            // 	'can' => '',
-            // 	'url' => route('home'),
-            // 	'label' => 'Home',
-            // ],
-
-            'patient' => [
-                'can' => 'ViewAnyPatient',
-                'url' => route('patient.index'),
+            'patient' => getFirstPermittedSubMenu([
+                'can' => '',
+                'url' => '',
                 'label' => 'Patient',
 
                 'sub' => [
@@ -42,16 +36,14 @@ class AppLayout extends Component
                     ],
                     'consultation' => [
                         'can' => 'ViewAnyConsultation',
-                        // 'url' => route('patient.consultation.index'),
                         'url' => route('patient.index'),
                         'name' => ['index', 'create', 'edit', 'show'],
                         'label' => 'Consulting',
                     ],
                 ],
+            ]),
 
-            ],
-
-            'invoice' => [
+            'invoice' => getFirstPermittedSubMenu([
                 'can' => 'ViewAnyInvoice',
                 'url' => route('invoice.index'),
                 'label' => 'Invoice',
@@ -69,7 +61,7 @@ class AppLayout extends Component
                         'label' => 'Services',
                     ],
                 ],
-            ],
+            ]),
 
             'prescription' => [
                 'can' => 'ViewAnyPrescription',
@@ -85,17 +77,16 @@ class AppLayout extends Component
                 ],
             ],
 
-            'para_clinic' => [
-                'can' => 'ViewAnyParaClinic',
-                'url' => route('para_clinic.labor.index'),
+            'para_clinic' => getFirstPermittedSubMenu([
+                'can' => '',
+                'url' => '',
                 'label' => 'Para Clinic',
-
                 'sub' => [
                     'labor' => [
-                        'can' => 'ViewAnyLabor',
+                        'can' => 'ViewAnyLaboratory',
                         'url' => route('para_clinic.labor.index'),
                         'name' => ['index', 'create', 'edit', 'show'],
-                        'label' => 'Labor',
+                        'label' => 'Laboratory',
                     ],
                     'xray' => [
                         'can' => 'ViewAnyXRay',
@@ -116,16 +107,16 @@ class AppLayout extends Component
                         'label' => 'ECG',
                     ],
                 ],
-            ],
+            ]),
 
-            'inventory' => [
-                'can' => 'ViewAnyDoctor',
-                'url' => route('inventory.stock_alert.index'),
+            'inventory' => getFirstPermittedSubMenu([
+                'can' => '',
+                'url' => '',
                 'label' => $nb_alerted > 0 ? '<span class="text-danger">Inventory</span>' : 'Inventory',
 
                 'sub' => [
                     'stock_alert' => [
-                        'can' => 'ViewStockAlert',
+                        'can' => 'ViewAnyStockAlert',
                         'url' => route('inventory.stock_alert.index'),
                         'name' => ['index'],
                         'label' => 'Stock Alert ' . $stock_alert_badge,
@@ -143,7 +134,7 @@ class AppLayout extends Component
                         'label' => 'Stock Out',
                     ],
                     'stock_balance' => [
-                        'can' => 'ViewStockBalance',
+                        'can' => 'ViewAnyStockBalance',
                         'url' => route('inventory.stock_balance.index'),
                         'name' => ['index'],
                         'label' => 'Stock Balance',
@@ -179,7 +170,7 @@ class AppLayout extends Component
                         'label' => 'Product Type',
                     ],
                     'product_unit' => [
-                        'can' => 'ViewAnyMedicine',
+                        'can' => 'ViewAnyProductUnit',
                         'url' => route('inventory.product_unit.index'),
                         'name' => ['index', 'create', 'edit'],
                         'label' => 'Product Unit',
@@ -197,11 +188,11 @@ class AppLayout extends Component
                         'label' => 'Supplier',
                     ],
                 ],
-            ],
+            ]),
 
-            'setting' => [
-                'can' => 'ViewAnyDoctor',
-                'url' => route('setting.doctor.index'),
+            'setting' => getFirstPermittedSubMenu([
+                'can' => '',
+                'url' => '',
                 'label' => 'Setting',
 
                 'sub' => [
@@ -211,12 +202,6 @@ class AppLayout extends Component
                         'name' => ['edit'],
                         'label' => 'Setting',
                     ],
-                    // 'labor-item' => [
-                    // 	'can' => 'DeveloperMode',
-                    // 	'url' => route('setting.labor-item.index'),
-                    // 	'name' => ['index', 'create', 'edit'],
-                    // 	'label' => 'Labor Template',
-                    // ],
                     'labor-type' => [
                         'can' => 'ViewAnyLaborType',
                         'url' => route('setting.labor-type.index'),
@@ -253,12 +238,6 @@ class AppLayout extends Component
                         'name' => ['index', 'create', 'edit'],
                         'label' => 'Doctor',
                     ],
-                    // 'medicine' => [
-                    //     'can' => 'ViewAnyMedicine',
-                    //     'url' => route('setting.medicine.index'),
-                    //     'name' => ['index', 'create', 'edit'],
-                    //     'label' => 'Medicine',
-                    // ],
                     'address' => [
                         'can' => 'DeveloperMode', // not yet create abilities
                         'url' => route('setting.address.index'),
@@ -266,11 +245,11 @@ class AppLayout extends Component
                         'label' => 'Address',
                     ],
                 ],
-            ],
+            ]),
 
-            'user' => [
-                'can' => 'ViewAnyUser',
-                'url' => route('user.index'),
+            'user' => getFirstPermittedSubMenu([
+                'can' => '',
+                'url' => '',
                 'label' => 'User Managment',
                 'sub' => [
                     'user' => [
@@ -292,7 +271,7 @@ class AppLayout extends Component
                         'label' => 'Ability',
                     ],
                 ],
-            ],
+            ]),
         ];
         $setting = Setting::first();
         if (!$setting) {

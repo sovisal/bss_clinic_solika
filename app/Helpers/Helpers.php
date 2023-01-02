@@ -23,6 +23,18 @@ function can($ability)
     return auth()->user()->can($ability);
 }
 
+function getFirstPermittedSubMenu($menu = []){
+    foreach (($menu['sub'] ?? []) as $key => $sub_menu) {
+        if ($menu['can'] != '' && $menu['url'] != '') { break; }
+        if (can($sub_menu['can'] ?? '')) {
+            $menu['can'] = $sub_menu['can'];
+            $menu['url'] = $sub_menu['url'];
+        }
+        if ( Str::contains($key, ['separator', 'separator1', 'separator2'])) {unset($menu['sub'][$key]); }
+    }
+    return $menu;
+}
+
 function mainMenuActive($active)
 {
     return ($active == mainActive());

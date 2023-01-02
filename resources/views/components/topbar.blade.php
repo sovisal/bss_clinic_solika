@@ -3,12 +3,11 @@
 'data' => [],
 ])
 
-<nav class="navbar navbar-top navbar-expand-lg header-navbar custom-top-bar navbar-dark shadow-sm">
+<nav class="navbar navbar-top navbar-expand-lg header-navbar custom-top-bar navbar-dark shadow-s container-fluid">
     <a class="navbar-brand" href="#">
         <div class="avatar tw-mr-1 avatar-sm">
             <img src="{{ asset('images/site/logo.png') }}" alt="avtar img holder">
         </div>
-        <!-- {{ $setting->clinic_name_kh }} -->
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
         aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +41,6 @@
                     <a class="dropdown-item" href="#" onclick="$('#logout-form').submit()"><i class="bx bx-power-off mr-50"></i> Log out</a>
                     <form action="{{ route('logout') }}" method="post" id="logout-form">
                         @csrf
-
                     </form>
                 </div>
             </li>
