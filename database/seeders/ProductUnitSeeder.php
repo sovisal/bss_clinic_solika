@@ -17,14 +17,43 @@ class ProductUnitSeeder extends Seeder
 		ProductUnit::insert([
 			[
 				'name_kh' => 'កេស',
-				'name_en' => 'Case',
+				'name_en' => 'កេស',
 				'description' => '',
 				'status' => 1,
 				'user_id' => 1,
 			],
 			[
+				'name_kh' => 'កេសតូច',
+				'name_en' => 'កេសតូច',
+				'description' => '',
+				'status' => 1,
+				'user_id' => 1,
+			],
+			[
+				'name_kh' => 'កេសធំ',
+				'name_en' => 'កេសធំ',
+				'description' => '',
+				'status' => 1,
+				'user_id' => 1,
+            ],
+            
+			[
 				'name_kh' => 'ប្រអប់',
-				'name_en' => 'Box',
+				'name_en' => 'ប្រអប់',
+				'description' => '',
+				'status' => 1,
+				'user_id' => 1,
+            ],
+            [
+				'name_kh' => 'ប្រអប់តូច',
+				'name_en' => 'ប្រអប់តូច',
+				'description' => '',
+				'status' => 1,
+				'user_id' => 1,
+			],
+			[
+				'name_kh' => 'ប្រអប់ធំ',
+				'name_en' => 'ប្រអប់ធំ',
 				'description' => '',
 				'status' => 1,
 				'user_id' => 1,
@@ -73,21 +102,14 @@ class ProductUnitSeeder extends Seeder
 			],
 			[
 				'name_kh' => 'កំប៉ុង',
-				'name_en' => 'can',
+				'name_en' => 'កំប៉ុង',
 				'description' => '',
 				'status' => 1,
 				'user_id' => 1,
-			],
-			[
-				'name_kh' => 'ប្រអប់តូច',
-				'name_en' => 'SM Box',
-				'description' => '',
-				'status' => 1,
-				'user_id' => 1,
-			],
-			[
-				'name_kh' => 'ប្រអប់ធំ',
-				'name_en' => 'XL Box',
+            ],
+            [
+				'name_kh' => 'គីប',
+				'name_en' => 'គីប',
 				'description' => '',
 				'status' => 1,
 				'user_id' => 1,

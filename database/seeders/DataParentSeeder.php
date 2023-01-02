@@ -119,6 +119,24 @@ class DataParentSeeder extends Seeder
             ],
             [
                 'status' => 1,
+                'title_en' => 'Staff',
+                'title_kh' => 'Staff',
+                'type' => 'enterprise',
+            ],
+            [
+                'status' => 1,
+                'title_en' => 'Teacher',
+                'title_kh' => 'Teacher',
+                'type' => 'enterprise',
+            ],
+            [
+                'status' => 1,
+                'title_en' => 'Worker',
+                'title_kh' => 'Worker',
+                'type' => 'enterprise',
+            ],
+            [
+                'status' => 1,
                 'title_en' => 'Government',
                 'title_kh' => 'Government',
                 'type' => 'enterprise',
