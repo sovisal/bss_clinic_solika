@@ -20,21 +20,40 @@ class UserSeeder extends Seeder
             'username' => 'webdev',
             'image' => 'default.png',
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'position' => 'Web Developer',
+            'position' => 'Super Admin',
             'isWebDev' => true,
         ]);
         User::firstOrCreate([
             'id' => 2,
-            'name' => 'SUN PISETH',
-            'username' => 'sunpiseth',
+            'name' => 'Vibol Chan Setey Mungkul',
+            'username' => 'mungkul',
             'image' => 'default.png',
             'password' => '$2y$10$YsiK1JXueoaXVoac1iSYT./ZNQW/K7WRYZL/JRLJ0EUG/Z.bL0xS2', // 12345678
-            'position' => 'Doctor',
+            'position' => 'Admin',
+            'isWebDev' => true,
         ]);
-        $user = User::find(2);
-        if ($user) {
+        User::firstOrCreate([
+            'id' => 3,
+            'name' => 'Sokun Sovisal',
+            'username' => 'sovisal',
+            'image' => 'default.png',
+            'password' => '$2y$10$YsiK1JXueoaXVoac1iSYT./ZNQW/K7WRYZL/JRLJ0EUG/Z.bL0xS2', // 12345678
+            'position' => 'Admin',
+            'isWebDev' => true,
+        ]);
+        User::firstOrCreate([
+            'id' => 4,
+            'name' => 'Socheatha Tey',
+            'username' => 'socheatha',
+            'image' => 'default.png',
+            'password' => '$2y$10$YsiK1JXueoaXVoac1iSYT./ZNQW/K7WRYZL/JRLJ0EUG/Z.bL0xS2', // 12345678
+            'position' => 'Admin',
+            'isWebDev' => true,
+        ]);
+        
+        foreach (User::where('id', '>=', '2')->get() as $user) {
             $user->assignRole('Admin');
-        }
+        } 
 
        User::factory(5)->create();
     }
