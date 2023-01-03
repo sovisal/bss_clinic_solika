@@ -17,7 +17,7 @@ class CreateProductCategoriesTable extends Migration
             $table->id();
             $table->string('name_en')->nullable();
             $table->string('name_kh')->nullable();
-            $table->string('description')->nullable();
+            $table->string('description', 1000)->nullable();
             $table->float('total_product')->default(0);
 
             $table->foreignID('user_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');

@@ -9,10 +9,10 @@
                     <th width="8%">No</th>
                     <th>Name</th>
                     <th>Description</th>
-                    <th width="13%">Total Product</th>
+                    <th>Total Product</th>
                     <th width="15%">User</th>
                     <th width="12%">Status</th>
-                    <th width="15%">Action</th>
+                    <th width="5%">Action</th>
                 </tr>
             </x-slot>
             @foreach($rows as $i => $row)
