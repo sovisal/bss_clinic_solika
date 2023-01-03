@@ -24,7 +24,7 @@
             <label for="price">Price USD <small class="required">*</small></label>
         </td>
         <td>
-            <x-bss-form.input name='price' class="is_number" value="{{ $row->price ?? '' }}" />
+            <x-bss-form.input name='price' class="is_number" value="{{ $row->price ?? '0' }}" />
         </td>
     @else
         <td width="15%" class="text-right"><label>Form<small class='required'>*</small></label></td>
@@ -120,10 +120,9 @@
     </tr>
     @if (!($isLabor || $isPrescript))
         <tr>
-            <td class="text-right"><label>Price</label></td>
+            <td class="text-right"><label>Price</label><small class='required'>*</small></td>
             <td colspan="3">
-                <span id="price_label"> {{ $row->price ?? 0 }} </span> USD
-                <input type="hidden" name="price" value="{{ $row->price ?? 0 }}" :disabled="$isEdit">
+                <x-bss-form.input name='price' required class="is_number" value="{{ $row->price ?? 0 }}" />
             </td>
         </tr>
     @endif

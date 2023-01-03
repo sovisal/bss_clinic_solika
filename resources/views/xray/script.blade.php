@@ -6,7 +6,6 @@
             $_option_selected = $(this).find('option:selected');
             $_price = $_option_selected.data('price');
 
-            $('#price_label').html($_price);
             $('[name="price"]').val($_price);
         });
     });
