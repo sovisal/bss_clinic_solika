@@ -13,6 +13,9 @@ class ProductSeeder extends Seeder
      * Run the database seeds.
      *
      * @return void
+     * 
+     * Data reference : https://www.nhs.uk/medicines/
+     * 
      */
     public function run()
     {
