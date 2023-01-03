@@ -11,18 +11,18 @@
     @endforeach
 </x-bss-form.select-row>
 <x-bss-form.select-row name="type_id" required label="Type">
-    <option value="">Please choose</option>
+    {{-- <option value="">Please choose</option> --}}
     @foreach ($types as $type)
     <option value="{{ $type->id }}" {{ old('type_id', @$row->type_id) == $type->id ? 'selected' : '' }}>{{ d_obj($type, ['name_en', 'name_kh']) }}</option>
     @endforeach
 </x-bss-form.select-row>
 
 <x-bss-form.input-file-image-row
-    name="image"
+    name="logo"
     path="{{ asset('images/suppliers/') }}"
     image-container-style="width: 128px;"
-    :value="@$row->image"
-    label="Image"
+    :value="@$row->logo"
+    label="Logo"
 />
 
 <tr>

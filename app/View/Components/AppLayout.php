@@ -101,7 +101,7 @@ class AppLayout extends Component
                         'label' => 'Echography',
                     ],
                     'ecg' => [
-                        'can' => 'ViewAnyECG',
+                        'can' => 'ViewAnyEcg',
                         'url' => route('para_clinic.ecg.index'),
                         'name' => ['index', 'create', 'edit', 'show'],
                         'label' => 'ECG',
@@ -163,17 +163,17 @@ class AppLayout extends Component
                         'name' => ['index', 'create', 'edit'],
                         'label' => 'Product Category',
                     ],
-                    'product_type' => [
-                        'can' => 'ViewAnyProductType',
-                        'url' => route('inventory.product_type.index'),
-                        'name' => ['index', 'create', 'edit'],
-                        'label' => 'Product Type',
-                    ],
                     'product_unit' => [
                         'can' => 'ViewAnyProductUnit',
                         'url' => route('inventory.product_unit.index'),
                         'name' => ['index', 'create', 'edit'],
                         'label' => 'Product Unit',
+                    ],
+                    'product_type' => [
+                        'can' => 'ViewAnyProductType',
+                        'url' => route('inventory.product_type.index'),
+                        'name' => ['index', 'create', 'edit'],
+                        'label' => 'Product Type',
                     ],
                     'separator2' => [
                         'can' => 'DeveloperMode', // not yet create abilities

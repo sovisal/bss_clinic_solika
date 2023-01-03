@@ -18,7 +18,6 @@ Route::middleware(['auth'])->name('inventory.')->group(function () {
         Route::delete('/{product}/delete', 'destroy')->name('delete')->middleware('can:DeleteProduct');
         Route::put('/{product}/restore', 'restore')->name('restore')->middleware('can:RestoreProduct');
         Route::delete('/{product}/force_delete', 'force_delete')->name('force_delete')->middleware('can:ForceDeleteProduct');
-        // Route::post('/getDetail', 'getDetail')->name('getDetail');
         Route::post('/getUnit', 'getUnit')->name('getUnit');
     });
 

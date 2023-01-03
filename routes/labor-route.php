@@ -43,6 +43,5 @@ Route::prefix('labor')->middleware(['auth'])->name('para_clinic.labor.')->contro
     Route::put('/{labor}/restore', 'restore')->name('restore')->middleware('can:RestoreLabor');
     Route::delete('/{labor}/force_delete', 'force_delete')->name('force_delete')->middleware('can:ForceDeleteLabor');
     Route::get('/{labor}/print', 'print')->name('print')->middleware('can:PrintLabor');
-    // Route::get('/{labor}/show', 'show')->name('show')->middleware('can:ViewAnyLabor');
     Route::post('/getDetail', 'getDetail')->name('getDetail');
 });

@@ -83,7 +83,7 @@ class SupplierController extends Controller
     {
         $address_id = update4LevelAddress($request, $supplier->address_id);
         // Check if no exist folder/directory then create folder/directory
-        $path = public_path('/images/suppliers/');
+        $path = public_path('images/suppliers/');
         File::makeDirectory($path, 0777, true, true);
         $logo = update_image($request->logo, $path, (time() . '_logo_' . rand(111, 999) . '.png'), $supplier->logo);
         if ($supplier->update(array_merge(
