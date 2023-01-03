@@ -190,7 +190,7 @@ class UserController extends Controller
         }
         $data = [
             'type' => $type,
-            'gender_id' => [
+            'genders' => [
                 [
                     'id' => 'male',
                     'value' => '0',

@@ -272,9 +272,9 @@
 								<div class="col-sm-6">
 									<x-form.choices
 										type="radio"
-										name="gender"
-										:data="$gender"
-										:checked="old('gender', auth()->user()->gender)"
+										name="gender_id"
+										:data="$genders"
+										:checked="old('gender', auth()->user()->gender_id)"
 										label="{!! __('form.gender') !!}"
 									/>
 								</div>
