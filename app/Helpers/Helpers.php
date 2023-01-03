@@ -521,9 +521,9 @@ function d_array($array = null, $param1 = null, $param2 = null, $param3 = null)
     }
 }
 
-function d_number($num)
+function d_number($num, $default = '-')
 {
-    return is_numeric($num) ? $num : '-';
+    return is_numeric($num) ? floatval($num) : $default;
 }
 
 function d_currency($amn, $digit = 2, $currency = 'USD', $id_suffix_display = false)

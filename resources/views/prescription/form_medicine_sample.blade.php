@@ -9,16 +9,16 @@
         </x-bss-form.select>
     </td>
     <td>
-        <x-bss-form.input type="text" name='qty[]' value="{{ @$row->qty ?: 0 }}" class="text-center is_number" />
+        <x-bss-form.input type="text" name='qty[]' value="{{ d_number(@$row->qty ?: 0) }}" class="text-center is_number" />
     </td>
     <td>
-        <x-bss-form.input type="number" name='upd[]' value="{{ @$row->upd ?: 0 }}" class="text-center is_number" />
+        <x-bss-form.input type="number" name='upd[]' value="{{ d_number(@$row->upd ?: 0) }}" class="text-center is_number" />
     </td>
     <td>
-        <x-bss-form.input type="number" name='nod[]' value="{{ @$row->nod ?: 0 }}" class="text-center is_number" />
+        <x-bss-form.input type="number" name='nod[]' value="{{ d_number(@$row->nod ?: 0) }}" class="text-center is_number" />
     </td>
     <td>
-        <x-bss-form.input type="number" name='total[]' value="{{ @$row->total ?: 0 }}" class="text-center is_number" readonly />
+        <x-bss-form.input type="number" name='total[]' value="{{ d_number(@$row->total ?: 0) }}" class="text-center is_number" readonly />
     </td>
     <td>
         <x-bss-form.select name="unit_id[]" id="" required :select2="false" >
