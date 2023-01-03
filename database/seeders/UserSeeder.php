@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
             'image' => 'default.png',
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'position' => 'Super Admin',
+            'doctor_id' => 1,
             'isWebDev' => true,
         ]);
         User::firstOrCreate([
@@ -30,6 +31,7 @@ class UserSeeder extends Seeder
             'image' => 'default.png',
             'password' => '$2y$10$YsiK1JXueoaXVoac1iSYT./ZNQW/K7WRYZL/JRLJ0EUG/Z.bL0xS2', // 12345678
             'position' => 'Admin',
+            'doctor_id' => 1,
             'isWebDev' => true,
         ]);
         User::firstOrCreate([
@@ -39,6 +41,7 @@ class UserSeeder extends Seeder
             'image' => 'default.png',
             'password' => '$2y$10$YsiK1JXueoaXVoac1iSYT./ZNQW/K7WRYZL/JRLJ0EUG/Z.bL0xS2', // 12345678
             'position' => 'Admin',
+            'doctor_id' => 1,
             'isWebDev' => true,
         ]);
         User::firstOrCreate([
@@ -48,6 +51,7 @@ class UserSeeder extends Seeder
             'image' => 'default.png',
             'password' => '$2y$10$YsiK1JXueoaXVoac1iSYT./ZNQW/K7WRYZL/JRLJ0EUG/Z.bL0xS2', // 12345678
             'position' => 'Admin',
+            'doctor_id' => 1,
             'isWebDev' => true,
         ]);
         

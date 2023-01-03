@@ -392,17 +392,22 @@ function render_payment_status($st_num = 0)
 
 function generate_code($prefix, $table_name, $auto_update = true)
 {
-    $table_info = DB::select("SELECT increment FROM module_code_generation WHERE module='{$table_name}' AND year = '" . date('Y') . "';");
+    $year = $table_name == 'invoices' ? date('Y') : '2023';
+    $table_info = DB::select("SELECT increment FROM module_code_generation WHERE module='{$table_name}' AND year = '{$year}';");
     if (sizeof($table_info) == 0) {
-        DB::insert('INSERT INTO module_code_generation (module, increment, year) VALUES (?, ?, ?)', [$table_name, 0, date('Y')]);
+        DB::insert('INSERT INTO module_code_generation (module, increment, year) VALUES (?, ?, ?)', [$table_name, 0, $year]);
     }
 
     $code_increment = $table_info ? ((reset($table_info)->increment) + 1) : 1;
     if ($auto_update) {
-        DB::update('UPDATE module_code_generation SET increment=increment+1 WHERE module=? AND year=?', [$table_name, date('Y')]);
+        DB::update('UPDATE module_code_generation SET increment=increment+1 WHERE module=? AND year=?', [$table_name, $year]);
     }
 
-    return $prefix . '-' . str_pad($code_increment, 5, "0", STR_PAD_LEFT);
+    if ($table_name == 'products') {
+        return $prefix . '-' . str_pad($code_increment, 7, "0", STR_PAD_LEFT);
+    } else {
+        return $prefix . '-' . str_pad($code_increment, 5, "0", STR_PAD_LEFT);
+    }
 }
 
 function render_synonyms_name($name_en = '', $name_kh = '', $separator = '::')
