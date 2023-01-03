@@ -17,6 +17,7 @@ class CreatePatientsTable extends Migration
             $table->id();
             $table->string('name_kh')->nullable();
             $table->string('name_en')->nullable();
+            $table->string('type')->nullable(); // type can be : Normal, Maternity, ...
             $table->string('id_card_no')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
