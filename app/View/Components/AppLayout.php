@@ -146,7 +146,7 @@ class AppLayout extends Component
                         'label' => 'Stock Adjustment',
                     ],
                     'separator1' => [
-                        'can' => 'DeveloperMode',
+                        'can' => '',
                         'url' => '',
                         'name' => ['index', 'create', 'edit'],
                         'label' => '-',
@@ -176,7 +176,7 @@ class AppLayout extends Component
                         'label' => 'Product Type',
                     ],
                     'separator2' => [
-                        'can' => 'DeveloperMode', // not yet create abilities
+                        'can' => '',
                         'url' => '',
                         'name' => ['index', 'create', 'edit'],
                         'label' => '-',
@@ -209,25 +209,25 @@ class AppLayout extends Component
                         'label' => 'Labor Service',
                     ],
                     'echo-type' => [
-                        'can' => 'DeveloperMode',
+                        'can' => 'ViewAnyEchoType',
                         'url' => route('setting.echo-type.index'),
                         'name' => ['index', 'create', 'edit', 'sort_order'],
                         'label' => 'Echo Service',
                     ],
                     'ecg-type' => [
-                        'can' => 'DeveloperMode',
+                        'can' => 'ViewAnyEcgType',
                         'url' => route('setting.ecg-type.index'),
                         'name' => ['index', 'create', 'edit', 'sort_order'],
                         'label' => 'ECG Service',
                     ],
                     'xray-type' => [
-                        'can' => 'DeveloperMode',
+                        'can' => 'ViewAnyXRayType',
                         'url' => route('setting.xray-type.index'),
                         'name' => ['index', 'create', 'edit', 'sort_order'],
                         'label' => 'Xray Service',
                     ],
                     'data-parent' => [
-                        'can' => 'DeveloperMode',
+                        'can' => 'ViewAnyDataParent',
                         'url' => route('setting.data-parent.index'),
                         'name' => ['index', 'create', 'edit'],
                         'label' => 'Data Selection',
@@ -239,7 +239,7 @@ class AppLayout extends Component
                         'label' => 'Doctor',
                     ],
                     'address' => [
-                        'can' => 'DeveloperMode', // not yet create abilities
+                        'can' => 'ViewAnyAddress',
                         'url' => route('setting.address.index'),
                         'name' => ['index', 'create', 'edit'],
                         'label' => 'Address',
