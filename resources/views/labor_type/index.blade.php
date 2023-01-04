@@ -2,8 +2,12 @@
     <x-slot name="header">
         <div class="d-flex justify-content-between align-items-bottom">
             <div>
+                @can('CreateLaborType')
                 <x-form.button href="{!! route('setting.labor-type.create', ['type' => request()->type]) !!}" label="Create" icon="bx bx-plus" />
+                @endcan
+                @can('UpdateLaborType')
                 <x-form.button color="dark" href="{!! route('setting.labor-type.sort_order') !!}" label="Sort Order" icon="bx bx-sort-alt-2" />
+                @endcan
             </div>
         </div>
     </x-slot>
@@ -48,7 +52,9 @@
                             :disable-edit="$row->trashed()"
                             :show-btn-show="false"
                         >
+                            @can('ViewAnyLaborItem')
                             <x-form.button href="{!! route('setting.labor-item.index', $row->id) !!}" icon="bx bx-detail" />
+                            @endcan
                         </x-table-action-btn>
                     </td>
                 </tr>

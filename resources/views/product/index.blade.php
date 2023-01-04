@@ -1,6 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
+        @can('CreateProduct')
         <x-form.button href="{{ route('inventory.product.create') }}" icon="bx bx-plus" label="Create" />
+        @endcan
     </x-slot>
     <x-card :foot="false" :head="false">
         <x-table class="table-hover table-striped" id="datatables">

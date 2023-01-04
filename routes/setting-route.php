@@ -43,6 +43,8 @@ Route::middleware(['auth'])->name('setting.')->group(function () {
         Route::get('/{doctor}/edit', 'edit')->name('edit')->middleware('can:UpdateDoctor');
         Route::put('/{doctor}/update', 'update')->name('update')->middleware('can:UpdateDoctor');
         Route::delete('/{doctor}/delete', 'destroy')->name('delete')->middleware('can:DeleteDoctor');
+        Route::put('/{doctor}/restore', 'restore')->name('restore')->middleware('can:RestoreDoctor');
+        Route::delete('/{doctor}/force_delete', 'force_delete')->name('force_delete')->middleware('can:ForceDeleteDoctor');
         Route::get('/{doctor}/show', 'show')->name('show')->middleware('can:ViewAnyDoctor');
         Route::post('/getSelect2', 'getSelect2')->name('getSelect2');
     });
@@ -54,6 +56,8 @@ Route::middleware(['auth'])->name('setting.')->group(function () {
         Route::get('/{medicine}/edit', 'edit')->name('edit')->middleware('can:UpdateMedicine');
         Route::put('/{medicine}/update', 'update')->name('update')->middleware('can:UpdateMedicine');
         Route::delete('/{medicine}/delete', 'destroy')->name('delete')->middleware('can:DeleteMedicine');
+        Route::put('/{medicine}/restore', 'restore')->name('restore')->middleware('can:RestoreMedicine');
+        Route::delete('/{medicine}/force_delete', 'force_delete')->name('force_delete')->middleware('can:ForceDeleteMedicine');
         Route::get('/{medicine}/show', 'show')->name('show')->middleware('can:ViewAnyMedicine');
         Route::post('/getSelect2', 'getSelect2')->name('getSelect2');
     });

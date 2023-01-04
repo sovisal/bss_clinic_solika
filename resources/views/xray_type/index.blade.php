@@ -1,6 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
+        @can('CreateXRayType')
         <x-form.button href="{{ route('setting.xray-type.create') }}" label="Create" icon="bx bx-plus" />
+        @endcan
         <x-form.button color="dark" href="{!! route('setting.xray-type.sort_order') !!}" label="Sort Order" icon="bx bx-sort-alt-2" />
     </x-slot>
     <x-card :foot="false" :head="false">

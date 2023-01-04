@@ -1,6 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
+        @can(('Create'. ($module_ability ?? 'StockOut')))
         <x-form.button href="{{ route(($module ?? 'inventory.stock_out') . '.create') }}" icon="bx bx-plus" label="Create" />
+        @endcan
         <x-stock-filter url="{{ route(($module ?? 'inventory.stock_out') . '.index') }}">
             @if (!isset($module))
                 <div class="col-sm-3 col-md-2">

@@ -26,7 +26,7 @@ class CreateDataParentsTable extends Migration
             $table->tinyInteger('status')->default('0');
             $table->softDeletes();
             $table->timestamps();
-            
+
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')

@@ -1,6 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
+        @can('CreateProductType')
         <x-form.button href="{{ route('inventory.product_type.create') }}" icon="bx bx-plus" label="Create" />
+        @endcan
     </x-slot>
     <x-card :foot="false" :head="false">
         <x-table class="table-hover table-striped" id="datatables">
@@ -26,7 +28,7 @@
                 <td>
                     <x-table-action-btn
                         module="inventory.product_type"
-                        module-ability="ProductUnit"
+                        module-ability="ProductType"
                         :id="$row->id"
                         :is-trashed="$row->trashed()"
                         :disable-edit="$row->trashed()"
