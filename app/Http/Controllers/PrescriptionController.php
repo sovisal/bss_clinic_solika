@@ -236,8 +236,8 @@ class PrescriptionController extends Controller
                 }
 
                 // Return back with error message
-                if ($errors = $validator->errors()->all()) { 
-                    return redirect()->route('prescription.index')->with('errors', $validator->errors());  
+                if ($errors = $validator->errors()->all()) {  
+                    return redirect()->route('prescription.index')->withErrors($validator);
                 }
 
                 // Stock calculation

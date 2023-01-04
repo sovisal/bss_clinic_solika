@@ -228,7 +228,7 @@ class InvoiceController extends Controller
 
                 // Return back with error message
                 if ($errors = $validator->errors()->all()) { 
-                    return redirect()->route('invoice.index')->with('errors', $validator->errors());  
+                    return redirect()->route('invoice.index')->withErrors($validator);
                 }
 
                 // Stock calculation
