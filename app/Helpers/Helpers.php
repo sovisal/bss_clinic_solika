@@ -228,7 +228,7 @@ function getParaClinicHeaderDetail($row = null)
             </table>';
 }
 
-// How to use in view : {{ getParentDataByType('enterprise', 1) }}
+// How to use in view : ' . getParentDataByType('enterprise', 1) . '
 function getParentDataByType(...$param)
 {
     return \App\Http\Controllers\DataParentController::getParentDataByType(...$param);
@@ -557,6 +557,58 @@ function d_status($status, $false = 'Inactive', $true = 'Active', $false_badge =
     }
 
     return '<span class="badge ' . $false_badge . '">' . $false . '</span>';
+}
+
+function d_action($param)
+{
+    foreach ([
+        'id', 'module' => '', 'moduleAbility', 'isTrashed' => false,
+        'disableShow' => false, 'disableEdit' => false, 'disableDelete' => false, 'disableRestore' => false, 'disableForceDelete' => false,
+        'showBtnShow' => true, 'showBtnEdit' => true, 'showBtnDelete' => true, 'showBtnRestore' => true, 'showBtnForceDelete' => false,
+    ] as $field => $val) { $param[$field] = $param[$field] ?? $val; }
+    
+
+    $render_result = '';
+    if($param['showBtnShow']) {
+        if (can('Show'. Str::ucfirst($param['moduleAbility'] ?? $param['module']))) {
+            $render_result .= '<a href="' . route($param['module'] .'.show', $param['id']) . '" class="btn btn-sm btn-primary btn-icon" title="Show">
+                <i class="bx bx-detail"></i> 
+            </a>';
+        }
+    }
+
+    if($param['showBtnEdit']) {
+        if (can('Update'. Str::ucfirst($param['moduleAbility'] ?? $param['module']))) {
+            if ($param['disableEdit']) {
+                $render_result .= ' <a href="#" class="btn btn-sm btn-secondary btn-icon btn-sm disabled"><i class="bx bx-edit-alt"></i></a> ';
+            } else {
+                $render_result .= ' <a href="' . route($param['module'] .'.edit', $param['id']) . '" class="btn btn-sm btn-secondary btn-icon btn-sm" title="Edit">
+                    <i class="bx bx-edit-alt"></i>
+                </a> ';
+            }
+        }
+    }
+
+    if($param['showBtnDelete']) {
+        if (can('Delete'. Str::ucfirst($param['moduleAbility'] ?? $param['module']))) {
+            if ($param['disableDelete']) {
+                $render_result .= '<button type="button" class="btn btn-sm btn-danger btn-icon btn-sm disabled">
+                    <i class="bx bx-trash"></i> 
+                </button> ';
+            } else {
+                $render_result .= '<button type="button" class="btn btn-sm btn-danger btn-icon confirmDelete btn-sm" data-id="' . $param['id'] . '" title="Delete">
+                    <i class="bx bx-trash"></i> 
+                </button>
+                <form class="sr-only" id="form-delete-' . $param['id'] . '" action="' . route($param['module'] .'.delete', $param['id']) . '" method="POST">
+                    <input type="hidden" name="_token" value="' . csrf_token() .'" />
+                    <input type="hidden" name="_method" value="delete" />
+                    <button class="sr-only" id="btn-' . $param['id'] . '">Delete</button>
+                </form> ';
+            }
+        }
+    }
+
+    return $render_result;
 }
 
 function d_para_status($status, $active = 'Active', $closed = 'Completed')
