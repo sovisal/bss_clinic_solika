@@ -8,7 +8,9 @@
         <td width="30%">
             <div class="d-flex justify-content-between">
                 <b>Prescription</b>
+                @can('CreatePrescription')
                 <x-form.button data-toggle="modal" data-target="#treatment_modal_prescriotion" color="secondary" icon="bx bx-plus" label=""/>
+                @endcan
             </div>
         </td>
         <td>
@@ -18,8 +20,10 @@
     <tr>
         <td>
             <div class="d-flex justify-content-between">
-                <b>Labor-Test</b>
+                <b>Laboratory</b>
+                @can('CreateLaboratory')
                 <x-form.button data-toggle="modal" data-target="#treatment_modal_labor" color="secondary" icon="bx bx-plus" label=""/>
+                @endcan
             </div>
         </td>
         <td>
@@ -29,8 +33,10 @@
     <tr>
         <td>
             <div class="d-flex justify-content-between">
-                <b>Xray</b>
+                <b>XRay</b>
+                @can('CreateXRay')
                 <x-form.button data-toggle="modal" data-target="#treatment_modal_xray" color="secondary" icon="bx bx-plus" label=""/>
+                @endcan
             </div>
         </td>
         <td>
@@ -41,7 +47,9 @@
         <td>
             <div class="d-flex justify-content-between">
                 <b>Echography</b>
+                @can('CreateEchography')
                 <x-form.button data-toggle="modal" data-target="#treatment_modal_echo" color="secondary" icon="bx bx-plus" label=""/>
+                @endcan
             </div>
         </td>
         <td>
@@ -52,7 +60,9 @@
         <td>
             <div class="d-flex justify-content-between">
                 <b>ECG</b>
+                @can('CreateEcg')
                 <x-form.button data-toggle="modal" data-target="#treatment_modal_ecg" color="secondary" icon="bx bx-plus" label=""/>
+                @endcan
             </div>
         </td>
         <td>
