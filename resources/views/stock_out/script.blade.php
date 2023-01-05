@@ -1,8 +1,9 @@
 <script src="{{ asset('js/dragula.min.js') }}"></script>
 <script>
     const item = `<tr class="stock-out-item widget-todo-item"><td class="tw-py-3">${$('#stock-out-new-item').html()}</td></tr>`;
-    if ('{{ isset($row) }}'=='') { $('#form-item-container').append(item); }
-    redefine()
+    if ('{{ isset($row) }}'=='') { 
+        addStockOutForm();
+    }
 
     function redefine() {
         // Redefine select2 and date-picker
@@ -30,9 +31,13 @@
         });
     }
 
-    $(document).on('click', '#btn-add-stock-out', function () {
+    function addStockOutForm() {
         $('#form-item-container').append(item);
         redefine();
+    }
+
+    $(document).on('click', '#btn-add-stock-out', function () {
+        addStockOutForm();
     });
 
     

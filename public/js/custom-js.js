@@ -855,7 +855,7 @@ $(document).ready(function () {
 $(window).scroll(function(){
     var card = $('.card.header-fixed'),
         scroll = $(window).scrollTop();
-    if (card) {
+    if (card.length) {
         var position = card.position();
         if (scroll > position.top) {
             $('.card.header-fixed .card-header').addClass('fixed-top shadow-sm').css({'width' : card.width() +'px', 'left' : position.left});
