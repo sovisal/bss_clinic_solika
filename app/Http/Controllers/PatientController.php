@@ -3,27 +3,47 @@
 namespace App\Http\Controllers;
 
 use App\Models\Patient;
-use App\Models\DataParent;
 use App\Models\Consultation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\Http\Requests\PatientRequest;
 use Intervention\Image\Facades\Image;
 use Illuminate\Database\Eloquent\Collection;
+use DataTables;
 
 class PatientController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = [
-            'patients' => Patient::filterTrashed()
-                ->with(['address', 'user', 'gender', 'hasOneConsultation'])
-                ->orderBy('id', 'desc')->get()
-        ];
-        return view('patient.index', $data);
+        if ($request->ajax()) {
+            $data = Patient::with(['address', 'user', 'gender', 'hasOneConsultation']);
+
+            return Datatables::of($data)
+                ->addColumn('dt', function ($r) {
+                    return [
+                        'code' => $r->hasOneConsultation ? d_link('PT-' . str_pad($r->id, 6, '0', STR_PAD_LEFT), route('patient.consultation.edit', $r->hasOneConsultation->id)) : 'PT-' . str_pad($r->id, 6, '0', STR_PAD_LEFT),
+                        'patient' => d_obj($r, ['name_en', 'name_kh']),
+                        'gender' => d_obj($r, 'gender', ['title_en', 'title_kh']),
+                        'age' => d_number($r->age),
+                        'phone' => d_text($r->phone),
+                        'address' => d_obj($r, 'address', ['village_kh', 'commune_kh', 'district_kh', 'province_kh']),
+                        'registered_at' => d_date_time($r->registered_at),
+                        'user' => d_obj($r, 'user', 'name'),
+                        'status' => d_status($r->status),
+                        'action' => d_action([
+                            'module' => 'patient', 'id' => $r->id, 'isTrashed' => $r->trashed(),
+                            'disableShow' => $r->trashed(), 'disableEdit' => $r->trashed(), 'disableDelete' => $r->hasOneConsultation
+                        ]),
+                    ];
+                })
+                ->rawColumns(['dt.status', 'dt.code', 'dt.action'])
+                ->make(true);
+        } else {
+            return view('patient.index');
+        }
     }
 
     /**
@@ -70,8 +90,11 @@ class PatientController extends Controller
             Image::make($photo->getRealPath())->save($path . $photo_name);
             $patient->update(['photo' => $photo_name]);
         }
+        if (can('ViewAnyConsultation')) {
+            return redirect()->route('patient.consultation.edit', $saved_consultation->id)->with('success', __('alert.message.success.crud.create'));
+        }
+        return redirect()->route('patient.index')->with('success', __('alert.message.success.crud.create'));
 
-        return redirect()->route('patient.consultation.edit', $saved_consultation->id)->with('success', __('alert.message.success.crud.create'));
     }
 
     /**

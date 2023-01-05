@@ -1,6 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
+        @can('CreateService')
         <x-form.button href="{{ route('invoice.service.create') }}" label="Create" icon="bx bx-plus" />
+        @endcan
     </x-slot>
     <x-card :foot="false" :action-show="false">
         <x-slot name="header"></x-slot>
@@ -28,17 +30,14 @@
                 <td>{{ d_obj($row, 'user', 'name') }}</td>
                 <td>{!! d_status($row->status) !!}</td>
                 <td>
-                    @can('UpdateService')
-                    <x-form.button color="secondary" class="btn-sm" href="{{ route('invoice.service.edit', $row->id) }}" icon="bx bx-edit-alt" />
-                    @endcan
-                    @can('DeleteService')
-                    <x-form.button color="danger" class="confirmDelete btn-sm" data-id="{{ $row->id }}" icon="bx bx-trash" />
-                    <form class="sr-only" id="form-delete-{{ $row->id }}" action="{{ route('invoice.service.delete', $row->id) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button class="sr-only" id="btn-{{ $row->id }}">Delete</button>
-                    </form>
-                    @endcan
+                    <x-table-action-btn
+                        module="invoice.service"
+                        module-ability="Service"
+                        :id="$row->id"
+                        :is-trashed="$row->trashed()"
+                        :disable-edit="$row->trashed()"
+                        :show-btn-show="false"
+                    />
                 </td>
             </tr>
             @endforeach

@@ -12,7 +12,10 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return redirect(route('patient.index'));
+        if (can('ViewAnyPatient')) {
+            return redirect(route('patient.index'));
+        }
+        return view('home');
     }
 
     public function git_pull()

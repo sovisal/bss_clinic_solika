@@ -1,6 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
+        @can('CreateSupplier')
         <x-form.button href="{{ route('inventory.supplier.create') }}" icon="bx bx-plus" label="Create" />
+        @endcan
     </x-slot>
     <x-card :foot="false" :head="false">
         <x-table class="table-hover table-striped" id="datatables">
@@ -30,7 +32,7 @@
                     <td>
                         <x-table-action-btn
                             module="inventory.supplier"
-                            module-ability="Product"
+                            module-ability="Supplier"
                             :id="$row->id"
                             :is-trashed="$row->trashed()"
                             :disable-edit="$row->trashed()"

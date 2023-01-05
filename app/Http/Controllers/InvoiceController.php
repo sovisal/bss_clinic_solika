@@ -227,8 +227,8 @@ class InvoiceController extends Controller
                 }
 
                 // Return back with error message
-                if ($errors = $validator->errors()->all()) { 
-                    return redirect()->route('invoice.index')->withErrors($validator);
+                if ($validator->errors()->all()) { 
+                    return redirect()->route('invoice.index')->withErrors($validator);  
                 }
 
                 // Stock calculation
@@ -270,6 +270,30 @@ class InvoiceController extends Controller
         if ($invoice->delete()) {
             return redirect()->route('invoice.index')->with('success', 'Data delete success');
         }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function restore($id)
+    {
+        $row = Invoice::onlyTrashed()->findOrFail($id);
+        if ($row->restore()) {
+            return back()->with('success', __('alert.message.success.crud.restore'));
+        }
+        return back()->with('error', __('alert.message.error.crud.restore'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function force_delete($id)
+    {
+        $row = Invoice::onlyTrashed()->findOrFail($id);
+        if ($row->forceDelete()) {
+            return back()->with('success', __('alert.message.success.crud.force_detele'));
+        }
+        return back()->with('error', __('alert.message.error.crud.force_detele'));
     }
 
     /**

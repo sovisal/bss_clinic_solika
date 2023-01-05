@@ -83,3 +83,13 @@ html body .table tbody td:not(.dataTables_empty), .table-padding-sm tbody th, .t
 .d_link:active {
     color: green;
 }
+
+.card.header-fixed{
+    position: relative;
+}
+.card.header-fixed .card-header.fixed-top{
+    background: #fff;
+    position: fixed;
+    top: 0;
+    z-index: 99999;
+}

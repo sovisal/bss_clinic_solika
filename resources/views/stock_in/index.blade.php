@@ -1,6 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
+        @can('CreateStockIn')
         <x-form.button href="{{ route('inventory.stock_in.create') }}" icon="bx bx-plus" label="Create" />
+        @endcan
         <x-stock-filter url="{{ route('inventory.stock_in.index') }}">
             <div class="col-sm-3 col-md-2">
                 <x-form.select name="ft_supplier_id" label="{{ __('form.stock.supplier') }}">

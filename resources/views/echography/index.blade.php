@@ -3,7 +3,9 @@
         @if(isset($_GET['back']))
         <x-form.button-back href="{!! route('setting.xray-type.index') !!}"/>
         @endif
+        @can('CreateEchography')
         <x-form.button href="{{ route('para_clinic.echography.create') }}" label="Create" icon="bx bx-plus" />
+        @endcan
         <x-report-filter url="{{ route('para_clinic.echography.index') }}"/>
     </x-slot>
     <x-slot name="css">
@@ -90,7 +92,9 @@
                         :show-btn-show="false"
                     >
                         <x-form.button color="warning" class="btn-sm" onclick="getImage('{{ $row->image_1 }}', '{{ $row->image_2 }}')" icon="bx bx-image" />
+                        @can('PrintEchography')
                         <x-form.button color="dark" class="btn-sm" onclick="printPopup('{{ route('para_clinic.echography.print', $row->id) }}')" icon="bx bx-printer" />
+                        @endcan
                     </x-table-action-btn>
                 </td>
             </tr>

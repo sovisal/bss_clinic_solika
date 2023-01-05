@@ -236,8 +236,8 @@ class PrescriptionController extends Controller
                 }
 
                 // Return back with error message
-                if ($errors = $validator->errors()->all()) {  
-                    return redirect()->route('prescription.index')->withErrors($validator);
+                if ($validator->errors()->all()) { 
+                    return redirect()->route('prescription.index')->withErrors($validator);  
                 }
 
                 // Stock calculation
@@ -265,6 +265,30 @@ class PrescriptionController extends Controller
         if ($prescription->delete()) {
             return redirect()->route('prescription.index')->with('success', 'Data delete success');
         }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function restore($id)
+    {
+        $row = Prescription::onlyTrashed()->findOrFail($id);
+        if ($row->restore()) {
+            return back()->with('success', __('alert.message.success.crud.restore'));
+        }
+        return back()->with('error', __('alert.message.error.crud.restore'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function force_delete($id)
+    {
+        $row = Prescription::onlyTrashed()->findOrFail($id);
+        if ($row->forceDelete()) {
+            return back()->with('success', __('alert.message.success.crud.force_detele'));
+        }
+        return back()->with('error', __('alert.message.error.crud.force_detele'));
     }
 
     public function refresh_prescriotion_detail($request, $prescription = null)
