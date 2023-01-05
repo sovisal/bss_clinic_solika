@@ -43,7 +43,7 @@
                 </tr>
             </x-slot>
             <!-- Dynamic data table -->
-            @foreach($rows as $i => $row)
+            @foreach([] as $i => $row)
                 <tr>
                     <td>{{ ++$i }}</td>
                     <td>{!! $row->code !!}</td>
