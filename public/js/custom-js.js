@@ -952,6 +952,39 @@ function bss_openPrintWindow(url, name) {
     var sched = setInterval(printAndClose, 2000);
 }
 
+// Server side
+function initDatatableDynamic(table_class, ajax = '', columns) {
+    // Available length option
+    var lengthMenu = [
+        [10, 15, 20, 25, 30, 50, 100],
+        ['10', '15', '20', '25', '30', '50', '100']
+    ];
+
+    var table = $(table_class).DataTable({
+        processing: true,
+        serverSide: true,
+        colReorder: true,
+        columns,
+        ajax,
+        stateSave: true,
+        order: [[1, 'asc']],
+        dom:
+            "<'row dt-buttons'<'col-sm-8'<'d-flex'<l><'ml-1'B>>><'col-sm-4'f>>" +
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+        buttons: [
+            { extend: "csv", text: "CSV  &nbsp;&nbsp;|", className: "btn-sm" },
+            {
+                extend: "excel",
+                text: "EXCEL  &nbsp;&nbsp;|",
+                className: "btn-sm",
+            },
+            { extend: "print", text: "PRINT", className: "btn-sm" },
+        ],
+    });
+}
+// End server side
+
 // prepare form AJAX submission
 $(document).ready(function () {
     $(document).on("click", ".submitFormAjx", function (e) {
