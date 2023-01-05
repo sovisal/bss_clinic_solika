@@ -31,7 +31,9 @@ class LaborItemController extends Controller
     public function create(LaborType $laborType)
     {
         $data['laborType'] = $laborType;
-        $data['index'] = Str::after(LaborItem::getNextIndex(['type_id' => $laborType->id]), '.') + 1;
+        $full_index = $laborType->items->sortByDesc('index')->first()->index ?? $laborType->index;
+        $next_index = (($full_index - $laborType->index)/0.1) + 1;
+        $data['index'] =  $next_index;
         return view('labor_item.create', $data);
     }
 
@@ -60,6 +62,9 @@ class LaborItemController extends Controller
      */
     public function edit(LaborType $laborType, LaborItem $laborItem)
     {
+        $full_index = $laborItem->index ?: $laborType->index;
+        $index = (($full_index - $laborType->index)/0.1);
+        $laborItem->index = $index;
         $data['row'] = $laborItem;
         $data['laborType'] = $laborType;
         return view('labor_item.edit', $data);

@@ -1,12 +1,20 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-form.button color="danger" href="{{ route('setting.labor-type.index') }}" label="Back" icon="bx bx-left-arrow-alt" />
-        @can('CreateLaborItem')
-        <x-form.button href="{{ route('setting.labor-item.create', $laborType->id) }}" label="Create" icon="bx bx-plus" />
-        @endcan
-        @can('UpdateLaborItem')
-        <x-form.button color="dark" href="{!! route('setting.labor-item.sort_order', $laborType->id) !!}" label="Sort Order" icon="bx bx-sort-alt-2" />
-        @endcan
+        <div class="d-flex tw-gap-1 align-items-center">
+            <x-form.button color="danger" href="{{ route('setting.labor-type.index') }}" label="Back" icon="bx bx-left-arrow-alt" />
+            @can('CreateLaborItem')
+            <x-form.button href="{{ route('setting.labor-item.create', $laborType->id) }}" label="Create" icon="bx bx-plus" />
+            @endcan
+            @can('UpdateLaborItem')
+            <x-form.button color="dark" href="{!! route('setting.labor-item.sort_order', $laborType->id) !!}" label="Sort Order" icon="bx bx-sort-alt-2" />
+            @endcan
+            <div class="ml-1 d-flex tw-gap-1 tw-mt-0.5">
+                <i class="bx bxs-right-arrow"></i>
+                <span>
+                    {{ d_obj($laborType, ['name_kh', 'name_en']) }}
+                </span>
+            </div>
+        </div>
     </x-slot>
     <x-card :foot="false" :head="false">
         <x-table class="table-hover table-striped" id="datatables" data-table="patients">

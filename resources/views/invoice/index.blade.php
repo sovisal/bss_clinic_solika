@@ -55,8 +55,8 @@
                         module-ability="Invoice"
                         :id="$row->id"
                         :is-trashed="$row->trashed()"
-                        :disable-edit="$row->trashed() || $row->status == 1"
-                        :disable-delete="$row->status == 1"
+                        :disable-edit="$row->trashed() || !$row->status == 1"
+                        :disable-delete="!$row->status == 1"
                         :show-btn-show="false"
                     >
                         @can('PrintInvoice')
