@@ -16,10 +16,10 @@ class StockOutController extends Controller
     public function index(Request $request)
     {
         $data = [
-            'rows' => StockOut::with(['product.unit', 'unit', 'user'])
+            'rows' => StockOut::with(['product.unit', 'unit'])
                 ->stockFilter()
                 ->filterTrashed()
-                ->orderBy('date')
+                ->orderBy('date', 'desc')
                 ->limit(5000)->get(),
         ];
 

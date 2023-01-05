@@ -59,7 +59,7 @@
                     <th width="5%">Remain</th>
                     <th width="8%">Expire</th>
                     <th>Reciept no</th>
-                    <th width="8%">User</th>
+                    {{-- <th width="8%">User</th> --}}
                     <th width="5%">Status</th>
                     <th width="8%">Action</th>
                 </tr>
@@ -87,7 +87,7 @@
                 @endif
                 
                 <td>{{ $row->reciept_no }}</td>
-                <td>{{ d_obj($row, 'user', 'name') }}</td>
+                {{-- <td>{{ d_obj($row, 'user', 'name') }}</td> --}}
                 @if ($row->qty_remain > 0)
                     <td>{!! d_status(true, '', 'Stock Active') !!}</td>
                 @else

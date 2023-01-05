@@ -37,7 +37,7 @@
                     <th width="8%">Base_QTY</th>
                     <th width="8%">Unit</th>
                     <th width="8%">Type</th>
-                    <th width="8%">User</th>
+                    {{-- <th width="8%">User</th> --}}
                     <th width="8%">Action</th>
                 </tr>
             </x-slot>
@@ -55,7 +55,7 @@
                 <td>{!! d_number($row->qty_based) !!}</td>
                 <td>{!! d_obj($row, 'product', 'unit', 'link') !!}</td>
                 <td>{!! d_text($row->type) !!}</td>
-                <td>{!! d_obj($row, 'user', 'name') !!}</td>
+                {{-- <td>{!! d_obj($row, 'user', 'name') !!}</td> --}}
                 <td>
                     <x-table-action-btn
                         module="{{ $module ?? 'inventory.stock_out' }}"

@@ -20,7 +20,7 @@ class StockInController extends Controller
             'ft_daterangepicker_drp_end' => request()->ft_daterangepicker_drp_end ?? date('Y-m-t'),
         ]);
         $data = [
-            'rows' => StockIn::with(['user', 'unit', 'supplier', 'product.unit'])
+            'rows' => StockIn::with(['unit', 'supplier', 'product.unit'])
                 ->withCount('stock_outs')
                 ->filterTrashed()
                 ->stockFilter()
