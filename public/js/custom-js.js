@@ -966,6 +966,7 @@ function initDatatableDynamic(table_class, ajax = '', columns) {
         colReorder: true,
         columns,
         ajax,
+        searchDelay: 1000,
         stateSave: true,
         order: [[1, 'asc']],
         dom:

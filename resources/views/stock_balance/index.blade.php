@@ -88,12 +88,27 @@
                 }
             }
         </script>
+        <script>
+            let table_columns   = [
+                {data: 'dt.code', name: 'code'},
+                {data: 'dt.link', name: 'name_kh'},
+                {data: 'dt.unit', name: 'id', orderable: false, searching: false}, 
+                {data: 'dt.type', name: 'id', orderable: false, searching: false},
+                {data: 'dt.category', name: 'id', orderable: false, searching: false},
+                {data: 'dt.qty_in', name: 'qty_in'},
+                {data: 'dt.qty_out', name: 'qty_out'},
+                {data: 'dt.qty_alert', name: 'qty_alert'},
+                {data: 'dt.qty_remain', name: 'qty_remain'},
+                {data: 'dt.status', name: 'id', orderable: false, searching: false },
+            ];
+
+            initDatatableDynamic('#datatables_server', '', table_columns);
+        </script>
     </x-slot>
     <x-card :foot="false" :head="false">
-        <x-table class="table-hover table-striped" id="datatables">
+        <x-table class="table-hover table-striped" id="datatables_server">
             <x-slot name="thead">
                 <tr>
-                    <th width="4%">No</th>
                     <th width="8%">Code</th>
                     <th>Name</th>
                     <th width="10%">Base Unit</th>
@@ -106,7 +121,8 @@
                     <th width="8%">Status</th>
                 </tr>
             </x-slot>
-            @foreach($rows as $i => $row)
+            <!-- Dynamic data table -->
+            @foreach([] as $i => $row)
                 <tr>
                     <td>{{ ++$i }}</td>
                     <td>{!! $row->code !!}</td>

@@ -9,20 +9,45 @@ use App\Http\Requests\ProductRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Models\Inventory\ProductType;
 use App\Models\Inventory\ProductUnit;
-use App\Models\Inventory\ProductPackage;
 use App\Models\Inventory\ProductCategory;
+use DataTables;
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = [
-            'rows' => Product::with(['user', 'unit', 'type', 'category'])->filterTrashed()->orderBy('name_en')->limit(5000)->get(),
-        ];
-        return view('product.index', $data);
+        if ($request->ajax()) {
+            $data = Product::with(['user', 'unit', 'type', 'category']);
+
+            return Datatables::of($data)
+                ->addColumn('dt', function ($r) {
+                    return [
+                        'code' => $r->code,
+                        'name' => d_obj($r, ['name_kh', 'name_en']),
+                        'cost' => d_currency($r->cost),
+                        'price' => d_currency($r->price),
+                        'unit' => d_obj($r, 'unit', 'link'),
+                        'type' => d_obj($r, 'type', 'link'),
+                        'category' => d_obj($r, 'category', 'link'),
+                        'qty_alert' => d_number($r->qty_alert),
+                        'qty_remain' => ('<span style="color: ' . (d_number($r->qty_remain) == 0 ? 'red' : 'green') . '">' . d_number($r->qty_remain) . '</span>'),
+                        'user' => d_obj($r, 'user', 'name'),
+                        'status' => $r->qty_remain == 0 ? d_status(false, 'Out of Stock') : ($r->qty_remain > 0 && $r->qty_remain <= $r->qty_alert ? d_status(false, 'Almost Out of Stock', '', 'badge-warning') : d_status(true)),
+
+                        'action' => d_action([
+                            'module-ability'=> 'Product', 'module' => 'inventory.product', 'id' => $r->id, 'isTrashed' => $r->trashed(),
+                            'showBtnShow' => false, 'showBtnForceDelete' => true
+                        ]),
+                    ];
+                })
+                ->rawColumns(['dt.status', 'dt.code', 'dt.unit', 'dt.type', 'dt.category', 'dt.qty_remain', 'dt.user', 'dt.action'])
+                ->make(true);
+        } else {
+            return view('product.index');
+        }
     }
 
     /**

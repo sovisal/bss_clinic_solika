@@ -8,18 +8,46 @@ use Illuminate\Support\Facades\File;
 use App\Models\Inventory\ProductType;
 use App\Http\Requests\SupplierRequest;
 use App\Models\Inventory\ProductCategory;
+use DataTables;
 
 class SupplierController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = [
-            'rows' => Supplier::with(['user', 'type', 'category'])->filterTrashed()->orderBy('name_en')->limit(5000)->get(),
-        ];
-        return view('supplier.index', $data);
+        if ($request->ajax()) {
+            $data = Supplier::with(['user', 'type', 'category']);
+
+            return Datatables::of($data)
+                ->addColumn('dt', function ($r) {
+                    return [
+                        'name' => d_obj($r, ['name_kh', 'name_en']),
+                        'type' => d_obj($r, 'type', 'link'),
+                        'category' => d_obj($r, 'category', 'link'),
+                        'contact_name' => d_text($r->contact_name),
+                        'contact_number' => d_text($r->contact_number),
+                        'address' => d_obj($r, 'address', ['village_kh', 'commune_kh', 'district_kh', 'province_kh'] ),
+                        'user' => d_obj($r, 'user', 'name'),
+                        'status' => d_status($r->status),
+
+                        'action' => d_action([
+                            'module' => "inventory.supplier",
+                            'module-ability' => "Supplier",
+                            'id' => $r->id,
+                            'isTrashed' => $r->trashed(),
+                            'disableEdit' => $r->trashed(),
+                            'showBtnShow' => false,
+                            'showBtnForceDelete' => true,
+                        ]),
+                    ];
+                })
+                ->rawColumns(['dt.status', 'dt.code', 'dt.unit', 'dt.type', 'dt.category', 'dt.qty_remain', 'dt.user', 'dt.action'])
+                ->make(true);
+        } else {
+            return view('supplier.index');
+        }
     }
 
     /**

@@ -1,14 +1,33 @@
 <x-app-layout>
+    <x-slot name="js">
+        <script>
+            let table_columns   = [
+                {data: 'dt.code', name: 'code'},
+                {data: 'dt.name', name: 'name_kh'},
+                {data: 'dt.cost', name: 'cost'}, 
+                {data: 'dt.price', name: 'price'}, 
+                {data: 'dt.unit', name: 'id', orderable: false, searching: false}, 
+                {data: 'dt.type', name: 'id', orderable: false, searching: false},
+                {data: 'dt.category', name: 'id', orderable: false, searching: false},
+                {data: 'dt.qty_alert', name: 'qty_alert'},
+                {data: 'dt.qty_remain', name: 'qty_remain'},
+                //{data: 'dt.user', name: 'user.name', orderable: false, searching: false},
+                {data: 'dt.status', name: 'id', orderable: false, searching: false },
+                {data: 'dt.action', name: 'id', orderable: false, searching: false },
+            ];
+
+            initDatatableDynamic('#datatables_server', '', table_columns);
+        </script>
+    </x-slot>
     <x-slot name="header">
         @can('CreateProduct')
         <x-form.button href="{{ route('inventory.product.create') }}" icon="bx bx-plus" label="Create" />
         @endcan
     </x-slot>
     <x-card :foot="false" :head="false">
-        <x-table class="table-hover table-striped" id="datatables">
+        <x-table class="table-hover table-striped" id="datatables_server">
             <x-slot name="thead">
                 <tr>
-                    <th width="4%">No</th>
                     <th width="8%">Code</th>
                     <th>Name</th>
                     <th width="8%">Cost</th>
@@ -18,11 +37,12 @@
                     <th width="10%">Category</th>
                     <th width="8%">Alert</th>
                     <th width="8%">Remain</th>
-                    <th width="8%">User</th>
+                    {{-- <th width="8%">User</th> --}}
                     <th width="8%">Status</th>
                     <th width="6%">Action</th>
                 </tr>
             </x-slot>
+            <!-- Dynamic data table -->
             @foreach($rows as $i => $row)
                 <tr>
                     <td>{{ ++$i }}</td>
