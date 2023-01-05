@@ -6,27 +6,28 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateAbilityModulesTable extends Migration
 {
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::create('ability_modules', function (Blueprint $table) {
-			$table->id();
-			$table->string('module')->unique();
-			$table->timestamps();
-		});
-	}
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('ability_modules', function (Blueprint $table) {
+            $table->id();
+            $table->string('module')->unique();
+            $table->softDeletes();
+            $table->timestamps();
+        });
+    }
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::dropIfExists('ability_modules');
-	}
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('ability_modules');
+    }
 }

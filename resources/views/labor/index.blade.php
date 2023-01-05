@@ -3,7 +3,9 @@
         @if(isset($_GET['back']))
         <x-form.button-back href="{!! route('setting.xray-type.index') !!}"/>
         @endif
+        @can('CreateLaboratory')
         <x-form.button href="{{ route('para_clinic.labor.create') }}" label="Create" icon="bx bx-plus"/>
+        @endcan
         <x-report-filter url="{{ route('para_clinic.labor.index') }}"/>
     </x-slot>
     <x-card :foot="false" :action-show="false">
@@ -42,7 +44,7 @@
                 <td>
                     <x-table-action-btn
                         module="para_clinic.labor"
-                        module-ability="Ecg"
+                        module-ability="Laboratory"
                         :id="$row->id"
                         :is-trashed="$row->trashed()"
                         :disable-edit="$row->trashed() || !($row->status=='1' && $row->payment_status == 0)"
@@ -50,7 +52,9 @@
                         :show-btn-show="false"
                         :show-btn-force-delete="true"
                     >
+                        @can('PrintLaboratory')
                         <x-form.button color="dark" class="btn-sm" onclick="printPopup('{{ route('para_clinic.labor.print', $row->id) }}')" icon="bx bx-printer" />
+                        @endcan
                     </x-table-action-btn>
                 </td>
             </tr>

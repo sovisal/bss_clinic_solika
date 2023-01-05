@@ -103,6 +103,30 @@ class MedicineController extends Controller
 		return back()->with('error', __('alert.message.error.crud.delete'));
 	}
 
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function restore($id)
+    {
+        $row = Medicine::onlyTrashed()->findOrFail($id);
+        if ($row->restore()) {
+            return back()->with('success', __('alert.message.success.crud.restore'));
+        }
+        return back()->with('error', __('alert.message.error.crud.restore'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function force_delete($id)
+    {
+        $row = Medicine::onlyTrashed()->findOrFail($id);
+        if ($row->forceDelete()) {
+            return back()->with('success', __('alert.message.success.crud.force_detele'));
+        }
+        return back()->with('error', __('alert.message.error.crud.force_detele'));
+    }
+
 	// get Product Select2
 	public function getSelect2()
 	{

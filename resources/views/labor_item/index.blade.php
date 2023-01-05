@@ -1,8 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
         <x-form.button color="danger" href="{{ route('setting.labor-type.index') }}" label="Back" icon="bx bx-left-arrow-alt" />
+        @can('CreateLaborItem')
         <x-form.button href="{{ route('setting.labor-item.create', $laborType->id) }}" label="Create" icon="bx bx-plus" />
+        @endcan
+        @can('UpdateLaborItem')
         <x-form.button color="dark" href="{!! route('setting.labor-item.sort_order', $laborType->id) !!}" label="Sort Order" icon="bx bx-sort-alt-2" />
+        @endcan
     </x-slot>
     <x-card :foot="false" :head="false">
         <x-table class="table-hover table-striped" id="datatables" data-table="patients">
@@ -31,7 +35,9 @@
                 <td>{!! d_status($row->status) !!}</td>
                 <td>{!! d_obj($row, 'user', 'name') !!}</td>
                 <td>
+                    @can('UpdateLaborItem')
                     <x-form.button color="secondary" href="{{ route('setting.labor-item.edit', [$laborType->id, $row->id]) }}" icon="bx bx-edit-alt" />
+                    @endcan
                     @if ($row->trashed())
                         @can('RestoreLaborItem')
                             <x-form.button
@@ -87,14 +93,6 @@
             @endforeach
         </x-table>
     </x-card>
-    {{--
-    <pre>
-		Syntax : 
-			OUT_RANGE_COLOR_RED : when value out of range the color will red on the print labor-test
-			VALUE_POSITIVE_NEGATIVE : when input the test result value can put POSITIVE and NEGATIVE
-			NEGATIVE_COLOR_RED : when value equal to NEGATIVE will display color red on print labor-test
-			VALUE_160_320 : when input the test result value can put 1/160 and 1/320
-	</pre> --}}
 
     <x-modal-confirm-delete />
 

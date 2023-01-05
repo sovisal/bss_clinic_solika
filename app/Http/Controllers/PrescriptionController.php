@@ -267,6 +267,30 @@ class PrescriptionController extends Controller
         }
     }
 
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function restore($id)
+    {
+        $row = Prescription::onlyTrashed()->findOrFail($id);
+        if ($row->restore()) {
+            return back()->with('success', __('alert.message.success.crud.restore'));
+        }
+        return back()->with('error', __('alert.message.error.crud.restore'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function force_delete($id)
+    {
+        $row = Prescription::onlyTrashed()->findOrFail($id);
+        if ($row->forceDelete()) {
+            return back()->with('success', __('alert.message.success.crud.force_detele'));
+        }
+        return back()->with('error', __('alert.message.error.crud.force_detele'));
+    }
+
     public function refresh_prescriotion_detail($request, $prescription = null)
     {
         $prescription->detail()->where('status', 1)->delete();

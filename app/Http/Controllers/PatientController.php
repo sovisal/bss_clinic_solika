@@ -90,8 +90,11 @@ class PatientController extends Controller
             Image::make($photo->getRealPath())->save($path . $photo_name);
             $patient->update(['photo' => $photo_name]);
         }
+        if (can('ViewAnyConsultation')) {
+            return redirect()->route('patient.consultation.edit', $saved_consultation->id)->with('success', __('alert.message.success.crud.create'));
+        }
+        return redirect()->route('patient.index')->with('success', __('alert.message.success.crud.create'));
 
-        return redirect()->route('patient.consultation.edit', $saved_consultation->id)->with('success', __('alert.message.success.crud.create'));
     }
 
     /**

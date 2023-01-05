@@ -34,14 +34,14 @@ Route::middleware(['auth'])->name('setting.')->group(function () {
 });
 
 Route::prefix('labor')->middleware(['auth'])->name('para_clinic.labor.')->controller(LaboratoryController::class)->group(function () {
-    Route::get('/', 'index')->name('index')->middleware('can:ViewAnyLabor');
-    Route::get('/create', 'create')->name('create')->middleware('can:CreateLabor');
-    Route::post('/store', 'store')->name('store')->middleware('can:CreateLabor');
-    Route::get('/{labor}/edit', 'edit')->name('edit')->middleware('can:UpdateLabor');
-    Route::put('/{labor}/update', 'update')->name('update')->middleware('can:UpdateLabor');
-    Route::delete('/{labor}/delete', 'destroy')->name('delete')->middleware('can:DeleteLabor');
-    Route::put('/{labor}/restore', 'restore')->name('restore')->middleware('can:RestoreLabor');
-    Route::delete('/{labor}/force_delete', 'force_delete')->name('force_delete')->middleware('can:ForceDeleteLabor');
-    Route::get('/{labor}/print', 'print')->name('print')->middleware('can:PrintLabor');
+    Route::get('/', 'index')->name('index')->middleware('can:ViewAnyLaboratory');
+    Route::get('/create', 'create')->name('create')->middleware('can:CreateLaboratory');
+    Route::post('/store', 'store')->name('store')->middleware('can:CreateLaboratory');
+    Route::get('/{labor}/edit', 'edit')->name('edit')->middleware('can:UpdateLaboratory');
+    Route::put('/{labor}/update', 'update')->name('update')->middleware('can:UpdateLaboratory');
+    Route::delete('/{labor}/delete', 'destroy')->name('delete')->middleware('can:DeleteLaboratory');
+    Route::put('/{labor}/restore', 'restore')->name('restore')->middleware('can:RestoreLaboratory');
+    Route::delete('/{labor}/force_delete', 'force_delete')->name('force_delete')->middleware('can:ForceDeleteLaboratory');
+    Route::get('/{labor}/print', 'print')->name('print')->middleware('can:PrintLaboratory');
     Route::post('/getDetail', 'getDetail')->name('getDetail');
 });

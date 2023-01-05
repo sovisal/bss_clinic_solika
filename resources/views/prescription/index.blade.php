@@ -1,6 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
+        @can('CreatePrescription')
         <x-form.button href="{{ route('prescription.create') }}" label="Create" icon="bx bx-plus" />
+        @endcan
         <x-report-filter url="{{ route('prescription.index') }}" />
     </x-slot>
     <x-card :foot="false" :action-show="false">
@@ -41,19 +43,19 @@
                 <td>{{ d_obj($row, 'user', 'name') }}</td>
                 <td>{!! d_para_status($row->status) !!}</td>
                 <td>
-                    <x-form.button color="dark" class="btn-sm" onclick="printPopup('{{ route('prescription.print', $row->id) }}')" icon="bx bx-printer" />
-                    @if ($row->status == 1)
-                    <x-form.button color="secondary" class="btn-sm" href="{{ route('prescription.edit', $row->id) }}" icon="bx bx-edit-alt" />
-                    <x-form.button color="danger" class="confirmDelete btn-sm" data-id="{{ $row->id }}" icon="bx bx-trash" />
-                    <form class="sr-only" id="form-delete-{{ $row->id }}" action="{{ route('prescription.delete', $row->id) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button class="sr-only" id="btn-{{ $row->id }}">Delete</button>
-                    </form>
-                    @else
-                    <x-form.button color="secondary" class="btn-sm" icon="bx bx-edit-alt" disabled />
-                    <x-form.button color="danger" class="btn-sm" icon="bx bx-trash" disabled />
-                    @endif
+                    <x-table-action-btn
+                        module="prescription"
+                        module-ability="Prescription"
+                        :id="$row->id"
+                        :is-trashed="$row->trashed()"
+                        :disable-edit="$row->trashed() || $row->status == 1"
+                        :disable-delete="$row->status == 1"
+                        :show-btn-show="false"
+                    >
+                        @can('PrintPrescription')
+                        <x-form.button color="dark" class="btn-sm" onclick="printPopup('{{ route('prescription.print', $row->id) }}')" icon="bx bx-printer" />
+                        @endcan
+                    </x-table-action-btn>
                 </td>
             </tr>
             @endforeach

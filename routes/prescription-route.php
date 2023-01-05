@@ -11,6 +11,8 @@ Route::prefix('prescription')->name('prescription.')->controller(PrescriptionCon
 	Route::get('/{prescription}/edit', 'edit')->name('edit')->middleware('can:UpdatePrescription');
 	Route::put('/{prescription}/update', 'update')->name('update')->middleware('can:UpdatePrescription');
 	Route::delete('/{prescription}/delete', 'destroy')->name('delete')->middleware('can:DeletePrescription');
+    Route::put('/{prescription}/restore', 'restore')->name('restore')->middleware('can:RestorePrescription');
+    Route::delete('/{prescription}/force_delete', 'force_delete')->name('force_delete')->middleware('can:ForceDeletePrescription');
 	Route::get('/{prescription}/show', 'show')->name('show')->middleware('can:ViewAnyPrescription');
 	Route::post('/getSelect2', 'getSelect2')->name('getSelect2');
 	Route::post('/getDetail', 'getDetail')->name('getDetail');

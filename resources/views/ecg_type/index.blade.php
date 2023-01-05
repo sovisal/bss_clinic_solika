@@ -1,7 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
+        @can('CreateEcgType')
         <x-form.button href="{{ route('setting.ecg-type.create') }}" label="Create" icon="bx bx-plus" />
+        @endcan
+        @can('UpdateEcgType')
         <x-form.button color="dark" href="{!! route('setting.ecg-type.sort_order') !!}" label="Sort Order" icon="bx bx-sort-alt-2" />
+        @endcan
     </x-slot>
     <x-card :foot="false" :head="false">
         <x-table class="table-hover table-striped" id="datatables" data-table="patients">

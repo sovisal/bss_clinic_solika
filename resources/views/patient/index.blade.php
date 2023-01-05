@@ -20,7 +20,9 @@
         </script>
     </x-slot>
     <x-slot name="header">
+        @can('CreatePatient')
         <x-form.button href="{{ route('patient.create') }}" class="btn-sm" icon="bx bx-plus" label="Create" />
+        @endcan
     </x-slot>
     <x-card :foot="false" :head="false">
         <x-table class="table-hover table-striped table-padding-sm" id="datatables_server" data-table="patients">

@@ -273,6 +273,30 @@ class InvoiceController extends Controller
     }
 
     /**
+     * Remove the specified resource from storage.
+     */
+    public function restore($id)
+    {
+        $row = Invoice::onlyTrashed()->findOrFail($id);
+        if ($row->restore()) {
+            return back()->with('success', __('alert.message.success.crud.restore'));
+        }
+        return back()->with('error', __('alert.message.error.crud.restore'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function force_delete($id)
+    {
+        $row = Invoice::onlyTrashed()->findOrFail($id);
+        if ($row->forceDelete()) {
+            return back()->with('success', __('alert.message.success.crud.force_detele'));
+        }
+        return back()->with('error', __('alert.message.error.crud.force_detele'));
+    }
+
+    /**
      * Display the specified resource.
      */
     public function getDetail(Request $request)
