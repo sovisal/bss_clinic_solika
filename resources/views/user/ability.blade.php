@@ -53,7 +53,7 @@
 	<form action="{{ route('user.assign_ability', $user) }}" method="POST" autocomplete="off">
 		@method('PUT')
 		@csrf
-		<x-card class="footer-fixed">
+		<x-card class="header-fixed">
 			<x-slot name="action">
 				<x-form.button type="submit" name="save" icon="bx bx-save" label="{!! __('button.save') !!}" />
 			</x-slot>

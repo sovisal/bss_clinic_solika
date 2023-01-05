@@ -9,11 +9,9 @@
             #datatable-ability td {
                 background: #F2F4F4;
             }
-
             .list-group-child li:first-child {
                 padding-top: 15px !important;
             }
-
             .list-group-child li:last-child {
                 padding-bottom: 15px !important;
             }
@@ -48,15 +46,6 @@
                     }
                 });
             });
-
-            // $(window).scroll(function() {
-            //     var card = $('.card.footer-fixed');
-            //     var footer = $('.card.footer-fixed .card-footer');
-            //     var offset = footer.offset();
-            //     var top = offset.top;
-            //     var windowHeight = $(window).height();
-            //     console.log(windowHeight);
-            // });
         </script>
     </x-slot>
 
@@ -64,7 +53,7 @@
     <form action="{{ route('user.role.assign_ability', $role) }}" method="POST" autocomplete="off">
         @method('PUT')
         @csrf
-        <x-card class="footer-fixed">
+        <x-card class="header-fixed">
             <x-slot name="header">
                 <h4 class="card-title">{{ subModule() }} - <span class="badge badge-primary">{{ $role->name }}</span></h4>
             </x-slot>

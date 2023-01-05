@@ -852,6 +852,19 @@ $(document).ready(function () {
     // End Image Zoom
 });
 
+$(window).scroll(function(){
+    var card = $('.card.header-fixed'),
+        scroll = $(window).scrollTop();
+    if (card) {
+        var position = card.position();
+        if (scroll > position.top) {
+            $('.card.header-fixed .card-header').addClass('fixed-top shadow-sm').css({'width' : card.width() +'px', 'left' : position.left});
+        } else {
+            $('.card.header-fixed .card-header').removeClass('fixed-top shadow-sm').css({'width' : 'auto', 'left' : ''});
+        }
+    }
+});
+
 var getCambodiaChildUrl = "/address/getFullAddress";
 var getProvinceChildUrl = "/address/getProvinceChileSelection";
 var getDistrictChileUrl = "/address/getDistrictChileSelection";
