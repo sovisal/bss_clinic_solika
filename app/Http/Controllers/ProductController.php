@@ -250,4 +250,13 @@ class ProductController extends Controller
             'options' => $options,
         ]);
     }
+
+    public function validateRemainQty(Request $request){
+        // $request->product_id;
+        // $request->unit_id;
+        // $request->qty;
+        if (is_array($request->product_id) && count($request->product_id)) {
+            dd($request->all());
+        }
+    }
 }

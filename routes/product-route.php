@@ -19,6 +19,7 @@ Route::middleware(['auth'])->name('inventory.')->group(function () {
         Route::put('/{product}/restore', 'restore')->name('restore')->middleware('can:RestoreProduct');
         Route::delete('/{product}/force_delete', 'force_delete')->name('force_delete')->middleware('can:ForceDeleteProduct');
         Route::post('/getUnit', 'getUnit')->name('getUnit');
+        Route::post('/validateRemainQty', 'validateRemainQty')->name('validateRemainQty');
     });
 
     Route::prefix('product_category')->name('product_category.')->controller(ProductCategoryController::class)->group(function () {

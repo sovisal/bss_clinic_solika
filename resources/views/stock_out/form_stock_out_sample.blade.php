@@ -19,7 +19,7 @@
             <x-bss-form.input-row name="qty[]" id="" labelWidth="15%" :tr="false" class="is_number qty" required label="QTY Out" />
         </tr>
         <tr>
-            <x-bss-form.input-row name="reciept_no[]" id="" labelWidth="15%" :tr="false" required label="Reciept Number" />
+            <x-bss-form.input-row name="reciept_no[]" id="" labelWidth="15%" :tr="false" label="Reciept Number" />
             <x-bss-form.select-row name="unit_id[]" id="" labelWidth="15%" :tr="false" class="unit_id" :select2="false" label="Unit">
                 <option value="">---- None ----</option>
             </x-bss-form.select-row>

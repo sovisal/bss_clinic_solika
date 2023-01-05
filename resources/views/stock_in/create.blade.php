@@ -9,10 +9,10 @@
         @csrf
         <x-card bodyClass="pb-0">
             <x-slot name="action">
-                <x-form.button type="submit" value="Progress" icon="bx bx-save" label="Save" />
+                <x-form.button type="submit" icon="bx bx-save" label="Save" />
             </x-slot>
             <x-slot name="footer">
-                <x-form.button type="submit" value="Progress" icon="bx bx-save" label="Save" />
+                <x-form.button type="submit" icon="bx bx-save" label="Save" />
             </x-slot>
             
             <table class="table-form striped">
