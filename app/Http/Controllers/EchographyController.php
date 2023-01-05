@@ -34,7 +34,7 @@ class EchographyController extends Controller
     {
         $data = [
             'type' => EchoType::where('status', 1)->orderBy('index', 'asc')->get(),
-            'patient' => Patient::orderBy('name_en', 'asc')->get(),
+            'patient' => [],
             'doctor' => Doctor::orderBy('id', 'asc')->get(),
             'payment_type' => getParentDataSelection('payment_type'),
             'gender' => getParentDataSelection('gender'),
@@ -144,7 +144,7 @@ class EchographyController extends Controller
         $data = [
             'row' => $echography,
             'type' => EchoType::where('status', 1)->orderBy('index', 'asc')->get(),
-            'patient' => Patient::orderBy('name_en', 'asc')->get(),
+            'patient' => Patient::where('id', $echography->patient_id)->get(),
             'doctor' => Doctor::orderBy('id', 'asc')->get(),
             'payment_type' => getParentDataSelection('payment_type'),
             'gender' => getParentDataSelection('gender'),

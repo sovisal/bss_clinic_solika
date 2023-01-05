@@ -34,7 +34,7 @@ class PrescriptionController extends Controller
     public function create()
     {
         $data = [
-            'patient' => Patient::orderBy('name_en', 'asc')->get(),
+            'patient' => [],
             'doctor' => Doctor::orderBy('id', 'asc')->get(),
             'payment_type' => getParentDataSelection('payment_type'),
             'gender' => getParentDataSelection('gender'),
@@ -179,7 +179,7 @@ class PrescriptionController extends Controller
     {
         $data = [
             'row'=>  $prescription,
-            'patient' => Patient::orderBy('name_en', 'asc')->get(),
+            'patient' => Patient::where('id', $prescription->patient_id)->get(),
             'doctor' => Doctor::orderBy('id', 'asc')->get(),
             'payment_type' => getParentDataSelection('payment_type'),
             'gender' => getParentDataSelection('gender'),

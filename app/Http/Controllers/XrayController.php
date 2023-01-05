@@ -33,7 +33,7 @@ class XrayController extends Controller
     {
         $data = [
             'type' => XrayType::where('status', 1)->orderBy('index', 'asc')->get(),
-            'patient' => Patient::orderBy('name_en', 'asc')->get(),
+            'patient' => [],
             'doctor' => Doctor::orderBy('id', 'asc')->get(),
             'payment_type' => getParentDataSelection('payment_type'),
             'gender' => getParentDataSelection('gender'),
@@ -155,7 +155,7 @@ class XrayController extends Controller
         $data = [
             'row' => $xray,
             'type' => XrayType::where('status', 1)->orderBy('index', 'asc')->get(),
-            'patient' => Patient::orderBy('name_en', 'asc')->get(),
+            'patient' => Patient::where('id', $xray->patient_id)->get(),
             'doctor' => Doctor::orderBy('id', 'asc')->get(),
             'addresses' => get4LevelAdressSelectorByID($xray->address_id, ...['xx', 'option']),
             'payment_type' => getParentDataSelection('payment_type'),

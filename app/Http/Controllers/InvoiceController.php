@@ -43,7 +43,7 @@ class InvoiceController extends Controller
     {
         $data = [
             'code' => generate_code('INV', 'invoices', false),
-            'patient' => Patient::orderBy('name_en', 'asc')->get(),
+            'patient' => [],
             'doctor' => Doctor::orderBy('id', 'asc')->get(),
             'payment_type' => getParentDataSelection('payment_type'),
             'gender' => getParentDataSelection('gender'),
@@ -64,6 +64,7 @@ class InvoiceController extends Controller
         if ($inv = Invoice::create([
             'code' => generate_code('INV', 'invoices'),
             'inv_date' => $request->inv_date ?: date('Y-m-d H:i:s'),
+            'requested_at' => $request->inv_date ?: date('Y-m-d H:i:s'),
             'patient_id' => $request->patient_id ?: null,
             'age' => $request->age ?: '0',
             'age_type' => 1, // Will link with data-patent to get age type and disply dropdown at form
@@ -117,7 +118,7 @@ class InvoiceController extends Controller
             'row' => $invoice,
             'code' => generate_code('INV', 'invoices', false),
             'inv_number' => "PT-" . str_pad($invoice->id, 4, '0', STR_PAD_LEFT),
-            'patient' => Patient::orderBy('name_en', 'asc')->get(),
+            'patient' => Patient::where('id', $invoice->patient_id)->get(),
             'doctor' => Doctor::orderBy('id', 'asc')->get(),
             'payment_type' => getParentDataSelection('payment_type'),
             'gender' => getParentDataSelection('gender'),

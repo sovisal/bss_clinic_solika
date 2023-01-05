@@ -23,7 +23,7 @@ class ReportFilter extends Component
      */
     public function render()
     {
-        $data['patient'] = Patient::orderBy('name_en', 'asc')->get();
+        $data['patient'] = Patient::where('id', request()->ft_patient_id)->get();
         return view('components.para-clinic.report-filter', $data);
     }
 }

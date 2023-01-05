@@ -33,7 +33,7 @@ class EcgController extends Controller
     {
         $data = [
             'type' => EcgType::where('status', 1)->orderBy('index', 'asc')->get(),
-            'patient' => Patient::orderBy('name_en', 'asc')->get(),
+            'patient' => [],
             'doctor' => Doctor::orderBy('id', 'asc')->get(),
             'payment_type' => getParentDataSelection('payment_type'),
             'gender' => getParentDataSelection('gender'),
@@ -153,7 +153,7 @@ class EcgController extends Controller
         $data = [
             'row' => $ecg,
             'type' => EcgType::where('status', 1)->orderBy('index', 'asc')->get(),
-            'patient' => Patient::orderBy('name_en', 'asc')->get(),
+            'patient' => Patient::where('id', $ecg->patient_id)->get(),
             'doctor' => Doctor::orderBy('id', 'asc')->get(),
             'addresses' => get4LevelAdressSelectorByID($ecg->address_id, ...['xx', 'option']),
             'payment_type' => getParentDataSelection('payment_type'),

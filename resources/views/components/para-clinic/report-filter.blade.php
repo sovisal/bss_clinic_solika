@@ -4,7 +4,7 @@
             <x-form.daterangepicker name="ft_daterangepicker" label="Date" value="{{ request()->ft_daterangepicker }}" drpStart="{{ request()->ft_daterangepicker_drp_start }}" drpEnd="{{ request()->ft_daterangepicker_drp_end }}" />
         </div>
         <div class="col-sm-3 col-md-2">
-            <x-form.select name="ft_patient_id" label="patient">
+            <x-form.select name="ft_patient_id" :url="route('patient.index')" label="patient">
                 <option value="">Please choose patient</option>
                 @foreach ($patient as $data)
                 <option value="{{ $data->id }}" {{ ((request()->ft_patient_id == $data->id) ? 'selected' : '') }}>{{ d_obj($data, ['name_en', 'name_kh']) }}</option>

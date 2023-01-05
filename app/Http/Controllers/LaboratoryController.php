@@ -33,7 +33,7 @@ class LaboratoryController extends Controller
     {
         $data = [
             'type' => LaborType::where('status', 1)->orderBy('index', 'asc')->regroupe(),
-            'patient' => Patient::orderBy('name_en', 'asc')->get(),
+            'patient' => [],
             'doctor' => Doctor::orderBy('id', 'asc')->get(),
             'payment_type' => getParentDataSelection('payment_type'),
             'gender' => getParentDataSelection('gender'),
@@ -240,7 +240,7 @@ class LaboratoryController extends Controller
         $data = [
             'row' => $labor,
             'labor_detail' => $labor->details,
-            'patient' => Patient::orderBy('name_en', 'asc')->get(),
+            'patient' => Patient::where('id', $labor->patient_id)->get(),
             'doctor' => Doctor::orderBy('id', 'asc')->get(),
             'payment_type' => getParentDataSelection('payment_type'),
             'gender' => getParentDataSelection('gender'),

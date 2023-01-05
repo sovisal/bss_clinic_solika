@@ -50,7 +50,7 @@
 <tr>
     <td class="text-right"><label>Patient name<small class='required'>*</small></label></td>
     <td>
-        <x-bss-form.select name="patient_id" required :disabled="$isEdit && $row->patient_id">
+        <x-bss-form.select name="patient_id" required :disabled="$isEdit && $row->patient_id" :url="route('patient.index')" label="patient">
             <option value="">Please choose patient</option>
             @foreach ($patient as $data)
             <option value="{{ $data->id }}" {{ old('patient_id', @$row->patient_id) == $data->id ? 'selected' : '' }}>{{ d_obj($data, ['name_en', 'name_kh']) }}</option>

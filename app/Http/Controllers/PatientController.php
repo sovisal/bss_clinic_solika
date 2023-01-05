@@ -19,6 +19,14 @@ class PatientController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
+            if ($request->term) {
+                // For select2 Ajx
+                $term = Patient::where('name_en', 'LIKE', '%' . $request->term . '%')
+                    ->orWhere('name_kh', 'LIKE', '%' . $request->term . '%')
+                    ->get(['id', 'name_kh as text']);
+                return ['results' => $term];
+            }
+
             $data = Patient::with(['address', 'user', 'gender', 'hasOneConsultation']);
 
             return Datatables::of($data)

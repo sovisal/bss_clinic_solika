@@ -1,6 +1,7 @@
 @props([
 	'name',
 	'label',
+	'url' => '',
 	'data',
 	'id' => null,
 	'selected' => null,
@@ -31,9 +32,10 @@
 	@endif
 
 	<select
-		class="@error($name)is-invalid @enderror form-control {{ ($select2)? 'custom-select2' : '' }} {{ $class }}"
+		class="@error($name)is-invalid @enderror form-control {{ ($select2) ? ($url ? 'select2Ajx' : 'custom-select2') : '' }} {{ $class }}"
 		name="{{ $name }}"
 		id="{{ $id ?? $name }}"
+		data-url="{{ $url ?? '' }}"
 		{{ $attributes(['value' => old($name)]) }}
 	>
 		@if (isset($data))
