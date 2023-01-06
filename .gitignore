@@ -13,6 +13,7 @@
 storage/framework/laravel-excel
 /vendor
 .env
+.lock
 .env.backup
 .phpunit.result.cache
 docker-compose.override.yml
