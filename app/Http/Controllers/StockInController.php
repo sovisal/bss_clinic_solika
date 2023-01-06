@@ -26,7 +26,7 @@ class StockInController extends Controller
                 ->stockFilter()
                 ->orderBy('date', 'desc')
                 ->limit(5000)->get(),
-            'suppliers' => Supplier::where('status', 1)->orderBy('name_en', 'asc')->get()
+            'suppliers' => Supplier::where('id', request()->ft_supplier_id)->get()
         ];
 
         if ($request->ajax()) {

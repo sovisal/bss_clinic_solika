@@ -22,7 +22,7 @@ class StockFilter extends Component
      */
     public function render()
     {
-        $data['products'] = Product::where('status', 1)->orderBy('name_en', 'asc')->get();
+        $data['products'] = Product::where('id', request()->ft_product_id)->get();
         return view('components.stock-filter', $data);
     }
 }

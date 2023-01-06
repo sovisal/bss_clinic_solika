@@ -5,7 +5,7 @@
         @endcan
         <x-stock-filter url="{{ route('inventory.stock_in.index') }}">
             <div class="col-sm-3 col-md-2">
-                <x-form.select name="ft_supplier_id" label="{{ __('form.stock.supplier') }}">
+                <x-form.select name="ft_supplier_id" :url="route('inventory.supplier.index')" label="{{ __('form.stock.supplier') }}">
                     <option value="">{{ __('form.all') }}</option>
                     @foreach ($suppliers as $supplier)
                     <option value="{{ $supplier->id }}" @selected($supplier->id == request()->ft_supplier_id)>{{ d_obj($supplier, ['name_en', 'name_kh']) }}</option>

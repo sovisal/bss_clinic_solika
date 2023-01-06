@@ -10,7 +10,7 @@
             />
         </div>
         <div class="col-sm-3 col-md-2">
-            <x-form.select name="ft_product_id" label="{{ __('form.stock.product') }}">
+            <x-form.select name="ft_product_id" label="{{ __('form.stock.product') }}" :url="route('inventory.product.index')">
             <option value="">{{ __('form.all') }}</option>
                 @foreach ($products as $product)
                 <option value="{{ $product->id }}" @selected($product->id == request()->ft_product_id)>{{ d_obj($product, ['name_en', 'name_kh']) }}</option>
