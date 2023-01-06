@@ -19,7 +19,7 @@ class ProductTypeSeeder extends Seeder
 				'id' => 1,
 				'name_kh' => 'Medicine',
 				'name_en' => 'Medicine',
-				'description' => '',
+				'description' => 'Products with this type will use in prescription and invoice.',
 				'status' => 1,
 				'user_id' => 1,
 			],

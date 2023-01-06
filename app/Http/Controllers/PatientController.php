@@ -35,7 +35,13 @@ class PatientController extends Controller
                 return ['results' => $result];
             }
 
-            $data = Patient::with(['address', 'user', 'gender', 'hasOneConsultation']);
+            $data = Patient::with(['address', 'user', 'gender', 'hasOneConsultation'])
+                ->withCount('ecgs')
+                ->withCount('echos')
+                ->withCount('xrays')
+                ->withCount('labors')
+                ->withCount('prescriptions')
+                ->withCount('invoices');
 
             return Datatables::of($data)
                 ->addColumn('dt', function ($r) {
@@ -51,7 +57,9 @@ class PatientController extends Controller
                         'status' => d_status($r->status),
                         'action' => d_action([
                             'module' => 'patient', 'id' => $r->id, 'isTrashed' => $r->trashed(),
-                            'disableShow' => $r->trashed(), 'disableEdit' => $r->trashed(), 'disableDelete' => $r->hasOneConsultation
+                            'disableShow' => $r->trashed(), 
+                            'disableEdit' => $r->trashed(), 
+                            'disableDelete' => $r->hasOneConsultation || $r->ecgs_count > 0 || $r->echos_count > 0 || $r->xrays_count > 0 || $r->labors_count > 0 || $r->prescriptions_count > 0 || $r->invoices_count > 0
                         ]),
                     ];
                 })

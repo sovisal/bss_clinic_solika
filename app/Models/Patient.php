@@ -90,6 +90,11 @@ class Patient extends BaseModel
 
     }
 
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class, 'patient_id');
+    }
+
     public function prescriptions()
     {
         return $this->hasMany(Prescription::class, 'patient_id');

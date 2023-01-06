@@ -48,8 +48,8 @@
                         module-ability="Prescription"
                         :id="$row->id"
                         :is-trashed="$row->trashed()"
-                        :disable-edit="$row->trashed() || !$row->status == 1"
-                        :disable-delete="!$row->status == 1"
+                        :disable-edit="$row->trashed() || !($row->status=='1' && $row->payment_status == 0)"
+                        :disable-delete="!($row->status=='1' && $row->payment_status == 0)"
                         :show-btn-show="false"
                     >
                         @can('PrintPrescription')
