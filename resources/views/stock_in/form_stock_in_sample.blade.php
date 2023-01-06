@@ -10,7 +10,7 @@
         </tr>
         <tr>
             <x-bss-form.input-row name="date[]" id="" labelWidth="12%" :tr="false" class="date-picker" hasIcon="right" icon="bx bx-calendar" required label="Date" value="{{ date('Y-m-d') }}" />
-            <x-bss-form.select-row name="supplier_id[]" id="" labelWidth="12%" :tr="false" :select2="false" required label="Supplier">
+            <x-bss-form.select-row name="supplier_id[]" id="" labelWidth="12%" :url="route('inventory.supplier.index')" :tr="false" :select2="false" required label="Supplier">
                 <option value="">---- None ----</option>
                 @foreach ($suppliers as $supplier)
                 <option value="{{ $supplier->id }}">{{ d_obj($supplier, ['name_en', 'name_kh']) }}</option>
@@ -20,8 +20,11 @@
         </tr>
         <tr>
             <x-bss-form.input-row name="exp_date[]" id="" labelWidth="12%" :tr="false" class="date-picker" hasIcon="right" icon="bx bx-calendar" label="Expire Date" />
-            <x-bss-form.select-row name="product_id[]" id="" labelWidth="12%" :tr="false" :select2="false" required label="Product">
+            <x-bss-form.select-row name="product_id[]" id="" labelWidth="12%" :url="route('inventory.product.index')" :tr="false" :select2="false" required label="Product">
                 <option value="">---- None ----</option>
+                @foreach ($products as $product)
+                <option value="{{ $product->id }}">{{ d_obj($product, ['name_en', 'name_kh']) }}</option>
+                @endforeach
             </x-bss-form.select-row>
             <x-bss-form.input-row name="price[]" id="" labelWidth="12%" :tr="false" class="is_number price" required label="Price" />
         </tr>

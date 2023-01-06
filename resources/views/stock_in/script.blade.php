@@ -7,10 +7,14 @@
     function redefine() {
         // Redefine select2 and date-picker
         $('#form-item-container select').each((_i, e) => {
+            $_this = $(e);
             $(e).select2({
-                dropdownAutoWidth: !0,
+                minimumInputLength: 3,
+                ajax: {
+                    url: $_this.data('url'),
+                    dataType: 'json',
+                },
                 width: "100%",
-                dropdownParent: $(e).parent()
             });
         });
         $("#form-item-container .date-picker").datetimepicker({
@@ -43,30 +47,30 @@
         $this_row.find('[name="total[]"],[name="total"]').val(qty * price);
     }
 
-    $(document).on('change', '[name="supplier_id[]"],[name="supplier_id"]', function () {
-        const $this_row = $(this).closest('table.table-stock-in-item');
-        $this_row.find('[name="product_id[]"],[name="product_id"]').html('<option value="">---- None ----</option>').prop('disabled', true);
-        $this_row.find('[name="unit_id[]"],[name="unit_id"]').html('<option value="">---- None ----</option>');
-        // $this_row.find('[name="price[]"],[name="price"]').val('0');
-        if ($(this).val() != '') {
-            $.ajax({
-                url: "{{ route('inventory.supplier.getProduct') }}",
-                type: "post",
-                data: {
-                    id: bss_number($(this).val()),
-                },
-                success: function (rs) {
-                    if (rs.success) {
-                        $this_row.find('[name="product_id[]"],[name="product_id"]').html(rs.options).prop('disabled', false);
-                    }
-                },
-                error: function (rs) {
-                    flashMsg("danger", 'Error', rs.message)
-                },
-            })
-        }
-        calculateBaseQtyAndTotal($this_row);
-    });
+    // $(document).on('change', '[name="supplier_id[]"],[name="supplier_id"]', function () {
+    //     const $this_row = $(this).closest('table.table-stock-in-item');
+    //     $this_row.find('[name="product_id[]"],[name="product_id"]').html('<option value="">---- None ----</option>').prop('disabled', true);
+    //     $this_row.find('[name="unit_id[]"],[name="unit_id"]').html('<option value="">---- None ----</option>');
+    //     // $this_row.find('[name="price[]"],[name="price"]').val('0');
+    //     if ($(this).val() != '') {
+    //         $.ajax({
+    //             url: "{{ route('inventory.supplier.getProduct') }}",
+    //             type: "post",
+    //             data: {
+    //                 id: bss_number($(this).val()),
+    //             },
+    //             success: function (rs) {
+    //                 if (rs.success) {
+    //                     $this_row.find('[name="product_id[]"],[name="product_id"]').html(rs.options).prop('disabled', false);
+    //                 }
+    //             },
+    //             error: function (rs) {
+    //                 flashMsg("danger", 'Error', rs.message)
+    //             },
+    //         })
+    //     }
+    //     calculateBaseQtyAndTotal($this_row);
+    // });
 
     $(document).on('change', '[name="product_id[]"],[name="product_id"]', function () {
         const $this_row = $(this).closest('table.table-stock-in-item');

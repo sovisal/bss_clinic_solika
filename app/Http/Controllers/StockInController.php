@@ -42,7 +42,8 @@ class StockInController extends Controller
     public function create()
     {
         $data = [
-            'suppliers' => Supplier::where('status', 1)->orderBy('name_en', 'asc')->get(),
+            'suppliers' => [],
+            'products' => [],
         ];
         return view('stock_in.create', $data);
     }

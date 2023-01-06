@@ -20,6 +20,22 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
+            if ($request->term) {
+                // For select2 Ajx
+                $term = Product::where('name_en', 'LIKE', '%' . $request->term . '%')
+                    ->orWhere('name_kh', 'LIKE', '%' . $request->term . '%')
+                    ->limit(500)->get(['id', 'name_kh', 'name_en']);
+
+                $result = [];
+                foreach ($term as $t) {
+                    $result[] = [
+                        'id' => $t->id,
+                        'text' => d_obj($t, ['name_kh', 'name_en']),
+                    ];
+                }
+                return ['results' => $result];
+            }
+
             $data = Product::with(['user', 'unit', 'type', 'category']);
 
             return Datatables::of($data)

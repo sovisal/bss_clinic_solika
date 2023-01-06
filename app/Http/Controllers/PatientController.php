@@ -23,8 +23,16 @@ class PatientController extends Controller
                 // For select2 Ajx
                 $term = Patient::where('name_en', 'LIKE', '%' . $request->term . '%')
                     ->orWhere('name_kh', 'LIKE', '%' . $request->term . '%')
-                    ->get(['id', 'name_kh as text']);
-                return ['results' => $term];
+                    ->limit(500)->get(['id', 'name_kh', 'name_en']);
+
+                $result = [];
+                foreach ($term as $t) {
+                    $result[] = [
+                        'id' => $t->id,
+                        'text' => d_obj($t, ['name_kh', 'name_en']),
+                    ];
+                }
+                return ['results' => $result];
             }
 
             $data = Patient::with(['address', 'user', 'gender', 'hasOneConsultation']);

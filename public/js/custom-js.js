@@ -1281,6 +1281,7 @@ $(document).ready(function () {
                 url: $_this.data('url'),
                 dataType: 'json',
             },
+            width: "100%",
         });
     });
 });

@@ -1,6 +1,7 @@
 @props([
     'name',
     'label',
+    'url' => '',
     'labelWidth' => '20%',
     'data'=> null,
     'id' => null,
@@ -22,6 +23,7 @@
             :name="$name"
             :data="$data"
             :id="$id"
+            :url="$url"
             :selected="$selected"
             :select2="$select2"
             :place-holder="$placeHolder"
