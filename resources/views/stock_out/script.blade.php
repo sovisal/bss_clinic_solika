@@ -1,10 +1,9 @@
 <script src="{{ asset('js/dragula.min.js') }}"></script>
 <script>
     const item = `<tr class="stock-out-item widget-todo-item"><td class="tw-py-3">${$('#stock-out-new-item').html()}</td></tr>`;
-    if ('{{ isset($row) }}'=='') { 
+    if ($.trim($('#form-item-container').html()) == '') { 
         addStockOutForm();
     }
-
     function redefine() {
         // Redefine select2 and date-picker
         $('#form-item-container select').each((_i, e) => {

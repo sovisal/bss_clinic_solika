@@ -4,35 +4,6 @@
     </x-slot>
     <x-slot name="js">
         @include('stock_out.script')
-        <script>
-            // $('.btn-submit').click(function (){
-            //     var product_id = $('#form-item-container input[name="product_id[]"]').map(function(){return $(this).val();}).get();
-            //     var unit_id = $('#form-item-container input[name="unit_id[]"]').map(function(){return $(this).val();}).get();
-            //     var qty = $('#form-item-container input[name="qty[]"]').map(function(){return $(this).val();}).get();
-            //     console.log(qty);
-            //     $.ajax({
-            //         url: "{{ route('inventory.product.validateRemainQty') }}",
-            //         method: 'post',
-            //         data: {
-            //             product_id : product_id,
-            //             unit_id : unit_id,
-            //             qty : qty,
-            //         },
-            //         success: function (res) {
-                        
-            //         },
-            //         error: function (request, status, error) {
-            //             bss_swal_Error(
-            //                 bss_string(request.responseText) +
-            //                     " : " +
-            //                     bss_string(status) +
-            //                     " : " +
-            //                     bss_string(error)
-            //             );
-            //         },
-            //     });
-            // });
-        </script>
     </x-slot>
     <form action="{{ route(($module ?? 'inventory.stock_out') . '.store') }}" method="POST" autocomplete="off" enctype="multipart/form-data">
         @csrf
@@ -59,6 +30,13 @@
                     </tr>
                 </thead>
                 <tbody id="form-item-container" class="widget-todo-list-wrapper">
+                    @foreach (session()->get('stockOuts') ?? [] as $row)
+                    <tr>
+                        <td>
+                            <x-stock-out-form :module="($module ?? 'inventory.stock_out')" :row="$row"/>
+                        </td>
+                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </x-card>
