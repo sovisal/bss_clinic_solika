@@ -7,6 +7,7 @@ use App\Models\Inventory\StockIn;
 use App\Models\Inventory\Supplier;
 use App\Http\Requests\StockInRequest;
 use Illuminate\Http\Request;
+use DataTables;
 
 class StockInController extends Controller
 {
@@ -15,25 +16,56 @@ class StockInController extends Controller
      */
     public function index(Request $request)
     {
-        request()->merge([
-            'ft_daterangepicker_drp_start' => request()->ft_daterangepicker_drp_start ?? date('Y-m-01'),
-            'ft_daterangepicker_drp_end' => request()->ft_daterangepicker_drp_end ?? date('Y-m-t'),
-        ]);
-        $data = [
-            'rows' => StockIn::with(['unit', 'supplier', 'product.unit'])
-                ->withCount('stock_outs')
-                ->filterTrashed()
-                ->stockFilter()
-                ->orderBy('date', 'desc')
-                ->limit(5000)->get(),
-            'suppliers' => Supplier::where('id', request()->ft_supplier_id)->get()
-        ];
+        // if ($request->ajax()) {
+        //     return $data['rows'];
+        // }
 
         if ($request->ajax()) {
-            return $data['rows'];
-        }
+            request()->merge([
+                'ft_daterangepicker_drp_start' => request()->ft_daterangepicker_drp_start ?? date('Y-m-01'),
+                'ft_daterangepicker_drp_end' => request()->ft_daterangepicker_drp_end ?? date('Y-m-t'),
+            ]);
 
-        return view('stock_in.index', $data);
+            $data = StockIn::with(['unit', 'supplier', 'product.unit'])
+                ->withCount('stock_outs')
+                ->stockFilter()
+                ->orderBy('date', 'desc');
+
+            return Datatables::of($data)
+            ->addColumn('dt', function ($r) {
+                return [
+                    'date' => d_date($r->date, 'Y-m-d'),
+                    'code' => d_obj($r, 'product', 'code'),
+                    'product' => d_obj($r, 'product', 'link'),
+                    'supplier' => d_obj($r, 'supplier', 'link'),
+                    'qty' => d_number($r->qty),
+                    'unit' => d_obj($r, 'unit', 'link'),
+                    'price' => d_currency($r->price),
+                    'total' => d_currency($r->total),
+                    'qty_based' => d_number($r->qty_based),
+                    'p_unit' => d_obj($r, 'product', 'unit', 'link'),
+                    'qty_used' => d_number($r->qty_used),
+                    'qty_remain' => d_number($r->qty_remain),
+                    'exp_status' => $r->exp_date > date('Y-m-d') ? d_status(true, '', d_date($r->exp_date, 'Y-m-d'), '', 'badge-success') : d_status(false, d_date($r->exp_date, 'Y-m-d')),
+                    'reciept_no' => d_text($r->reciept_no),
+                    'status' => $r->qty_remain > 0 ? d_status(true, '', 'Stock Active') : d_status(false, 'Stock Closed', '', 'badge-light'),
+                    'action' => d_action([
+                        'module' => "inventory.stock_in",
+                        'module-ability' => "StockIn",
+                        'id' => $r->id,
+                        'isTrashed' => $r->trashed(),
+                        'disableEdit' => $r->trashed(),
+                        'disableDelete' => $r->stock_outs_count > 0,
+                        'showBtnShow' => false,
+                    ]),
+                ];
+            })
+            ->rawColumns(['dt.status', 'dt.product', 'dt.supplier', 'dt.unit', 'dt.p_unit', 'dt.exp_status', 'dt.status', 'dt.action'])
+            ->make(true);
+        } else {
+            $data['suppliers'] = Supplier::where('id', request()->ft_supplier_id)->get();
+            return view('stock_in.index', $data);
+        }
     }
 
     /**

@@ -16,7 +16,7 @@ class StockAlertController extends Controller
     public function index(Request $request)
     {
         if ($request->expired) {
-            return $this->expired();
+            return $this->expired($request);
         } else {
             return $this->out_of_stock($request);
         }
@@ -46,13 +46,33 @@ class StockAlertController extends Controller
         }
     }
 
-    public function expired()
+    public function expired($request)
     {
-        $data['rows'] = StockIn::with(['user', 'unit', 'supplier', 'product.unit'])
-            ->expired()
-            ->limit(5000)
-            ->get();
+        if ($request->ajax()) {
+            $data = StockIn::with(['user', 'unit', 'supplier', 'product.unit'])
+            ->expired();
 
-        return view('stock_alert.index_expired', $data);
+            return Datatables::of($data)
+            ->addColumn('dt', function ($r) {
+                return [
+                    'date' => d_date($r->date, 'Y-m-d'),
+                    'code' => d_obj($r, 'product', 'code'),
+                    'product' => d_obj($r, 'product', 'link'),
+                    'supplier' => d_obj($r, 'supplier', 'link'),
+                    'qty' => d_number($r->qty),
+                    'unit' => d_obj($r, 'unit', 'link'),
+                    'qty_based' => d_number($r->qty_based),
+                    'p_unit' => d_obj($r, 'product', 'unit', 'link'),
+                    'qty_used' => d_number($r->qty_used),
+                    'qty_remain' => d_number($r->qty_remain),
+                    'exp_date' => d_date($r->exp_date, 'Y-m-d'),
+                    'status' => $r->exp_date > date('Y-m-d') ? '--' : d_status(false, 'Expired'),
+                ];
+            })
+            ->rawColumns(['dt.status', 'dt.product', 'dt.supplier', 'dt.unit', 'dt.p_unit', 'dt.exp_status', 'dt.status', 'dt.action'])
+            ->make(true);
+        } else {
+            return view('stock_alert.index_expired');
+        }
     }
 }

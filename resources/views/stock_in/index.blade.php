@@ -1,4 +1,28 @@
 <x-app-layout>
+    <x-slot name="js">
+        <script>
+            let table_columns   = [
+                {data: 'dt.date', name: 'date'},
+                {data: 'dt.code', name: 'id', orderable: false, searching: false},
+                {data: 'dt.product', name: 'id', orderable: false, searching: false},
+                {data: 'dt.supplier', name: 'id', orderable: false, searching: false},
+                {data: 'dt.qty', name: 'qty'},
+                {data: 'dt.unit', name: 'id', orderable: false, searching: false},
+                {data: 'dt.price', name: 'price'},
+                {data: 'dt.total', name: 'total'},
+                {data: 'dt.qty_based', name: 'qty_based'},
+                {data: 'dt.p_unit', name: 'id', orderable: false, searching: false},
+                {data: 'dt.qty_used', name: 'qty_used'},
+                {data: 'dt.qty_remain', name: 'qty_remain'},
+                {data: 'dt.exp_status', name: 'id', orderable: false, searching: false},
+                {data: 'dt.reciept_no', name: 'reciept_no'}, 
+                {data: 'dt.status', name: 'id', orderable: false, searching: false},
+                {data: 'dt.action', name: 'id', orderable: false, searching: false},
+            ];
+
+            initDatatableDynamic('#datatables_server', '', table_columns);
+        </script>
+    </x-slot>
     <x-slot name="header">
         @can('CreateStockIn')
         <x-form.button href="{{ route('inventory.stock_in.create') }}" icon="bx bx-plus" label="Create" />
@@ -41,10 +65,9 @@
         </x-stock-filter>
     </x-slot>
     <x-card :foot="false" :head="false">
-        <x-table class="table-hover table-striped" id="datatables">
+        <x-table class="table-hover table-striped" id="datatables_server">
             <x-slot name="thead">
                 <tr>
-                    <th width="3%">No</th>
                     <th width="8%">Date</th>
                     <th width="10%">Code</th>
                     <th width="10%">Product</th>
@@ -64,9 +87,8 @@
                     <th width="8%">Action</th>
                 </tr>
             </x-slot>
-            @foreach($rows as $i => $row)
+            @foreach([] as $i => $row)
             <tr>
-                <td>{{ ++$i }}</td>
                 <td>{{ d_date($row->date, 'Y-m-d') }}</td>
                 <td>{!! d_obj($row, 'product', 'code') !!}</td>
                 <td>{!! d_obj($row, 'product', 'link') !!}</td>
