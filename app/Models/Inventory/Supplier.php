@@ -16,6 +16,11 @@ class Supplier extends BaseModel
         return $this->belongsTo(ProductCategory::class, 'category_id');
     }
 
+    public function stockins()
+    {
+        return $this->hasMany(StockIn::class, 'supplier_id');
+    }
+
     public function type()
     {
         return $this->belongsTo(ProductType::class, 'type_id');

@@ -4,18 +4,40 @@ namespace App\Http\Controllers;
 
 use App\Models\Inventory\ProductCategory;
 use App\Http\Requests\ProductCategoryRequest;
+use Illuminate\Http\Request;
+use DataTables;
 
 class ProductCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = [
-            'rows' => ProductCategory::with(['user'])->withCount('products')->filterTrashed()->orderBy('name_en')->limit(5000)->get(),
-        ];
-        return view('product_category.index', $data);
+        if ($request->ajax()) {
+            $data = ProductCategory::with(['user'])->withCount('products')->withCount('suppliers');
+
+            return Datatables::of($data)
+                ->addColumn('dt', function ($r) {
+                    return [
+                        'name' => d_obj($r, ['name_kh', 'name_en']),
+                        'description' => d_text($r->description ? substr($r->description, 0, 75) . ' ...' : ''),
+                        'products_count' => '<x-badge>' . d_number($r->products_count) . '</x-badge>',
+                        'suppliers_count' => '<x-badge>' . d_number($r->suppliers_count) . '</x-badge>',
+                        'user' => d_obj($r, 'user', 'name'),
+                        'status' => d_status($r->status),
+                        'action' => d_action([
+                            'module-ability'=> 'ProductCategory', 'module' => 'inventory.product_category', 'id' => $r->id, 'isTrashed' => $r->trashed(),
+                            'disableEdit' => $r->trashed(), 'showBtnShow' => false,
+                            'disableDelete' => $r->products_count > 0 || $r->suppliers_count > 0,
+                        ]),
+                    ];
+                })
+                ->rawColumns(['dt.status', 'dt.products_count', 'dt.action', 'dt.suppliers_count'])
+                ->make(true);
+        } else {
+            return view('product_category.index');
+        }
     }
 
     /**

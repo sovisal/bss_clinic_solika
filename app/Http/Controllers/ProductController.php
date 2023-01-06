@@ -36,7 +36,7 @@ class ProductController extends Controller
                 return ['results' => $result];
             }
 
-            $data = Product::with(['user', 'unit', 'type', 'category']);
+            $data = Product::with(['user', 'unit', 'type', 'category'])->withCount('stockins');
 
             return Datatables::of($data)
                 ->addColumn('dt', function ($r) {
@@ -55,7 +55,8 @@ class ProductController extends Controller
 
                         'action' => d_action([
                             'module-ability'=> 'Product', 'module' => 'inventory.product', 'id' => $r->id, 'isTrashed' => $r->trashed(),
-                            'showBtnShow' => false, 'showBtnForceDelete' => true
+                            'showBtnShow' => false,
+                            'disableDelete' => $r->stockins_count > 0 || $r->qty_in > 0 || $r->qty_out > 0 || $r->qty_remain > 0,
                         ]),
                     ];
                 })

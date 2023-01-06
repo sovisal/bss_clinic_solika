@@ -35,7 +35,7 @@ class SupplierController extends Controller
             }
 
 
-            $data = Supplier::with(['user', 'type', 'category']);
+            $data = Supplier::with(['user', 'type', 'category'])->withCount('stockins');
 
             return Datatables::of($data)
                 ->addColumn('dt', function ($r) {
@@ -48,6 +48,7 @@ class SupplierController extends Controller
                         'address' => d_obj($r, 'address', ['village_kh', 'commune_kh', 'district_kh', 'province_kh'] ),
                         'user' => d_obj($r, 'user', 'name'),
                         'status' => d_status($r->status),
+                        'status' => $r->stockins_count,
 
                         'action' => d_action([
                             'module' => "inventory.supplier",
@@ -55,8 +56,8 @@ class SupplierController extends Controller
                             'id' => $r->id,
                             'isTrashed' => $r->trashed(),
                             'disableEdit' => $r->trashed(),
+                            'disableDelete' => $r->stockins_count > 0,
                             'showBtnShow' => false,
-                            'showBtnForceDelete' => true,
                         ]),
                     ];
                 })

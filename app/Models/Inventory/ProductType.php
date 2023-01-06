@@ -16,6 +16,11 @@ class ProductType extends BaseModel
         return $this->hasMany(Product::class, 'type_id');
     }
 
+    public function suppliers()
+    {
+        return $this->hasMany(Supplier::class, 'type_id');
+    }
+
     public function getLinkAttribute()
     {
         if (($this->status ?? 0) > 0) { // will check permission

@@ -26,14 +26,14 @@
             <x-slot name="thead">
                 <tr>
                     <th>Name</th>
-                    <th width="10%">Type</th>
-                    <th width="10%">Category</th>
+                    <th>Type</th>
+                    <th>Category</th>
                     <th>Contact Person</th>
                     <th>Contact Number</th>
                     <th>Address</th>
-                    {{-- <th width="10%">User</th> --}}
-                    <th width="8%">Status</th>
-                    <th width="8%">Action</th>
+                    {{-- <th>User</th> --}}
+                    <th>Status</th>
+                    <th>Action</th>
                 </tr>
             </x-slot>
             <!-- Dynamic data table -->

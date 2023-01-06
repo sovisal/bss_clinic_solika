@@ -1,4 +1,24 @@
 <x-app-layout>
+    <x-slot name="js">
+        <script>
+            let table_columns   = [
+                {data: 'dt.date', name: 'date'},
+                {data: 'dt.document_no', name: 'document_no'},
+                {data: 'dt.code', name: 'id', orderable: false, searching: false},
+                {data: 'dt.product', name: 'id', orderable: false, searching: false},
+                {data: 'dt.qty', name: 'qty'},
+                {data: 'dt.unit', name: 'id', orderable: false, searching: false},
+                {data: 'dt.price', name: 'price'},
+                {data: 'dt.total', name: 'total'},
+                {data: 'dt.qty_based', name: 'qty_based'},
+                {data: 'dt.p_unit', name: 'id', orderable: false, searching: false},
+                {data: 'dt.type', name: 'type'},
+                {data: 'dt.action', name: 'id', orderable: false, searching: false},
+            ];
+
+            initDatatableDynamic('#datatables_server', '', table_columns);
+        </script>
+    </x-slot>
     <x-slot name="header">
         @can(('Create'. ($module_ability ?? 'StockOut')))
         <x-form.button href="{{ route(($module ?? 'inventory.stock_out') . '.create') }}" icon="bx bx-plus" label="Create" />
@@ -22,26 +42,25 @@
         </x-stock-filter>
     </x-slot>
     <x-card :foot="false" :head="false">
-        <x-table class="table-hover table-striped" id="datatables">
+        <x-table class="table-hover table-striped" id="datatables_server">
             <x-slot name="thead">
                 <tr>
-                    <th width="3%">No</th>
-                    <th width="8%">Date</th>
+                    <th>Date</th>
                     <th>Doc.no</th>
                     <th>Code</th>
                     <th>Product</th>
-                    <th width="8%">QTY_Out</th>
-                    <th width="10%">Unit</th>
-                    <th width="8%">Price</th>
-                    <th width="8%">Total</th>
-                    <th width="8%">Base_QTY</th>
-                    <th width="8%">Unit</th>
-                    <th width="8%">Type</th>
-                    {{-- <th width="8%">User</th> --}}
-                    <th width="8%">Action</th>
+                    <th>QTY_Out</th>
+                    <th>Unit</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th>Base_QTY</th>
+                    <th>Unit</th>
+                    <th>Type</th>
+                    {{-- <th>User</th> --}}
+                    <th>Action</th>
                 </tr>
             </x-slot>
-            @foreach($rows as $i => $row)
+            @foreach([] as $i => $row)
             <tr>
                 <td>{{ ++$i }}</td>
                 <td>{{ d_date($row->date, 'Y-m-d') }}</td>

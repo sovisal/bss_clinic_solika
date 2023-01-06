@@ -8,6 +8,7 @@ use App\Models\Inventory\StockOut;
 use App\Http\Requests\StockOutRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\StockOutController;
+use DataTables;
 
 class StockAdjustmentController extends Controller
 {
@@ -24,17 +25,37 @@ class StockAdjustmentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $this->data += [
-            'rows' => StockOut::with(['user', 'product', 'product.unit'])
-                ->where('type', 'StockAdjustment')
-                ->filterTrashed()
-                ->orderBy('date')
-                ->limit(5000)
-                ->get(),
-        ];
-        return view('stock_out.index', $this->data);
+        if ($request->ajax()) {
+            $data = StockOut::with(['user', 'product', 'product.unit'])->where('type', 'StockAdjustment');
+
+            return Datatables::of($data)
+                ->addColumn('dt', function ($r) {
+                    return [
+                        'date' => d_date($r->date, 'Y-m-d'),
+                        'document_no' => d_text($r->document_no),
+                        'code' => d_obj($r, 'product', 'code'),
+                        'product' => d_obj($r, 'product', 'link'),
+                        'qty' => d_number($r->qty),
+                        'unit' => d_obj($r, 'unit', 'link'),
+                        'price' => d_currency($r->price),
+                        'total' => d_currency($r->total),
+                        'qty_based' => d_number($r->qty_based),
+                        'p_unit' => d_obj($r, 'product', 'unit', 'link'),
+                        'type' => d_text($r->type),
+                        'action' => d_action([
+                            'module-ability'=> $module_ability ?? 'StockOut', 'module' => $module ?? 'inventory.stock_out', 'id' => $r->id, 'isTrashed' => $r->trashed(),
+                            'disableEdit' => $r->trashed(), 'showBtnShow' => false,
+                            'disableDelete' => true,
+                        ]),
+                    ];
+                })
+                ->rawColumns(['dt.status', 'dt.product', 'dt.action', 'dt.unit', 'dt.p_unit'])
+                ->make(true);
+        } else {
+            return view('stock_out.index', $this->data);
+        }
     }
 
     /**

@@ -55,7 +55,7 @@ class StockInController extends Controller
                         'id' => $r->id,
                         'isTrashed' => $r->trashed(),
                         'disableEdit' => $r->trashed(),
-                        'disableDelete' => $r->stock_outs_count > 0,
+                        'disableDelete' => $r->stock_outs_count > 0 || $r->qty_used > 0,
                         'showBtnShow' => false,
                     ]),
                 ];

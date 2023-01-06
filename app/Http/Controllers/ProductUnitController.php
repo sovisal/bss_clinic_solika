@@ -5,18 +5,39 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Inventory\ProductUnit;
 use App\Http\Requests\ProductUnitRequest;
+use DataTables;
 
 class ProductUnitController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = [
-            'rows' => ProductUnit::with(['user'])->withCount('products')->filterTrashed()->orderBy('name_en')->limit(5000)->get(),
-        ];
-        return view('product_unit.index', $data);
+        if ($request->ajax()) {
+            $data = ProductUnit::with(['user'])->withCount('products')->withCount('packages');
+
+            return Datatables::of($data)
+                ->addColumn('dt', function ($r) {
+                    return [
+                        'name' => d_obj($r, ['name_kh', 'name_en']),
+                        'description' => $r->description,
+                        'products_count' => '<x-badge>' . $r->products_count . '</x-badge>',
+                        'packages_count' => '<x-badge>' . $r->packages_count . '</x-badge>',
+                        'user' => d_obj($r, 'user', 'name'),
+                        'status' => d_status($r->status),
+                        'action' => d_action([
+                            'module-ability'=> 'ProductUnit', 'module' => 'inventory.product_unit', 'id' => $r->id, 'isTrashed' => $r->trashed(),
+                            'disableEdit' => $r->trashed(), 'showBtnShow' => false,
+                            'disableDelete' => $r->products_count > 0 || $r->packages_count > 0,
+                        ]),
+                    ];
+                })
+                ->rawColumns(['dt.status', 'dt.products_count', 'dt.action', 'dt.packages_count'])
+                ->make(true);
+        } else {
+            return view('product_unit.index');
+        }
     }
 
     /**

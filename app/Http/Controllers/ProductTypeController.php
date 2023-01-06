@@ -4,18 +4,40 @@ namespace App\Http\Controllers;
 
 use App\Models\Inventory\ProductType;
 use App\Http\Requests\ProductTypeRequest;
+use Illuminate\Http\Request;
+use DataTables;
 
 class ProductTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = [
-            'rows' => ProductType::with(['user'])->withCount('products')->filterTrashed()->orderBy('name_en')->limit(5000)->get(),
-        ];
-        return view('product_type.index', $data);
+        if ($request->ajax()) {
+            $data = ProductType::with(['user'])->withCount('products')->withCount('suppliers');
+
+            return Datatables::of($data)
+                ->addColumn('dt', function ($r) {
+                    return [
+                        'name' => d_obj($r, ['name_kh', 'name_en']),
+                        'description' => d_text($r->description),
+                        'products_count' => '<x-badge>' . d_number($r->products_count) . '</x-badge>',
+                        'suppliers_count' => '<x-badge>' . d_number($r->suppliers_count) . '</x-badge>',
+                        'user' => d_obj($r, 'user', 'name'),
+                        'status' => d_status($r->status),
+                        'action' => d_action([
+                            'module-ability'=> 'ProductType', 'module' => 'inventory.product_type', 'id' => $r->id, 'isTrashed' => $r->trashed(),
+                            'disableEdit' => $r->trashed(), 'showBtnShow' => false,
+                            'disableDelete' => $r->id == 1 || $r->products_count > 0 || $r->suppliers_count > 0,
+                        ]),
+                    ];
+                })
+                ->rawColumns(['dt.status', 'dt.products_count', 'dt.action', 'dt.suppliers_count'])
+                ->make(true);
+        } else {
+            return view('product_type.index');
+        }
     }
 
     /**
