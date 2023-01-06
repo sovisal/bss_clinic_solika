@@ -57,7 +57,7 @@ class StockOutController extends Controller
     public function create()
     {
         $data = [
-            'products' => Product::where('status', 1)->where('qty_remain', '>', '0')->orderBy('name_en', 'asc')->get(),
+            // 'products' => Product::where('status', 1)->where('qty_remain', '>', '0')->orderBy('name_en', 'asc')->get(),
         ];
         return view('stock_out.create', $data);
     }
