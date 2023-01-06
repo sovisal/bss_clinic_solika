@@ -953,12 +953,14 @@ function bss_openPrintWindow(url, name) {
 }
 
 // Server side
-function initDatatableDynamic(table_class, ajax = '', columns) {
+function initDatatableDynamic(table_class, ajax = '', columns, order) {
     // Available length option
     var lengthMenu = [
         [10, 15, 20, 25, 30, 50, 100],
         ['10', '15', '20', '25', '30', '50', '100']
     ];
+
+    order = [[0, 'desc']];
 
     var table = $(table_class).DataTable({
         processing: true,
@@ -968,7 +970,7 @@ function initDatatableDynamic(table_class, ajax = '', columns) {
         ajax,
         searchDelay: 1000,
         stateSave: false,
-        order: [[1, 'asc']],
+        order,
         dom:
             "<'row dt-buttons'<'col-sm-8'<'d-flex'<l><'ml-1'B>>><'col-sm-4'f>>" +
             "<'row'<'col-sm-12'tr>>" +
