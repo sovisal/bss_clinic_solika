@@ -35,9 +35,10 @@ class StockOutRequest extends FormRequest
         return parent::getValidatorInstance()->after(function ($validator) {
             $stockOuts = collect();
             $allProducts = Product::with([
-                'stockins' => function ($q) { $q->where('qty_remain', '>', 0)->orderBy('date'); }
+                'unit',
+                'packages.unit',
+                'stockins' => function ($q) { $q->where('qty_remain', '>', 0)->orderBy('date'); },
             ])->whereIn('id', $this->input('product_id', []))->get();
-            $allProductUnits = ProductUnit::select(['id','name_kh','name_en'])->whereIn('id', $this->input('unit_id', []))->get();
 
             foreach ($this->input('product_id', []) as $index => $value) {
                 if ($product = $allProducts->where('id', $this->product_id[$index] ?? '')->first()) {
@@ -47,14 +48,18 @@ class StockOutRequest extends FormRequest
                         // If requested stock is larger then stock available add error for msg
                         $validator->errors()->add($index, 'Insufficient stock on product: ' . d_obj($product, ['name_kh', 'name_en']) . '! total requested stock is ' . d_number($this->qty_based[$index]) . ' but total stock available is ' . d_number($product->stockins->sum('qty_remain')));
                     }
-                    $unit = $allProductUnits->where('id', $this->unit_id[$index])->first();
+                    $unit_options = '<option value="'. $product->unit->id .'">'. d_obj($product->unit, ['name_kh','name_en']) .'</option>';
+                    foreach ($product->packages as $key => $package) {
+                        $unit_options .= '<option value="'. $package->unit->id .'" '. (($package->unit->id==$this->unit_id[$index])? 'selected' : '') .'>'. d_obj($package->unit, ['name_kh','name_en']) .'</option>';
+                    }
                     $stockOuts->push((object)[
                             'type' => 'StockOut',
                             'date' => $this->date[$index],
                             'document_no' => $this->reciept_no[$index],
+                            'product_option' => '<option value="'. $product->id .'" selected>'. d_obj($product, ['name_kh','name_en']) .'</option>',
                             'product_id' => $this->product_id[$index],
                             'unit_id' => $this->unit_id[$index],
-                            'unit_option' => '<option value="'. $unit->id .'" selected>'. d_obj($unit, ['name_kh','name_en']) .'</option>',
+                            'unit_option' => $unit_options,
                             'price' => $this->price[$index],
                             'qty_based' => $this->qty_based[$index],
                             'qty' => $this->qty[$index],

@@ -4,14 +4,42 @@
     if ($.trim($('#form-item-container').html()) == '') { 
         addStockOutForm();
     }
+    redefine();
     function redefine() {
         // Redefine select2 and date-picker
         $('#form-item-container select').each((_i, e) => {
-            $(e).select2({
-                dropdownAutoWidth: !0,
-                width: "100%",
-                dropdownParent: $(e).parent()
-            });
+            $_this = $(e);
+            if ($_this.data('url')) {
+                $(e).select2({
+                    minimumInputLength: 3,
+                    width: "100%",
+                    delay: 500,
+                    ajax: {
+                        url: $_this.data('url'),
+                        dataType: 'json',
+                        data: function (params) {
+                            var query = {
+                                term: params.term,
+                                qty_remain: true
+                            }
+                            return query;
+                        }
+                    },
+                });
+                // $(e).on('select2:open', function (e) {
+                //     if ($(this).find('option:selected').val() != '') {
+                //         var $search = $(this).data('select2').dropdown.$search || $(this).data('select2').selection.$search;
+                //         $search.val($(this).find('option:selected').text());
+                //         $search.trigger('keyup');
+                //     }
+                // });
+            } else {
+                $(e).select2({
+                    dropdownAutoWidth: !0,
+                    width: "100%",
+                    dropdownParent: $(e).parent()
+                });
+            }
         });
         $("#form-item-container .date-picker").datetimepicker({
             icons: {

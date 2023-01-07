@@ -10,7 +10,7 @@ use App\Http\Requests\ProductUpdateRequest;
 use App\Models\Inventory\ProductType;
 use App\Models\Inventory\ProductUnit;
 use App\Models\Inventory\ProductCategory;
-use DataTables;
+use Yajra\DataTables\Facades\DataTables;
 
 class ProductController extends Controller
 {
@@ -22,9 +22,14 @@ class ProductController extends Controller
         if ($request->ajax()) {
             if ($request->term) {
                 // For select2 Ajx
-                $term = Product::where('name_en', 'LIKE', '%' . $request->term . '%')
-                    ->orWhere('name_kh', 'LIKE', '%' . $request->term . '%')
-                    ->limit(500)->get(['id', 'name_kh', 'name_en']);
+                $term = Product::where(function($query) use ($request){
+                        $query->where('name_en', 'LIKE', '%' . $request->term . '%')
+                        ->orWhere('name_kh', 'LIKE', '%' . $request->term . '%')
+                        ->orWhere('code', 'LIKE', '%' . $request->term . '%');
+                    })
+                    ->when($request->qty_remain, function($query){ $query->avaiableStock(); })
+                    ->limit(500)
+                    ->get(['id', 'name_kh', 'name_en']);
 
                 $result = [];
                 foreach ($term as $t) {
@@ -38,7 +43,7 @@ class ProductController extends Controller
 
             $data = Product::with(['user', 'unit', 'type', 'category'])->withCount('stockins');
 
-            return Datatables::of($data)
+            return DataTables::of($data)
                 ->addColumn('dt', function ($r) {
                     return [
                         'code' => $r->code,

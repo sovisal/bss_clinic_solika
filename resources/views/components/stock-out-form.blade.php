@@ -9,20 +9,22 @@
     </tr>
     <tr>
         <x-bss-form.input-row name="date[]" id="" labelWidth="15%" :tr="false" class="date-picker" value="{{ $row->date ?? date('Y-m-d') }}" required hasIcon="right" icon="bx bx-calendar" label="Date" />
-        <x-bss-form.select-row name="product_id[]" id="" labelWidth="15%" :tr="false" :select2="false" required label="Product">
-            <option value="">---- None ----</option>
-            @foreach ($products as $product)
-            <option value="{{ $product->id }}" data-price="{{ $product->price }}" @selected($product->id==@$row->product_id)>{{ d_obj($product, ['name_en', 'name_kh']) }}</option>
-            @endforeach
+        <x-bss-form.select-row name="product_id[]" id="" labelWidth="15%" :url="route('inventory.product.index')" :tr="false" :select2="false" required label="Product">
+            @if (isset($row) && $row->product_option != '')
+                {!! $row->product_option !!}
+            @else
+                <option value="">---- None ----</option>
+            @endif
         </x-bss-form.select-row>
         <x-bss-form.input-row name="qty[]" id="" labelWidth="15%" :tr="false" class="is_number qty" value="{{ @$row->qty }}" required label="QTY Out" />
     </tr>
     <tr>
         <x-bss-form.input-row name="reciept_no[]" id="" labelWidth="15%" :tr="false" value="{{ @$row->reciept_no }}" label="Reciept Number" />
         <x-bss-form.select-row name="unit_id[]" id="" labelWidth="15%" :tr="false" class="unit_id" :select2="false" label="Unit">
-            <option value="">---- None ----</option>
             @if (isset($row) && $row->unit_option != '')
                 {!! $row->unit_option !!}
+            @else
+                <option value="">---- None ----</option>
             @endif
         </x-bss-form.select-row>
         <x-bss-form.input-row name="price[]" id="" labelWidth="15%" :tr="false" class="is_number price" value="{{ @$row->price }}" required label="Price" />

@@ -7,7 +7,7 @@ use App\Models\Inventory\Product;
 use App\Models\Inventory\StockOut;
 use App\Http\Requests\StockOutRequest;
 use Illuminate\Support\Facades\Validator;
-use DataTables;
+use Yajra\DataTables\Facades\DataTables;
 
 class StockOutController extends Controller
 {
@@ -23,7 +23,7 @@ class StockOutController extends Controller
         if ($request->ajax()) {
             $data = StockOut::with(['product.unit', 'unit'])->stockFilter();
 
-            return Datatables::of($data)
+            return DataTables::of($data)
                 ->addColumn('dt', function ($r) {
                     return [
                         'date' => d_date($r->date, 'Y-m-d'),
@@ -57,7 +57,7 @@ class StockOutController extends Controller
     public function create()
     {
         $data = [
-            // 'products' => Product::where('status', 1)->where('qty_remain', '>', '0')->orderBy('name_en', 'asc')->get(),
+            
         ];
         return view('stock_out.create', $data);
     }
