@@ -570,10 +570,18 @@ function d_action($param)
         'id', 'module' => '', 'moduleAbility', 'isTrashed' => false,
         'disableShow' => false, 'disableEdit' => false, 'disableDelete' => false, 'disableRestore' => false, 'disableForceDelete' => false,
         'showBtnShow' => true, 'showBtnEdit' => true, 'showBtnDelete' => true, 'showBtnRestore' => true, 'showBtnForceDelete' => false,
+        'paraImage' => [],
     ] as $field => $val) { $param[$field] = $param[$field] ?? $val; }
     
 
     $render_result = '';
+
+    if (sizeof($param['paraImage']) > 0) {
+        $render_result .= '<a onclick="getImage(\'' . reset($param['paraImage']) . '\',\'' . next($param['paraImage']) . '\')" class="btn btn-sm btn-warning btn-icon" title="Image">
+            <i class="bx bx-image"></i> 
+        </a>';
+    }
+
     if($param['showBtnShow']) {
         if (can('Show'. Str::ucfirst($param['moduleAbility'] ?? $param['module']))) {
             $render_result .= '<a href="' . route($param['module'] .'.show', $param['id']) . '" class="btn btn-sm btn-primary btn-icon" title="Show">
