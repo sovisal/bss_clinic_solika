@@ -11,21 +11,46 @@ use App\Models\Inventory\Product;
 use App\Models\Doctor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
 
 class PrescriptionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $this->data['rows'] = Prescription::with(['patient', 'gender', 'doctor_requested', 'address'])
-            ->filter()
-            ->where('prescriptions.status', '>=', 1)
-            ->orderBy('id', 'DESC')
-            ->limit(5000)
-            ->get();
-        return view('prescription.index', $this->data);
+        if ($request->ajax()) {
+            $data =  Prescription::with(['patient', 'gender', 'doctor_requested', 'address'])
+            ->filter();
+
+            return Datatables::of($data)
+                ->addColumn('dt', function ($r) {
+                    return [
+                        'code' => d_link($r->code, "javascript:getDetail(" . $r->id . ", '" . route('prescription.getDetail', 'Priscription Detail') . "')"),
+                        'patient' => d_obj($r, 'patient', 'link'),
+                        'gender' => d_obj($r, 'gender', ['title_en', 'title_kh']),
+                        'age' => d_obj($r, 'age'),
+                        'address' => d_obj($r, 'address', ['village_kh', 'commune_kh', 'district_kh', 'province_kh']),
+                        'requested_at' => d_date($r->requested_at),
+                        'doctor' => d_obj($r, 'doctor', 'link'),
+                        'price' => d_currency($r->price),
+                        'payment_status' => d_paid_status($r->payment_status),
+                        'user' => d_obj($r, 'user', 'name'),
+                        'status' => d_para_status($r->status),
+                        'action' => d_action([
+                            'module-ability'=> 'Prescription', 'module' => 'prescription', 'id' => $r->id, 'isTrashed' => $r->trashed(),
+                            'disableEdit' => $r->trashed() || !($r->status=='1' && $r->payment_status == 0), 'showBtnShow' => false,
+                            'disableDelete' => !($r->status=='1' && $r->payment_status == 0),
+                            'showBtnPrint' => true,
+                        ]),
+                    ];
+                })
+                ->rawColumns(['dt.code', 'dt.type', 'dt.patient', 'dt.gender', 'dt.doctor', 'dt.payment_status', 'dt.status', 'dt.action'])
+                ->make(true);
+        } else {
+            return view('prescription.index');
+        }
     }
 
     /**
