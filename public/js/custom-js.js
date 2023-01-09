@@ -262,6 +262,9 @@ $(document).ready(function () {
             $("#" + picker.element.attr("id") + "_drp_end").val(
                 picker.endDate.format("YYYY-MM-DD")
             );
+            if ($(this).data('submit') && $($(this).data('submit'))) {
+                $($(this).data('submit')).submit();
+            }
         })
         .on("cancel.daterangepicker", function (event, picker) {
             $(this).val("");

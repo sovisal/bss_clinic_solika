@@ -7,7 +7,7 @@ use App\Models\Inventory\StockIn;
 use App\Models\Inventory\Supplier;
 use App\Http\Requests\StockInRequest;
 use Illuminate\Http\Request;
-use DataTables;
+use Yajra\DataTables\Facades\DataTables;
 
 class StockInController extends Controller
 {
@@ -16,10 +16,6 @@ class StockInController extends Controller
      */
     public function index(Request $request)
     {
-        // if ($request->ajax()) {
-        //     return $data['rows'];
-        // }
-
         if ($request->ajax()) {
             request()->merge([
                 'ft_daterangepicker_drp_start' => request()->ft_daterangepicker_drp_start ?? date('Y-m-01'),
@@ -31,7 +27,7 @@ class StockInController extends Controller
                 ->stockFilter()
                 ->orderBy('date', 'desc');
 
-            return Datatables::of($data)
+            return DataTables::of($data)
             ->addColumn('dt', function ($r) {
                 return [
                     'date' => d_date($r->date, 'Y-m-d'),
