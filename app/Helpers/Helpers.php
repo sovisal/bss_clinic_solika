@@ -570,7 +570,7 @@ function d_action($param)
         'id', 'module' => '', 'moduleAbility', 'isTrashed' => false,
         'disableShow' => false, 'disableEdit' => false, 'disableDelete' => false, 'disableRestore' => false, 'disableForceDelete' => false,
         'showBtnShow' => true, 'showBtnEdit' => true, 'showBtnDelete' => true, 'showBtnRestore' => true, 'showBtnForceDelete' => false,
-        'paraImage' => [],
+        'paraImage' => [], 'showBtnPrint' => false,
     ] as $field => $val) { $param[$field] = $param[$field] ?? $val; }
     
 
@@ -579,7 +579,15 @@ function d_action($param)
     if (sizeof($param['paraImage']) > 0) {
         $render_result .= '<a onclick="getImage(\'' . reset($param['paraImage']) . '\',\'' . next($param['paraImage']) . '\')" class="btn btn-sm btn-warning btn-icon" title="Image">
             <i class="bx bx-image"></i> 
-        </a>';
+        </a> ';
+    }
+
+    if ($param['showBtnPrint']) {
+        if (can('Print'. Str::ucfirst($param['moduleAbility'] ?? $param['module']))) {
+            $render_result .= '<a onclick="printPopup(\'' . route($param['module'] .'.print', $param['id']) . '\')" class="btn btn-sm btn-dark btn-icon" title="Print">
+                <i class="bx bx-printer"></i> 
+            </a> ';
+        }
     }
 
     if($param['showBtnShow']) {

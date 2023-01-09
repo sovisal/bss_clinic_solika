@@ -41,7 +41,7 @@ class EcgController extends Controller
                             'module-ability'=> 'Ecg', 'module' => 'para_clinic.ecg', 'id' => $r->id, 'isTrashed' => $r->trashed(),
                             'disableEdit' => $r->trashed() || !($r->status=='1' && $r->payment_status == 0), 'showBtnShow' => false,
                             'disableDelete' => !($r->status=='1' && $r->payment_status == 0),
-                            'paraImage' => [$r->image_1, $r->image_2],
+                            'paraImage' => [$r->image_1, $r->image_2], 'showBtnPrint' => true,
                         ]),
                     ];
                 })
