@@ -10,21 +10,47 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use App\Http\Requests\EchographyRequest;
+use Yajra\DataTables\Facades\DataTables;
 
 class EchographyController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $this->data['rows'] = Echography::with(['address', 'user', 'doctor', 'patient', 'type', 'address', 'gender'])
-            ->filterTrashed()
-            ->filter()
-            ->orderBy('id', 'desc')
-            ->limit(5000)
-            ->get();
-        return view('echography.index', $this->data);
+        if ($request->ajax()) {
+            $data =  Echography::with(['address', 'user', 'doctor', 'patient', 'type', 'address', 'gender'])
+                ->filter();
+
+            return Datatables::of($data)
+                ->addColumn('dt', function ($r) {
+                    return [
+                        'code' => d_link($r->code, "javascript:getDetail(" . $r->id . ", '" . route('para_clinic.echography.getDetail', 'Echography Detail') . "')"),
+                        'type' => $r->typeLink,
+                        'patient' => d_obj($r, 'patient', 'link'),
+                        'gender' => d_obj($r, 'gender', ['title_en', 'title_kh']),
+                        'age' => d_obj($r, 'age'),
+                        'address' => d_obj($r, 'address', ['village_kh', 'commune_kh', 'district_kh', 'province_kh']),
+                        'requested_at' => d_date($r->requested_at),
+                        'doctor' => d_obj($r, 'doctor', 'link'),
+                        'price' => d_currency($r->price),
+                        'payment_status' => d_paid_status($r->payment_status),
+                        'user' => d_obj($r, 'user', 'name'),
+                        'status' => d_para_status($r->status),
+                        'action' => d_action([
+                            'module-ability'=> 'Echography', 'module' => 'para_clinic.echography', 'id' => $r->id, 'isTrashed' => $r->trashed(),
+                            'disableEdit' => $r->trashed() || !($r->status=='1' && $r->payment_status == 0), 'showBtnShow' => false,
+                            'disableDelete' => !($r->status=='1' && $r->payment_status == 0),
+                            'paraImage' => [$r->image_1, $r->image_2], 'showBtnPrint' => true,
+                        ]),
+                    ];
+                })
+                ->rawColumns(['dt.code', 'dt.type', 'dt.patient', 'dt.gender', 'dt.doctor', 'dt.payment_status', 'dt.status', 'dt.action'])
+                ->make(true);
+        } else {
+            return view('echography.index');
+        }
     }
 
     /**
