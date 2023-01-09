@@ -526,6 +526,11 @@ function d_number($num, $default = '-')
     return is_numeric($num) ? floatval($num) : $default;
 }
 
+function d_badge($txt, $type = 'type')
+{
+    return '<span class="badge badge-' . $type . '">' . $txt . '</span>';
+}
+
 function d_currency($amn, $digit = 2, $currency = 'USD', $id_suffix_display = false)
 {
     $amn = $amn ?? 0;

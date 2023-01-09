@@ -22,8 +22,8 @@ class ProductUnitController extends Controller
                     return [
                         'name' => d_obj($r, ['name_kh', 'name_en']),
                         'description' => $r->description,
-                        'products_count' => '<x-badge>' . $r->products_count . '</x-badge>',
-                        'packages_count' => '<x-badge>' . $r->packages_count . '</x-badge>',
+                        'products_count' => d_badge($r->products_count),
+                        'packages_count' => d_badge($r->packages_count),
                         'user' => d_obj($r, 'user', 'name'),
                         'status' => d_status($r->status),
                         'action' => d_action([

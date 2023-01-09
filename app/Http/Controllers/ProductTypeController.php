@@ -22,8 +22,8 @@ class ProductTypeController extends Controller
                     return [
                         'name' => d_obj($r, ['name_kh', 'name_en']),
                         'description' => d_text($r->description),
-                        'products_count' => '<x-badge>' . d_number($r->products_count) . '</x-badge>',
-                        'suppliers_count' => '<x-badge>' . d_number($r->suppliers_count) . '</x-badge>',
+                        'products_count' => d_badge($r->products_count),
+                        'suppliers_count' => d_badge($r->suppliers_count),
                         'user' => d_obj($r, 'user', 'name'),
                         'status' => d_status($r->status),
                         'action' => d_action([
