@@ -1,4 +1,24 @@
 <x-app-layout>
+    <x-slot name="js">
+        <script>
+            let table_columns   = [
+                {data: 'dt.code', name: 'code'},
+                {data: 'dt.patient', name: 'id', orderable: false, searching: false}, 
+                {data: 'dt.gender', name: 'id', orderable: false, searching: false}, 
+                {data: 'dt.age', name: 'age'}, 
+                {data: 'dt.address', name: 'id', orderable: false, searching: false}, 
+                {data: 'dt.requested_at', name: 'requested_at'}, 
+                {data: 'dt.doctor', name: 'id', orderable: false, searching: false}, 
+                {data: 'dt.price', name: 'price'}, 
+                {data: 'dt.payment_status', name: 'payment_status'}, 
+                {data: 'dt.user', name: 'id', orderable: false, searching: false}, 
+                {data: 'dt.status', name: 'id', orderable: false, searching: false}, 
+                {data: 'dt.action', name: 'id', orderable: false, searching: false },
+            ];
+
+            initDatatableDynamic('#datatables_server', '', table_columns);
+        </script>
+    </x-slot>
     <x-slot name="header">
         @if(isset($_GET['back']))
         <x-form.button-back href="{!! route('setting.xray-type.index') !!}"/>
@@ -9,10 +29,9 @@
         <x-report-filter url="{{ route('para_clinic.labor.index') }}"/>
     </x-slot>
     <x-card :foot="false" :action-show="false">
-        <x-table class="table-hover table-striped" id="datatables" data-table="patients">
+        <x-table class="table-hover table-striped" id="datatables_server" data-table="patients">
             <x-slot name="thead">
                 <tr>
-                    <th>No</th>
                     <th>Code</th>
                     <th>Patient</th>
                     <th>Gender</th>
@@ -27,7 +46,7 @@
                     <th>Action</th>
                 </tr>
             </x-slot>
-            @foreach($rows as $i => $row)
+            @foreach([] as $i => $row)
             <tr>
                 <td>{{ ++$i }}</td>
                 <td>{!! d_link($row->code, "javascript:getDetail(" . $row->id . ", '" . route('para_clinic.labor.getDetail', 'ECG Detail') . "')") !!}</td>
