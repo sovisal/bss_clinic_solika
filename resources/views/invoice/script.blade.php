@@ -8,6 +8,7 @@
                     dataType: 'json',
                     data: function (params) {
                         var query = {
+                            _type : 'query',
                             term: params.term,
                             qty_remain: true
                         }
