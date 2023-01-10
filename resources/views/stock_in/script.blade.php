@@ -10,6 +10,7 @@
             $_this = $(e);
             $(e).select2({
                 ajax: {
+                    _type : 'query',
                     url: $_this.data('url'),
                     dataType: 'json',
                 },
