@@ -1,5 +1,36 @@
 <script>
+     function initialize_select2_ajx () {
+        $('#table_medicine_result select[name="service_id[]"]').each((_i, e) => {
+            $_this = $(e);
+            $(e).select2({
+                minimumInputLength: 3,
+                ajax: {
+                    url: $_this.data('url'),
+                    dataType: 'json',
+                    data: function (params) {
+                        var query = {
+                            term: params.term,
+                            qty_remain: true
+                        }
+                        return query;
+                    }
+                },
+                width: "100%",
+            });
+        });
+    }
+
     $(document).ready(function () {
+        $('#table_medicine_result select').each((_i, e) => {
+            $(e).select2({
+                dropdownAutoWidth: !0,
+                width: "100%",
+                dropdownParent: $(e).parent()
+            });
+        });
+
+        initialize_select2_ajx();
+
         calculate_total_table();
         $(document).on('click', '#btn_add_service', append_render_service);
         $(document).on('click', '#btn_add_medicine', append_render_medicine);
@@ -33,13 +64,8 @@
         }
 
         function append_render_medicine() {
-            $('#table_medicine_result').append($('#sample_medicine_row').html()).find('select').each((_i, e) => {
-                $(e).select2({
-                    dropdownAutoWidth: !0,
-                    width: "100%",
-                    dropdownParent: $(e).parent()
-                });
-            });
+            $('#table_medicine_result').append($('#sample_medicine_row').html());
+            initialize_select2_ajx();
         }
 
         function calculate_total_row () {

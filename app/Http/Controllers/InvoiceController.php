@@ -155,7 +155,7 @@ class InvoiceController extends Controller
 
         // Invoice item selection
         $selection = [
-            'medicine' => Product::avaiableStock()->where('status', '>=', '1')->get(),
+            'medicine' => Product::avaiableStock()->whereIn('id', $invoice->detail()->where('service_type', 'medicine')->get('service_id'))->get(),
             'service' => Service::where('status', '>=', '1')->orderBy('name', 'asc')->get(),
             'prescription' => Prescription::where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 2)->get(),
             'echography' => Echography::with(['type'])->where('patient_id', $invoice->patient_id)->where('payment_status', 0)->where('status', 2)->get(),

@@ -2,7 +2,7 @@
     <td>
         <input type="hidden" name="service_type[]" value="{{ @$item ? $item->service_type : 'medicine' }}">
         <input type="hidden" name="service_name[]" value="{{ @$item ? $item->service_name : '' }}">
-        <x-bss-form.select name="service_id[]" class="medicine_selector" required :select2="false">
+        <x-bss-form.select name="service_id[]" class="medicine_selector" id="" required :select2="false" :url="route('inventory.product.index')">
             <option value="">Please choose</option>
             @foreach ($invoice_selection['medicine'] as $data)
                 <option value="{{ $data->id }}"
