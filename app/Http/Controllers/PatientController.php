@@ -19,11 +19,11 @@ class PatientController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            if ($request->term) {
+            if ($request->_type == 'query') {
                 // For select2 Ajx
                 $term = Patient::where('name_en', 'LIKE', '%' . $request->term . '%')
                     ->orWhere('name_kh', 'LIKE', '%' . $request->term . '%')
-                    ->limit(500)->get(['id', 'name_kh', 'name_en']);
+                    ->limit(100)->get(['id', 'name_kh', 'name_en']);
 
                 $result = [];
                 foreach ($term as $t) {

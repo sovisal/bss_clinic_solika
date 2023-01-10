@@ -3,7 +3,6 @@
         $('.table-medicine select[name="medicine_id[]"]').each((_i, e) => {
             $_this = $(e);
             $(e).select2({
-                minimumInputLength: 3,
                 ajax: {
                     url: $_this.data('url'),
                     dataType: 'json',

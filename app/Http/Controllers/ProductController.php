@@ -20,7 +20,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            if ($request->term) {
+            if ($request->_type == 'query') {
                 // For select2 Ajx
                 $term = Product::where(function($query) use ($request){
                         $query->where('name_en', 'LIKE', '%' . $request->term . '%')
@@ -28,7 +28,7 @@ class ProductController extends Controller
                         ->orWhere('code', 'LIKE', '%' . $request->term . '%');
                     })
                     ->when($request->qty_remain, function($query){ $query->avaiableStock(); })
-                    ->limit(500)
+                    ->limit(100)
                     ->get(['id', 'name_kh', 'name_en']);
 
                 $result = [];

@@ -11,7 +11,6 @@
             $_this = $(e);
             if ($_this.data('url')) {
                 $(e).select2({
-                    minimumInputLength: 3,
                     width: "100%",
                     delay: 500,
                     ajax: {
