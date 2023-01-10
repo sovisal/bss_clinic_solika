@@ -26,7 +26,7 @@ class stockOutForm extends Component
     public function render()
     {
         $data = [
-            'products' => Product::where('status', 1)->where('qty_remain', '>', '0')->orderBy('name_en', 'asc')->get(),
+            'products' => [],
             'module' => $this->module,
             'row' => $this->row,
         ];
