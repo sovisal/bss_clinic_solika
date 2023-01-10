@@ -208,6 +208,12 @@ class AppLayout extends Component
                         'name' => ['index', 'create', 'edit', 'sort_order'],
                         'label' => 'Labor Service',
                     ],
+                    'medicine' => [
+                        'can' => 'ViewAnyMedicine',
+                        'url' => route('setting.medicine.index'),
+                        'name' => ['index', 'create', 'edit'],
+                        'label' => 'Medicine',
+                    ],
                     'echo-type' => [
                         'can' => 'ViewAnyEchoType',
                         'url' => route('setting.echo-type.index'),

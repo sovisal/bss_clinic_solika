@@ -3,8 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DoctorController;
-use App\Http\Controllers\FourLevelAddressController;
+use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\DataParentController;
+use App\Http\Controllers\FourLevelAddressController;
 
 Route::middleware(['auth'])->name('setting.')->group(function () {
 
@@ -58,7 +59,7 @@ Route::middleware(['auth'])->name('setting.')->group(function () {
         Route::delete('/{medicine}/delete', 'destroy')->name('delete')->middleware('can:DeleteMedicine');
         Route::put('/{medicine}/restore', 'restore')->name('restore')->middleware('can:RestoreMedicine');
         Route::delete('/{medicine}/force_delete', 'force_delete')->name('force_delete')->middleware('can:ForceDeleteMedicine');
-        Route::get('/{medicine}/show', 'show')->name('show')->middleware('can:ViewAnyMedicine');
-        Route::post('/getSelect2', 'getSelect2')->name('getSelect2');
+        Route::post('/getUnit', 'getUnit')->name('getUnit');
+        Route::post('/validateRemainQty', 'validateRemainQty')->name('validateRemainQty');
     });
 });

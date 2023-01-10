@@ -77,6 +77,9 @@ class Product extends BaseModel
 
     public function scopeAvaiableStock($query)
     {
+        if (env('STOCK_INVENTORY', false) == false) {
+            return $query->where('status', '>=', '1');
+        }
         return $query->where('status', '>=', '1')->where('qty_remain', '>', '0');
     }
 

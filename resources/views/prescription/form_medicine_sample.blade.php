@@ -20,7 +20,7 @@
     <td>
         <x-bss-form.input type="number" name='total[]' value="{{ d_number(@$row->total ?: 0) }}" class="text-center is_number" readonly />
     </td>
-    <td class="{{ env('STOCK_INVENTORY', false) == false ? 'sr-only' : ''}}">
+    <td>
         <x-bss-form.select name="unit_id[]" id="" required :select2="false" >
             @if (@$row && $row->product)
                 <option value="{{ $row->product->unit_id }}" {{ $row->product->unit_id == @$row->unit_id ? 'selected' : '' }}>{{ d_obj($row->product, 'unit', ['name_kh', 'name_en']) }}</option>

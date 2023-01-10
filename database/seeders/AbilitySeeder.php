@@ -47,6 +47,7 @@ class AbilitySeeder extends Seeder
             ],
             'Consultation' => [],
             'Doctor' => [],
+            'Medicine' => [],
             'Service' => [],
             'LaborType' => [],
             'LaborItem' => [],

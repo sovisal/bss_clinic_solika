@@ -17,7 +17,7 @@
             <th width="9%">U/D <small class="required">*</small></th>
             <th width="9%">NoD <small class="required">*</small></th>
             <th width="5%">Total</th>
-            <th width="5%" class="{{ env('STOCK_INVENTORY', false) == false ? 'sr-only' : ''}}">Unit <small class="required">*</small></th>
+            <th width="5%">Unit <small class="required">*</small></th>
             <th width="15%">Usage</th>
             <th width="12%">Usage Time</th>
             <th>Note</th>

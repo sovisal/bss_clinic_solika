@@ -16,6 +16,13 @@ class ProductUnitSeeder extends Seeder
     {
 		ProductUnit::insert([
 			[
+				'name_kh' => 'unit',
+				'name_en' => 'unit',
+				'description' => '',
+				'status' => 1,
+				'user_id' => 1,
+			],
+			[
 				'name_kh' => 'កេស',
 				'name_en' => 'កេស',
 				'description' => '',
