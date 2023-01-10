@@ -6,7 +6,6 @@
         @can('CreateXray')
         <x-form.button href="{{ route('para_clinic.xray.create') }}" label="Create" icon="bx bx-plus"/>
         @endcan
-        <x-report-filter url="{{ route('para_clinic.xray.index') }}"/>
     </x-slot>
     <x-slot name="css">
         <style>
@@ -67,6 +66,8 @@
             initDatatableDynamic('#datatables_server', '', table_columns);
         </script>
     </x-slot>
+
+    <x-report-filter url="{{ route('para_clinic.xray.index') }}"/>
     <x-card :foot="false" :action-show="false">
         <x-table class="table-hover table-striped" id="datatables_server" data-table="patients">
             <x-slot name="thead">

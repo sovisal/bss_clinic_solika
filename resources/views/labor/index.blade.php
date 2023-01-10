@@ -28,8 +28,9 @@
         @can('CreateLaboratory')
         <x-form.button href="{{ route('para_clinic.labor.create') }}" label="Create" icon="bx bx-plus"/>
         @endcan
-        <x-report-filter url="{{ route('para_clinic.labor.index') }}"/>
     </x-slot>
+
+    <x-report-filter url="{{ route('para_clinic.labor.index') }}"/>
     <x-card :foot="false" :action-show="false">
         <x-table class="table-hover table-striped" id="datatables_server" data-table="patients">
             <x-slot name="thead">

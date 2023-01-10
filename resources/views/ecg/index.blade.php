@@ -6,7 +6,6 @@
         @can('CreateEcg')
         <x-form.button href="{{ route('para_clinic.ecg.create') }}" label="Create" icon="bx bx-plus"/>
         @endcan
-        <x-report-filter url="{{ route('para_clinic.ecg.index') }}"/>
     </x-slot>
     <x-slot name="css">
         <style>
@@ -68,6 +67,8 @@
             initDatatableDynamic('#datatables_server', '', table_columns);
         </script>
     </x-slot>
+
+    <x-report-filter url="{{ route('para_clinic.ecg.index') }}"/>
     <x-card :foot="false" :action-show="false" :head="false">
         <x-table class="table-hover table-striped" id="datatables_server" data-table="patients">
             <x-slot name="thead">

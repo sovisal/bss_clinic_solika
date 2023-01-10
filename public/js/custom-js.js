@@ -270,6 +270,9 @@ $(document).ready(function () {
             $(this).val("");
             $("#" + picker.element.attr("id") + "_drp_start").val("");
             $("#" + picker.element.attr("id") + "_drp_end").val("");
+            if ($(this).data('submit') && $($(this).data('submit'))) {
+                $($(this).data('submit')).submit();
+            }
         });
     $(".daterange-picker").each(function () {
         var drp_start = $("#" + $(this).attr("id") + "_drp_start").val();

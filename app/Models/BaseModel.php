@@ -52,17 +52,17 @@ class BaseModel extends Model
             $query->where('supplier_id', '=', $supplier_id);
         });
         $query->when(request()->ft_status, function ($query, $status) {
-            if ($this->table=='stock_ins') {
-                $query->where('qty_remain', (($status=='active')? '>' : '<='), 0);
+            if ($this->table == 'stock_ins') {
+                $query->where('qty_remain', (($status == 'active') ? '>' : '<='), 0);
             }
         });
         $query->when(request()->ft_exp_status, function ($query, $status) {
-            if ($this->table=='stock_ins') {
-                if ($status=='active') {
+            if ($this->table == 'stock_ins') {
+                if ($status == 'active') {
                     $query->where(function ($query) {
                         $query->whereDate('exp_date', '>', date('Y-m-d'))->orWhereNull('exp_date');
                     });
-                }else{
+                } else {
                     $query->whereDate('exp_date', '<=', date('Y-m-d'));
                 }
             }
@@ -178,27 +178,16 @@ class BaseModel extends Model
 
     public function getTypeLinkAttribute()
     {
-        if ($this->type) {
-            if ($this->type->status > 0) { // will check permission
-                switch ($this->table) {
-                    case 'echographies':
-                        $rout_name = 'setting.echo-type.edit';
-                        break;
-                    case 'ecgs':
-                        $rout_name = 'setting.ecg-type.edit';
-                        break;
-                    case 'xrays':
-                        $rout_name = 'setting.xray-type.edit';
-                        break;
-                    default:
-                        $rout_name = null;
-                        break;
-                }
-                $url = $rout_name ? route($rout_name, [d_obj($this, 'type', 'id'), 'back' => url()->current()]) : '#';
-                return d_link(d_obj($this, 'type', ['name_en', 'name_kh']), $url);
-            } else {
-                return d_obj($this, 'type', ['name_en', 'name_kh']);
+        if ($this->type && $this->type->status > 0) { // will check permission
+            if ($this->table == 'echographies' && can('UpdateEchoType')) {
+                return d_link(d_obj($this, 'type', ['name_en', 'name_kh']), route('setting.echo-type.edit', [d_obj($this, 'type', 'id'), 'back' => url()->current()]));
+            }else if ($this->table == 'ecgs' && can('UpdateEcgType')) {
+                return d_link(d_obj($this, 'type', ['name_en', 'name_kh']), route('setting.ecg-type.edit', [d_obj($this, 'type', 'id'), 'back' => url()->current()]));
+            }else if ($this->table == 'xrays' && can('UpdateXRayType')) {
+                return d_link(d_obj($this, 'type', ['name_en', 'name_kh']), route('setting.xray-type.edit', [d_obj($this, 'type', 'id'), 'back' => url()->current()]));
             }
         }
+
+        return d_obj($this, 'type', ['name_en', 'name_kh']);
     }
 }

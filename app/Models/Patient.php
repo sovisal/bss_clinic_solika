@@ -122,7 +122,7 @@ class Patient extends BaseModel
 
     public function getLinkAttribute()
     {
-        if ($this->status > 0) { // will check permission
+        if ($this->status > 0 && can('UpdatePatient')) { // will check permission
             return d_link(d_obj($this, ['name_en', 'name_kh']), route('patient.edit', [d_obj($this, 'patient', 'id'), 'back' => url()->current()]));
         } else {
             return d_obj($this, ['name_en', 'name_kh']);

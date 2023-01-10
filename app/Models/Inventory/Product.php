@@ -60,7 +60,7 @@ class Product extends BaseModel
 
     public function getLinkAttribute()
     {
-        if (($this->status ?? 0) > 0) { // will check permission
+        if (($this->status ?? 0) > 0 && can('UpdateProduct')) { // will check permission
             return d_link(
                 d_obj($this, ['name_en', 'name_kh']),
                 route('inventory.product.edit', [d_obj($this, 'id'), 'back' => url()->current()])
@@ -105,8 +105,11 @@ class Product extends BaseModel
     }
 
     public function validateStockExist ($qty = 0, $unit_id = null) {
+        if (env('STOCK_INVENTORY', 'false') == 'false') {
+            return [ 'status' => true ];
+        }
         $qty_requested = $qty * $this->getCalculationQty($unit_id);
-        
+
         return [
             'status' => $qty_requested <= $this->qty_remain,
             'errMsg' => 'Insufficient stock on product: ' . d_obj($this, ['name_kh', 'name_en']) . '! requested [' . d_number($qty_requested) . '] but available only [' . $this->qty_remain . ']',
@@ -115,6 +118,10 @@ class Product extends BaseModel
     }
 
     public function deductStock ($qty = 0, $unit_id = null, $params) {
+
+        if (env('STOCK_INVENTORY', 'false') == 'false') {
+            return true;
+        }
 
         // Prepare params for stockout creation
         $param_values = [];
