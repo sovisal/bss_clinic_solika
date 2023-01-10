@@ -29,7 +29,7 @@ class LaborType extends BaseModel
 	// Separate Labor type into 2 level of groups
 	public function scopeRegroupe($query)
 	{
-		$types = $query->whereNull('parent_id')->with(['types' => fn($q) => $q->with(['items'])])->get() ?: [];
+		$types = $query->whereNull('parent_id')->with(['types' => function ($q) { return $q->with(['items']); }])->get() ?: [];
 		$result = [];
 		foreach ($types as $labor_type) {
 			$labor_type->is_parent = $labor_type->parent_id > 0;

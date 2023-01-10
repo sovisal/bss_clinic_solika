@@ -108,7 +108,7 @@ class Product extends BaseModel
         $qty_requested = $qty * $this->getCalculationQty($unit_id);
         
         return [
-            'status' => $qty_requested < $this->qty_remain,
+            'status' => $qty_requested <= $this->qty_remain,
             'errMsg' => 'Insufficient stock on product: ' . d_obj($this, ['name_kh', 'name_en']) . '! requested [' . d_number($qty_requested) . '] but available only [' . $this->qty_remain . ']',
             'sccMsg' => 'The quantity requested is avaiable.',
         ];

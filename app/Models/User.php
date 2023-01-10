@@ -141,7 +141,7 @@ class User extends Authenticatable
 
     public function scopeFilterTrashed($q)
     {
-        $q->when(auth()->user()->isWebDev, fn($q) => $q->withTrashed());
+        $q->when(auth()->user()->isWebDev, function ($q) { return $q->withTrashed(); });
     }
 
     public function setting ()

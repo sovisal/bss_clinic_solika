@@ -48,7 +48,6 @@ class SupplierController extends Controller
                         'address' => d_obj($r, 'address', ['village_kh', 'commune_kh', 'district_kh', 'province_kh'] ),
                         'user' => d_obj($r, 'user', 'name'),
                         'status' => d_status($r->status),
-                        'status' => $r->stockins_count,
 
                         'action' => d_action([
                             'module' => "inventory.supplier",

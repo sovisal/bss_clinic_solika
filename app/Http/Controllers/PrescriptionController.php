@@ -253,7 +253,7 @@ class PrescriptionController extends Controller
                 // Start stock exist validatin
                 foreach ($prescription->detail()->get() as $index => $detail) {
                     if ($product = $detail->product) {
-                        $validated = $product->validateStockExist($detail->qty, $detail->unit_id);
+                        $validated = $product->validateStockExist($detail->total, $detail->unit_id);
                         if ($validated['status'] != true) {
                             $validator->errors()->add($index, $validated['errMsg']);
                         }
@@ -271,7 +271,7 @@ class PrescriptionController extends Controller
                         $detail['type'] = 'Prescription';
                         $detail['parent_id'] = $detail->id;
                         $detail['document_no'] = $prescription->code;
-                        $product->deductStock($detail->qty, $detail->unit_id, $detail);
+                        $product->deductStock($detail->total, $detail->unit_id, $detail);
                     }
                 }
 
