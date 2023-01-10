@@ -4,7 +4,7 @@
     <input type="hidden" name="is_treament_plan" value="1">
     <input type="hidden" name="patient_id" value="{{ $consultation->patient_id }}">
     <input type="hidden" name="consultation_id" value="{{ $consultation->id }}">
-    <x-modal id="treatment_modal_prescriotion" dialogClass="modal-full" data-backdrop="static" data-keyboard="false" header="Create new Prescription">
+    <x-modal id="treatment_modal_prescriotion" dialogClass="modal-full" tabindex="" data-backdrop="static" data-keyboard="false" header="Create new Prescription">
         <table class="table-form table-padding-sm table-striped table-medicine">
             <thead>
                 <tr>

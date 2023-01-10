@@ -5,25 +5,36 @@
     </x-slot>
     <x-slot name="js">
         <script>
-            // Prescription Request
-            $('.table-medicine').append($('#sample_prescription').html());
-            $('.table-medicine select').each((_i, e) => {
-                $(e).select2({
-                    dropdownAutoWidth: !0,
-                    width: "100%",
-                    dropdownParent: $(e).parent()
-                });
-            });
-            $(document).on('click', '.btn-add-medicine', function () {
-                $('.table-medicine').append($('#sample_prescription').html());
-                $('.table-medicine select').each((_i, e) => {
+            function initialize_select2_ajx () {
+                $('.table-medicine select[name="medicine_id[]"]').each((_i, e) => {
+                    $_this = $(e);
                     $(e).select2({
-                        dropdownAutoWidth: !0,
+                        minimumInputLength: 3,
+                        ajax: {
+                            url: $_this.data('url'),
+                            dataType: 'json',
+                            data: function (params) {
+                                var query = {
+                                    term: params.term,
+                                    qty_remain: true
+                                }
+                                return query;
+                            }
+                        },
                         width: "100%",
-                        dropdownParent: $(e).parent()
                     });
                 });
+            }
+
+            // Prescription Request
+            $('.table-medicine').append($('#sample_prescription').html());
+            initialize_select2_ajx();
+
+            $(document).on('click', '.btn-add-medicine', function () {
+                $('.table-medicine').append($('#sample_prescription').html());
+                initialize_select2_ajx();
             });
+
             $(document).on('change', '[name="qty[]"], [name="upd[]"], [name="nod[]"]', function () {
                 $this_row = $(this).parents('tr');
                 $total = 	bss_number($this_row.find('[name="qty[]"]').val()) * 

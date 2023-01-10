@@ -92,7 +92,7 @@ class ConsultationController extends Controller
         $data['echo_type'] = EchoType::where('status', 1)->orderBy('index', 'asc')->get();
         $data['labor_type'] = LaborType::where('status', 1)->orderBy('index', 'asc')->regroupe();
 
-        $data['medicine'] = Inventory\Product::avaiableStock()->orderBy('name_en', 'asc')->get();
+        $data['medicine'] = [];
         $data['usages'] = getParentDataSelection('comsumption');
         $data['time_usage'] = DataParent::where('type', 'time_usage')->get();
         return view('consultation.edit', $data);
@@ -163,17 +163,17 @@ class ConsultationController extends Controller
         $data['list_ecg']             = $patient->ecgs()             ? $patient->ecgs()->where('status', '>=', 1)->select('id', 'code')->get()->toArray() : [];
 
         $label = array_map(function ($val) {
-            return '<span class="text-primary cursor-pointer hover:tw-text-blue-700 tw-duration-500" onclick="getDetail(\'' . $val['id'] . '\',\'' . route('prescription.getDetail') . '\', \'Prescription Detail\')">' . ($val['code'] ?: 'N/A') . '</a>';
+            return '<span class="text-primary cursor-pointer hover:tw-text-blue-700 tw-duration-500" onclick="getDetail(\'' . $val['id'] . '\',\'' . route('prescription.getDetail') . '\', \'Prescription Detail\')">' . ($val['code'] ?: 'N/A') . '</span>';
         }, $data['list_prescription']);
         $data['list_prescription'] = implode(',  ', $label);
 
         $label = array_map(function ($val) {
-            return '<a class="text-primary cursor-pointer hover:tw-text-blue-700 tw-duration-500" onclick="getDetail(\'' . $val['id'] . '\',\'' . route('para_clinic.labor.getDetail') . '\', \'Test Detail\')">' . ($val['code'] ?: 'N/A') . '</a>';
+            return '<span class="text-primary cursor-pointer hover:tw-text-blue-700 tw-duration-500" onclick="getDetail(\'' . $val['id'] . '\',\'' . route('para_clinic.labor.getDetail') . '\', \'Test Detail\')">' . ($val['code'] ?: 'N/A') . '</span>';
         }, $data['list_labor']);
         $data['list_labor'] = implode(',  ', $label);
 
         $label = array_map(function ($val) {
-            return '<span class="text-primary cursor-pointer hover:tw-text-blue-700 tw-duration-500" onclick="getDetail(\'' . $val['id'] . '\',\'' . route('para_clinic.xray.getDetail') . '\', \'X-Ray Detail\')">' . ($val['code'] ?: 'N/A') . '</a>';
+            return '<span class="text-primary cursor-pointer hover:tw-text-blue-700 tw-duration-500" onclick="getDetail(\'' . $val['id'] . '\',\'' . route('para_clinic.xray.getDetail') . '\', \'X-Ray Detail\')">' . ($val['code'] ?: 'N/A') . '</span>';
         }, $data['list_xray']);
         $data['list_xray'] = implode(',  ', $label);
 
