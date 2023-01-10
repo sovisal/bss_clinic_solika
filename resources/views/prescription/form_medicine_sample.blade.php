@@ -1,7 +1,7 @@
 <tr>
     <input type="hidden" name="test_id[]" />
     <td>
-        <x-bss-form.select name="medicine_id[]" id="" required :select2="false">
+        <x-bss-form.select name="medicine_id[]" id="" required :select2="false" :url="route('inventory.product.index')">
             <option value="">Please choose</option>
             @foreach ($medicine as $data)
             <option value="{{ $data->id }}" {{ $data->id == @$row->medicine_id ? 'selected' : '' }}>{{ d_obj($data, 'code') }}-{{ d_obj($data, ['name_en', 'name_kh']) }}</option>

@@ -67,7 +67,7 @@ class PrescriptionController extends Controller
             'gender' => getParentDataSelection('gender'),
             'usages' => getParentDataSelection('comsumption'),
             'time_usage' => DataParent::where('type', 'time_usage')->get(),
-            'medicine' => Inventory\Product::avaiableStock()->orderBy('name_en', 'asc')->get(),
+            'medicine' => [],
             'prescription_detail' => [],
             'is_edit' => false
         ];
@@ -212,12 +212,11 @@ class PrescriptionController extends Controller
             'gender' => getParentDataSelection('gender'),
             'usages' => getParentDataSelection('comsumption'),
             'time_usage' => DataParent::where('type', 'time_usage')->get(),
-            'medicine' => Inventory\Product::where('status', '>=', '1')->where('qty_remain', '>', '0')->orderBy('name_en', 'asc')->get(),
-            'prescription_detail' => $prescription->detail()->with(['product' => function ($q) {
-                $q->with(['packages' => function ($q1) { $q1->with(['unit']); }, 'unit']);
-            }])->get(),
             'is_edit' => true
         ];
+
+        $data['prescription_detail'] = $prescription->detail()->with(['product', 'product.packages', 'product.unit', 'product.packages.unit'])->get();
+        $data['medicine'] = Inventory\Product::whereIn('id', $prescription->detail()->get('medicine_id'))->avaiableStock()->orderBy('name_en', 'asc')->get();
 
         return view('prescription.edit', $data);
     }
