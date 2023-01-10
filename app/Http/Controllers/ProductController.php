@@ -29,13 +29,13 @@ class ProductController extends Controller
                     })
                     ->when($request->qty_remain, function($query){ $query->avaiableStock(); })
                     ->limit(100)
-                    ->get(['id', 'name_kh', 'name_en']);
+                    ->get(['id', 'code', 'name_kh', 'name_en']);
 
                 $result = [];
                 foreach ($term as $t) {
                     $result[] = [
                         'id' => $t->id,
-                        'text' => d_obj($t, ['name_kh', 'name_en']),
+                        'text' => d_obj($t, ['code', 'name_kh', 'name_en']),
                     ];
                 }
                 return ['results' => $result];
