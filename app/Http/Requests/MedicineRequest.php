@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class MedicineRequest extends FormRequest
@@ -24,9 +25,10 @@ class MedicineRequest extends FormRequest
 	public function rules()
 	{
 		return [
-			'name' => 'required|string|min:2|max:255',
-			'price' => 'required',
-			'usage_id' => 'required',
+            'name_kh' => 'required|string|min:2|max:255',
+            'name_en' => 'nullable|string|min:2|max:255',
+            'cost' => 'nullable|numeric',
+            'price' => 'nullable|numeric',
 		];
 	}
 }

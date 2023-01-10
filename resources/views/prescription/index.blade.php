@@ -26,7 +26,7 @@
         <x-form.button href="{{ route('prescription.create') }}" label="Create" icon="bx bx-plus" />
         @endcan
     </x-slot>
-
+    
     <x-report-filter url="{{ route('prescription.index') }}" />
     <x-card :foot="false" :action-show="false">
         <x-table class="table-hover table-striped" id="datatables_server" data-table="patients">
