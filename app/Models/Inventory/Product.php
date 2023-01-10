@@ -105,7 +105,7 @@ class Product extends BaseModel
     }
 
     public function validateStockExist ($qty = 0, $unit_id = null) {
-        if (env('STOCK_INVENTORY', 'false') == 'false') {
+        if (env('STOCK_INVENTORY', false) == false) {
             return [ 'status' => true ];
         }
         $qty_requested = $qty * $this->getCalculationQty($unit_id);
@@ -119,7 +119,7 @@ class Product extends BaseModel
 
     public function deductStock ($qty = 0, $unit_id = null, $params) {
 
-        if (env('STOCK_INVENTORY', 'false') == 'false') {
+        if (env('STOCK_INVENTORY', false) == false) {
             return true;
         }
 

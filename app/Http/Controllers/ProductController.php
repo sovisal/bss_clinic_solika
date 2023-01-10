@@ -27,7 +27,7 @@ class ProductController extends Controller
                         ->orWhere('name_kh', 'LIKE', '%' . $request->term . '%')
                         ->orWhere('code', 'LIKE', '%' . $request->term . '%');
                     })
-                    ->when($request->qty_remain, function($query){ $query->avaiableStock(); })
+                    ->when(($request->qty_remain && env('STOCK_INVENTORY', false) != false), function($query){ $query->avaiableStock(); })
                     ->limit(100)
                     ->get(['id', 'name_kh', 'name_en']);
 
