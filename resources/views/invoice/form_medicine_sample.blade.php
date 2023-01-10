@@ -9,7 +9,7 @@
                     data-name="{{ d_obj($data, ['name_en', 'name_kh']) }}"
                     data-price="{{ $data->price }}"
                     {{ @$item && $item->service_id == $data->id ? 'selected' : '' }}
-                >{{ d_obj($data, ['name_en', 'name_kh']) }}</option>
+                >{{ d_obj($data, ['code', 'name_en', 'name_kh']) }}</option>
             @endforeach
         </x-bss-form.select>
     </td>

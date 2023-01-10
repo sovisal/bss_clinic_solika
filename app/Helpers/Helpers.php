@@ -437,9 +437,9 @@ function d_link($label = null, $link = null, $target = '_self')
 
 function d_combine_obj($obj, $keys, $separator = ' :: ')
 {
-    return implode($separator, array_unique(array_map(function ($key) use ($obj) {
+    return implode($separator, array_filter(array_unique(array_map(function ($key) use ($obj) {
         return $obj->{$key};
-    }, $keys)));
+    }, $keys)), 'strlen'));
 }
 
 function d_combine_array($arr, $keys, $separator = ' :: ')
