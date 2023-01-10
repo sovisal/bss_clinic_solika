@@ -142,6 +142,7 @@ class StockInController extends Controller
     public function destroy(StockIn $stockIn)
     {
         if ($stockIn->delete()) {
+            $stockIn->product()->first()->updateQty();
             return redirect()->route('inventory.stock_in.index')->with('success', __('alert.message.success.crud.delete'));
         }
     }
@@ -151,11 +152,11 @@ class StockInController extends Controller
      */
     public function restore($id)
     {
-        $row = StockIn::onlyTrashed()->findOrFail($id);
-        if ($row->restore()) {
-            return back()->with('success', __('alert.message.success.crud.restore'));
-        }
-        return back()->with('error', __('alert.message.error.crud.restore'));
+        // $row = StockIn::onlyTrashed()->findOrFail($id);
+        // if ($row->restore()) {
+        //     return back()->with('success', __('alert.message.success.crud.restore'));
+        // }
+        // return back()->with('error', __('alert.message.error.crud.restore'));
     }
 
     /**
@@ -163,10 +164,10 @@ class StockInController extends Controller
      */
     public function force_delete($id)
     {
-        $row = StockIn::onlyTrashed()->findOrFail($id);
-        if ($row->forceDelete()) {
-            return back()->with('success', __('alert.message.success.crud.force_detele'));
-        }
-        return back()->with('error', __('alert.message.error.crud.force_detele'));
+        // $row = StockIn::onlyTrashed()->findOrFail($id);
+        // if ($row->forceDelete()) {
+        //     return back()->with('success', __('alert.message.success.crud.force_detele'));
+        // }
+        // return back()->with('error', __('alert.message.error.crud.force_detele'));
     }
 }
