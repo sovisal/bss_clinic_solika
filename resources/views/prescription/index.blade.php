@@ -7,11 +7,13 @@
                 {data: 'dt.gender', name: 'id', orderable: false, searching: false}, 
                 {data: 'dt.age', name: 'age'}, 
                 {data: 'dt.address', name: 'id', orderable: false, searching: false}, 
+                {data: 'dt.doctor_requested', name: 'id', orderable: false, searching: false}, 
                 {data: 'dt.requested_at', name: 'requested_at'}, 
                 {data: 'dt.doctor', name: 'id', orderable: false, searching: false}, 
+                {data: 'dt.analysis_at', name: 'analysis_at'}, 
                 {data: 'dt.price', name: 'price'}, 
                 {data: 'dt.payment_status', name: 'payment_status'}, 
-                {data: 'dt.user', name: 'id', orderable: false, searching: false}, 
+                // {data: 'dt.user', name: 'id', orderable: false, searching: false}, 
                 {data: 'dt.status', name: 'id', orderable: false, searching: false}, 
                 {data: 'dt.action', name: 'id', orderable: false, searching: false },
             ];
@@ -34,12 +36,14 @@
                     <th>Gender</th>
                     <th>Age</th>
                     <th>Address</th>
+                    <th>Requested By</th>
                     <th>Requested Date</th>
                     <th>Physician</th>
+                    <th>Analysis At</th>
                     {{-- <th>Diagnosis</th> --}}
                     <th>Price</th>
                     <th>Payment</th>
-                    <th>User</th>
+                    <!-- <th>User</th> -->
                     <th>Status</th>
                     <th>Action</th>
                 </tr>

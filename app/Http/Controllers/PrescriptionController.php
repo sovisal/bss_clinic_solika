@@ -21,7 +21,7 @@ class PrescriptionController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data =  Prescription::with(['patient', 'gender', 'doctor_requested', 'address'])
+            $data =  Prescription::with(['patient', 'gender', 'doctor', 'doctor_requested', 'address'])
             ->filter();
 
             return Datatables::of($data)
@@ -33,10 +33,12 @@ class PrescriptionController extends Controller
                         'age' => d_obj($r, 'age'),
                         'address' => d_obj($r, 'address', ['village_kh', 'commune_kh', 'district_kh', 'province_kh']),
                         'requested_at' => d_date($r->requested_at),
+                        'doctor_requested' => d_obj($r, 'doctor_requested', 'link'),
+                        'analysis_at' => d_date($r->analysis_at),
                         'doctor' => d_obj($r, 'doctor', 'link'),
                         'price' => d_currency($r->price),
                         'payment_status' => d_paid_status($r->payment_status),
-                        'user' => d_obj($r, 'user', 'name'),
+                        // 'user' => d_obj($r, 'user', 'name'),
                         'status' => d_para_status($r->status),
                         'action' => d_action([
                             'module-ability'=> 'Prescription', 'module' => 'prescription', 'id' => $r->id, 'isTrashed' => $r->trashed(),
@@ -46,7 +48,7 @@ class PrescriptionController extends Controller
                         ]),
                     ];
                 })
-                ->rawColumns(['dt.code', 'dt.type', 'dt.patient', 'dt.gender', 'dt.doctor', 'dt.payment_status', 'dt.status', 'dt.action'])
+                ->rawColumns(['dt.code', 'dt.type', 'dt.patient', 'dt.gender', 'dt.doctor', 'dt.payment_status', 'dt.status', 'dt.action', 'dt.doctor_requested'])
                 ->make(true);
         } else {
             return view('prescription.index');
