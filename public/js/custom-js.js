@@ -1284,13 +1284,14 @@ $(document).ready(function () {
     $('.select2Ajx').each(function (i) {
         $_this = $('.select2Ajx').eq(i);
         $_this.select2({
-            minimumInputLength: 3,
+            // minimumInputLength: 3,
             ajax: {
                 url: $_this.data('url'),
                 dataType: 'json',
                 delay: 250,
             },
             width: "100%",
+            delay: 500,
         });
     });
 });
