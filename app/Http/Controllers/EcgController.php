@@ -40,9 +40,9 @@ class EcgController extends Controller
                         // 'user' => d_obj($r, 'user', 'name'),
                         'status' => d_para_status($r->status),
                         'action' => d_action([
-                            'module-ability'=> 'Ecg', 'module' => 'para_clinic.ecg', 'id' => $r->id, 'isTrashed' => $r->trashed(),
-                            'disableEdit' => $r->trashed() || !($r->status=='1' && $r->payment_status == 0), 'showBtnShow' => false,
-                            'disableDelete' => !($r->status=='1' && $r->payment_status == 0),
+                            'moduleAbility' => 'Ecg', 'module' => 'para_clinic.ecg', 'id' => $r->id, 'isTrashed' => $r->trashed(),
+                            'disableEdit' => $r->trashed() || !($r->status == '1' && $r->payment_status == 0), 'showBtnShow' => false,
+                            'disableDelete' => !($r->status == '1' && $r->payment_status == 0),
                             'paraImage' => [$r->image_1, $r->image_2], 'showBtnPrint' => true,
                         ]),
                     ];

@@ -46,9 +46,9 @@ class InvoiceController extends Controller
                         'user' => d_obj($r, 'user', 'name'),
                         'status' => d_para_status($r->status),
                         'action' => d_action([
-                            'module-ability'=> 'Invoice', 'module' => 'invoice', 'id' => $r->id, 'isTrashed' => $r->trashed(),
-                            'disableEdit' => $r->trashed() || !($r->status=='1' && $r->payment_status == 0), 'showBtnShow' => false,
-                            'disableDelete' => !($r->status=='1' && $r->payment_status == 0),
+                            'moduleAbility' => 'Invoice', 'module' => 'invoice', 'id' => $r->id, 'isTrashed' => $r->trashed(),
+                            'disableEdit' => $r->trashed() || !($r->status == '1' && $r->payment_status == 0), 'showBtnShow' => false,
+                            'disableDelete' => !($r->status == '1' && $r->payment_status == 0),
                             'showBtnPrint' => true,
                         ]),
                     ];
@@ -203,11 +203,13 @@ class InvoiceController extends Controller
         $request->address_id = update4LevelAddress($request, $invoice->address_id);
         if ($invoice->update($request->except(['total', 'status']))) {
             update4LevelAddress($request, $invoice->patient()->first()->address_id);
-            $validator = Validator::make([],[]);
+            $validator = Validator::make([], []);
 
             // Invoice items For Para-Clinic + Service + Medicine
             $items = array_merge($request->echography ?: [], $request->ecg ?: [], $request->xray ?: [], $request->laboratory ?: [], $request->prescription ?: []);
-            $items = array_filter($items, function ($item) { return isset($item['chk']); });
+            $items = array_filter($items, function ($item) {
+                return isset($item['chk']);
+            });
             $items = array_map(function ($item) {
                 $item['exchange_rate'] = d_exchange_rate();
                 $item['total'] = ($item['qty'] ?: 0) * ($item['price'] ?: 0);
@@ -216,10 +218,10 @@ class InvoiceController extends Controller
 
             // Delete all old details
             $invoice->detail()->where('status', '1')->delete();
-            
+
             // Para-Clinic
             $invoice->detail()->createMany($items);
- 
+
             // Service + Medicine
             $services = [];
             foreach ($request->service_id ?: [] as $index => $id) {
@@ -240,7 +242,7 @@ class InvoiceController extends Controller
             if (sizeof($services) > 0) {
                 $invoice->detail()->createMany($services);
             }
-            
+
             // Save & Save paid
             $param_update['total'] = $invoice->detail()->sum('total');
             if ($request->status == 2) {
@@ -254,8 +256,8 @@ class InvoiceController extends Controller
                 }
 
                 // Return back with error message
-                if ($validator->errors()->all()) { 
-                    return redirect()->route('invoice.index')->withErrors($validator);  
+                if ($validator->errors()->all()) {
+                    return redirect()->route('invoice.index')->withErrors($validator);
                 }
 
                 // Stock calculation

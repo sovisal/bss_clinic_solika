@@ -27,7 +27,7 @@ class ProductTypeController extends Controller
                         'user' => d_obj($r, 'user', 'name'),
                         'status' => d_status($r->status),
                         'action' => d_action([
-                            'module-ability'=> 'ProductType', 'module' => 'inventory.product_type', 'id' => $r->id, 'isTrashed' => $r->trashed(),
+                            'moduleAbility' => 'ProductType', 'module' => 'inventory.product_type', 'id' => $r->id, 'isTrashed' => $r->trashed(),
                             'disableEdit' => $r->trashed(), 'showBtnShow' => false,
                             'disableDelete' => $r->id == 1 || $r->products_count > 0 || $r->suppliers_count > 0,
                         ]),
@@ -67,7 +67,7 @@ class ProductTypeController extends Controller
      */
     public function edit(ProductType $productType)
     {
-        return view('product_type.edit', [ 'row' => $productType ]);
+        return view('product_type.edit', ['row' => $productType]);
     }
 
     /**

@@ -20,7 +20,7 @@ class XrayController extends Controller
     {
         if ($request->ajax()) {
             $data =  Xray::with(['address', 'doctor_requested', 'doctor', 'patient', 'type', 'address', 'gender'])
-            ->filter();
+                ->filter();
 
             return Datatables::of($data)
                 ->addColumn('dt', function ($r) {
@@ -40,9 +40,9 @@ class XrayController extends Controller
                         // 'user' => d_obj($r, 'user', 'name'),
                         'status' => d_para_status($r->status),
                         'action' => d_action([
-                            'module-ability'=> 'Xray', 'module' => 'para_clinic.xray', 'id' => $r->id, 'isTrashed' => $r->trashed(),
-                            'disableEdit' => $r->trashed() || !($r->status=='1' && $r->payment_status == 0), 'showBtnShow' => false,
-                            'disableDelete' => !($r->status=='1' && $r->payment_status == 0),
+                            'moduleAbility' => 'Xray', 'module' => 'para_clinic.xray', 'id' => $r->id, 'isTrashed' => $r->trashed(),
+                            'disableEdit' => $r->trashed() || !($r->status == '1' && $r->payment_status == 0), 'showBtnShow' => false,
+                            'disableDelete' => !($r->status == '1' && $r->payment_status == 0),
                             'paraImage' => [$r->image_1, $r->image_2], 'showBtnPrint' => true,
                         ]),
                     ];
@@ -206,7 +206,7 @@ class XrayController extends Controller
 
         $request['price'] = $request->price ?: ($xray_type ? $xray_type->price : 0);
         $request['address_id'] = update4LevelAddress($request, $xray->address_id);
-        
+
         // Check if no exist folder/directory then create folder/directory
         $path = public_path('/images/xrays/');
         File::makeDirectory($path, 0777, true, true);

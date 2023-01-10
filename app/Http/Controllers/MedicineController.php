@@ -26,7 +26,7 @@ class MedicineController extends Controller
                         'price' => d_currency($r->price),
                         'status' => d_status($r->status),
                         'action' => d_action([
-                            'module-ability'=> 'Medicine', 'module' => 'setting.medicine', 'id' => $r->id, 'isTrashed' => $r->trashed(),
+                            'moduleAbility' => 'Medicine', 'module' => 'setting.medicine', 'id' => $r->id, 'isTrashed' => $r->trashed(),
                             'showBtnShow' => false,
                             'disableDelete' => false,
                         ]),
@@ -44,7 +44,7 @@ class MedicineController extends Controller
      */
     public function create()
     {
-        $data = [ 'is_edit' => false ];
+        $data = ['is_edit' => false];
         return view('medicine.create', $data);
     }
 
@@ -85,11 +85,11 @@ class MedicineController extends Controller
     public function update(MedicineRequest $request, Product $medicine)
     {
         if ($medicine->update([
-                'name_en' => $request->name_en,
-                'name_kh' => $request->name_kh,
-                'cost' => $request->cost ?? 0,
-                'price' => $request->price ?? 0,
-            ])) {
+            'name_en' => $request->name_en,
+            'name_kh' => $request->name_kh,
+            'cost' => $request->cost ?? 0,
+            'price' => $request->price ?? 0,
+        ])) {
 
             return redirect()->route('setting.medicine.index')->with('success', __('alert.message.success.crud.update'));
         }

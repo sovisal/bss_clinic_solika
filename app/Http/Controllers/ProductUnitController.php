@@ -27,7 +27,7 @@ class ProductUnitController extends Controller
                         'user' => d_obj($r, 'user', 'name'),
                         'status' => d_status($r->status),
                         'action' => d_action([
-                            'module-ability'=> 'ProductUnit', 'module' => 'inventory.product_unit', 'id' => $r->id, 'isTrashed' => $r->trashed(),
+                            'moduleAbility' => 'ProductUnit', 'module' => 'inventory.product_unit', 'id' => $r->id, 'isTrashed' => $r->trashed(),
                             'disableEdit' => $r->trashed(), 'showBtnShow' => false,
                             'disableDelete' => $r->products_count > 0 || $r->packages_count > 0,
                         ]),
@@ -67,7 +67,7 @@ class ProductUnitController extends Controller
      */
     public function edit(ProductUnit $productUnit)
     {
-        return view('product_unit.edit', [ 'row' => $productUnit ]);
+        return view('product_unit.edit', ['row' => $productUnit]);
     }
 
     /**
@@ -117,5 +117,4 @@ class ProductUnitController extends Controller
         }
         return back()->with('error', __('alert.message.error.crud.force_detele'));
     }
-
 }

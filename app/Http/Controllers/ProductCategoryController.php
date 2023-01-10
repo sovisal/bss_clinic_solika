@@ -27,7 +27,7 @@ class ProductCategoryController extends Controller
                         'user' => d_obj($r, 'user', 'name'),
                         'status' => d_status($r->status),
                         'action' => d_action([
-                            'module-ability'=> 'ProductCategory', 'module' => 'inventory.product_category', 'id' => $r->id, 'isTrashed' => $r->trashed(),
+                            'moduleAbility' => 'ProductCategory', 'module' => 'inventory.product_category', 'id' => $r->id, 'isTrashed' => $r->trashed(),
                             'disableEdit' => $r->trashed(), 'showBtnShow' => false,
                             'disableDelete' => $r->products_count > 0 || $r->suppliers_count > 0,
                         ]),
@@ -68,7 +68,7 @@ class ProductCategoryController extends Controller
      */
     public function edit(ProductCategory $productCategory)
     {
-        return view('product_category.edit', [ 'row' => $productCategory ]);
+        return view('product_category.edit', ['row' => $productCategory]);
     }
 
     /**

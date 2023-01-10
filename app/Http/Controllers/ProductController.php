@@ -22,12 +22,14 @@ class ProductController extends Controller
         if ($request->ajax()) {
             if ($request->_type == 'query') {
                 // For select2 Ajx
-                $term = Product::where(function($query) use ($request){
-                        $query->where('name_en', 'LIKE', '%' . $request->term . '%')
+                $term = Product::where(function ($query) use ($request) {
+                    $query->where('name_en', 'LIKE', '%' . $request->term . '%')
                         ->orWhere('name_kh', 'LIKE', '%' . $request->term . '%')
                         ->orWhere('code', 'LIKE', '%' . $request->term . '%');
+                })
+                    ->when($request->qty_remain, function ($query) {
+                        $query->avaiableStock();
                     })
-                    ->when($request->qty_remain, function($query){ $query->avaiableStock(); })
                     ->limit(100)
                     ->get(['id', 'code', 'name_kh', 'name_en']);
 
@@ -59,7 +61,7 @@ class ProductController extends Controller
                         'status' => $r->qty_remain == 0 ? d_status(false, 'Out of Stock') : ($r->qty_remain > 0 && $r->qty_remain <= $r->qty_alert ? d_status(false, 'Almost Out of Stock', '', 'badge-warning') : d_status(true)),
 
                         'action' => d_action([
-                            'module-ability'=> 'Product', 'module' => 'inventory.product', 'id' => $r->id, 'isTrashed' => $r->trashed(),
+                            'moduleAbility' => 'Product', 'module' => 'inventory.product', 'id' => $r->id, 'isTrashed' => $r->trashed(),
                             'showBtnShow' => false,
                             'disableDelete' => $r->stockins_count > 0 || $r->qty_in > 0 || $r->qty_out > 0 || $r->qty_remain > 0,
                         ]),
@@ -99,7 +101,7 @@ class ProductController extends Controller
             'unit_id' => $request->unit_id,
             'type_id' => $request->type_id,
             'category_id' => $request->category_id,
-            
+
             'cost' => $request->cost ?? 0,
             'price' => $request->price ?? 0,
             'qty_begin' => $request->qty_begin ?: 0,
@@ -228,7 +230,8 @@ class ProductController extends Controller
         return back()->with('error', __('alert.message.error.crud.force_detele'));
     }
 
-    public function update_package ($request, $product = null) {
+    public function update_package($request, $product = null)
+    {
         $package = [];
         foreach ($request->package_product_unit_id ?: [] as $index => $product_unit_id) {
             $package[] = [
@@ -244,7 +247,8 @@ class ProductController extends Controller
         $product->packages()->createMany($package);
     }
 
-    public function update_begin_balance($product) {
+    public function update_begin_balance($product)
+    {
         if ($product->qty_begin > 0) {
             $product->stockins()->create([
                 'date' => date('Y-m-d'),
@@ -256,14 +260,14 @@ class ProductController extends Controller
             ]);
         }
     }
-    
+
     public function getUnit(Request $request)
     {
         $product = Product::with(['packages', 'unit'])->findOrFail($request->id);
         // $options = '<option value="">---- None ----</option>';
-        $options = '<option value="' . $product->unit_id . '" data-qty="1" data-price="'. $product->price .'">' . d_obj($product, 'unit', ['name_kh', 'name_en']) . '</option>';
+        $options = '<option value="' . $product->unit_id . '" data-qty="1" data-price="' . $product->price . '">' . d_obj($product, 'unit', ['name_kh', 'name_en']) . '</option>';
         foreach ($product->packages ?? [] as $package) {
-            $options .= '<option value="'. $package->product_unit_id .'" data-qty="'. $package->qty .'" data-price="'. $package->price .'">'. d_obj($package, 'unit', ['name_kh', 'name_en']) .'</option>';
+            $options .= '<option value="' . $package->product_unit_id . '" data-qty="' . $package->qty . '" data-price="' . $package->price . '">' . d_obj($package, 'unit', ['name_kh', 'name_en']) . '</option>';
         }
 
         return response()->json([
@@ -273,7 +277,8 @@ class ProductController extends Controller
         ]);
     }
 
-    public function validateRemainQty(Request $request){
+    public function validateRemainQty(Request $request)
+    {
         // $request->product_id;
         // $request->unit_id;
         // $request->qty;

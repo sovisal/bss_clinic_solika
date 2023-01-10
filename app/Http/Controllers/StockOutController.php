@@ -38,7 +38,7 @@ class StockOutController extends Controller
                         'p_unit' => d_obj($r, 'product', 'unit', 'link'),
                         'type' => d_text($r->type),
                         'action' => d_action([
-                            'module-ability'=> $module_ability ?? 'StockOut', 'module' => $module ?? 'inventory.stock_out', 'id' => $r->id, 'isTrashed' => $r->trashed(),
+                            'moduleAbility' => $module_ability ?? 'StockOut', 'module' => $module ?? 'inventory.stock_out', 'id' => $r->id, 'isTrashed' => $r->trashed(),
                             'disableEdit' => $r->trashed(), 'showBtnShow' => false,
                             'disableDelete' => true,
                         ]),
@@ -56,9 +56,7 @@ class StockOutController extends Controller
      */
     public function create()
     {
-        $data = [
-            
-        ];
+        $data = [];
         return view('stock_out.create', $data);
     }
 
@@ -67,28 +65,30 @@ class StockOutController extends Controller
      */
     public function store(StockOutRequest $request)
     {
-        $validator = Validator::make([],[]);
+        $validator = Validator::make([], []);
         $allProducts = Product::with([
-            'stockins' => function ($q) { $q->where('qty_remain', '>', 0)->orderBy('date'); }
+            'stockins' => function ($q) {
+                $q->where('qty_remain', '>', 0)->orderBy('date');
+            }
         ])->whereIn('id', $request->input('product_id', []))->get();
 
         foreach ($request->input('product_id', []) as $index => $value) {
             if ($product = $allProducts->where('id', $request->product_id[$index] ?? '')->first()) {
                 if ($product->stockins->sum('qty_remain') >= $request->qty_based[$index]) {
                     $req = (object)[
-                            'type' => 'StockOut',
-                            'date' => $request->date[$index],
-                            'document_no' => $request->reciept_no[$index],
-                            'product_id' => $request->product_id[$index],
-                            'unit_id' => $request->unit_id[$index],
-                            'price' => $request->price[$index],
-                            'qty_based' => $request->qty_based[$index],
-                            'qty' => $request->qty[$index],
-                            'note' => $request->note[$index],
-                            'total' => $request->total[$index],
-                        ];
+                        'type' => 'StockOut',
+                        'date' => $request->date[$index],
+                        'document_no' => $request->reciept_no[$index],
+                        'product_id' => $request->product_id[$index],
+                        'unit_id' => $request->unit_id[$index],
+                        'price' => $request->price[$index],
+                        'qty_based' => $request->qty_based[$index],
+                        'qty' => $request->qty[$index],
+                        'note' => $request->note[$index],
+                        'total' => $request->total[$index],
+                    ];
                     $product->deductStock($request->qty[$index], $request->unit_id[$index], $req);
-                }else{
+                } else {
                     // If requested stock is larger then stock available add error for msg
                     $validator->errors()->add($index, 'Insufficient stock on product: ' . d_obj($product, ['name_kh', 'name_en']) . '! total requested stock is ' . d_number($request->qty_based[$index]) . ' but total stock available is ' . d_number($product->stockins->sum('qty_remain')));
                 }

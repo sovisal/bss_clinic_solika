@@ -22,7 +22,7 @@ class PrescriptionController extends Controller
     {
         if ($request->ajax()) {
             $data =  Prescription::with(['patient', 'gender', 'doctor', 'doctor_requested', 'address'])
-            ->filter();
+                ->filter();
 
             return Datatables::of($data)
                 ->addColumn('dt', function ($r) {
@@ -41,9 +41,9 @@ class PrescriptionController extends Controller
                         // 'user' => d_obj($r, 'user', 'name'),
                         'status' => d_para_status($r->status),
                         'action' => d_action([
-                            'module-ability'=> 'Prescription', 'module' => 'prescription', 'id' => $r->id, 'isTrashed' => $r->trashed(),
-                            'disableEdit' => $r->trashed() || !($r->status=='1' && $r->payment_status == 0), 'showBtnShow' => false,
-                            'disableDelete' => !($r->status=='1' && $r->payment_status == 0),
+                            'moduleAbility' => 'Prescription', 'module' => 'prescription', 'id' => $r->id, 'isTrashed' => $r->trashed(),
+                            'disableEdit' => $r->trashed() || !($r->status == '1' && $r->payment_status == 0), 'showBtnShow' => false,
+                            'disableDelete' => !($r->status == '1' && $r->payment_status == 0),
                             'showBtnPrint' => true,
                         ]),
                     ];
@@ -184,7 +184,8 @@ class PrescriptionController extends Controller
     public function print($id)
     {
         $prescription = Prescription::where('prescriptions.id', $id)
-            ->with(['doctor', 'patient', 'gender',
+            ->with([
+                'doctor', 'patient', 'gender',
                 'detail' => function ($q) {
                     $q->with(['product', 'usage', 'unit']);
                 }
@@ -205,7 +206,7 @@ class PrescriptionController extends Controller
     public function edit(Prescription $prescription)
     {
         $data = [
-            'row'=>  $prescription,
+            'row' =>  $prescription,
             'patient' => Patient::where('id', $prescription->patient_id)->get(),
             'doctor' => Doctor::orderBy('id', 'asc')->get(),
             'payment_type' => getParentDataSelection('payment_type'),
@@ -246,8 +247,8 @@ class PrescriptionController extends Controller
         if ($prescription->update($request->except(['total', 'other', 'submit_option']))) {
             update4LevelAddress($request, $prescription->patient()->first()->address_id);
             $this->refresh_prescriotion_detail($request, $prescription);
-            $validator = Validator::make([],[]);
-            
+            $validator = Validator::make([], []);
+
             // When button complete clicked
             if ($request->submit_option == '2') {
 
@@ -262,8 +263,8 @@ class PrescriptionController extends Controller
                 }
 
                 // Return back with error message
-                if ($validator->errors()->all()) { 
-                    return redirect()->route('prescription.index')->withErrors($validator);  
+                if ($validator->errors()->all()) {
+                    return redirect()->route('prescription.index')->withErrors($validator);
                 }
 
                 // Stock calculation
@@ -339,7 +340,7 @@ class PrescriptionController extends Controller
                     'usage_id'        => $request->usage_id[$index] ?: 0,
                     'other'           => $request->other[$index] ?: '',
                 ];
-    
+
                 $tmp_usage_time = [];
                 foreach ($time_usage as $tm_id => $tm_name) {
                     if (isset($request->{'time_usage_' . $tm_id}[$index]) && $request->{'time_usage_' . $tm_id}[$index] != "OFF") {

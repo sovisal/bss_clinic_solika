@@ -41,9 +41,9 @@ class EchographyController extends Controller
                         // 'user' => d_obj($r, 'user', 'name'),
                         'status' => d_para_status($r->status),
                         'action' => d_action([
-                            'module-ability'=> 'Echography', 'module' => 'para_clinic.echography', 'id' => $r->id, 'isTrashed' => $r->trashed(),
-                            'disableEdit' => $r->trashed() || !($r->status=='1' && $r->payment_status == 0), 'showBtnShow' => false,
-                            'disableDelete' => !($r->status=='1' && $r->payment_status == 0),
+                            'moduleAbility' => 'Echography', 'module' => 'para_clinic.echography', 'id' => $r->id, 'isTrashed' => $r->trashed(),
+                            'disableEdit' => $r->trashed() || !($r->status == '1' && $r->payment_status == 0), 'showBtnShow' => false,
+                            'disableDelete' => !($r->status == '1' && $r->payment_status == 0),
                             'paraImage' => [$r->image_1, $r->image_2], 'showBtnPrint' => true,
                         ]),
                     ];

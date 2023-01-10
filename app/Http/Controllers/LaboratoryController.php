@@ -39,9 +39,9 @@ class LaboratoryController extends Controller
                         // 'user' => d_obj($r, 'user', 'name'),
                         'status' => d_para_status($r->status),
                         'action' => d_action([
-                            'module-ability'=> 'Laboratory', 'module' => 'para_clinic.labor', 'id' => $r->id, 'isTrashed' => $r->trashed(),
-                            'disableEdit' => $r->trashed() || !($r->status=='1' && $r->payment_status == 0), 'showBtnShow' => false,
-                            'disableDelete' => !($r->status=='1' && $r->payment_status == 0),
+                            'moduleAbility' => 'Laboratory', 'module' => 'para_clinic.labor', 'id' => $r->id, 'isTrashed' => $r->trashed(),
+                            'disableEdit' => $r->trashed() || !($r->status == '1' && $r->payment_status == 0), 'showBtnShow' => false,
+                            'disableDelete' => !($r->status == '1' && $r->payment_status == 0),
                             'showBtnPrint' => true,
                         ]),
                     ];
@@ -202,12 +202,12 @@ class LaboratoryController extends Controller
             'doctors.name_kh as doctor_kh',
             'requestedBy.name_en as requested_by_name',
         ])
-        ->with(['details.item'])
-        ->leftJoin('patients', 'patients.id', '=', 'laboratories.patient_id')
-        ->leftJoin('data_parents', 'data_parents.id', '=', 'patients.gender_id')
-        ->leftJoin('doctors', 'doctors.id', '=', 'laboratories.doctor_id')
-        ->leftJoin('doctors AS requestedBy', 'requestedBy.id', '=', 'laboratories.requested_by')
-        ->find($id);
+            ->with(['details.item'])
+            ->leftJoin('patients', 'patients.id', '=', 'laboratories.patient_id')
+            ->leftJoin('data_parents', 'data_parents.id', '=', 'patients.gender_id')
+            ->leftJoin('doctors', 'doctors.id', '=', 'laboratories.doctor_id')
+            ->leftJoin('doctors AS requestedBy', 'requestedBy.id', '=', 'laboratories.requested_by')
+            ->find($id);
         $data['labor'] = $labor;
 
         // Prepare labor detail with 2 levels of groups
@@ -284,7 +284,7 @@ class LaboratoryController extends Controller
     public function update(LaborRequest $request, Laboratory $labor)
     {
         $request['address_id'] = update4LevelAddress($request, $labor->address_id);
-        
+
         if ($request->status == '2') {
             $request['analysis_at'] = now();
         }
