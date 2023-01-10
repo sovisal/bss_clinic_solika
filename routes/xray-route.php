@@ -18,15 +18,15 @@ Route::prefix('xray-type')->middleware(['auth'])->name('setting.xray-type.')->co
 });
 
 Route::prefix('xray')->middleware(['auth'])->name('para_clinic.xray.')->controller(XrayController::class)->group(function () {
-    Route::get('/', 'index')->name('index')->middleware('can:ViewAnyXRay');
-    Route::get('/create', 'create')->name('create')->middleware('can:CreateXRay');
-    Route::post('/store', 'store')->name('store')->middleware('can:CreateXRay');
-    Route::get('/{xray}/edit', 'edit')->name('edit')->middleware('can:UpdateXRay');
-    Route::put('/{xray}/update', 'update')->name('update')->middleware('can:UpdateXRay');
-    Route::delete('/{xray}/delete', 'destroy')->name('delete')->middleware('can:DeleteXRay');
-    Route::put('/{xray}/restore', 'restore')->name('restore')->middleware('can:RestoreXRay');
-    Route::delete('/{xray}/force_delete', 'force_delete')->name('force_delete')->middleware('can:ForceDeleteXRay');
-    Route::get('/{xray}/print', 'print')->name('print')->middleware('can:PrintXRay');
-    Route::get('/{xray}/show', 'show')->name('show')->middleware('can:ViewAnyXRay');
+    Route::get('/', 'index')->name('index')->middleware('can:ViewAnyXray');
+    Route::get('/create', 'create')->name('create')->middleware('can:CreateXray');
+    Route::post('/store', 'store')->name('store')->middleware('can:CreateXray');
+    Route::get('/{xray}/edit', 'edit')->name('edit')->middleware('can:UpdateXray');
+    Route::put('/{xray}/update', 'update')->name('update')->middleware('can:UpdateXray');
+    Route::delete('/{xray}/delete', 'destroy')->name('delete')->middleware('can:DeleteXray');
+    Route::put('/{xray}/restore', 'restore')->name('restore')->middleware('can:RestoreXray');
+    Route::delete('/{xray}/force_delete', 'force_delete')->name('force_delete')->middleware('can:ForceDeleteXray');
+    Route::get('/{xray}/print', 'print')->name('print')->middleware('can:PrintXray');
+    Route::get('/{xray}/show', 'show')->name('show')->middleware('can:ViewAnyXray');
     Route::post('/getDetail', 'getDetail')->name('getDetail');
 });
