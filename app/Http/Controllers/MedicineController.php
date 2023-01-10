@@ -20,7 +20,7 @@ class MedicineController extends Controller
             return DataTables::of($data)
                 ->addColumn('dt', function ($r) {
                     return [
-                        // 'code' => $r->code,
+                        'code' => $r->code,
                         'name' => d_obj($r, ['name_kh', 'name_en']),
                         'cost' => d_currency($r->cost),
                         'price' => d_currency($r->price),
