@@ -1288,6 +1288,7 @@ $(document).ready(function () {
             ajax: {
                 url: $_this.data('url'),
                 dataType: 'json',
+                delay: 250,
             },
             width: "100%",
             delay: 500,
