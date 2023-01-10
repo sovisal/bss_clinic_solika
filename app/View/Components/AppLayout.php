@@ -21,95 +21,96 @@ class AppLayout extends Component
         $nb_alerted = $_POST['nb_stock_expired'] + $_POST['nb_out_of_stock'];
         $stock_alert_badge   = $nb_alerted > 0 ? '<span class="text-danger"> (<em>' . $nb_alerted . '</em> )</span>' : '';
         
-        $menu = [
-            'patient' => getFirstPermittedSubMenu([
-                'can' => '',
-                'url' => '',
-                'label' => 'Patient',
+        $menu = [];
+        $menu['patient'] = getFirstPermittedSubMenu([
+            'can' => '',
+            'url' => '',
+            'label' => 'Patient',
 
-                'sub' => [
-                    'patient' => [
-                        'can' => 'ViewAnyPatient',
-                        'url' => route('patient.index'),
-                        'name' => ['index', 'create', 'edit', 'show'],
-                        'label' => 'Patient',
-                    ],
-                    'consultation' => [
-                        'can' => 'ViewAnyConsultation',
-                        'url' => route('patient.index'),
-                        'name' => ['index', 'create', 'edit', 'show'],
-                        'label' => 'Consulting',
-                    ],
+            'sub' => [
+                'patient' => [
+                    'can' => 'ViewAnyPatient',
+                    'url' => route('patient.index'),
+                    'name' => ['index', 'create', 'edit', 'show'],
+                    'label' => 'Patient',
                 ],
-            ]),
-
-            'invoice' => getFirstPermittedSubMenu([
-                'can' => 'ViewAnyInvoice',
-                'url' => route('invoice.index'),
-                'label' => 'Invoice',
-                'sub' => [
-                    'invoice' => [
-                        'can' => 'ViewAnyInvoice',
-                        'url' => route('invoice.index'),
-                        'name' => ['index', 'create', 'edit', 'show'],
-                        'label' => 'Invoice List',
-                    ],
-                    'service' => [
-                        'can' => 'ViewAnyService',
-                        'url' => route('invoice.service.index'),
-                        'name' => ['index', 'create', 'edit', 'show'],
-                        'label' => 'Services',
-                    ],
-                ],
-            ]),
-
-            'prescription' => [
-                'can' => 'ViewAnyPrescription',
-                'url' => route('prescription.index'),
-                'label' => 'Prescription',
-                'sub' => [
-                    'prescription' => [
-                        'can' => 'ViewAnyPrescription',
-                        'url' => route('prescription.index'),
-                        'name' => ['index', 'create', 'edit', 'show'],
-                        'label' => 'Prescription List',
-                    ],
+                'consultation' => [
+                    'can' => 'ViewAnyConsultation',
+                    'url' => route('patient.index'),
+                    'name' => ['index', 'create', 'edit', 'show'],
+                    'label' => 'Consulting',
                 ],
             ],
+        ]);
 
-            'para_clinic' => getFirstPermittedSubMenu([
-                'can' => '',
-                'url' => '',
-                'label' => 'Para Clinic',
-                'sub' => [
-                    'labor' => [
-                        'can' => 'ViewAnyLaboratory',
-                        'url' => route('para_clinic.labor.index'),
-                        'name' => ['index', 'create', 'edit', 'show'],
-                        'label' => 'Laboratory',
-                    ],
-                    'xray' => [
-                        'can' => 'ViewAnyXRay',
-                        'url' => route('para_clinic.xray.index'),
-                        'name' => ['index', 'create', 'edit', 'show'],
-                        'label' => 'X-Ray',
-                    ],
-                    'echography' => [
-                        'can' => 'ViewAnyEchography',
-                        'url' => route('para_clinic.echography.index'),
-                        'name' => ['index', 'create', 'edit', 'show'],
-                        'label' => 'Echography',
-                    ],
-                    'ecg' => [
-                        'can' => 'ViewAnyEcg',
-                        'url' => route('para_clinic.ecg.index'),
-                        'name' => ['index', 'create', 'edit', 'show'],
-                        'label' => 'ECG',
-                    ],
+        $menu['invoice'] = getFirstPermittedSubMenu([
+            'can' => 'ViewAnyInvoice',
+            'url' => route('invoice.index'),
+            'label' => 'Invoice',
+            'sub' => [
+                'invoice' => [
+                    'can' => 'ViewAnyInvoice',
+                    'url' => route('invoice.index'),
+                    'name' => ['index', 'create', 'edit', 'show'],
+                    'label' => 'Invoice List',
                 ],
-            ]),
+                'service' => [
+                    'can' => 'ViewAnyService',
+                    'url' => route('invoice.service.index'),
+                    'name' => ['index', 'create', 'edit', 'show'],
+                    'label' => 'Services',
+                ],
+            ],
+        ]);
 
-            'inventory' => getFirstPermittedSubMenu([
+        $menu['prescription'] = [
+            'can' => 'ViewAnyPrescription',
+            'url' => route('prescription.index'),
+            'label' => 'Prescription',
+            'sub' => [
+                'prescription' => [
+                    'can' => 'ViewAnyPrescription',
+                    'url' => route('prescription.index'),
+                    'name' => ['index', 'create', 'edit', 'show'],
+                    'label' => 'Prescription List',
+                ],
+            ],
+        ];
+
+        $menu['para_clinic'] = getFirstPermittedSubMenu([
+            'can' => '',
+            'url' => '',
+            'label' => 'Para Clinic',
+            'sub' => [
+                'labor' => [
+                    'can' => 'ViewAnyLaboratory',
+                    'url' => route('para_clinic.labor.index'),
+                    'name' => ['index', 'create', 'edit', 'show'],
+                    'label' => 'Laboratory',
+                ],
+                'xray' => [
+                    'can' => 'ViewAnyXRay',
+                    'url' => route('para_clinic.xray.index'),
+                    'name' => ['index', 'create', 'edit', 'show'],
+                    'label' => 'X-Ray',
+                ],
+                'echography' => [
+                    'can' => 'ViewAnyEchography',
+                    'url' => route('para_clinic.echography.index'),
+                    'name' => ['index', 'create', 'edit', 'show'],
+                    'label' => 'Echography',
+                ],
+                'ecg' => [
+                    'can' => 'ViewAnyEcg',
+                    'url' => route('para_clinic.ecg.index'),
+                    'name' => ['index', 'create', 'edit', 'show'],
+                    'label' => 'ECG',
+                ],
+            ],
+        ]);
+
+        if (env('STOCK_INVENTORY', true) == true) {
+            $menu['inventory'] = getFirstPermittedSubMenu([
                 'can' => '',
                 'url' => '',
                 'label' => $nb_alerted > 0 ? '<span class="text-danger">Inventory</span>' : 'Inventory',
@@ -188,97 +189,97 @@ class AppLayout extends Component
                         'label' => 'Supplier',
                     ],
                 ],
-            ]),
+            ]);
+        }
 
-            'setting' => getFirstPermittedSubMenu([
-                'can' => '',
-                'url' => '',
-                'label' => 'Setting',
-
-                'sub' => [
-                    'setting' => [
-                        'can' => 'DeveloperMode',
-                        'url' => route('setting.edit'),
-                        'name' => ['edit'],
-                        'label' => 'Setting',
-                    ],
-                    'labor-type' => [
-                        'can' => 'ViewAnyLaborType',
-                        'url' => route('setting.labor-type.index'),
-                        'name' => ['index', 'create', 'edit', 'sort_order'],
-                        'label' => 'Labor Service',
-                    ],
-                    'medicine' => [
-                        'can' => 'ViewAnyMedicine',
-                        'url' => route('setting.medicine.index'),
-                        'name' => ['index', 'create', 'edit'],
-                        'label' => 'Medicine',
-                    ],
-                    'echo-type' => [
-                        'can' => 'ViewAnyEchoType',
-                        'url' => route('setting.echo-type.index'),
-                        'name' => ['index', 'create', 'edit', 'sort_order'],
-                        'label' => 'Echo Service',
-                    ],
-                    'ecg-type' => [
-                        'can' => 'ViewAnyEcgType',
-                        'url' => route('setting.ecg-type.index'),
-                        'name' => ['index', 'create', 'edit', 'sort_order'],
-                        'label' => 'ECG Service',
-                    ],
-                    'xray-type' => [
-                        'can' => 'ViewAnyXRayType',
-                        'url' => route('setting.xray-type.index'),
-                        'name' => ['index', 'create', 'edit', 'sort_order'],
-                        'label' => 'Xray Service',
-                    ],
-                    'data-parent' => [
-                        'can' => 'ViewAnyDataParent',
-                        'url' => route('setting.data-parent.index'),
-                        'name' => ['index', 'create', 'edit'],
-                        'label' => 'Data Selection',
-                    ],
-                    'doctor' => [
-                        'can' => 'ViewAnyDoctor',
-                        'url' => route('setting.doctor.index'),
-                        'name' => ['index', 'create', 'edit'],
-                        'label' => 'Doctor',
-                    ],
-                    'address' => [
-                        'can' => 'ViewAnyAddress',
-                        'url' => route('setting.address.index'),
-                        'name' => ['index', 'create', 'edit'],
-                        'label' => 'Address',
-                    ],
+        $menu['setting'] = getFirstPermittedSubMenu([
+            'can' => '',
+            'url' => '',
+            'label' => 'Setting',
+            'sub' => [
+                'setting' => [
+                    'can' => 'DeveloperMode',
+                    'url' => route('setting.edit'),
+                    'name' => ['edit'],
+                    'label' => 'Setting',
                 ],
-            ]),
-
-            'user' => getFirstPermittedSubMenu([
-                'can' => '',
-                'url' => '',
-                'label' => 'User Managment',
-                'sub' => [
-                    'user' => [
-                        'can' => 'ViewAnyUser',
-                        'url' => route('user.index'),
-                        'name' => ['index', 'create', 'edit', 'ability'],
-                        'label' => 'User',
-                    ],
-                    'role' => [
-                        'can' => 'ViewAnyRole',
-                        'url' => route('user.role.index'),
-                        'name' => ['index', 'create', 'edit', 'ability'],
-                        'label' => 'Role',
-                    ],
-                    'ability' => [
-                        'can' => 'ViewAnyAbility',
-                        'url' => route('user.ability.index'),
-                        'name' => ['index', 'create', 'edit'],
-                        'label' => 'Ability',
-                    ],
+                'labor-type' => [
+                    'can' => 'ViewAnyLaborType',
+                    'url' => route('setting.labor-type.index'),
+                    'name' => ['index', 'create', 'edit', 'sort_order'],
+                    'label' => 'Labor Service',
                 ],
-            ]),
-        ];
+                'echo-type' => [
+                    'can' => 'ViewAnyEchoType',
+                    'url' => route('setting.echo-type.index'),
+                    'name' => ['index', 'create', 'edit', 'sort_order'],
+                    'label' => 'Echo Service',
+                ],
+                'ecg-type' => [
+                    'can' => 'ViewAnyEcgType',
+                    'url' => route('setting.ecg-type.index'),
+                    'name' => ['index', 'create', 'edit', 'sort_order'],
+                    'label' => 'ECG Service',
+                ],
+                'xray-type' => [
+                    'can' => 'ViewAnyXRayType',
+                    'url' => route('setting.xray-type.index'),
+                    'name' => ['index', 'create', 'edit', 'sort_order'],
+                    'label' => 'Xray Service',
+                ],
+                'medicine' => [
+                    'can' => 'ViewAnyMedicine',
+                    'url' => route('setting.medicine.index'),
+                    'name' => ['index', 'create', 'edit'],
+                    'label' => 'Medicine',
+                ],
+                'doctor' => [
+                    'can' => 'ViewAnyDoctor',
+                    'url' => route('setting.doctor.index'),
+                    'name' => ['index', 'create', 'edit'],
+                    'label' => 'Doctor',
+                ],
+                'data-parent' => [
+                    'can' => 'ViewAnyDataParent',
+                    'url' => route('setting.data-parent.index'),
+                    'name' => ['index', 'create', 'edit'],
+                    'label' => 'Data Selection',
+                ],
+                'address' => [
+                    'can' => 'ViewAnyAddress',
+                    'url' => route('setting.address.index'),
+                    'name' => ['index', 'create', 'edit'],
+                    'label' => 'Address',
+                ],
+            ],
+        ]);
+
+        $menu['user'] = getFirstPermittedSubMenu([
+            'can' => '',
+            'url' => '',
+            'label' => 'User Managment',
+            'sub' => [
+                'user' => [
+                    'can' => 'ViewAnyUser',
+                    'url' => route('user.index'),
+                    'name' => ['index', 'create', 'edit', 'ability'],
+                    'label' => 'User',
+                ],
+                'role' => [
+                    'can' => 'ViewAnyRole',
+                    'url' => route('user.role.index'),
+                    'name' => ['index', 'create', 'edit', 'ability'],
+                    'label' => 'Role',
+                ],
+                'ability' => [
+                    'can' => 'ViewAnyAbility',
+                    'url' => route('user.ability.index'),
+                    'name' => ['index', 'create', 'edit'],
+                    'label' => 'Ability',
+                ],
+            ],
+        ]);
+
         $setting = Setting::first();
         if (!$setting) {
             $setting = Setting::Create([
