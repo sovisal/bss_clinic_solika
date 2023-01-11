@@ -591,7 +591,7 @@ function d_action($param)
     }
 
     if($param['showBtnShow']) {
-        if (can('Show'. Str::ucfirst($param['moduleAbility'] ?? $param['module']))) {
+        if (can('ViewAny'. Str::ucfirst($param['moduleAbility'] ?? $param['module']))) {
             $render_result .= '<a href="' . route($param['module'] .'.show', $param['id']) . '" class="btn btn-sm btn-primary btn-icon" title="Show">
                 <i class="bx bx-detail"></i> 
             </a>';
