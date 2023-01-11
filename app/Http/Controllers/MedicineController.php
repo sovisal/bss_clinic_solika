@@ -53,15 +53,18 @@ class MedicineController extends Controller
      */
     public function store(MedicineRequest $request)
     {
-        if (Product::create([
+        if ($medicine = Product::create([
             // 'code' => generate_code('PR', 'products'),
-            'name_en' => $request->name_en,
-            'name_kh' => $request->name_kh,
+            'name_en' => $request->name,
+            'name_kh' => $request->name,
             'unit_id' => 1,
-            'cost' => $request->cost ?? 0,
+            'cost' => $request->price ?? 0,
             'price' => $request->price ?? 0,
             'qty_remain' => 100,
         ])) {
+            if ($request->ajax()) {
+                return $medicine;
+            }
 
             return redirect()->route('setting.medicine.index')->with('success', __('alert.message.success.crud.create'));
         }

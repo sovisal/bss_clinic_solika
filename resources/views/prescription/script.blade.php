@@ -1,11 +1,12 @@
 <script>
     function initialize_select2_ajx () {
         $('.table-medicine select[name="medicine_id[]"]').each((_i, e) => {
-            $_this = $(e);
+            let $_this = $(e);
             $(e).select2({
                 ajax: {
                     url: $_this.data('url'),
                     dataType: 'json',
+                    delay: 250,
                     data: function (params) {
                         var query = {
                             _type : 'query',
@@ -13,7 +14,43 @@
                             qty_remain: true
                         }
                         return query;
-                    }
+                    },
+                    processResults: function (data) {
+                        if (data.results.length == 0 && $('.select2-search__field').val() != '') {
+                            $('.select2-search__field').keyup(function(e){
+                                if (e.keyCode === 13) {
+                                    let select_search = $(this);
+                                    if (select_search.val()) {
+                                        $.ajax({
+                                            url: window.route_medicine,
+                                            type: "POST",
+                                            data: {
+                                                name: select_search.val(),
+                                                price: "1",
+                                                usage_id: "1",
+                                            },
+                                            dataType: "JSON",
+                                            success: function (data) {
+                                                if (data.id) {
+                                                    let newOption = new Option(
+                                                        select_search.val(),
+                                                        data.id,
+                                                        false,
+                                                        false
+                                                    );
+                                                    $('select[name="medicine_id[]"').append(
+                                                        newOption
+                                                    );
+                                                    $_this.val(data.id).trigger("change");
+                                                }
+                                            },
+                                        });
+                                    }
+                                }
+                            });
+                        }
+                        return data;
+                    },
                 },
                 width: "100%",
             });
