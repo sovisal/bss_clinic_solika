@@ -97,7 +97,6 @@
                     id: bss_number($(this).val()),
                 },
                 success: function (rs) {
-                    console.log(rs);
                     if (rs.success) {
                         $this_row.find('[name="unit_id[]"]').html(rs.options);
                     }
