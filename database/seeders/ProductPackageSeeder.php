@@ -14,39 +14,39 @@ class ProductPackageSeeder extends Seeder
      */
     public function run()
     {
-        ProductPackage::insert([
-            [
-                'product_id' => 1,
-                'product_unit_id' => 10,
-                'qty' => 6,
-                'price' => 6,
-                'user_id' => 1,
-                'status' => 1
-            ],
-            [
-                'product_id' => 1,
-                'product_unit_id' => 11,
-                'qty' => 12,
-                'price' => 12,
-                'user_id' => 1,
-                'status' => 1
-            ],
-            [
-                'product_id' => 2,
-                'product_unit_id' => 2,
-                'qty' => 5,
-                'price' => 5,
-                'user_id' => 1,
-                'status' => 1
-            ],
-            [
-                'product_id' => 2,
-                'product_unit_id' => 1,
-                'qty' => 50,
-                'price' => 50,
-                'user_id' => 1,
-                'status' => 1
-            ],
-        ]);
+        // ProductPackage::insert([
+        //     [
+        //         'product_id' => 1,
+        //         'product_unit_id' => 10,
+        //         'qty' => 6,
+        //         'price' => 6,
+        //         'user_id' => 1,
+        //         'status' => 1
+        //     ],
+        //     [
+        //         'product_id' => 1,
+        //         'product_unit_id' => 11,
+        //         'qty' => 12,
+        //         'price' => 12,
+        //         'user_id' => 1,
+        //         'status' => 1
+        //     ],
+        //     [
+        //         'product_id' => 2,
+        //         'product_unit_id' => 2,
+        //         'qty' => 5,
+        //         'price' => 5,
+        //         'user_id' => 1,
+        //         'status' => 1
+        //     ],
+        //     [
+        //         'product_id' => 2,
+        //         'product_unit_id' => 1,
+        //         'qty' => 50,
+        //         'price' => 50,
+        //         'user_id' => 1,
+        //         'status' => 1
+        //     ],
+        // ]);
     }
 }

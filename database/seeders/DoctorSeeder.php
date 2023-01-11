@@ -22,7 +22,7 @@ class DoctorSeeder extends Seeder
                 'name_kh' => 'Doctor 1',
                 'name_en' => 'Doctor 1',
                 'phone' => '011223344',
-                'email' => 'sample.doctor1@gmail.com',
+                'email' => '',
                 'status' => 1,
                 'user_id' => User::all()->random()->id,
                 'created_at' => now(),

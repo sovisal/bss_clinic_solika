@@ -54,11 +54,21 @@ class UserSeeder extends Seeder
             'doctor_id' => 1,
             'isWebDev' => true,
         ]);
+        User::firstOrCreate([
+            'id' => 5,
+            'name' => 'Dim Phallin',
+            'username' => 'dimphallin',
+            'image' => 'default.png',
+            'password' => '$2y$10$YsiK1JXueoaXVoac1iSYT./ZNQW/K7WRYZL/JRLJ0EUG/Z.bL0xS2', // 12345678
+            'position' => 'Admin',
+            'doctor_id' => 1,
+            'isWebDev' => false,
+        ]);
         
-        foreach (User::where('id', '>=', '2')->get() as $user) {
+        foreach (User::where('id', '>=', '3')->get() as $user) {
             $user->assignRole('Admin');
         } 
 
-       User::factory(5)->create();
+    //    User::factory(5)->create();
     }
 }

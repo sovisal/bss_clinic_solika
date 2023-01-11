@@ -24,7 +24,7 @@ class ProductSeeder extends Seeder
 
         Product::insert([
             [
-                'code' => generate_code('PR', 'products'),
+                // 'code' => generate_code('PR', 'products'),
                 'name_kh' => "Aciclovir (Zovirax)",
                 'name_en' => "Aciclovir (Zovirax)",
                 'cost' => 0,
@@ -36,7 +36,7 @@ class ProductSeeder extends Seeder
                 'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Acrivastine",
             'name_en' => "Acrivastine",
             'cost' => 0,
@@ -48,7 +48,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Adalimumab",
             'name_en' => "Adalimumab",
             'cost' => 0,
@@ -60,7 +60,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Alendronic acid",
             'name_en' => "Alendronic acid",
             'cost' => 0,
@@ -72,7 +72,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Allopurinol",
             'name_en' => "Allopurinol",
             'cost' => 0,
@@ -84,7 +84,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Alogliptin",
             'name_en' => "Alogliptin",
             'cost' => 0,
@@ -96,7 +96,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Amitriptyline for depression",
             'name_en' => "Amitriptyline for depression",
             'cost' => 0,
@@ -108,7 +108,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Amitriptyline for pain and migraine",
             'name_en' => "Amitriptyline for pain and migraine",
             'cost' => 0,
@@ -120,7 +120,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Amlodipine",
             'name_en' => "Amlodipine",
             'cost' => 0,
@@ -132,7 +132,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Amoxicillin",
             'name_en' => "Amoxicillin",
             'cost' => 0,
@@ -144,7 +144,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Anastrozole",
             'name_en' => "Anastrozole",
             'cost' => 0,
@@ -156,7 +156,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Apixaban",
             'name_en' => "Apixaban",
             'cost' => 0,
@@ -168,7 +168,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Aspirin for pain relief",
             'name_en' => "Aspirin for pain relief",
             'cost' => 0,
@@ -180,7 +180,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Aspirin – low-dose, see Low-dose aspirin",
             'name_en' => "Aspirin – low-dose, see Low-dose aspirin",
             'cost' => 0,
@@ -192,7 +192,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Atenolol",
             'name_en' => "Atenolol",
             'cost' => 0,
@@ -204,7 +204,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Atorvastatin",
             'name_en' => "Atorvastatin",
             'cost' => 0,
@@ -216,7 +216,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Azathioprine",
             'name_en' => "Azathioprine",
             'cost' => 0,
@@ -228,7 +228,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Azithromycin",
             'name_en' => "Azithromycin",
             'cost' => 0,
@@ -240,7 +240,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Baclofen",
             'name_en' => "Baclofen",
             'cost' => 0,
@@ -252,7 +252,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Beclometasone inhalers",
             'name_en' => "Beclometasone inhalers",
             'cost' => 0,
@@ -264,7 +264,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Beclometasone nasal spray",
             'name_en' => "Beclometasone nasal spray",
             'cost' => 0,
@@ -276,7 +276,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Beclometasone skin creams",
             'name_en' => "Beclometasone skin creams",
             'cost' => 0,
@@ -288,7 +288,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Beclometasone tablets",
             'name_en' => "Beclometasone tablets",
             'cost' => 0,
@@ -300,7 +300,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Bendroflumethiazide",
             'name_en' => "Bendroflumethiazide",
             'cost' => 0,
@@ -312,7 +312,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Benzoyl peroxide",
             'name_en' => "Benzoyl peroxide",
             'cost' => 0,
@@ -324,7 +324,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Benzydamine",
             'name_en' => "Benzydamine",
             'cost' => 0,
@@ -336,7 +336,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Betahistine",
             'name_en' => "Betahistine",
             'cost' => 0,
@@ -348,7 +348,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Betamethasone for eyes, ears and nose",
             'name_en' => "Betamethasone for eyes, ears and nose",
             'cost' => 0,
@@ -360,7 +360,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Betamethasone for skin",
             'name_en' => "Betamethasone for skin",
             'cost' => 0,
@@ -372,7 +372,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Betamethasone tablets",
             'name_en' => "Betamethasone tablets",
             'cost' => 0,
@@ -384,7 +384,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Bimatoprost",
             'name_en' => "Bimatoprost",
             'cost' => 0,
@@ -396,7 +396,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Bisacodyl",
             'name_en' => "Bisacodyl",
             'cost' => 0,
@@ -408,7 +408,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Bisoprolol",
             'name_en' => "Bisoprolol",
             'cost' => 0,
@@ -420,7 +420,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Brinzolamide",
             'name_en' => "Brinzolamide",
             'cost' => 0,
@@ -432,7 +432,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Budesonide inhalers",
             'name_en' => "Budesonide inhalers",
             'cost' => 0,
@@ -444,7 +444,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Budesonide nasal spray",
             'name_en' => "Budesonide nasal spray",
             'cost' => 0,
@@ -456,7 +456,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Budesonide rectal foam and enemas",
             'name_en' => "Budesonide rectal foam and enemas",
             'cost' => 0,
@@ -468,7 +468,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Budesonide tablets, capsules and granules",
             'name_en' => "Budesonide tablets, capsules and granules",
             'cost' => 0,
@@ -480,7 +480,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Bumetanide",
             'name_en' => "Bumetanide",
             'cost' => 0,
@@ -492,7 +492,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Buprenorphine for pain",
             'name_en' => "Buprenorphine for pain",
             'cost' => 0,
@@ -504,7 +504,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Buscopan (hyoscine butylbromide)",
             'name_en' => "Buscopan (hyoscine butylbromide)",
             'cost' => 0,
@@ -516,7 +516,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Calcipotriol",
             'name_en' => "Calcipotriol",
             'cost' => 0,
@@ -528,7 +528,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Candesartan",
             'name_en' => "Candesartan",
             'cost' => 0,
@@ -540,7 +540,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Carbamazepine",
             'name_en' => "Carbamazepine",
             'cost' => 0,
@@ -552,7 +552,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Carbimazole",
             'name_en' => "Carbimazole",
             'cost' => 0,
@@ -564,7 +564,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Carbocisteine",
             'name_en' => "Carbocisteine",
             'cost' => 0,
@@ -576,7 +576,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Carmellose sodium",
             'name_en' => "Carmellose sodium",
             'cost' => 0,
@@ -588,7 +588,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Carvedilol",
             'name_en' => "Carvedilol",
             'cost' => 0,
@@ -600,7 +600,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Cefalexin",
             'name_en' => "Cefalexin",
             'cost' => 0,
@@ -612,7 +612,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Cetirizine",
             'name_en' => "Cetirizine",
             'cost' => 0,
@@ -624,7 +624,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Champix (varenicline)",
             'name_en' => "Champix (varenicline)",
             'cost' => 0,
@@ -636,7 +636,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Chloramphenicol",
             'name_en' => "Chloramphenicol",
             'cost' => 0,
@@ -648,7 +648,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Chlorhexidine",
             'name_en' => "Chlorhexidine",
             'cost' => 0,
@@ -660,7 +660,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Chlorphenamine (Piriton)",
             'name_en' => "Chlorphenamine (Piriton)",
             'cost' => 0,
@@ -672,7 +672,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Cinnarizine",
             'name_en' => "Cinnarizine",
             'cost' => 0,
@@ -684,7 +684,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Ciprofloxacin",
             'name_en' => "Ciprofloxacin",
             'cost' => 0,
@@ -696,7 +696,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Citalopram",
             'name_en' => "Citalopram",
             'cost' => 0,
@@ -708,7 +708,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Clarithromycin",
             'name_en' => "Clarithromycin",
             'cost' => 0,
@@ -720,7 +720,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Clobetasol",
             'name_en' => "Clobetasol",
             'cost' => 0,
@@ -732,7 +732,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Clobetasone",
             'name_en' => "Clobetasone",
             'cost' => 0,
@@ -744,7 +744,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Clonazepam",
             'name_en' => "Clonazepam",
             'cost' => 0,
@@ -756,7 +756,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Clopidogrel",
             'name_en' => "Clopidogrel",
             'cost' => 0,
@@ -768,7 +768,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Clotrimazole cream, spray and solution",
             'name_en' => "Clotrimazole cream, spray and solution",
             'cost' => 0,
@@ -780,7 +780,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Clotrimazole for thrush (Canesten)",
             'name_en' => "Clotrimazole for thrush (Canesten)",
             'cost' => 0,
@@ -792,7 +792,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Co-amoxiclav",
             'name_en' => "Co-amoxiclav",
             'cost' => 0,
@@ -804,7 +804,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Co-beneldopa",
             'name_en' => "Co-beneldopa",
             'cost' => 0,
@@ -816,7 +816,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Co-careldopa",
             'name_en' => "Co-careldopa",
             'cost' => 0,
@@ -828,7 +828,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Co-codamol for adults",
             'name_en' => "Co-codamol for adults",
             'cost' => 0,
@@ -840,7 +840,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Co-codamol for children",
             'name_en' => "Co-codamol for children",
             'cost' => 0,
@@ -852,7 +852,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Co-codaprin (aspirin and codeine)",
             'name_en' => "Co-codaprin (aspirin and codeine)",
             'cost' => 0,
@@ -864,7 +864,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Co-dydramol",
             'name_en' => "Co-dydramol",
             'cost' => 0,
@@ -876,7 +876,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Coal tar",
             'name_en' => "Coal tar",
             'cost' => 0,
@@ -888,7 +888,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Codeine",
             'name_en' => "Codeine",
             'cost' => 0,
@@ -900,7 +900,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Colchicine",
             'name_en' => "Colchicine",
             'cost' => 0,
@@ -912,7 +912,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Cyanocobalamin",
             'name_en' => "Cyanocobalamin",
             'cost' => 0,
@@ -924,7 +924,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Cyclizine",
             'name_en' => "Cyclizine",
             'cost' => 0,
@@ -936,7 +936,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Dabigatran",
             'name_en' => "Dabigatran",
             'cost' => 0,
@@ -948,7 +948,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Dapagliflozin",
             'name_en' => "Dapagliflozin",
             'cost' => 0,
@@ -960,7 +960,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Dexamethasone eye drops",
             'name_en' => "Dexamethasone eye drops",
             'cost' => 0,
@@ -972,7 +972,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Dexamethasone tablets and liquid",
             'name_en' => "Dexamethasone tablets and liquid",
             'cost' => 0,
@@ -984,7 +984,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Diazepam",
             'name_en' => "Diazepam",
             'cost' => 0,
@@ -996,7 +996,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Diclofenac",
             'name_en' => "Diclofenac",
             'cost' => 0,
@@ -1008,7 +1008,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Digoxin",
             'name_en' => "Digoxin",
             'cost' => 0,
@@ -1020,7 +1020,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Dihydrocodeine",
             'name_en' => "Dihydrocodeine",
             'cost' => 0,
@@ -1032,7 +1032,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Diltiazem",
             'name_en' => "Diltiazem",
             'cost' => 0,
@@ -1044,7 +1044,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Diphenhydramine",
             'name_en' => "Diphenhydramine",
             'cost' => 0,
@@ -1056,7 +1056,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Dipyridamole",
             'name_en' => "Dipyridamole",
             'cost' => 0,
@@ -1068,7 +1068,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Docusate",
             'name_en' => "Docusate",
             'cost' => 0,
@@ -1080,7 +1080,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Domperidone",
             'name_en' => "Domperidone",
             'cost' => 0,
@@ -1092,7 +1092,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Donepezil",
             'name_en' => "Donepezil",
             'cost' => 0,
@@ -1104,7 +1104,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Dosulepin",
             'name_en' => "Dosulepin",
             'cost' => 0,
@@ -1116,7 +1116,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Doxazosin",
             'name_en' => "Doxazosin",
             'cost' => 0,
@@ -1128,7 +1128,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Doxycycline",
             'name_en' => "Doxycycline",
             'cost' => 0,
@@ -1140,7 +1140,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Duloxetine",
             'name_en' => "Duloxetine",
             'cost' => 0,
@@ -1152,7 +1152,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Edoxaban",
             'name_en' => "Edoxaban",
             'cost' => 0,
@@ -1164,7 +1164,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Empagliflozin",
             'name_en' => "Empagliflozin",
             'cost' => 0,
@@ -1176,7 +1176,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Enalapril",
             'name_en' => "Enalapril",
             'cost' => 0,
@@ -1188,7 +1188,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Eplerenone",
             'name_en' => "Eplerenone",
             'cost' => 0,
@@ -1200,7 +1200,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Erythromycin",
             'name_en' => "Erythromycin",
             'cost' => 0,
@@ -1212,7 +1212,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Escitalopram",
             'name_en' => "Escitalopram",
             'cost' => 0,
@@ -1224,7 +1224,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Esomeprazole",
             'name_en' => "Esomeprazole",
             'cost' => 0,
@@ -1236,7 +1236,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Ezetimibe",
             'name_en' => "Ezetimibe",
             'cost' => 0,
@@ -1248,7 +1248,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Felodipine",
             'name_en' => "Felodipine",
             'cost' => 0,
@@ -1260,7 +1260,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Fentanyl",
             'name_en' => "Fentanyl",
             'cost' => 0,
@@ -1272,7 +1272,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Ferrous fumarate",
             'name_en' => "Ferrous fumarate",
             'cost' => 0,
@@ -1284,7 +1284,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Ferrous sulfate",
             'name_en' => "Ferrous sulfate",
             'cost' => 0,
@@ -1296,7 +1296,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Fexofenadine",
             'name_en' => "Fexofenadine",
             'cost' => 0,
@@ -1308,7 +1308,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Finasteride",
             'name_en' => "Finasteride",
             'cost' => 0,
@@ -1320,7 +1320,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Flucloxacillin",
             'name_en' => "Flucloxacillin",
             'cost' => 0,
@@ -1332,7 +1332,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Fluconazole",
             'name_en' => "Fluconazole",
             'cost' => 0,
@@ -1344,7 +1344,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Fluoxetine (Prozac)",
             'name_en' => "Fluoxetine (Prozac)",
             'cost' => 0,
@@ -1356,7 +1356,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Fluticasone inhalers",
             'name_en' => "Fluticasone inhalers",
             'cost' => 0,
@@ -1368,7 +1368,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Fluticasone nasal spray and drops",
             'name_en' => "Fluticasone nasal spray and drops",
             'cost' => 0,
@@ -1380,7 +1380,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Fluticasone skin creams",
             'name_en' => "Fluticasone skin creams",
             'cost' => 0,
@@ -1392,7 +1392,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Folic acid",
             'name_en' => "Folic acid",
             'cost' => 0,
@@ -1404,7 +1404,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Furosemide",
             'name_en' => "Furosemide",
             'cost' => 0,
@@ -1416,7 +1416,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Fusidic acid",
             'name_en' => "Fusidic acid",
             'cost' => 0,
@@ -1428,7 +1428,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Fybogel (ispaghula husk)",
             'name_en' => "Fybogel (ispaghula husk)",
             'cost' => 0,
@@ -1440,7 +1440,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Gabapentin",
             'name_en' => "Gabapentin",
             'cost' => 0,
@@ -1452,7 +1452,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Gaviscon (alginic acid)",
             'name_en' => "Gaviscon (alginic acid)",
             'cost' => 0,
@@ -1464,7 +1464,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Gliclazide",
             'name_en' => "Gliclazide",
             'cost' => 0,
@@ -1476,7 +1476,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Glimepiride",
             'name_en' => "Glimepiride",
             'cost' => 0,
@@ -1488,7 +1488,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Glyceryl trinitrate (GTN)",
             'name_en' => "Glyceryl trinitrate (GTN)",
             'cost' => 0,
@@ -1500,7 +1500,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Heparinoid",
             'name_en' => "Heparinoid",
             'cost' => 0,
@@ -1512,7 +1512,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Hydrocortisone",
             'name_en' => "Hydrocortisone",
             'cost' => 0,
@@ -1524,7 +1524,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Hydrocortisone buccal tablets",
             'name_en' => "Hydrocortisone buccal tablets",
             'cost' => 0,
@@ -1536,7 +1536,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Hydrocortisone for piles and itchy bottom",
             'name_en' => "Hydrocortisone for piles and itchy bottom",
             'cost' => 0,
@@ -1548,7 +1548,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Hydrocortisone for skin",
             'name_en' => "Hydrocortisone for skin",
             'cost' => 0,
@@ -1560,7 +1560,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Hydrocortisone injections",
             'name_en' => "Hydrocortisone injections",
             'cost' => 0,
@@ -1572,7 +1572,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Hydrocortisone rectal foam",
             'name_en' => "Hydrocortisone rectal foam",
             'cost' => 0,
@@ -1584,7 +1584,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Hydrocortisone tablets",
             'name_en' => "Hydrocortisone tablets",
             'cost' => 0,
@@ -1596,7 +1596,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Hydroxocobalamin",
             'name_en' => "Hydroxocobalamin",
             'cost' => 0,
@@ -1608,7 +1608,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Hydroxychloroquine",
             'name_en' => "Hydroxychloroquine",
             'cost' => 0,
@@ -1620,7 +1620,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Hyoscine hydrobromide (Kwells and Joy-Rides)",
             'name_en' => "Hyoscine hydrobromide (Kwells and Joy-Rides)",
             'cost' => 0,
@@ -1632,7 +1632,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Ibuprofen and codeine",
             'name_en' => "Ibuprofen and codeine",
             'cost' => 0,
@@ -1644,7 +1644,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Ibuprofen for adults (Nurofen)",
             'name_en' => "Ibuprofen for adults (Nurofen)",
             'cost' => 0,
@@ -1656,7 +1656,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Ibuprofen for children",
             'name_en' => "Ibuprofen for children",
             'cost' => 0,
@@ -1668,7 +1668,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Indapamide",
             'name_en' => "Indapamide",
             'cost' => 0,
@@ -1680,7 +1680,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Irbesartan",
             'name_en' => "Irbesartan",
             'cost' => 0,
@@ -1692,7 +1692,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Isosorbide mononitrate and isosorbide dinitrate",
             'name_en' => "Isosorbide mononitrate and isosorbide dinitrate",
             'cost' => 0,
@@ -1704,7 +1704,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Isotretinoin capsules (Roaccutane)",
             'name_en' => "Isotretinoin capsules (Roaccutane)",
             'cost' => 0,
@@ -1716,7 +1716,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Isotretinoin gel (Isotrex)",
             'name_en' => "Isotretinoin gel (Isotrex)",
             'cost' => 0,
@@ -1728,7 +1728,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Ketoconazole",
             'name_en' => "Ketoconazole",
             'cost' => 0,
@@ -1740,7 +1740,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Labetalol",
             'name_en' => "Labetalol",
             'cost' => 0,
@@ -1752,7 +1752,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Lactulose",
             'name_en' => "Lactulose",
             'cost' => 0,
@@ -1764,7 +1764,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Lamotrigine",
             'name_en' => "Lamotrigine",
             'cost' => 0,
@@ -1776,7 +1776,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Lansoprazole",
             'name_en' => "Lansoprazole",
             'cost' => 0,
@@ -1788,7 +1788,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Latanoprost",
             'name_en' => "Latanoprost",
             'cost' => 0,
@@ -1800,7 +1800,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Lercanidipine",
             'name_en' => "Lercanidipine",
             'cost' => 0,
@@ -1812,7 +1812,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Letrozole",
             'name_en' => "Letrozole",
             'cost' => 0,
@@ -1824,7 +1824,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Levetiracetam",
             'name_en' => "Levetiracetam",
             'cost' => 0,
@@ -1836,7 +1836,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Levothyroxine",
             'name_en' => "Levothyroxine",
             'cost' => 0,
@@ -1848,7 +1848,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Lidocaine for mouth and throat",
             'name_en' => "Lidocaine for mouth and throat",
             'cost' => 0,
@@ -1860,7 +1860,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Lidocaine for piles and itchy bottom",
             'name_en' => "Lidocaine for piles and itchy bottom",
             'cost' => 0,
@@ -1872,7 +1872,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Lidocaine skin cream",
             'name_en' => "Lidocaine skin cream",
             'cost' => 0,
@@ -1884,7 +1884,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Linagliptin",
             'name_en' => "Linagliptin",
             'cost' => 0,
@@ -1896,7 +1896,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Lisinopril",
             'name_en' => "Lisinopril",
             'cost' => 0,
@@ -1908,7 +1908,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Lithium",
             'name_en' => "Lithium",
             'cost' => 0,
@@ -1920,7 +1920,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Loperamide",
             'name_en' => "Loperamide",
             'cost' => 0,
@@ -1932,7 +1932,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Loratadine (Clarityn)",
             'name_en' => "Loratadine (Clarityn)",
             'cost' => 0,
@@ -1944,7 +1944,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Lorazepam",
             'name_en' => "Lorazepam",
             'cost' => 0,
@@ -1956,7 +1956,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Losartan",
             'name_en' => "Losartan",
             'cost' => 0,
@@ -1968,7 +1968,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Low-dose aspirin",
             'name_en' => "Low-dose aspirin",
             'cost' => 0,
@@ -1980,7 +1980,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Lymecycline",
             'name_en' => "Lymecycline",
             'cost' => 0,
@@ -1992,7 +1992,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Macrogol",
             'name_en' => "Macrogol",
             'cost' => 0,
@@ -2004,7 +2004,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Mebendazole",
             'name_en' => "Mebendazole",
             'cost' => 0,
@@ -2016,7 +2016,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Mebeverine",
             'name_en' => "Mebeverine",
             'cost' => 0,
@@ -2028,7 +2028,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Melatonin",
             'name_en' => "Melatonin",
             'cost' => 0,
@@ -2040,7 +2040,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Memantine",
             'name_en' => "Memantine",
             'cost' => 0,
@@ -2052,7 +2052,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Mesalazine",
             'name_en' => "Mesalazine",
             'cost' => 0,
@@ -2064,7 +2064,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Metformin",
             'name_en' => "Metformin",
             'cost' => 0,
@@ -2076,7 +2076,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Methadone",
             'name_en' => "Methadone",
             'cost' => 0,
@@ -2088,7 +2088,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Methotrexate",
             'name_en' => "Methotrexate",
             'cost' => 0,
@@ -2100,7 +2100,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Methylphenidate for adults",
             'name_en' => "Methylphenidate for adults",
             'cost' => 0,
@@ -2112,7 +2112,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Methylphenidate for children",
             'name_en' => "Methylphenidate for children",
             'cost' => 0,
@@ -2124,7 +2124,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Metoclopramide",
             'name_en' => "Metoclopramide",
             'cost' => 0,
@@ -2136,7 +2136,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Metoprolol",
             'name_en' => "Metoprolol",
             'cost' => 0,
@@ -2148,7 +2148,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Metronidazole",
             'name_en' => "Metronidazole",
             'cost' => 0,
@@ -2160,7 +2160,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Mirabegron",
             'name_en' => "Mirabegron",
             'cost' => 0,
@@ -2172,7 +2172,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Mirtazapine",
             'name_en' => "Mirtazapine",
             'cost' => 0,
@@ -2184,7 +2184,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Molnupiravir (Lagevrio)",
             'name_en' => "Molnupiravir (Lagevrio)",
             'cost' => 0,
@@ -2196,7 +2196,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Mometasone for skin",
             'name_en' => "Mometasone for skin",
             'cost' => 0,
@@ -2208,7 +2208,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Mometasone inhalers",
             'name_en' => "Mometasone inhalers",
             'cost' => 0,
@@ -2220,7 +2220,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Mometasone nasal spray",
             'name_en' => "Mometasone nasal spray",
             'cost' => 0,
@@ -2232,7 +2232,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Montelukast",
             'name_en' => "Montelukast",
             'cost' => 0,
@@ -2244,7 +2244,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Morphine",
             'name_en' => "Morphine",
             'cost' => 0,
@@ -2256,7 +2256,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Naproxen",
             'name_en' => "Naproxen",
             'cost' => 0,
@@ -2268,7 +2268,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Nefopam",
             'name_en' => "Nefopam",
             'cost' => 0,
@@ -2280,7 +2280,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Nicorandil",
             'name_en' => "Nicorandil",
             'cost' => 0,
@@ -2292,7 +2292,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Nifedipine",
             'name_en' => "Nifedipine",
             'cost' => 0,
@@ -2304,7 +2304,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Nitrofurantoin",
             'name_en' => "Nitrofurantoin",
             'cost' => 0,
@@ -2316,7 +2316,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Nortriptyline",
             'name_en' => "Nortriptyline",
             'cost' => 0,
@@ -2328,7 +2328,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Nystatin",
             'name_en' => "Nystatin",
             'cost' => 0,
@@ -2340,7 +2340,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Olanzapine",
             'name_en' => "Olanzapine",
             'cost' => 0,
@@ -2352,7 +2352,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Olmesartan",
             'name_en' => "Olmesartan",
             'cost' => 0,
@@ -2364,7 +2364,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Omeprazole",
             'name_en' => "Omeprazole",
             'cost' => 0,
@@ -2376,7 +2376,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Oxybutynin",
             'name_en' => "Oxybutynin",
             'cost' => 0,
@@ -2388,7 +2388,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Oxycodone",
             'name_en' => "Oxycodone",
             'cost' => 0,
@@ -2400,7 +2400,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Pantoprazole",
             'name_en' => "Pantoprazole",
             'cost' => 0,
@@ -2412,7 +2412,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Paracetamol for adults",
             'name_en' => "Paracetamol for adults",
             'cost' => 0,
@@ -2424,7 +2424,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Paracetamol for children (Calpol)",
             'name_en' => "Paracetamol for children (Calpol)",
             'cost' => 0,
@@ -2436,7 +2436,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Paroxetine",
             'name_en' => "Paroxetine",
             'cost' => 0,
@@ -2448,7 +2448,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Paxlovid",
             'name_en' => "Paxlovid",
             'cost' => 0,
@@ -2460,7 +2460,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Peppermint oil",
             'name_en' => "Peppermint oil",
             'cost' => 0,
@@ -2472,7 +2472,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Pepto-Bismol (bismuth subsalicylate)",
             'name_en' => "Pepto-Bismol (bismuth subsalicylate)",
             'cost' => 0,
@@ -2484,7 +2484,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Perindopril",
             'name_en' => "Perindopril",
             'cost' => 0,
@@ -2496,7 +2496,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Phenoxymethylpenicillin",
             'name_en' => "Phenoxymethylpenicillin",
             'cost' => 0,
@@ -2508,7 +2508,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Phenytoin",
             'name_en' => "Phenytoin",
             'cost' => 0,
@@ -2520,7 +2520,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Pioglitazone",
             'name_en' => "Pioglitazone",
             'cost' => 0,
@@ -2532,7 +2532,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Pravastatin",
             'name_en' => "Pravastatin",
             'cost' => 0,
@@ -2544,7 +2544,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Prednisolone tablets and liquid",
             'name_en' => "Prednisolone tablets and liquid",
             'cost' => 0,
@@ -2556,7 +2556,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Pregabalin",
             'name_en' => "Pregabalin",
             'cost' => 0,
@@ -2568,7 +2568,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Prochlorperazine",
             'name_en' => "Prochlorperazine",
             'cost' => 0,
@@ -2580,7 +2580,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Promethazine (Phenergan)",
             'name_en' => "Promethazine (Phenergan)",
             'cost' => 0,
@@ -2592,7 +2592,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Propranolol",
             'name_en' => "Propranolol",
             'cost' => 0,
@@ -2604,7 +2604,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Pseudoephedrine (Sudafed)",
             'name_en' => "Pseudoephedrine (Sudafed)",
             'cost' => 0,
@@ -2616,7 +2616,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Quetiapine",
             'name_en' => "Quetiapine",
             'cost' => 0,
@@ -2628,7 +2628,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Rabeprazole",
             'name_en' => "Rabeprazole",
             'cost' => 0,
@@ -2640,7 +2640,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Ramipril",
             'name_en' => "Ramipril",
             'cost' => 0,
@@ -2652,7 +2652,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Ranitidine",
             'name_en' => "Ranitidine",
             'cost' => 0,
@@ -2664,7 +2664,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Remdesivir (Veklury)",
             'name_en' => "Remdesivir (Veklury)",
             'cost' => 0,
@@ -2676,7 +2676,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Risedronate",
             'name_en' => "Risedronate",
             'cost' => 0,
@@ -2688,7 +2688,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Risperidone",
             'name_en' => "Risperidone",
             'cost' => 0,
@@ -2700,7 +2700,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Rivaroxaban",
             'name_en' => "Rivaroxaban",
             'cost' => 0,
@@ -2712,7 +2712,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Ropinirole",
             'name_en' => "Ropinirole",
             'cost' => 0,
@@ -2724,7 +2724,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Rosuvastatin",
             'name_en' => "Rosuvastatin",
             'cost' => 0,
@@ -2736,7 +2736,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Salbutamol inhaler",
             'name_en' => "Salbutamol inhaler",
             'cost' => 0,
@@ -2748,7 +2748,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Saxagliptin",
             'name_en' => "Saxagliptin",
             'cost' => 0,
@@ -2760,7 +2760,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Senna",
             'name_en' => "Senna",
             'cost' => 0,
@@ -2772,7 +2772,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Sertraline",
             'name_en' => "Sertraline",
             'cost' => 0,
@@ -2784,7 +2784,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Sildenafil (Viagra)",
             'name_en' => "Sildenafil (Viagra)",
             'cost' => 0,
@@ -2796,7 +2796,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Simeticone",
             'name_en' => "Simeticone",
             'cost' => 0,
@@ -2808,7 +2808,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Simvastatin",
             'name_en' => "Simvastatin",
             'cost' => 0,
@@ -2820,7 +2820,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Sitagliptin",
             'name_en' => "Sitagliptin",
             'cost' => 0,
@@ -2832,7 +2832,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Sodium cromoglicate capsules",
             'name_en' => "Sodium cromoglicate capsules",
             'cost' => 0,
@@ -2844,7 +2844,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Sodium cromoglicate eye drops",
             'name_en' => "Sodium cromoglicate eye drops",
             'cost' => 0,
@@ -2856,7 +2856,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Sodium valproate",
             'name_en' => "Sodium valproate",
             'cost' => 0,
@@ -2868,7 +2868,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Solifenacin",
             'name_en' => "Solifenacin",
             'cost' => 0,
@@ -2880,7 +2880,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Sotalol",
             'name_en' => "Sotalol",
             'cost' => 0,
@@ -2892,7 +2892,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Sotrovimab (Xevudy)",
             'name_en' => "Sotrovimab (Xevudy)",
             'cost' => 0,
@@ -2904,7 +2904,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Spironolactone",
             'name_en' => "Spironolactone",
             'cost' => 0,
@@ -2916,7 +2916,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Sulfasalazine",
             'name_en' => "Sulfasalazine",
             'cost' => 0,
@@ -2928,7 +2928,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Sumatriptan",
             'name_en' => "Sumatriptan",
             'cost' => 0,
@@ -2940,7 +2940,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Tadalafil",
             'name_en' => "Tadalafil",
             'cost' => 0,
@@ -2952,7 +2952,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Tamsulosin",
             'name_en' => "Tamsulosin",
             'cost' => 0,
@@ -2964,7 +2964,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Temazepam",
             'name_en' => "Temazepam",
             'cost' => 0,
@@ -2976,7 +2976,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Terbinafine",
             'name_en' => "Terbinafine",
             'cost' => 0,
@@ -2988,7 +2988,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Thiamine (vitamin B1)",
             'name_en' => "Thiamine (vitamin B1)",
             'cost' => 0,
@@ -3000,7 +3000,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Ticagrelor",
             'name_en' => "Ticagrelor",
             'cost' => 0,
@@ -3012,7 +3012,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Timolol eye drops",
             'name_en' => "Timolol eye drops",
             'cost' => 0,
@@ -3024,7 +3024,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Timolol tablets",
             'name_en' => "Timolol tablets",
             'cost' => 0,
@@ -3036,7 +3036,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Tolterodine",
             'name_en' => "Tolterodine",
             'cost' => 0,
@@ -3048,7 +3048,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Topiramate",
             'name_en' => "Topiramate",
             'cost' => 0,
@@ -3060,7 +3060,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Tramadol",
             'name_en' => "Tramadol",
             'cost' => 0,
@@ -3072,7 +3072,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Tranexamic acid",
             'name_en' => "Tranexamic acid",
             'cost' => 0,
@@ -3084,7 +3084,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Trazodone",
             'name_en' => "Trazodone",
             'cost' => 0,
@@ -3096,7 +3096,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Trimethoprim",
             'name_en' => "Trimethoprim",
             'cost' => 0,
@@ -3108,7 +3108,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Valproic acid",
             'name_en' => "Valproic acid",
             'cost' => 0,
@@ -3120,7 +3120,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Valsartan",
             'name_en' => "Valsartan",
             'cost' => 0,
@@ -3132,7 +3132,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Varenicline, see Champix (varenicline)",
             'name_en' => "Varenicline, see Champix (varenicline)",
             'cost' => 0,
@@ -3144,7 +3144,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Venlafaxine",
             'name_en' => "Venlafaxine",
             'cost' => 0,
@@ -3156,7 +3156,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Verapamil",
             'name_en' => "Verapamil",
             'cost' => 0,
@@ -3168,7 +3168,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Warfarin",
             'name_en' => "Warfarin",
             'cost' => 0,
@@ -3180,7 +3180,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Zolpidem",
             'name_en' => "Zolpidem",
             'cost' => 0,
@@ -3192,7 +3192,7 @@ class ProductSeeder extends Seeder
             'status' => 1,
             ],
             [
-            'code' => generate_code('PR', 'products'),
+            // 'code' => generate_code('PR', 'products'),
             'name_kh' => "Zopiclone",
             'name_en' => "Zopiclone",
             'cost' => 0,
@@ -3207,7 +3207,7 @@ class ProductSeeder extends Seeder
 
         Product::insert([
             [
-                'code' => generate_code('PR', 'products'),
+                // 'code' => generate_code('PR', 'products'),
                 'name_kh' => 'Paracetamol 500mg',
                 'name_en' => 'Paracetamol 500mg',
                 'cost' => 2,
@@ -3219,7 +3219,7 @@ class ProductSeeder extends Seeder
                 'status' => 1,
             ],
             [
-                'code' => generate_code('PR', 'products'),
+                // 'code' => generate_code('PR', 'products'),
                 'name_kh' => 'Aceptop 500mg',
                 'name_en' => 'Aceptop 500mg',
                 'cost' => 3,
@@ -3231,7 +3231,7 @@ class ProductSeeder extends Seeder
                 'status' => 1,
             ],
             [
-                'code' => generate_code('PR', 'products'),
+                // 'code' => generate_code('PR', 'products'),
                 'name_kh' => 'Aloparinol 100mg',
                 'name_en' => 'Aloparinol 100mg',
                 'cost' => 1,
