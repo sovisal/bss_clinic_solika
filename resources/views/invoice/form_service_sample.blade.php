@@ -3,7 +3,7 @@
         <input type="hidden" name="service_type[]" value="{{ @$item ? $item->service_type : 'service' }}">
         <input type="hidden" name="service_name[]" value="{{ @$item ? $item->service_name : '' }}">
         <input type="hidden" name="unit_id[]" value="">
-        <x-bss-form.select name="service_id[]" id="" required :select2="false">
+        <x-bss-form.select name="service_id[]" class="service_selector" id="" required :select2="false">
             <option value="">Please choose</option>
             @foreach ($invoice_selection['service'] as $data)
                 <option value="{{ $data->id }}"

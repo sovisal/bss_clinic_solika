@@ -1,5 +1,15 @@
 <script>
-     function initialize_select2_ajx () {
+    function initailize_service_select2 () {
+        $('#table_service_result select[name="service_id[]"]').each((_i, e) => {
+            $(e).select2({
+                dropdownAutoWidth: !0,
+                width: "100%",
+                dropdownParent: $(e).parent()
+            });
+        });
+    }
+
+     function initialize_medicine_select2 () {
         $('#table_medicine_result select[name="service_id[]"]').each((_i, e) => {
             $_this = $(e);
             $(e).select2({
@@ -21,15 +31,8 @@
     }
 
     $(document).ready(function () {
-        $('#table_medicine_result select').each((_i, e) => {
-            $(e).select2({
-                dropdownAutoWidth: !0,
-                width: "100%",
-                dropdownParent: $(e).parent()
-            });
-        });
-
-        initialize_select2_ajx();
+        initailize_service_select2();
+        initialize_medicine_select2();
 
         calculate_total_table();
         $(document).on('click', '#btn_add_service', append_render_service);
@@ -38,7 +41,7 @@
         $(document).on('change', 'input[name$="[chk]"]', calculate_total_table);
         $(document).on('click', '.btn_delete_row', item_delete_row);
         
-        $(document).on('change', '[name="service_id[]"]', function () {
+        $(document).on('change', 'select.service_selector', function () {
             let selected = $(this).find(":selected");
             $(this).parents('tr').find('[name="service_name[]"]').val(selected.data('name'));
             $(this).parents('tr').find('[name="price[]"]').val(bss_number(selected.data('price'))).trigger('change');
@@ -54,18 +57,13 @@
         });
 
         function append_render_service() {
-            $('#table_service_result').append($('#sample_service_row').html()).find('select').each((_i, e) => {
-                $(e).select2({
-                    dropdownAutoWidth: !0,
-                    width: "100%",
-                    dropdownParent: $(e).parent()
-                });
-            });
+            $('#table_service_result').append($('#sample_service_row').html());
+            initailize_service_select2();
         }
 
         function append_render_medicine() {
             $('#table_medicine_result').append($('#sample_medicine_row').html());
-            initialize_select2_ajx();
+            initialize_medicine_select2();
         }
 
         function calculate_total_row () {
@@ -88,7 +86,7 @@
             $('#table_sub_total').html(total + ' USD');
         }
 
-        $(document).on('keyup', 'select[name="service_id[]"] + span + span input.select2-search__field', function(e) {
+        $(document).on('keyup', 'select.service_selector + span + span input.select2-search__field', function(e) {
             if(e.keyCode === 13) {
                 let current_select = $(this);
                 if (current_select.val()) {
@@ -110,8 +108,8 @@
                                     let newOption = new Option(name, data.id, false, false);
                                     newOption.setAttribute('data-name', name);
                                     newOption.setAttribute('data-price', price);
-                                    $('select[name="service_id[]"').append(newOption);
-                                    current_select.closest('tr').find('select[name="service_id[]"]').val(data.id).trigger('change');
+                                    $('select.service_selector').append(newOption);
+                                    current_select.closest('tr').find('select.service_selector').val(data.id).trigger('change');
                                 }
                             }
                         }); 
@@ -129,7 +127,18 @@
     });
 
     $(document).on('change', '.medicine_selector', function () {
-        const $this_row = $(this).closest('tr');
+        let $this_row = $(this).closest('tr');
+        let data = $(this).select2('data')[0];
+
+        if (data.selected) {
+            let selected = $(this).find(":selected");
+            console.log($(this).find(":selected").data('name'));
+            $this_row.find('[name="service_name[]"]').val(selected.data('name'));
+        } else {
+            console.log(data.name);
+            $this_row.find('[name="service_name[]"]').val(data.name);
+        }
+        
         $this_row.find('[name="unit_id[]"]').html('<option value="">---- None ----</option>');
         if ($(this).val() != '') {
             $.ajax({
@@ -140,7 +149,7 @@
                 },
                 success: function (rs) {
                     if (rs.success) {
-                        $this_row.find('[name="unit_id[]"]').html(rs.options);
+                        $this_row.find('[name="unit_id[]"]').html(rs.options).trigger('change');
                     }
                 },
                 error: function (rs) {

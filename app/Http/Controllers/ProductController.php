@@ -31,13 +31,15 @@ class ProductController extends Controller
                         $query->avaiableStock();
                     })
                     ->limit(100)
-                    ->get(['id', 'code', 'name_kh', 'name_en']);
+                    ->get(['id', 'code', 'name_kh', 'name_en', 'price']);
 
                 $result = [];
                 foreach ($term as $t) {
                     $result[] = [
                         'id' => $t->id,
                         'text' => d_obj($t, ['code', 'name_kh', 'name_en']),
+                        'name' => d_obj($t, ['name_kh', 'name_en']),
+                        'price' => $t->price,
                     ];
                 }
                 return ['results' => $result];

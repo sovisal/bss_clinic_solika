@@ -17,9 +17,9 @@
         <x-bss-form.select name="unit_id[]" id="" required :select2="false" >
             <option value="">---- None ----</option>
             @if (@$item && $item->product)
-                <option value="{{ $item->product->unit_id }}" {{ $item->product->unit_id == @$item->unit_id ? 'selected' : '' }}>{{ d_obj($item->product, 'unit', ['name_kh', 'name_en']) }}</option>
+                <option value="{{ $item->product->unit_id }}" data-qty="1" data-price="{{ $item->product->price }}"  {{ $item->product->unit_id == @$item->unit_id ? 'selected' : '' }}>{{ d_obj($item->product, 'unit', ['name_kh', 'name_en']) }}</option>
                 @foreach ($item->product->packages ?: [] as $package)
-                    <option value="{{ $package->product_unit_id }}" {{ $package->product_unit_id == @$item->unit_id ? 'selected' : '' }}>{{ d_obj($package, 'unit', ['name_kh', 'name_en']) }}</option>
+                    <option value="{{ $package->product_unit_id }}" data-qty="{{ $package->qty }}" data-price="{{ $package->price }}" {{ $package->product_unit_id == @$item->unit_id ? 'selected' : '' }}>{{ d_obj($package, 'unit', ['name_kh', 'name_en']) }}</option>
                 @endforeach
             @endif
         </x-bss-form.select>
