@@ -16,7 +16,7 @@
                         return query;
                     },
                     processResults: function (data) {
-                        if (data.results.length == 0 && $('.select2-search__field').val() != '') {
+                        if (!window.stock_inventory && data.results.length == 0 && $('.select2-search__field').val() != '') {
                             $('.select2-search__field').keyup(function(e){
                                 if (e.keyCode === 13) {
                                     let select_search = $(this);
