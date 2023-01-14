@@ -52,6 +52,6 @@
             </table>
         </x-card>
     </form>
-	<x-modal-image-crop width="500" height="320" previewWidth="200" previewHeight="128"/>
+	<x-modal-image-crop width="500" height="500" previewWidth="200" previewHeight="200"/>
 </x-app-layout>
 

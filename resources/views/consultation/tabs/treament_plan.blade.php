@@ -34,7 +34,7 @@
         <td>
             <div class="d-flex justify-content-between">
                 <b>XRay</b>
-                @can('CreateXRay')
+                @can('CreateXray')
                 <x-form.button data-toggle="modal" data-target="#treatment_modal_xray" color="secondary" icon="bx bx-plus" label=""/>
                 @endcan
             </div>
