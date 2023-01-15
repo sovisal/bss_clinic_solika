@@ -31,9 +31,7 @@ class LaborItemController extends Controller
     public function create(LaborType $laborType)
     {
         $data['laborType'] = $laborType;
-        $full_index = $laborType->items->sortByDesc('index')->first()->index ?? $laborType->index;
-        $next_index = (($full_index - $laborType->index)/0.1) + 1;
-        $data['index'] =  $next_index;
+        $data['index'] = Str::after(LaborItem::getNextIndex(['type_id' => $laborType->id]), '.') + 1;
         return view('labor_item.create', $data);
     }
 
@@ -49,7 +47,7 @@ class LaborItemController extends Controller
             'max_range' => $request->max_range,
             'unit' => $request->unit,
             'type_id' => $laborType->id,
-            'index' => $laborType->index . '.' . $request->index ?: 999,
+            'index' => $request->index ?: 999,
             'other' => $request->other,
             'user_id' => auth()->user()->id,
         ])) {
@@ -62,9 +60,6 @@ class LaborItemController extends Controller
      */
     public function edit(LaborType $laborType, LaborItem $laborItem)
     {
-        $full_index = $laborItem->index ?: $laborType->index;
-        $index = (($full_index - $laborType->index)/0.1);
-        $laborItem->index = $index;
         $data['row'] = $laborItem;
         $data['laborType'] = $laborType;
         return view('labor_item.edit', $data);
@@ -81,7 +76,7 @@ class LaborItemController extends Controller
             'min_range' => $request->min_range,
             'max_range' => $request->max_range,
             'unit' => $request->unit,
-            'index' => $laborType->index . '.' . $request->index ?: 999,
+            'index' => $request->index ?: 999,
             'other' => $request->other,
         ])) {
             return redirect()->route('setting.labor-item.index', $laborType->id)->with('success', __('alert.message.success.crud.update'));
@@ -101,7 +96,7 @@ class LaborItemController extends Controller
         if (is_array($request->ids) && count($request->ids) > 0) {
             $rows = $laborType->items->where('status', 1)->whereIn('id', $request->ids);
             foreach ($request->ids as $index => $id) {
-                $rows->where('id', $id)->first()->update(['index' => $laborType->index . '.' . ++$index]);
+                $rows->where('id', $id)->first()->update(['index' => ++$index]);
             }
         }
         return redirect(route('setting.labor-item.index', $laborType->id))->with('success', __('alert.message.success.sort'));
