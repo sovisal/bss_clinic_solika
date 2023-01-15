@@ -34,7 +34,8 @@
         <x-bss-form.select name="usage_id[]" id="" required data-no_search="true" :select2="false">
             <option value="">Please choose</option>
             @foreach ($usages as $id => $data)
-            <option value="{{ $id }}" {{ $id == @$row->usage_id ? 'selected' : '' }}>{{ $data }}</option>
+            @php($default_select = ($data == "លេប" ? $id : '' ))
+            <option value="{{ $id }}" {{ $id == ($row->usage_id ?? $default_select) ? 'selected' : '' }}>{{ $data }}</option>
             @endforeach
         </x-bss-form.select>
     </td>

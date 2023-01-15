@@ -42,7 +42,8 @@
     <td>
         <x-bss-form.select name="payment_type" data-no_search="true" required>
             @foreach ($paymentType as $id => $data)
-            <option value="{{ $id }}" {{ old('payment_type', @$row->payment_type) == $id ? 'selected' : '' }}>{{ $data }}</option>
+            @php($default_select = ($data == "Cash" ? $id : '' ))
+            <option value="{{ $id }}" {{ (old('payment_type', @$row->payment_type) ?: $default_select) == $id ? 'selected' : '' }}>{{ $data }}</option>
             @endforeach
         </x-bss-form.select>
     </td>
