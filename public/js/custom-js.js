@@ -1284,12 +1284,50 @@ $(document).ready(function () {
         $_this = $('.select2Ajx').eq(i);
         $_this.select2({
             // minimumInputLength: 3,
+            width: "100%",
             ajax: {
                 url: $_this.data('url'),
                 dataType: 'json',
                 delay: 250,
+                processResults: function (data) {
+                    let url = '';
+                    if ($_this.attr('name') == 'patient_id') { url = window.route_patient; }
+                    if (data.results.length == 0 && $('.select2-search__field').val() != '' && url != '') {
+                        $('.select2-search__field').keyup(function(e){
+                            if (e.keyCode === 13) {
+                                let select_search = $(this);
+                                if (select_search.val()) {
+                                    $.ajax({
+                                        url: url,
+                                        type: "POST",
+                                        data: {
+                                            name: select_search.val(),
+                                            price: "1",
+                                            usage_id: "1",
+                                        },
+                                        dataType: "JSON",
+                                        success: function (data) {
+                                            if (data.id) {
+                                                let newOption = new Option(
+                                                    select_search.val(),
+                                                    data.id,
+                                                    false,
+                                                    false
+                                                );
+                                                $('select[name="'+ $_this.attr('name') +'"').append(
+                                                    newOption
+                                                );
+                                                $_this.val(data.id).trigger("change");
+                                            }
+                                        },
+                                    });
+                                }
+                            }
+                        });
+                    }
+                    return data;
+                },
             },
-            width: "100%",
         });
     });
 

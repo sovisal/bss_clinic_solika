@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\File;
 use App\Http\Requests\PatientRequest;
 use Intervention\Image\Facades\Image;
 use Illuminate\Database\Eloquent\Collection;
-use DataTables;
+use Yajra\DataTables\Facades\DataTables;
 
 class PatientController extends Controller
 {
@@ -43,7 +43,7 @@ class PatientController extends Controller
                 ->withCount('prescriptions')
                 ->withCount('invoices');
 
-            return Datatables::of($data)
+            return DataTables::of($data)
                 ->addColumn('dt', function ($r) {
                     return [
                         'code' => $r->hasOneConsultation ? d_link('PT-' . str_pad($r->id, 6, '0', STR_PAD_LEFT), route('patient.consultation.edit', $r->hasOneConsultation->id)) : 'PT-' . str_pad($r->id, 6, '0', STR_PAD_LEFT),
@@ -90,6 +90,12 @@ class PatientController extends Controller
      */
     public function store(PatientRequest $request)
     {
+        if ($request->ajax()) {
+            $request->merge([
+                'name_en' => $request->name,
+                'name_kh' => $request->name,
+            ]);
+        }
         $address_id = update4LevelAddress($request);
         $patient = Patient::create($this->compileRequestColumns($request, $address_id));
         if ($patient) {

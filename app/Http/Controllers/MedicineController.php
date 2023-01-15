@@ -53,10 +53,15 @@ class MedicineController extends Controller
      */
     public function store(MedicineRequest $request)
     {
+        if ($request->ajax()) {
+            $request->merge([
+                'name_en' => $request->name,
+                'name_kh' => $request->name,
+            ]);
+        }
         if ($medicine = Product::create([
-            // 'code' => generate_code('PR', 'products'),
-            'name_en' => $request->name,
-            'name_kh' => $request->name,
+            'name_en' => $request->name_en,
+            'name_kh' => $request->name_kh,
             'unit_id' => 1,
             'cost' => $request->price ?? 0,
             'price' => $request->price ?? 0,
