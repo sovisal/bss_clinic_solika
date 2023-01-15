@@ -1044,6 +1044,51 @@
                         </tr>
 
                         <tr>
+                            <th colspan="4" class="tw-bg-gray-100">Hand</th>
+                        </tr>
+                        <tr>
+                            <td class="text-right">Left</td>
+                            <td>
+                                <x-bss-form.input name='examination_hand_left' />
+                            </td>
+                            <td class="text-right">Right</td>
+                            <td>
+                                <x-bss-form.input name='examination_hand_right' />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-right">Body</td>
+                            <td>
+                                <x-bss-form.input name='examination_body' />
+                            </td>
+                            <td class="text-right">Other</td>
+                            <td>
+                                <x-bss-form.textarea name="examination_hand_other"></x-bss-form.textarea>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th colspan="4" class="tw-bg-gray-100">Foot</th>
+                        </tr>
+                        <tr>
+                            <td class="text-right">Left</td>
+                            <td>
+                                <x-bss-form.input name='examination_foot_left' />
+                            </td>
+                            <td class="text-right">Right</td>
+                            <td>
+                                <x-bss-form.input name='examination_foot_right' />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-right">Other</td>
+                            <td>
+                                <x-bss-form.textarea name="examination_foot_other"></x-bss-form.textarea>
+                            </td>
+                            <td colspan="2"></td>
+                        </tr>
+
+                        <tr>
                             <th colspan="4" class="tw-bg-gray-100">Other body parts</th>
                         </tr>
                         <tr>
