@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Inventory\ProductUnit;
 use App\Http\Requests\ProductUnitRequest;
-use DataTables;
+use Yajra\DataTables\Facades\DataTables;
 
 class UnitController extends Controller
 {
@@ -17,7 +17,7 @@ class UnitController extends Controller
         if ($request->ajax()) {
             $data = ProductUnit::with(['user'])->withCount('products')->withCount('packages');
 
-            return Datatables::of($data)
+            return DataTables::of($data)
                 ->addColumn('dt', function ($r) {
                     return [
                         'name' => d_obj($r, ['name_kh', 'name_en']),

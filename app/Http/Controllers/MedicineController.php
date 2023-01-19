@@ -64,6 +64,7 @@ class MedicineController extends Controller
             ]);
         }
         if ($medicine = Product::create([
+            // 'code' => generate_code('PR', 'products'),
             'name_en' => $request->name_en,
             'name_kh' => $request->name_kh,
             'unit_id' => $request->unit_id ?: 1,
@@ -76,6 +77,7 @@ class MedicineController extends Controller
             }
 
             $this->update_package($request, $medicine);
+
             return redirect()->route('setting.medicine.index')->with('success', __('alert.message.success.crud.create'));
         }
     }
