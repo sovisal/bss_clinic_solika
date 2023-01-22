@@ -64,7 +64,6 @@ class MedicineController extends Controller
             ]);
         }
         if ($medicine = Product::create([
-            // 'code' => generate_code('PR', 'products'),
             'name_en' => $request->name_en,
             'name_kh' => $request->name_kh,
             'unit_id' => $request->unit_id ?: 1,
