@@ -2,8 +2,8 @@
     <x-slot name="css">
         <style>
             #login-bg{
-                background: url('{{ asset('/images/site/login-bg.png') }}') no-repeat center center;
-                background-size: cover;
+                background: rgb(0,61,212);
+                background: linear-gradient(90deg, rgba(0,61,212,1) 0%, rgba(0,132,212,1) 100%);
             }
             #login-bg-2{
                 background: url('{{ asset('/images/site/login-bg-2.png') }}') no-repeat bottom center;
