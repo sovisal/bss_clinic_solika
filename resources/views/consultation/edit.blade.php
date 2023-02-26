@@ -72,11 +72,17 @@
                 initialize_select2_ajx();
             });
 
-            $(document).on('change', '[name="qty[]"], [name="upd[]"], [name="nod[]"]', function () {
+            $(document).on('change', '[name="qty[]"], [name="upd[]"], [name="nod[]"], [name="no_morning[]"], [name="no_afternoon[]"], [name="no_evening[]"], [name="no_night[]"]', function() {
                 $this_row = $(this).parents('tr');
-                $total = 	bss_number($this_row.find('[name="qty[]"]').val()) * 
-                            bss_number($this_row.find('[name="upd[]"]').val()) * 
-                            bss_number($this_row.find('[name="nod[]"]').val());
+                $mode = $(this).parents('tr').find('[name="mode[]"]').val();
+                if ($mode == '2') {
+                    $total = bss_number($this_row.find('[name="qty[]"]').val()) *
+                        bss_number($this_row.find('[name="upd[]"]').val()) *
+                        bss_number($this_row.find('[name="nod[]"]').val());
+                } else {
+                    $total = bss_sum_number($this_row.find('[name="no_morning[]"]').val(), $this_row.find('[name="no_afternoon[]"]').val(), $this_row.find('[name="no_evening[]"]').val(), $this_row.find('[name="no_night[]"]').val()) 
+                    * bss_number($this_row.find('[name="nod[]"]').val());
+                }
 
                 $this_row.find('[name="total[]"]').val(bss_number($total));
             });
@@ -283,7 +289,7 @@
             });
         </script>
     </x-slot>
-    <form id="consultation-form" action="{{ route('patient.consultation.update', $consultation->id) }}" method="post">
+    <form id="consultation-form" action="{{ route( $type .'.consultation.update', $consultation->id) }}" method="post">
         @csrf
         @method('PUT')
         <input type="hidden" name="temp_save" value="" />
@@ -304,7 +310,7 @@
             </x-slot>
             <table class="table-form">
                 <tr>
-                    <td width="20%" class="text-right">Patient <small class='required'>*</small></td>
+                    <td width="20%" class="text-right">{{ Str::ucfirst($type) }} <small class='required'>*</small></td>
                     <td width="30%">
                         <x-bss-form.select name="patient_id" :select2="false" readonly required>
                             <option value="{{ $consultation->patient_id }}" selected>{{ render_synonyms_name($consultation->patient->name_en, $consultation->patient->name_kh) }}</option>
@@ -356,6 +362,14 @@
                         <span class="align-middle">Examination</span>
                     </a>
                 </li>
+                @if ($type == 'maternity')
+                    <li class="nav-item">
+                        <a class="nav-link btn-sm" id="maternity-tab" data-toggle="tab" href="#maternity" aria-controls="maternity" role="tab"
+                            aria-selected="false">
+                            <span class="align-middle">Maternity</span>
+                        </a>
+                    </li>
+                @endif
                 <li class="nav-item">
                     <a class="nav-link btn-sm" id="evaluation-tab" data-toggle="tab" href="#evaluation" aria-controls="evaluation" role="tab"
                         aria-selected="false">
@@ -379,6 +393,11 @@
                 <div class="tab-pane" id="examination" aria-labelledby="examination-tab" role="tabpanel">
                     @include('consultation.tabs.examination')
                 </div>
+                @if ($type == 'maternity')
+                <div class="tab-pane" id="maternity" aria-labelledby="maternity-tab" role="tabpanel">
+                    @include('consultation.tabs.maternity')
+                </div>
+                @endif
                 <div class="tab-pane" id="evaluation" aria-labelledby="evaluation-tab" role="tabpanel">
                     @include('consultation.tabs.evaluation')
                 </div>

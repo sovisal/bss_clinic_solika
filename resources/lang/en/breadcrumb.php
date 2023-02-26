@@ -16,7 +16,7 @@ return [
 		'role' => 'Roles',
 		'ability' => 'Ability',
 		'password' => 'Change Password',
-		'account' => 'Acount',
+		'account' => 'Account',
 		'sort' => 'Sort',
 		'history' => 'History',
 	],

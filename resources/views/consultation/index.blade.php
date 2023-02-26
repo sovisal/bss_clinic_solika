@@ -5,7 +5,7 @@
 				<tr>
 					<th>Code</th>
 					<th>Physician</th>
-					<th>Patient</th>
+					<th>{{ Str::ucfirst($type) }}</th>
 					<th>Date Evaluation</th>
 					<th>By</th>
 					<th>Modify by</th>
@@ -17,16 +17,16 @@
 				<tr>
 					<td class="text-center">MED-{{ str_pad(($key+1), 6, '0', STR_PAD_LEFT) }}</td>
 					<td>Physician Name</td>
-					<td>Patient Name</td>
+					<td>{{ Str::ucfirst($type) }} Name</td>
 					<td>Date</td>
 					<td>By</td>
 					<td>Modify by</td>
 					<td>Modify at</td>
 					<td class="text-center">
-						@can('UpdatePatient')
+						@can('Update'. Str::ucfirst($type))
 							<x-form.button color="secondary" class="btn-sm" href="#" icon="bx bx-edit-alt" />
 						@endcan
-						@can('DeletePatient')
+						@can('Delete'. Str::ucfirst($type))
 							<x-form.button color="danger" class="confirmDelete btn-sm" data-id="{{ $key }}" icon="bx bx-trash" />
 							<form class="sr-only" id="form-delete-{{ $key }}" action="#" method="POST">
 								@csrf

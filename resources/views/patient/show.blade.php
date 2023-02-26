@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-form.button-back href="{{ route('patient.index') }}"/>
+        <x-form.button-back href="{{ route($type .'.index') }}"/>
     </x-slot>
 
     <x-card :head="false" :foot="false">
@@ -9,12 +9,14 @@
                 <td width="150px" rowspan="4" style="vertical-align: top; padding-left: 1.2rem !important; padding-right: 1.2rem !important;" class="text-center">
                     <img src="{{ (($patient->photo)? asset('images/patients/'. $patient->photo) : asset('images/browse-image.jpg') ) }}" alt="..." class="m-auto">
                 </td>
-                <th width="150px"><label>Patient Code</label> <span class="float-right">:</span></th>
+                <th width="150px"><label>{{ Str::ucfirst($type) }} Code</label> <span class="float-right">:</span></th>
                 <td width="20%">PT-{{ str_pad($patient->id, 6, '0', STR_PAD_LEFT) }}</td>
                 <th width="150px"><label>Registered</label> <span class="float-right">:</span></th>
                 <td>{{ date('d-M-Y H:m', strtotime($patient->registered_at)) }}</td>
                 <td width="150px" class="text-center" rowspan="4" style="vertical-align: top;">
-                    <x-form.button href="{{ route('patient.edit', $patient->id) }}" class="btn-block" icon="bx bx-edit-alt" label="Edit" />
+                    @can('Update'. Str::ucfirst($type))
+                    <x-form.button href="{{ route($type .'.edit', $patient->id) }}" class="btn-block" icon="bx bx-edit-alt" label="Edit" />
+                    @endcan
                 </td>
             </tr>
             <tr>
@@ -56,7 +58,7 @@
             <div class="tab-pane active" id="detail" aria-labelledby="detail-tab" role="tabpanel">
                 <table class="table-form">
                     <tr>
-                        <th colspan="4" class="text-center tw-bg-gray-100"><label>Patient Information</label></th>
+                        <th colspan="4" class="text-center tw-bg-gray-100"><label>{{ Str::ucfirst($type) }} Information</label></th>
                     </tr>
                     <tr>
                         <th width="200px"><label>ID Card Number</label> <span class="float-right">:</span></th>
@@ -89,7 +91,7 @@
                     </tr>
 
                     <tr>
-                        <th colspan="4" class="text-center tw-bg-gray-100"><label>Patient Address</label></th>
+                        <th colspan="4" class="text-center tw-bg-gray-100"><label>{{ Str::ucfirst($type) }} Address</label></th>
                     </tr>
                     <tr>
                         <th><label>House</label> <span class="float-right">:</span></th>
@@ -122,7 +124,7 @@
                         <tr>
                             <th>No</th>
                             <th>Code</th>
-                            <th>Patient</th>
+                            <th>{{ Str::ucfirst($type) }}</th>
                             <th>Requested By</th>
                             <th>Requested Date</th>
                             <th>Analysis By</th>

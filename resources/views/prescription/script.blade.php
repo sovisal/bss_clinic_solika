@@ -76,11 +76,17 @@
             $('.table-medicine').append($('#sample_prescription').html());
             initialize_select2_ajx();
         });
-        $(document).on('change', '[name="qty[]"], [name="upd[]"], [name="nod[]"]', function() {
+        $(document).on('change', '[name="qty[]"], [name="upd[]"], [name="nod[]"], [name="no_morning[]"], [name="no_afternoon[]"], [name="no_evening[]"], [name="no_night[]"]', function() {
             $this_row = $(this).parents('tr');
-            $total = bss_number($this_row.find('[name="qty[]"]').val()) *
-                bss_number($this_row.find('[name="upd[]"]').val()) *
-                bss_number($this_row.find('[name="nod[]"]').val());
+            $mode = $(this).parents('tr').find('[name="mode[]"]').val();
+            if ($mode == '2') {
+                $total = bss_number($this_row.find('[name="qty[]"]').val()) *
+                    bss_number($this_row.find('[name="upd[]"]').val()) *
+                    bss_number($this_row.find('[name="nod[]"]').val());
+            } else {
+                $total = bss_sum_number($this_row.find('[name="no_morning[]"]').val(), $this_row.find('[name="no_afternoon[]"]').val(), $this_row.find('[name="no_evening[]"]').val(), $this_row.find('[name="no_night[]"]').val()) 
+                * bss_number($this_row.find('[name="nod[]"]').val());
+            }
 
             $this_row.find('[name="total[]"]').val(bss_number($total));
         });

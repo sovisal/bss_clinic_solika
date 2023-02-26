@@ -8,7 +8,7 @@
         <table class="table-form table-padding-sm table-striped table-medicine">
             <thead>
                 <tr>
-                    <th colspan="10" class="tw-bg-gray-100">
+                    <th colspan="100%" class="tw-bg-gray-100">
                         <div class="d-flex justify-content-between align-items-center">
                             <x-bss-form.input name="requested_at" class="date-time-picker" hasIcon="right" icon="bx bx-calendar" value="{{ date('Y-m-d H:i:s') }}" required/>
                             <div>
@@ -17,18 +17,34 @@
                         </div>
                     </th>
                 </tr>
-                <tr>
-                    <th width="15%">Medicine <small class="required">*</small></th>
-                    <th width="9%">Qty <small class="required">*</small></th>
-                    <th width="9%">U/D <small class="required">*</small></th>
-                    <th width="9%">NoD <small class="required">*</small></th>
-                    <th width="5%">Total</th>
-                    <th width="5%">Unit</th>
-                    <th width="15%">Usage</th>
-                    <th width="12%">Usage Time</th>
-                    <th>Note</th>
-                    <th width="8%">Action</th>
-                </tr>
+                @if(env('CLASSIC_PRESCRIPTION', false) == false)
+                    <tr>
+                        <th width="15%">Medicine <small class="required">*</small></th>
+                        <th width="9%">Qty <small class="required">*</small></th>
+                        <th width="9%">U/D <small class="required">*</small></th>
+                        <th width="9%">NoD <small class="required">*</small></th>
+                        <th width="5%">Total</th>
+                        <th width="5%">Unit</th>
+                        <th width="15%">Usage</th>
+                        <th width="12%">Usage Time</th>
+                        <th>Note</th>
+                        <th width="8%">Action</th>
+                    </tr>
+                @else
+                    <tr class="text-center">
+                        <th width="15%">Medicine<small class="required">*</small></th>
+                        <th width="8%">ព្រឹក<small class="required">*</small></th>
+                        <th width="8%">ថ្ងៃ<small class="required">*</small></th>
+                        <th width="8%">ល្ងាច<small class="required">*</small></th>
+                        <th width="8%">យប់<small class="required">*</small></th>
+                        <th width="8%">NoD<small class="required">*</small></th>
+                        <th width="8%">Total</th>
+                        <th width="5%">Unit <small class="required">*</small></th>
+                        <th width="10%">Usage</th>
+                        <th>Note</th>
+                        <th>Action</th>
+                    </tr>
+                @endif
             </thead>
             <tbody>
                 <!-- JS dynamic -->

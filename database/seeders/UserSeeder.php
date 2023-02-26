@@ -56,8 +56,8 @@ class UserSeeder extends Seeder
         ]);
         User::firstOrCreate([
             'id' => 5,
-            'name' => 'Heng Dane',
-            'username' => 'hengdane',
+            'name' => 'Admin',
+            'username' => 'admin',
             'image' => 'default.png',
             'password' => '$2y$10$YsiK1JXueoaXVoac1iSYT./ZNQW/K7WRYZL/JRLJ0EUG/Z.bL0xS2', // 12345678
             'position' => 'Admin',

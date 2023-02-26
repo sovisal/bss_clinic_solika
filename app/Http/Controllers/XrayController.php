@@ -22,7 +22,7 @@ class XrayController extends Controller
             $data =  Xray::with(['address', 'doctor_requested', 'doctor', 'patient', 'type', 'address', 'gender'])
                 ->paraFilter();
 
-            return Datatables::of($data)
+            return DataTables::of($data)
                 ->addColumn('dt', function ($r) {
                     return [
                         'code' => d_link($r->code, "javascript:getDetail(" . $r->id . ", '" . route('para_clinic.xray.getDetail', 'Xray Detail') . "')"),
@@ -109,7 +109,11 @@ class XrayController extends Controller
             $xray->update(['image_1' => $image_1, 'image_2' => $image_2]);
 
             if ($request->is_treament_plan) {
-                return redirect()->route('patient.consultation.edit', $request->consultation_id)->with('success', __('alert.message.success.crud.create'));
+                $route_name = 'patient.consultation.edit';
+                if (isset($patient) && $patient->type == "Maternity") {
+                    $route_name = 'maternity.consultation.edit';
+                }
+                return redirect()->route($route_name, $request->consultation_id)->with('success', __('alert.message.success.crud.create'));
             } else {
                 return redirect()->route('para_clinic.xray.edit', $xray->id)->with('success', __('alert.message.success.crud.create'));
             }

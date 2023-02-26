@@ -11,22 +11,25 @@ class Patient extends BaseModel
     use HasFactory, SoftDeletes;
     protected $guarded = ['id'];
 
-    public function scopeFilter($query)
+    public function scopeFilter($query, $type = "")
     {
-        $query->when(request()->ft_address_id, function($q, $address_id){
-			$addressLinkable_ids = Address_linkable::where('province_code', $address_id)->pluck('id')->toArray();
+        $query->when($type, function ($q, $type) {
+            $q->where('type', $type);
+        });
+        $query->when(request()->ft_address_id, function ($q, $address_id) {
+            $addressLinkable_ids = Address_linkable::where('province_code', $address_id)->pluck('id')->toArray();
             $q->whereIn('address_id', $addressLinkable_ids);
         });
-        $query->when(request()->ft_gender_id, function($q, $gender_id){
+        $query->when(request()->ft_gender_id, function ($q, $gender_id) {
             $q->where('gender_id', $gender_id);
         });
-        $query->when(request()->ft_marital_status_id, function($q, $marital_status_id){
+        $query->when(request()->ft_marital_status_id, function ($q, $marital_status_id) {
             $q->where('marital_status_id', $marital_status_id);
         });
-        $query->when(request()->ft_nationality_id, function($q, $nationality_id){
+        $query->when(request()->ft_nationality_id, function ($q, $nationality_id) {
             $q->where('nationality_id', $nationality_id);
         });
-        $query->when(request()->ft_enterprise_id, function($q, $enterprise_id){
+        $query->when(request()->ft_enterprise_id, function ($q, $enterprise_id) {
             $q->where('enterprise_id', $enterprise_id);
         });
     }

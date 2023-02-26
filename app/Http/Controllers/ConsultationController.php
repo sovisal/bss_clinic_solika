@@ -11,16 +11,16 @@ use App\Models\LaborType;
 use App\Models\Consultation;
 use App\Models\DataParent;
 use Illuminate\Http\Request;
-use App\Http\Requests\ConsultationRequest;
 
 class ConsultationController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($type = 'patient')
     {
         $data = [
+            'type' => $type,
             'consultations' => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
         ];
         return view('consultation.index', $data);
@@ -29,7 +29,7 @@ class ConsultationController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create($type = 'patient')
     {
         $patient = Patient::find(request()->patient) ?? null;
         if ($patient) {
@@ -38,6 +38,7 @@ class ConsultationController extends Controller
             session(['consultation_cancel_route' => 'patient.consultation.index']);
         }
         $data = [
+            'type' => $type,
             'patient' => $patient,
             'doctors' => Doctor::orderBy('id', 'asc')->get(),
             'payment_types' => getParentDataSelection('payment_type'),
@@ -49,10 +50,10 @@ class ConsultationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ConsultationRequest $request)
+    public function store(Request $request, $type = 'patient')
     {
         if ($request->submit_option == 'cancel') {
-            return redirect()->route('patient.index');
+            return redirect()->route($type .'.index');
         } else {
             $attribute = serialize($request->all());
             Consultation::create([
@@ -65,19 +66,20 @@ class ConsultationController extends Controller
                 'user_id' => auth()->user()->id,
             ]);
         }
-        return redirect()->route('patient.show', $request->patient_id)->with('success', __('alert.message.success.crud.create'));
+        return redirect()->route($type .'.show', $request->patient_id)->with('success', __('alert.message.success.crud.create'));
     }
 
     /**
      * Display the specified resource.
      */
-    public function edit(Consultation $consultation)
+    public function edit(Consultation $consultation, $type = 'patient')
     {
         $data = [
             'consultation' => append_array_to_obj($consultation, unserialize($consultation->attribute) ?: []),
             'doctors' => Doctor::where('status', 1)->get(),
             'payment_types' => getParentDataSelection('payment_type'),
             'evaluation_categories' => getParentDataSelection('evalutaion_category'),
+            'type' => $type,
         ];
 
         // For Indication tab
@@ -100,10 +102,10 @@ class ConsultationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Consultation $consultation)
+    public function update(Request $request, Consultation $consultation, $type = 'patient')
     {
         if ($request->submit_option == 'cancel') {
-            return redirect()->route('patient.index');
+            return redirect()->route($type .'.index');
         } else {
             $attribute = serialize($request->all());
             $consultation->update([
@@ -120,7 +122,7 @@ class ConsultationController extends Controller
             return redirect()->back()->with('success', __('alert.message.success.crud.update'));
         }
 
-        return redirect()->route('patient.index')->with('success', __('alert.message.success.crud.update'));
+        return redirect()->route($type .'.index')->with('success', __('alert.message.success.crud.update'));
     }
 
     public function getTemplate(Request $request)

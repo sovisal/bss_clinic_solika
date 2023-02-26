@@ -11,7 +11,7 @@ return [
 		'show' => 'Show',
 		'show-ajax' => 'Show Ajax',
 	],
-	'back_home' => 'Back Home',
+	'home' => 'Home',
 	'print_barcode' => 'Print Barcode',
 	'export_excel' => 'Export to Excel',
 	'import_excel' => 'Import from Excel',

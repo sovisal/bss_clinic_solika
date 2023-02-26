@@ -895,7 +895,7 @@ function bss_string(txt) {
 function bss_sum_number() {
     let sum = 0;
     for (let i = 0; i < arguments.length; i++) {
-        sum += bss_number(arguments[i]);
+        sum += (bss_number(arguments[i]) * 1);
     }
 
     return bss_number(sum);

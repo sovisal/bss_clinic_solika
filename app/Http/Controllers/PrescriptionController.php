@@ -107,7 +107,11 @@ class PrescriptionController extends Controller
 
             $this->refresh_prescriotion_detail($request, $pre);
             if ($request->is_treament_plan) {
-                return redirect()->route('patient.consultation.edit', $request->consultation_id)->with('success', 'Data created success');
+                $route_name = 'patient.consultation.edit';
+                if (isset($patient) && $patient->type == "Maternity") {
+                    $route_name = 'maternity.consultation.edit';
+                }
+                return redirect()->route($route_name, $request->consultation_id)->with('success', __('alert.message.success.crud.create'));
             } else {
                 return redirect()->route('prescription.edit', $pre->id)->with('success', 'Data created success');
             }
@@ -131,47 +135,83 @@ class PrescriptionController extends Controller
         if ($row) {
             $tbody = '';
             foreach ($row->detail as $i => $detail) {
-                $j = 0;
-                $usage_time_str = '';
-                $time_usage = getParentDataSelection('time_usage');
-                foreach ($time_usage as $id => $data) {
-                    if (in_array($id, explode(',', $detail->usage_times ?? []))) {
-                        if ($j == 0) {
-                            $usage_time_str = $data;
-                            $j++;
-                        } else {
-                            $usage_time_str .= ' - ' . $data;
+                if(env('CLASSIC_PRESCRIPTION', false) == false) {
+                    $j = 0;
+                    $usage_time_str = '';
+                    $time_usage = getParentDataSelection('time_usage');
+                    foreach ($time_usage as $id => $data) {
+                        if (in_array($id, explode(',', $detail->usage_times ?? []))) {
+                            if ($j == 0) {
+                                $usage_time_str = $data;
+                                $j++;
+                            } else {
+                                $usage_time_str .= ' - ' . $data;
+                            }
                         }
                     }
+                    
+                    $tbody .= '<tr>
+                        <td class="text-center">' . str_pad(++$i, 2, '0', STR_PAD_LEFT) . '</td>
+                        <td>' . d_obj($detail, 'product', ['name_en', 'name_kh']) . '</td>
+                        <td class="text-center">' . d_number($detail->qty) . '</td>
+                        <td class="text-center">' . d_number($detail->upd) . '</td>
+                        <td class="text-center">' . d_number($detail->nod) . '</td>
+                        <th class="text-center"><strong>' . d_number($detail->total) . '</strong></th>
+                        <td>' . d_obj($detail, 'unit', ['name_en', 'name_kh']) . '</td>
+                        <td>' . d_text($usage_time_str) . '</td>
+                        <td>' . d_obj($detail, 'usage', ['title_en', 'title_kh']) . '</td>
+                        <td>' . d_text($detail->other) . '</td>
+                    </tr>';
+                } else {
+                    $tbody .= '<tr>
+                        <td class="text-center">' . str_pad(++$i, 2, '0', STR_PAD_LEFT) . '</td>
+                        <td>' . d_obj($detail, 'product', ['name_en', 'name_kh']) . '</td>
+                        <td class="text-center">' . d_number($detail->no_morning) . '</td>
+                        <td class="text-center">' . d_number($detail->no_afternoon) . '</td>
+                        <td class="text-center">' . d_number($detail->no_evening) . '</td>
+                        <td class="text-center">' . d_number($detail->no_night) . '</td>
+                        <td class="text-center">' . d_number($detail->nod) . '</td>
+                        <th class="text-center"><strong>' . d_number($detail->total) . '</strong></th>
+                        <td>' . d_obj($detail, 'unit', ['name_en', 'name_kh']) . '</td>
+                        <td>' . d_obj($detail, 'usage', ['title_en', 'title_kh']) . '</td>
+                        <td>' . d_text($detail->other) . '</td>
+                    </tr>';
                 }
-                $tbody .= '<tr>
-						<td class="text-center">' . str_pad(++$i, 2, '0', STR_PAD_LEFT) . '</td>
-						<td>' . d_obj($detail, 'product', ['name_en', 'name_kh']) . '</td>
-						<td class="text-center">' . d_number($detail->qty) . '</td>
-						<td class="text-center">' . d_number($detail->upd) . '</td>
-						<td class="text-center">' . d_number($detail->nod) . '</td>
-						<th class="text-center"><strong>' . d_number($detail->total) . '</strong></th>
-						<td>' . d_obj($detail, 'unit', ['name_en', 'name_kh']) . '</td>
-						<td>' . d_text($usage_time_str) . '</td>
-						<td>' . d_obj($detail, 'usage', ['title_en', 'title_kh']) . '</td>
-						<td>' . d_text($detail->other) . '</td>
-					</tr>';
             }
-            $body = '<table class="table-form  tw-mt-3 table-detail-result">
-					<tr class="text-center">
-						<th class="text-center">N&deg;</th>
-						<th>Medicine</th>
-						<th width="50px">QTY</th>
-						<th width="50px">U/D</th>
-						<th width="50px">NoD</th>
-						<th width="50px">Total</th>
-						<th width="50px">Unit</th>
-						<th width="160px">Usage Time</th>
-						<th>Usage</th>
-						<th>Note</th>
-					</tr>
-					' . (($tbody == '') ? '<tr colspan="10" class="text-center">No result</td>' : $tbody) . '
-				</table>';
+            if(env('CLASSIC_PRESCRIPTION', false) == false) {
+                $body = '<table class="table-form  tw-mt-3 table-detail-result">
+                    <tr class="text-center">
+                        <th class="text-center">N&deg;</th>
+                        <th>Medicine</th>
+                        <th width="50px">QTY</th>
+                        <th width="50px">U/D</th>
+                        <th width="50px">NoD</th>
+                        <th width="50px">Total</th>
+                        <th width="50px">Unit</th>
+                        <th width="160px">Usage Time</th>
+                        <th>Usage</th>
+                        <th>Note</th>
+                    </tr>
+                    ' . (($tbody == '') ? '<tr colspan="10" class="text-center">No result</td>' : $tbody) . '
+                </table>';
+            } else {
+                $body = '<table class="table-form  tw-mt-3 table-detail-result">
+                    <tr class="text-center">
+                        <th class="text-center">N&deg;</th>
+                        <th>Medicine</th>
+                        <th width="50px">ព្រឹក</th>
+                        <th width="50px">ថ្ងៃ</th>
+                        <th width="50px">ល្ងាច</th>
+                        <th width="50px">យប់</th>
+                        <th width="50px">NoD</th>
+                        <th width="50px">Total</th>
+                        <th width="50px">Unit</th>
+                        <th>Usage</th>
+                        <th>Note</th>
+                    </tr>
+                    ' . (($tbody == '') ? '<tr colspan="10" class="text-center">No result</td>' : $tbody) . '
+                </table>';
+            }
 
             return response()->json([
                 'success' => true,
@@ -199,7 +239,7 @@ class PrescriptionController extends Controller
             ->first();
         if ($prescription) {
             $data['row'] = $prescription;
-            $data['time_usage'] = getParentDataSelection('time_usage');
+            $data['time_usage'] = DataParent::where('type', 'time_usage')->get();
             return view('prescription.print', $data);
         } else {
             abort(404);
@@ -335,17 +375,35 @@ class PrescriptionController extends Controller
 
         foreach ($detail_ids as $index => $id) {
             if ($product = Product::where('id', $request->medicine_id[$index])->first()) {
-                $detail_values[$index] = [
-                    'medicine_id'     => $product->id,
-                    'unit_id'         => $request->unit_id[$index] ?: '',
-                    'price'           => $product->getAccuratePrice($request->unit_id[$index]),
-                    'qty'             => $request->qty[$index] ?: 0,
-                    'upd'             => $request->upd[$index] ?: 0,
-                    'nod'             => $request->nod[$index] ?: 0,
-                    'total'           => $request->total[$index] ?: 0,
-                    'usage_id'        => $request->usage_id[$index] ?: 0,
-                    'other'           => $request->other[$index] ?: '',
-                ];
+                if(env('CLASSIC_PRESCRIPTION', false) == false) {
+                    $detail_values[$index] = [
+                        'medicine_id'     => $product->id,
+                        'unit_id'         => $request->unit_id[$index] ?: '',
+                        'price'           => $product->getAccuratePrice($request->unit_id[$index]),
+                        'qty'             => $request->qty[$index] ?: 0,
+                        'upd'             => $request->upd[$index] ?: 0,
+                        'nod'             => $request->nod[$index] ?: 0,
+                        'total'           => $request->total[$index] ?: 0,
+                        'usage_id'        => $request->usage_id[$index] ?: 0,
+                        'other'           => $request->other[$index] ?: '',
+                        'mode'         => $request->mode[$index] ?: 2,
+                    ];
+                } else {
+                    $detail_values[$index] = [
+                        'medicine_id'     => $product->id,
+                        'unit_id'         => $request->unit_id[$index] ?: '',
+                        'price'           => $product->getAccuratePrice($request->unit_id[$index]),
+                        'nod'             => $request->nod[$index] ?: 0,
+                        'total'           => $request->total[$index] ?: 0,
+                        'usage_id'        => $request->usage_id[$index] ?: 0,
+                        'other'           => $request->other[$index] ?: '',
+                        'no_morning'   => $request->no_morning[$index] ?: 0,
+                        'no_afternoon' => $request->no_afternoon[$index] ?: 0,
+                        'no_evening'   => $request->no_evening[$index] ?: 0,
+                        'no_night'     => $request->no_night[$index] ?: 0,
+                        'mode'         => $request->mode[$index] ?: 2,
+                    ];
+                }
 
                 $tmp_usage_time = [];
                 foreach ($time_usage as $tm_id => $tm_name) {

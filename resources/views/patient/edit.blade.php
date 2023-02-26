@@ -1,8 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-form.button-back href="{{ route('patient.index') }}"/>
+        <x-form.button-back href="{{ route($type .'.index') }}"/>
     </x-slot>
-    <form action="{{ route('patient.update', $patient) }}" method="POST" autocomplete="off" enctype="multipart/form-data">
+    <form action="{{ route($type .'.update', $patient) }}" method="POST" autocomplete="off" enctype="multipart/form-data">
         @method('PUT')
         @csrf
         <input type="hidden" name="status" value="{{ $patient->status ?: 1 }}" />

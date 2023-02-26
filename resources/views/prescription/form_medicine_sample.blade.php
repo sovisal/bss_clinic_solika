@@ -1,5 +1,7 @@
+@if(env('CLASSIC_PRESCRIPTION', false) == false)
 <tr>
     <input type="hidden" name="test_id[]" />
+    <input type="hidden" name="mode[]" value="2" />
     <td>
         <x-bss-form.select name="medicine_id[]" id="" required :select2="false" :url="route('inventory.product.index')">
             <option value="">Please choose</option>
@@ -55,3 +57,60 @@
         <x-form.button color="danger" class="btn-sm" icon="bx bx-trash" onclick="$(this).parents('tr').remove();" />
     </td>
 </tr>
+@else
+<tr>
+    <input type="hidden" name="test_id[]" />
+    <input type="hidden" name="mode[]" value="1" />
+    <td>
+        <x-bss-form.select name="medicine_id[]" id="" required :select2="false" :url="route('inventory.product.index')">
+            <option value="">Please choose</option>
+            @foreach ($medicine as $data)
+            <option value="{{ $data->id }}" {{ $data->id == @$row->medicine_id ? 'selected' : '' }}>{{ d_obj($data, ['code', 'name_en', 'name_kh']) }}</option>
+            @endforeach
+        </x-bss-form.select>
+    </td>
+    <td>
+        <x-bss-form.input type="text" name='no_morning[]' value="{{ d_number(@$row->no_morning ?: 0) }}" class="text-center is_number" />
+    </td>
+    <td>
+        <x-bss-form.input type="text" name='no_afternoon[]' value="{{ d_number(@$row->no_afternoon ?: 0) }}" class="text-center is_number" />
+    </td>
+    <td>
+        <x-bss-form.input type="text" name='no_evening[]' value="{{ d_number(@$row->no_evening ?: 0) }}" class="text-center is_number" />
+    </td>
+    <td>
+        <x-bss-form.input type="text" name='no_night[]' value="{{ d_number(@$row->no_night ?: 0) }}" class="text-center is_number" />
+    </td>
+    <td>
+        <x-bss-form.input type="text" name='nod[]' value="{{ d_number(@$row->nod ?: 0) }}" class="text-center is_number" />
+    </td>
+    <td>
+        <x-bss-form.input type="text" name='total[]' value="{{ d_number(@$row->total ?: 0) }}" class="text-center is_number" readonly />
+    </td>
+    <td>
+        <x-bss-form.select name="unit_id[]" id="" required :select2="false" >
+            @if (@$row && $row->product)
+                <option value="{{ $row->product->unit_id }}" {{ $row->product->unit_id == @$row->unit_id ? 'selected' : '' }}>{{ d_obj($row->product, 'unit', ['name_kh', 'name_en']) }}</option>
+                @foreach ($row->product->packages ?: [] as $package)
+                    <option value="{{ $package->product_unit_id }}" {{ $package->product_unit_id == @$row->unit_id ? 'selected' : '' }}>{{ d_obj($package, 'unit', ['name_kh', 'name_en']) }}</option>
+                @endforeach
+            @endif
+        </x-bss-form.select>
+    </td>
+    <td>
+        <x-bss-form.select name="usage_id[]" id="" required data-no_search="true" :select2="false">
+            <option value="">Please choose</option>
+            @foreach ($usages as $id => $data)
+            @php($default_select = ($data == "លេប" ? $id : '' ))
+            <option value="{{ $id }}" {{ $id == ($row->usage_id ?? $default_select) ? 'selected' : '' }}>{{ $data }}</option>
+            @endforeach
+        </x-bss-form.select>
+    </td>
+    <td>
+        <x-bss-form.textarea name="other[]" rows="3">{{ @$row->other ?: '' }}</x-bss-form.textarea>
+    </td>
+    <td class="text-center">
+        <x-form.button color="danger" class="btn-sm" icon="bx bx-trash" onclick="$(this).parents('tr').remove();" />
+    </td>
+</tr>
+@endif

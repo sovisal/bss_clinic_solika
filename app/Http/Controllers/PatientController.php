@@ -16,14 +16,15 @@ class PatientController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request, $type = 'patient')
     {
         if ($request->ajax()) {
             if ($request->_type == 'query') {
+                $q_type = ((env('MATERNITY', true) == true)? '' : 'Normal');
                 // For select2 Ajx
                 $term = Patient::where('name_en', 'LIKE', '%' . $request->term . '%')
                     ->orWhere('name_kh', 'LIKE', '%' . $request->term . '%')
-                    ->filter()
+                    ->filter($q_type)
                     ->limit(100)->get(['id', 'name_kh', 'name_en']);
 
                 $result = [];
@@ -36,6 +37,7 @@ class PatientController extends Controller
                 return ['results' => $result];
             }
 
+            $query_type = (($type == 'maternity' && env('MATERNITY', true) == true)? 'Maternity' : 'Normal');
             $data = Patient::with(['address', 'user', 'gender', 'hasOneConsultation'])
                 ->withCount('ecgs')
                 ->withCount('echos')
@@ -43,12 +45,13 @@ class PatientController extends Controller
                 ->withCount('labors')
                 ->withCount('prescriptions')
                 ->withCount('invoices')
-                ->filter();
+                ->filter($query_type);
 
             return DataTables::of($data)
                 ->addColumn('dt', function ($r) {
+                    $code_head = (($r->type == 'Maternity')? 'MT-' : 'PT-');
                     return [
-                        'code' => $r->hasOneConsultation ? d_link('PT-' . str_pad($r->id, 6, '0', STR_PAD_LEFT), route('patient.consultation.edit', $r->hasOneConsultation->id)) : 'PT-' . str_pad($r->id, 6, '0', STR_PAD_LEFT),
+                        'code' => $r->hasOneConsultation ? d_link( $code_head . str_pad($r->id, 6, '0', STR_PAD_LEFT), route('patient.consultation.edit', $r->hasOneConsultation->id)) : $code_head . str_pad($r->id, 6, '0', STR_PAD_LEFT),
                         'patient' => d_obj($r, ['name_en', 'name_kh']),
                         'gender' => d_obj($r, 'gender', ['title_en', 'title_kh']),
                         'age' => d_number($r->age),
@@ -58,7 +61,7 @@ class PatientController extends Controller
                         'user' => d_obj($r, 'user', 'name'),
                         'status' => d_status($r->status),
                         'action' => d_action([
-                            'module' => 'patient', 'id' => $r->id, 'isTrashed' => $r->trashed(),
+                            'module' => (($r->type == 'Maternity')? 'maternity' : 'patient'), 'id' => $r->id, 'isTrashed' => $r->trashed(),
                             'disableShow' => $r->trashed(), 
                             'disableEdit' => $r->trashed(), 
                             'disableDelete' => $r->hasOneConsultation || $r->ecgs_count > 0 || $r->echos_count > 0 || $r->xrays_count > 0 || $r->labors_count > 0 || $r->prescriptions_count > 0 || $r->invoices_count > 0
@@ -74,6 +77,7 @@ class PatientController extends Controller
                 'marital_status',
                 'enterprise'
             ]);
+            $data['type'] = $type;
             if (request()->ft_address_id) {
                 $data['address_options'] = get4LevelAdressSelector(request()->ft_address_id, 'option')[0] ?? [];
             } else {
@@ -86,7 +90,7 @@ class PatientController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create($type = 'patient')
     {
         $data = getParentDataSelection([
             'blood_type',
@@ -95,13 +99,14 @@ class PatientController extends Controller
             'marital_status',
             'enterprise'
         ]);
+        $data['type'] = $type;
         return view('patient.create', $data);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PatientRequest $request)
+    public function store(PatientRequest $request, $type = 'patient')
     {
         if ($request->ajax()) {
             $request->merge([
@@ -110,7 +115,7 @@ class PatientController extends Controller
             ]);
         }
         $address_id = update4LevelAddress($request);
-        $patient = Patient::create($this->compileRequestColumns($request, $address_id));
+        $patient = Patient::create($this->compileRequestColumns($request, $address_id, (($type=='maternity')? 'Maternity' : 'Normal')));
         if ($patient) {
             $saved_consultation = Consultation::create([
                 'patient_id' => $patient->id,
@@ -120,11 +125,9 @@ class PatientController extends Controller
                 'attribute' => '',
             ]);
         }
-
         if ($request->ajax()) {
             return $patient;
         }
-
         if ($request->file('photo')) {
             $path = public_path('/images/patients/');
             File::makeDirectory($path, 0777, true, true);
@@ -134,16 +137,16 @@ class PatientController extends Controller
             $patient->update(['photo' => $photo_name]);
         }
         if (can('ViewAnyConsultation')) {
-            return redirect()->route('patient.consultation.edit', $saved_consultation->id)->with('success', __('alert.message.success.crud.create'));
+            return redirect()->route($type .'.consultation.edit', $saved_consultation->id)->with('success', __('alert.message.success.crud.create'));
         }
-        return redirect()->route('patient.index')->with('success', __('alert.message.success.crud.create'));
+        return redirect()->route($type .'.index')->with('success', __('alert.message.success.crud.create'));
 
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Patient $patient)
+    public function show(Patient $patient, $type = 'patient')
     {
         $patient->load([
             'address',
@@ -184,6 +187,7 @@ class PatientController extends Controller
 
         $data = [
             'patient' => $patient,
+            'type' => $type,
         ];
         return view('patient.show', $data);
     }
@@ -191,7 +195,7 @@ class PatientController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Patient $patient)
+    public function edit(Patient $patient, $type = 'patient')
     {
         $data = getParentDataSelection([
             'blood_type',
@@ -201,6 +205,7 @@ class PatientController extends Controller
             'enterprise'
         ]);
         $data['patient'] = $patient;
+        $data['type'] = $type;
 
         return view('patient.edit', $data);
     }
@@ -208,10 +213,10 @@ class PatientController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(PatientRequest $request, Patient $patient)
+    public function update(PatientRequest $request, Patient $patient, $type = 'patient')
     {
         $address_id = update4LevelAddress($request, $patient->address_id);
-        $patient->update($this->compileRequestColumns($request, $address_id));
+        $patient->update($this->compileRequestColumns($request, $address_id, (($type=='maternity')? 'Maternity' : 'Normal')));
 
         if ($request->file('photo')) {
             $path = public_path('/images/patients/');
@@ -273,11 +278,12 @@ class PatientController extends Controller
         return response()->json($return_result);
     }
 
-    public function compileRequestColumns($request, $address_id)
+    public function compileRequestColumns($request, $address_id, $type = 'Normal')
     {
         return [
             'name_kh' => $request->name_kh,
             'name_en' => $request->name_en,
+            'type' => $type,
             'id_card_no' => $request->id_card_no,
             'email' => $request->email,
             'phone' => $request->phone,

@@ -1,4 +1,5 @@
 <input type="hidden" name="is_treament_plan" value="0">
+@if(env('CLASSIC_PRESCRIPTION', false) == false)
 <table class="table-form table-padding-sm table-striped table-medicine">
     <thead>
         <tr>
@@ -31,3 +32,38 @@
         @endforeach
     </tbody>
 </table>
+@else
+<table class="table-form table-padding-sm table-striped table-medicine">
+    <thead>
+        <tr>
+            <th colspan="11" class="tw-bg-gray-100">
+                <div class="d-flex justify-content-between align-items-center">
+                    Result <small>Total = (No Morning + No Afternoon + No Evening + No Night) * No Days</small>
+                    <div>
+                        <x-form.button class="btn-add-medicine" icon="bx bx-plus" label="Add Medicine" />
+                    </div>
+                </div>
+            </th>
+        </tr>
+        <tr class="text-center">
+            <th width="15%">Medicine<small class="required">*</small></th>
+            <th width="8%">ព្រឹក<small class="required">*</small></th>
+            <th width="8%">ថ្ងៃ<small class="required">*</small></th>
+            <th width="8%">ល្ងាច<small class="required">*</small></th>
+            <th width="8%">យប់<small class="required">*</small></th>
+            <th width="8%">NoD<small class="required">*</small></th>
+            <th width="8%">Total</th>
+            <th width="5%">Unit <small class="required">*</small></th>
+            <th width="10%">Usage</th>
+            <th>Note</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- JS dynamic -->
+        @foreach ($prescription_detail as $row)
+        @include('prescription.form_medicine_sample')
+        @endforeach
+    </tbody>
+</table>
+@endif

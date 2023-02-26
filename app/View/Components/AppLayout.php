@@ -20,7 +20,7 @@ class AppLayout extends Component
         $_POST['nb_out_of_stock'] = Product::OutOfStock()->count();
         $nb_alerted = $_POST['nb_stock_expired'] + $_POST['nb_out_of_stock'];
         $stock_alert_badge   = $nb_alerted > 0 ? '<span class="text-danger"> (<em>' . $nb_alerted . '</em> )</span>' : '';
-        
+
         $menu = [];
         $menu['patient'] = getFirstPermittedSubMenu([
             'can' => '',
@@ -109,6 +109,29 @@ class AppLayout extends Component
             ],
         ]);
 
+        if (env('MATERNITY', false) == true) {
+            $menu['maternity'] = getFirstPermittedSubMenu([
+                'can' => '',
+                'url' => '',
+                'label' => 'Maternity',
+
+                'sub' => [
+                    'maternity' => [
+                        'can' => 'ViewAnyMaternity',
+                        'url' => route('maternity.index'),
+                        'name' => ['index', 'create', 'edit', 'show'],
+                        'label' => 'Maternity',
+                    ],
+                    'consultation' => [
+                        'can' => 'ViewAnyMaternityConsultation',
+                        'url' => route('maternity.index'),
+                        'name' => ['index', 'create', 'edit', 'show'],
+                        'label' => 'Consulting',
+                    ],
+                ],
+            ]);
+        }
+
         if (env('STOCK_INVENTORY', true) == true) {
             $menu['inventory'] = getFirstPermittedSubMenu([
                 'can' => '',
@@ -192,41 +215,40 @@ class AppLayout extends Component
             ]);
         }
 
-        $menu['setting'] = getFirstPermittedSubMenu([
-            'can' => '',
-            'url' => '',
-            'label' => 'Setting',
-            'sub' => [
-                'setting' => [
-                    'can' => 'DeveloperMode',
-                    'url' => route('setting.edit'),
-                    'name' => ['edit'],
-                    'label' => 'Setting',
-                ],
-                'labor-type' => [
-                    'can' => 'ViewAnyLaborType',
-                    'url' => route('setting.labor-type.index'),
-                    'name' => ['index', 'create', 'edit', 'sort_order'],
-                    'label' => 'Labor Service',
-                ],
-                'echo-type' => [
-                    'can' => 'ViewAnyEchoType',
-                    'url' => route('setting.echo-type.index'),
-                    'name' => ['index', 'create', 'edit', 'sort_order'],
-                    'label' => 'Echo Service',
-                ],
-                'ecg-type' => [
-                    'can' => 'ViewAnyEcgType',
-                    'url' => route('setting.ecg-type.index'),
-                    'name' => ['index', 'create', 'edit', 'sort_order'],
-                    'label' => 'ECG Service',
-                ],
-                'xray-type' => [
-                    'can' => 'ViewAnyXRayType',
-                    'url' => route('setting.xray-type.index'),
-                    'name' => ['index', 'create', 'edit', 'sort_order'],
-                    'label' => 'Xray Service',
-                ],
+        $sub_setting = [
+            'setting' => [
+                'can' => 'DeveloperMode',
+                'url' => route('setting.edit'),
+                'name' => ['edit'],
+                'label' => 'Setting',
+            ],
+            'labor-type' => [
+                'can' => 'ViewAnyLaborType',
+                'url' => route('setting.labor-type.index'),
+                'name' => ['index', 'create', 'edit', 'sort_order'],
+                'label' => 'Labor Service',
+            ],
+            'echo-type' => [
+                'can' => 'ViewAnyEchoType',
+                'url' => route('setting.echo-type.index'),
+                'name' => ['index', 'create', 'edit', 'sort_order'],
+                'label' => 'Echo Service',
+            ],
+            'ecg-type' => [
+                'can' => 'ViewAnyEcgType',
+                'url' => route('setting.ecg-type.index'),
+                'name' => ['index', 'create', 'edit', 'sort_order'],
+                'label' => 'ECG Service',
+            ],
+            'xray-type' => [
+                'can' => 'ViewAnyXRayType',
+                'url' => route('setting.xray-type.index'),
+                'name' => ['index', 'create', 'edit', 'sort_order'],
+                'label' => 'Xray Service',
+            ]
+        ];
+        if (env('STOCK_INVENTORY', true) == false) {
+            $sub_setting += [
                 'medicine' => [
                     'can' => 'ViewAnyMedicine',
                     'url' => route('setting.medicine.index'),
@@ -239,36 +261,45 @@ class AppLayout extends Component
                     'name' => ['index', 'create', 'edit'],
                     'label' => 'Unit',
                 ],
-                'doctor' => [
-                    'can' => 'ViewAnyDoctor',
-                    'url' => route('setting.doctor.index'),
-                    'name' => ['index', 'create', 'edit'],
-                    'label' => 'Doctor',
-                ],
-                'data-parent' => [
-                    'can' => 'ViewAnyDataParent',
-                    'url' => route('setting.data-parent.index'),
-                    'name' => ['index', 'create', 'edit'],
-                    'label' => 'Data Selection',
-                ],
-                'address' => [
-                    'can' => 'ViewAnyAddress',
-                    'url' => route('setting.address.index'),
-                    'name' => ['index', 'create', 'edit'],
-                    'label' => 'Address',
-                ],
+            ];
+        }
+        $sub_setting += [
+            'doctor' => [
+                'can' => 'ViewAnyDoctor',
+                'url' => route('setting.doctor.index'),
+                'name' => ['index', 'create', 'edit'],
+                'label' => 'Doctor',
             ],
+            'data-parent' => [
+                'can' => 'ViewAnyDataParent',
+                'url' => route('setting.data-parent.index'),
+                'name' => ['index', 'create', 'edit'],
+                'label' => 'Data Selection',
+            ],
+            'address' => [
+                'can' => 'ViewAnyAddress',
+                'url' => route('setting.address.index'),
+                'name' => ['index', 'create', 'edit'],
+                'label' => 'Address',
+            ],
+        ];
+
+        $menu['setting'] = getFirstPermittedSubMenu([
+            'can' => '',
+            'url' => '',
+            'label' => 'Setting',
+            'sub' => $sub_setting,
         ]);
 
         $menu['user'] = getFirstPermittedSubMenu([
             'can' => '',
             'url' => '',
-            'label' => 'User Managment',
+            'label' => 'User',
             'sub' => [
                 'user' => [
                     'can' => 'ViewAnyUser',
                     'url' => route('user.index'),
-                    'name' => ['index', 'create', 'edit', 'ability'],
+                    'name' => ['index', 'create', 'edit', 'ability', 'account'],
                     'label' => 'User',
                 ],
                 'role' => [

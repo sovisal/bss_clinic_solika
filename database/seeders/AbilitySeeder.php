@@ -45,7 +45,11 @@ class AbilitySeeder extends Seeder
             'Product' => [
                 ['category' => 'Other', 'name' => 'PrintProduct', 'label' => 'Product Print']
             ],
+            'Maternity' => [
+                ['category' => 'Other', 'name' => 'PrintMaternity', 'label' => 'Maternity Print']
+            ],
             'Consultation' => [],
+            'MaternityConsultation' => [],
             'Doctor' => [],
             'Medicine' => [],
             'Service' => [],

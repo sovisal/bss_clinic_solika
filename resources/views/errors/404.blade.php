@@ -11,7 +11,8 @@
 						<h1 class="error-title">{{ __('alert.message.error.page_not_found') }} :(</h1>
 						<p class="pb-3">{{ __('alert.message.error.we_could_not_find_your_page') }}</p>
 						<img class="img-fluid m-auto" src="{{ asset('images/errors/404.png') }}" alt="404 error">
-						<a href="{{ route('home') }}" class="btn btn-primary round glow mt-3">{{ __('button.back_home') }}</a>
+						<a href="{{ url()->previous() }}" class="btn btn-danger round glow mt-3"><i class="bx bx-left-arrow-alt"></i> {{ __('button.back') }}</a>
+						<a href="{{ route('home') }}" class="btn btn-secondary round glow mt-3"><i class="bx bx-home-alt"></i> {{ __('button.home') }}</a>
 					</div>
 				</div>
 			</div>

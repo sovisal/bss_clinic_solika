@@ -1,8 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-form.button-back href="{{ route('patient.index') }}"/>
+        <x-form.button-back href="{{ route($type .'.index') }}"/>
     </x-slot>
-    <form action="{{ route('patient.store') }}" method="POST" autocomplete="off" enctype="multipart/form-data">
+    <form action="{{ route($type .'.store') }}" method="POST" autocomplete="off" enctype="multipart/form-data">
         @csrf
         <x-card bodyClass="pb-0">
             <x-slot name="action">

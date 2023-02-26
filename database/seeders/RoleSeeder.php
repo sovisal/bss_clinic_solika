@@ -29,6 +29,8 @@ class RoleSeeder extends Seeder
 			$ability_name = AbilityModule::whereIn('module', [
 				'Patient',
 				'Consultation',
+				'Maternity',
+				'MaternityConsultation',
 				'Ecg',
 				'Echography',
 				'Laboratory',

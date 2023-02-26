@@ -26,7 +26,7 @@
             <td width="15%"><b>កាលបរិច្ឆេទ/Date</b></td>
             <td width="25%">: {{ date('d/m/Y', strtotime($row->requested_at)) }}</td>
             <td width="10%"><b>PatientID</b></td>
-            <td width="17%">: PT-{{ str_pad($row->patient_id, 6, '0', STR_PAD_LEFT) }}</td>
+            <td width="17%">: {{ ((d_obj($row, 'patient', 'type') == 'Maternity')? 'MT' : 'PT') }}-{{ str_pad($row->patient_id, 6, '0', STR_PAD_LEFT) }}</td>
             <td width="13%"><b>លេខកូដ/Code</b></td>
             <td width="20%">: {{ $row->code }}</td>
         </tr>

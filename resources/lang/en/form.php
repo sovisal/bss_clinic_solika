@@ -35,8 +35,8 @@ return [
 
     'echography' => [
         'hr_heart_rate' => 'HR ចង្វាក់បេះដូង',
-        'crl' => 'CRL',
-        'gs' => 'GS',
+        'crl' => 'ប្រវែងទារក (CRL)',
+        'gs' => 'ទំហំថង់ទឹកភ្លោះ (GS)',
         'vo' => 'VO',
         'has_child' => 'មានកូន',
         'heart_rate' => 'ចង្វាក់បេះដូង',

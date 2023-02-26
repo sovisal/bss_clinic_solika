@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
-        @can('CreatePatient')
-        <x-form.button href="{{ route('patient.create') }}" class="btn-sm" icon="bx bx-plus" label="Create" />
+        @can('Create'. Str::ucfirst($type))
+        <x-form.button href="{{ route($type .'.create') }}" class="btn-sm" icon="bx bx-plus" label="Create" />
         @endcan
     </x-slot>
     <x-slot name="js">
